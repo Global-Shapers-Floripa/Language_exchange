@@ -95,3 +95,35 @@
     justify-content: center;
   }
 }
+
+/* Estados de carregamento, erro e vazio */
+.loading-message,
+.error-message,
+.empty-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  width: 100%;
+  background: white;
+  border-radius: 20px;
+  padding: 40px 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.loading-message p,
+.error-message p,
+.empty-message p {
+  font-size: 1rem;
+  color: #64748b;
+  text-align: center;
+}
+
+.error-message {
+  background-color: #fee2e2;
+}
+
+.error-message p {
+  color: #991b1b;
+  font-weight: 600;
+}

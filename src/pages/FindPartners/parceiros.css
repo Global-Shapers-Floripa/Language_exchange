@@ -85,3 +85,33 @@
     width: auto;
   }
 }
+
+/* Estados de carregamento, erro e vazio */
+.loading-message,
+.error-message,
+.empty-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  width: 100%;
+}
+
+.loading-message p,
+.error-message p,
+.empty-message p {
+  font-size: 1.1rem;
+  color: #64748b;
+  text-align: center;
+}
+
+.error-message {
+  background-color: #fee2e2;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.error-message p {
+  color: #991b1b;
+  font-weight: 600;
+}

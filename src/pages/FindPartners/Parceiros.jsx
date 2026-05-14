@@ -1,20 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import DashboardLayout from '../../components/layout/DashboardLayout';
 import PartnerCard from '../../components/common/PartnerCard';
 import { Search, Filter } from 'lucide-react';
+import { usePartners } from '../../hooks/usePartners';
 import './parceiros.css';
 
 const FindPartners = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const { partners, loading, error } = usePartners();
 
-  // Dados mocados (depois puxaremos do Supabase)
-  const partners = [
-    { id: 1, name: "Elena Schmidt", hub: "Berlin", speaks: "Alemão, Inglês", learns: "Português" },
-    { id: 2, name: "Mateo Garcia", hub: "Madrid", speaks: "Espanhol", learns: "Inglês" },
-    { id: 3, name: "Yuki Tanaka", hub: "Tokyo", speaks: "Japonês, Inglês", learns: "Francês" },
-    { id: 4, name: "Sarah Johnson", hub: "London", speaks: "Inglês", learns: "Espanhol" },
-    { id: 5, name: "Lucas Silva", hub: "Florianópolis", speaks: "Português", learns: "Inglês, Alemão" },
-  ];
+  // Filtro de busca em tempo real
+  const filteredPartners = useMemo(() => {
+    if (!searchTerm.trim()) return partners;
+
+    const term = searchTerm.toLowerCase();
+    return partners.filter(partner => 
+      partner.name.toLowerCase().includes(term) ||
+      partner.hub.toLowerCase().includes(term) ||
+      partner.speaks.toLowerCase().includes(term) ||
+      partner.learns.toLowerCase().includes(term)
+    );
+  }, [partners, searchTerm]);
 
   return (
     <DashboardLayout>
@@ -26,7 +32,7 @@ const FindPartners = () => {
             <Search size={18} className="search-icon" />
             <input 
               type="text" 
-              placeholder="Idioma ou Hub..." 
+              placeholder="Nome, idioma ou hub..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -38,7 +44,29 @@ const FindPartners = () => {
       </div>
 
       <div className="partners-grid">
-        {partners.map(partner => (
+        {loading && (
+          <div className="loading-message">
+            <p>Carregando parceiros...</p>
+          </div>
+        )}
+
+        {error && (
+          <div className="error-message">
+            <p>Erro ao carregar parceiros: {error}</p>
+          </div>
+        )}
+
+        {!loading && !error && filteredPartners.length === 0 && (
+          <div className="empty-message">
+            <p>
+              {searchTerm.trim() 
+                ? 'Nenhum parceiro encontrado com esse critério.' 
+                : 'Nenhum parceiro disponível no momento.'}
+            </p>
+          </div>
+        )}
+
+        {!loading && !error && filteredPartners.map(partner => (
           <PartnerCard key={partner.id} {...partner} />
         ))}
       </div>
