@@ -9,6 +9,12 @@ import {
 } from "lucide-react";
 import "./sign-up.css";
 import { supabase } from "../../services/supabaseClient";
+import { 
+  validatePasswordStrength, 
+  sanitizeInput, 
+  validateEmail,
+  logSecurityEvent 
+} from "../../utils/securityUtils";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -22,6 +28,7 @@ const SignUp = () => {
   });
 
   const [error, setError] = useState("");
+  const [passwordErrors, setPasswordErrors] = useState([]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -36,46 +43,101 @@ const SignUp = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handlePasswordChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    // Validar força de senha em tempo real
+    if (name === "password") {
+      const validation = validatePasswordStrength(value);
+      setPasswordErrors(validation.errors);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
+    // Validação: senhas coincidem
     if (formData.password !== formData.confirmPassword) {
       setError("As senhas não coincidem!");
+      logSecurityEvent("signup_password_mismatch", { email: formData.email });
       return;
     }
+
+    // Validação: força da senha
+    const passwordValidation = validatePasswordStrength(formData.password);
+    if (!passwordValidation.isValid) {
+      setError(`Senha fraca. Requisitos: ${passwordValidation.errors.join(", ")}`);
+      logSecurityEvent("signup_weak_password", { email: formData.email });
+      return;
+    }
+
+    // Validação: email válido
+    if (!validateEmail(formData.email)) {
+      setError("E-mail inválido. Verifique e tente novamente.");
+      logSecurityEvent("signup_invalid_email", { email: formData.email });
+      return;
+    }
+
+    // Sanitizar inputs antes de enviar
+    const sanitizedData = {
+      name: sanitizeInput(formData.name),
+      email: formData.email.toLowerCase().trim(),
+      hub: sanitizeInput(formData.hub),
+      speaks: sanitizeInput(formData.speaks),
+      learns: sanitizeInput(formData.learns),
+      password: formData.password,
+    };
 
     try {
       // 1. Criar o usuário no Auth do Supabase
       const { data: authData, error: authError } = await supabase.auth.signUp({
-        email: formData.email,
-        password: formData.password,
+        email: sanitizedData.email,
+        password: sanitizedData.password,
       });
 
-      if (authError) throw authError;
+      if (authError) {
+        logSecurityEvent("signup_auth_failed", { 
+          email: sanitizedData.email, 
+          error: authError.message 
+        });
+        throw authError;
+      }
 
       // 2. Se o usuário foi criado, salvar os dados extras na tabela profiles
       if (authData.user) {
         const { error: profileError } = await supabase.from("profiles").insert([
           {
-            id: authData.user.id, // O ID que o Auth gerou
-            full_name: formData.name,
-            email: formData.email,
-            hub: formData.hub,
-            speaks: formData.speaks,
-            learns: formData.learns,
-            is_approved: false, // Começa sempre como pendente
+            id: authData.user.id,
+            full_name: sanitizedData.name,
+            email: sanitizedData.email,
+            hub: sanitizedData.hub,
+            speaks: sanitizedData.speaks,
+            learns: sanitizedData.learns,
+            is_approved: false,
           },
         ]);
 
-        if (profileError) throw profileError;
+        if (profileError) {
+          logSecurityEvent("signup_profile_failed", { 
+            email: sanitizedData.email, 
+            error: profileError.message 
+          });
+          throw profileError;
+        }
 
+        logSecurityEvent("signup_success", { email: sanitizedData.email });
         alert(
           "Solicitação enviada! Verifique o seu e-mail para confirmar a conta (se habilitado) ou aguarde a aprovação do Hub.",
         );
       }
     } catch (err) {
       setError(err.message || "Ocorreu um erro ao criar a conta.");
+      logSecurityEvent("signup_error", { 
+        email: sanitizedData.email, 
+        error: err.message 
+      });
     }
   };
 
@@ -182,10 +244,32 @@ const SignUp = () => {
                   name="password"
                   type="password"
                   value={formData.password}
-                  onChange={handleInputChange}
+                  onChange={handlePasswordChange}
                   required
                 />
               </div>
+              {passwordErrors.length > 0 && (
+                <div className="password-requirements">
+                  <p className="requirement-title">Requisitos de senha:</p>
+                  <ul>
+                    <li className={!passwordErrors.includes('Mínimo de 8 caracteres') ? 'met' : ''}>
+                      ✓ Mínimo de 8 caracteres
+                    </li>
+                    <li className={!passwordErrors.includes('Pelo menos uma letra maiúscula') ? 'met' : ''}>
+                      ✓ Pelo menos uma letra maiúscula
+                    </li>
+                    <li className={!passwordErrors.includes('Pelo menos uma letra minúscula') ? 'met' : ''}>
+                      ✓ Pelo menos uma letra minúscula
+                    </li>
+                    <li className={!passwordErrors.includes('Pelo menos um número') ? 'met' : ''}>
+                      ✓ Pelo menos um número
+                    </li>
+                    <li className={!passwordErrors.includes('Pelo menos um caractere especial (!@#$%^&*)') ? 'met' : ''}>
+                      ✓ Pelo menos um caractere especial (!@#$%^&*)
+                    </li>
+                  </ul>
+                </div>
+              )}
             </div>
 
             <div className="input-group">

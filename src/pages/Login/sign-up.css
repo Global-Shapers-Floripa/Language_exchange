@@ -1,9 +1,8 @@
 /* Reutilizando as variáveis e o estilo base */
 .signup-page {
   display: flex;
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* Aproveita o estilo que já fizemos no Login para as metades */
@@ -15,8 +14,9 @@
   justify-content: center;
   align-items: center;
   color: white;
-  padding: 40px;
+  padding: 40px 20px;
   text-align: center;
+  min-height: 100vh;
 }
 
 .login-side-blue h1 span {
@@ -30,13 +30,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 40px;
-  overflow-y: auto; /* Caso o formulário cresça, ele permite scroll só desse lado */
+  padding: 40px 20px;
+  overflow-y: auto;
+  min-height: 100vh;
 }
 
 .form-container {
   width: 100%;
-  max-width: 450px; /* Um pouco mais largo que o login para caber melhor os campos */
+  max-width: 450px;
 }
 
 /* Títulos */
@@ -151,6 +152,87 @@
 
 /* Responsividade para o grid de idiomas */
 @media (max-width: 600px) {
+  .languages-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Indicador de Requisitos de Senha */
+.password-requirements {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 12px;
+  margin-top: 8px;
+  font-size: 0.8rem;
+}
+
+.requirement-title {
+  font-weight: 600;
+  color: #1d1d1d;
+  margin-bottom: 8px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.password-requirements ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.password-requirements li {
+  padding: 4px 0;
+  color: #dc2626;
+  font-size: 0.75rem;
+}
+
+.password-requirements li.met {
+  color: #059669;
+  font-weight: 600;
+}
+
+/* Responsividade do Sign Up */
+@media (max-width: 1024px) {
+  .signup-page {
+    flex-direction: column;
+  }
+
+  .login-side-blue {
+    min-height: auto;
+    padding: 30px 20px;
+  }
+
+  .login-side-form {
+    min-height: auto;
+    padding: 30px 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .signup-page {
+    flex-direction: column;
+  }
+
+  .login-side-blue {
+    padding: 20px;
+    min-height: 40vh;
+  }
+
+  .login-side-form {
+    padding: 20px;
+    min-height: auto;
+  }
+
+  .form-container {
+    max-width: 100%;
+  }
+
+  .form-container h2 {
+    font-size: 1.5rem;
+  }
+
   .languages-row {
     grid-template-columns: 1fr;
   }

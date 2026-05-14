@@ -1,7 +1,11 @@
 import { createClient } from '@supabase/supabase-js'
 
-// Você encontra essas chaves nas configurações do Supabase (Project Settings > API)
-const supabaseUrl = 'https://ndiadfadpicgppzvlynk.supabase.co'
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kaWFkZmFkcGljZ3BwenZseW5rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3OTc4NzUsImV4cCI6MjA5MjM3Mzg3NX0.ci-UIh3d2v4ghgIjrZ6QcDMTbw9oripFb4DOV_XEeno'
+// Credenciais carregadas de variáveis de ambiente
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error('Variáveis de ambiente Supabase não configuradas. Verifique o arquivo .env')
+}
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)

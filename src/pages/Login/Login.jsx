@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import { Globe, Mail, Lock, Eye, EyeOff, AlertCircle } from 'lucide-react';
 import { supabase } from '../../services/supabaseClient';
 import { useNavigate } from 'react-router-dom';
+import { 
+  checkRateLimit, 
+  resetRateLimit, 
+  logSecurityEvent 
+} from '../../utils/securityUtils';
 import './login.css';
 
 const Login = () => {
@@ -18,6 +23,13 @@ const Login = () => {
     setLoading(true);
 
     try {
+      // Verificar rate limiting
+      const rateLimit = checkRateLimit(email);
+      if (!rateLimit.allowed) {
+        const minutes = Math.ceil(rateLimit.remainingTime / 60);
+        throw new Error(`Muitas tentativas de login. Tente novamente em ${minutes} minuto(s).`);
+      }
+
       // 1. Tentativa de Login no Auth do Supabase
       const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
         email,
@@ -26,6 +38,11 @@ const Login = () => {
 
       // Erros comuns: senha errada ou usuário não existe
       if (authError) {
+        logSecurityEvent('login_failed', { 
+          email, 
+          reason: authError.message 
+        });
+        
         if (authError.message === 'Invalid login credentials') {
           throw new Error('E-mail ou senha incorretos. Verifique e tente novamente.');
         }
@@ -43,15 +60,50 @@ const Login = () => {
 
       // 3. Bloqueio caso não esteja aprovado
       if (!profile.is_approved) {
-        await supabase.auth.signOut(); // Desloga pra não deixar sessão aberta
+        await supabase.auth.signOut();
+        logSecurityEvent('login_pending_approval', { email });
         throw new Error('Sua conta está em análise. Você receberá um aviso assim que for aprovado!');
       }
 
+      // Login bem-sucedido
+      resetRateLimit(email);
+      logSecurityEvent('login_success', { email });
+      
       // Se passou por tudo, vai pro Dashboard
       navigate('/dashboard');
 
     } catch (err) {
       setErrorMsg(err.message);
+      logSecurityEvent('login_error', { 
+        email, 
+        error: err.message 
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    if (!email) {
+      setErrorMsg('Por favor, digite seu e-mail');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email);
+      
+      if (error) throw error;
+      
+      logSecurityEvent('password_reset_requested', { email });
+      setErrorMsg(''); // Limpar erro anterior
+      alert('Link de recuperação enviado para seu e-mail! Verifique a caixa de entrada (ou spam).');
+    } catch (err) {
+      logSecurityEvent('password_reset_failed', { 
+        email, 
+        error: err.message 
+      });
+      setErrorMsg('Erro ao enviar link de recuperação: ' + err.message);
     } finally {
       setLoading(false);
     }
@@ -106,7 +158,8 @@ const Login = () => {
                 <button 
                   type="button" 
                   className="forgot-password-btn"
-                  onClick={() => alert('Em breve: Fluxo de recuperação de senha')}
+                  onClick={handleForgotPassword}
+                  disabled={loading}
                 >
                   Esqueceu?
                 </button>
