@@ -133,13 +133,6 @@ const Login = () => {
             <button type="submit" className="btn-login" disabled={loading}>
               {loading ? 'Entrando...' : 'Entrar'}
             </button>
-
-            <div className="divider">ou continue com</div>
-
-            <button type="button" className="btn-google">
-              <img src="https://www.svgrepo.com/show/355037/google.svg" alt="Google" width="20" />
-              Google Account
-            </button>
           </form>
 
           <p className="signup-link">Não tem conta? <a href="/signup">Crie uma aqui</a></p>
