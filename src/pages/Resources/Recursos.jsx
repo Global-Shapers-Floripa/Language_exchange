@@ -52,7 +52,7 @@ const Resources = () => {
             <h3>{item.title}</h3>
             <p>{item.desc}</p>
             <a href={item.link} className="resource-link">
-              Aceder agora <ExternalLink size={14} />
+              Acessar agora <ExternalLink size={14} />
             </a>
           </div>
         ))}

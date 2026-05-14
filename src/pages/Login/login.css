@@ -1,8 +1,7 @@
 .login-page {
   display: flex;
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* Lado Azul */
@@ -15,17 +14,36 @@
   align-items: center;
   color: white;
   position: relative;
-  padding: 40px;
+  padding: 40px 20px;
+  min-height: 100vh;
 }
 
 .brand-wrapper {
   z-index: 2;
   text-align: center;
+  max-width: 90%;
+}
+
+.logo-placeholder {
+  margin-bottom: 20px;
+}
+
+.logo-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  letter-spacing: 2px;
 }
 
 .login-hero-text h1 {
   font-size: 2.5rem;
   margin-top: 20px;
+  word-wrap: break-word;
+}
+
+.login-hero-text p {
+  font-size: 1rem;
+  margin-top: 10px;
+  color: #7ABFFF;
 }
 
 .login-hero-text span {
@@ -38,6 +56,8 @@
   color: white;
   bottom: -50px;
   right: -50px;
+  width: 300px;
+  height: 300px;
 }
 
 /* Lado do Formulário */
@@ -47,16 +67,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 40px;
+  padding: 40px 20px;
+  min-height: 100vh;
 }
 
 .form-container {
   width: 100%;
   max-width: 400px;
+  min-height: auto;
 }
 
 .form-container h2 {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 5vw, 2rem);
   color: #1d1d1d;
   margin-bottom: 8px;
 }
@@ -64,6 +86,7 @@
 .form-subtitle {
   color: #666;
   margin-bottom: 32px;
+  font-size: clamp(0.9rem, 2vw, 1rem);
 }
 
 /* Inputs */
@@ -198,4 +221,205 @@
   font-weight: 600;
   cursor: pointer;
   text-decoration: underline;
+  padding: 0;
+}
+
+/* Media Queries para Responsividade */
+@media (max-width: 1024px) {
+  .login-page {
+    flex-direction: column;
+  }
+
+  .login-side-blue {
+    min-height: auto;
+    padding: 30px 20px;
+  }
+
+  .login-hero-text h1 {
+    font-size: 2rem;
+  }
+
+  .globe-icon-bg {
+    width: 200px;
+    height: 200px;
+    bottom: -30px;
+    right: -30px;
+  }
+
+  .login-side-form {
+    min-height: auto;
+    padding: 30px 20px;
+  }
+
+  .form-container {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-page {
+    flex-direction: column;
+  }
+
+  .login-side-blue {
+    padding: 20px;
+    min-height: 40vh;
+  }
+
+  .brand-wrapper {
+    max-width: 100%;
+  }
+
+  .login-hero-text h1 {
+    font-size: 1.5rem;
+  }
+
+  .logo-text {
+    font-size: 1rem;
+  }
+
+  .globe-icon-bg {
+    width: 150px;
+    height: 150px;
+    bottom: -20px;
+    right: -20px;
+    opacity: 0.05;
+  }
+
+  .login-side-form {
+    padding: 20px;
+    min-height: auto;
+  }
+
+  .form-container {
+    max-width: 100%;
+  }
+
+  .form-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .input-group {
+    margin-bottom: 16px;
+  }
+
+  .label-row {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .input-group label {
+    font-size: 0.85rem;
+  }
+
+  .input-wrapper {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  .input-wrapper input {
+    font-size: 1rem;
+  }
+
+  .btn-login,
+  .btn-google {
+    padding: 12px;
+    font-size: 0.95rem;
+  }
+
+  .divider {
+    margin: 20px 0;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-page {
+    flex-direction: column;
+  }
+
+  .login-side-blue {
+    padding: 15px;
+    min-height: 35vh;
+  }
+
+  .login-hero-text h1 {
+    font-size: 1.3rem;
+    margin-top: 15px;
+  }
+
+  .login-hero-text p {
+    font-size: 0.9rem;
+  }
+
+  .logo-text {
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+  }
+
+  .globe-icon-bg {
+    width: 100px;
+    height: 100px;
+    bottom: -10px;
+    right: -10px;
+  }
+
+  .login-side-form {
+    padding: 15px;
+  }
+
+  .form-container {
+    width: 100%;
+  }
+
+  .form-container h2 {
+    font-size: 1.3rem;
+  }
+
+  .form-subtitle {
+    font-size: 0.85rem;
+    margin-bottom: 24px;
+  }
+
+  .input-group {
+    margin-bottom: 14px;
+  }
+
+  .label-row {
+    flex-wrap: wrap;
+  }
+
+  .input-group label {
+    font-size: 0.8rem;
+  }
+
+  .input-wrapper {
+    padding: 8px 10px;
+  }
+
+  .input-wrapper input {
+    font-size: 16px;
+  }
+
+  .toggle-password {
+    right: 10px;
+  }
+
+  .btn-login,
+  .btn-google {
+    padding: 11px;
+    font-size: 0.9rem;
+  }
+
+  .signup-link {
+    font-size: 0.85rem;
+    margin-top: 16px;
+    text-align: center;
+  }
+
+  .error-banner {
+    padding: 10px;
+    gap: 8px;
+    font-size: 0.8rem;
+  }
 }
