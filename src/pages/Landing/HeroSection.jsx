@@ -1,9 +1,11 @@
 import React from "react";
 import "./styles.css";
 import "./hero.css";
-import logoGlobalShapers from "../../assets/logo-azul-GSF.svg";
+//import logoGlobalShapers from "../../assets/logo-azul-GSF.svg";
+import logoLanguageExchange from "../../assets/logo-LE.png";
 import { MapPin } from "lucide-react";
 import { UserPlus } from "lucide-react";
+import { Globe } from "lucide-react";
 
 import SobreSection from "./Sobre-projeto";
 
@@ -17,7 +19,7 @@ const HeroSection = () => {
         <div className="container">
           <nav className="landing-nav">
             <img
-              src={logoGlobalShapers}
+              src={logoLanguageExchange}
               alt="Global Shapers Logo"
               className="logo-nav"
             />
@@ -39,7 +41,7 @@ const HeroSection = () => {
         <div className="container">
           <div className="hero-content">
             <div className="subtitle-badge">
-              <MapPin className="subtitle-icon" size={16} />
+              <Globe className="subtitle-icon" size={16} />
               <span className="subtitle-text">HUB FLORIANÓPOLIS, BRAZIL</span>
             </div>
             <h1 className="hero-title">

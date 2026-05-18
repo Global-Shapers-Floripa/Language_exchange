@@ -37,7 +37,7 @@
     bottom: 0;
     width: 0;
     height: 2px;
-    background-color: rgb(6, 127, 207);
+    background-color: rgb(255, 94, 0);
     transition: width 0.5s ease;
 }
 
@@ -202,6 +202,7 @@
 .hero-buttons {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 35px;
     margin-top: 35px;
 }
@@ -215,7 +216,7 @@
     /* Espaço entre o ícone e o texto */
 
     /* Estilos base que você já tem */
-    background-color: var(--blue-glow);
+    background-color: #ff7b00;
     color: white;
     /* Ajustado para branco conforme a referência */
     padding: 15px 25px;
@@ -230,7 +231,7 @@
 }
 
 .cta-banner-1:hover {
-    background-color: rgb(19, 75, 158);
+    background-color: #e66903;
     transform: scale(0.96);
     box-shadow: none;
 }
@@ -243,7 +244,7 @@
 .cta-banner-2 {
     background-color: transparent;
     color: white;
-    padding: 15px 25px;
+    padding: 10px 25px;
     border: 1px solid white;
     font-weight: bold;
     border-radius: 8px;

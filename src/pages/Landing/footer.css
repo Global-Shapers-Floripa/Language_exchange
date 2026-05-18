@@ -1,10 +1,10 @@
 .main-footer {
-    background-color: #f8faff;
+    background-color: #ffffff;
     padding: 1rem;
 }
 
 .footer-container {
-    background-color: #0f172a;
+    background-color: #ff8400;
     border-radius: 40px;
     padding: 2rem 4rem;
     color: #ffffff;
@@ -41,7 +41,7 @@
 
 .footer-group h3 {
     font-size: 14px;
-    color: #64748b;
+    color: #ffffff;
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: 15px;
@@ -52,7 +52,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #cbd5e1;
+    color: #ffffff;
     text-decoration: none;
     font-size: 15px;
     margin-bottom: 10px;
@@ -60,7 +60,7 @@
 }
 
 .footer-group a:hover {
-    color: #34baf8;
+    color: #f5eae2;
 }
 
 /* BLOCO CENTRAL */
@@ -82,7 +82,7 @@
 }
 
 .footer-tagline {
-    color: #94a3b8;
+    color: #ffffff;
     font-size: 16px;
     margin-bottom: 30px;
 }
@@ -117,10 +117,10 @@
 
 /* COPYRIGHT */
 .footer-copyright {
-    border-top: 1px solid #1e293b;
+    border-top: 1px solid #ffffff;
     padding-top: 25px;
     text-align: center;
-    color: #475569;
+    color: #ffffff;
     font-size: 13px;
 }
 
