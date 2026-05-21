@@ -1,8 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '../../components/layout/DashboardLayout';
 import './dashboard.css'; 
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
+  const handleRegisterSession = () => {
+    navigate('/sessions');
+  };
+
   return (
     
     <DashboardLayout>
@@ -11,7 +18,7 @@ const Dashboard = () => {
           <h2>"From words to worlds"</h2>
           <p>Realizou uma sessão recentemente? Não se esqueça de registrar o impacto!</p>
         </div>
-        <button className="btn-register">
+        <button className="btn-register" onClick={handleRegisterSession}>
           <span>+</span> Registrar Sessão
         </button>
       </div>

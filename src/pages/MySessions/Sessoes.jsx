@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DashboardLayout from '../../components/layout/DashboardLayout';
 import { PlusCircle } from 'lucide-react';
 import { useSessions } from '../../hooks/useSessions';
+import { usePartners } from '../../hooks/usePartners';
+import AddSessionModal from '../../components/common/AddSessionModal';
 import './sessoes.css';
 
 const MySessions = () => {
-  const { sessions, loading, error } = useSessions();
+  const { sessions, loading, error, refetch } = useSessions();
+  const { partners } = usePartners();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleSessionAdded = () => {
+    // Atualizar lista de sessões
+    if (refetch) {
+      refetch();
+    }
+  };
 
   return (
     <DashboardLayout>
       <div className="sessions-header">
         <h2>Minhas Sessões</h2>
-        <button className="btn-new-session">
+        <button className="btn-new-session" onClick={() => setIsModalOpen(true)}>
           <PlusCircle size={20} /> Novo Registro
         </button>
       </div>
@@ -64,6 +75,14 @@ const MySessions = () => {
           </table>
         </div>
       )}
+
+      {/* Modal para adicionar sessão */}
+      <AddSessionModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        partners={partners}
+        onSessionAdded={handleSessionAdded}
+      />
     </DashboardLayout>
   );
 };
