@@ -15,13 +15,6 @@ const Dashboard = () => {
   return (
     <DashboardLayout>
       <div className="welcome-banner">
-        <div className="banner-text">
-          <h2>"From words to worlds"</h2>
-          <p>Realizou uma sessão recentemente? Não se esqueça de registrar o impacto!</p>
-        </div>
-        <button className="btn-register" onClick={handleRegisterSession}>
-          <span>+</span> Registrar Sessão
-        </button>
         <div className="banner-content">
           <div className="banner-text">
             <h2>"From words to worlds"</h2>
@@ -30,7 +23,7 @@ const Dashboard = () => {
               impacto!
             </p>
           </div>
-          <button className="btn-register">
+          <button className="btn-register" onClick={handleRegisterSession}>
             Registrar sessão
             <span className="icon-circle">
               <svg
