@@ -1,0 +1,120 @@
+.searchable-select {
+  position: relative;
+  width: 100%;
+}
+
+.searchable-select-button {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #333;
+  transition: all 0.2s ease;
+}
+
+.searchable-select-button:hover {
+  border-color: #999;
+  background: #f9f9f9;
+}
+
+.searchable-select-button:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.searchable-select-button svg {
+  transition: transform 0.2s ease;
+  color: #666;
+}
+
+.searchable-select-button svg.rotated {
+  transform: rotate(180deg);
+}
+
+.searchable-select-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  max-height: 300px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.searchable-select-search {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.searchable-select-search input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+}
+
+.searchable-select-search input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.searchable-select-options {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.searchable-select-option {
+  width: 100%;
+  padding: 12px 14px;
+  border: none;
+  background: white;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #333;
+  transition: all 0.2s ease;
+}
+
+.searchable-select-option:hover {
+  background: #f0f0f0;
+}
+
+.searchable-select-option.selected {
+  background: #e7f3ff;
+  color: #007bff;
+  font-weight: 500;
+}
+
+.searchable-select-checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  margin: 0;
+}
+
+.searchable-select-empty {
+  padding: 16px 14px;
+  text-align: center;
+  color: #999;
+  font-size: 14px;
+}

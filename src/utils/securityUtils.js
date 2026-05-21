@@ -18,7 +18,7 @@ export const validatePasswordStrength = (password) => {
     errors.push('Pelo menos um número');
   }
   
-  if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+  if (!/[!@#$%^&*()_+=\-[\]{};':"\\|,.<>/?]/.test(password)) {
     errors.push('Pelo menos um caractere especial (!@#$%^&*)');
   }
   

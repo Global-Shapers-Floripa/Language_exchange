@@ -96,6 +96,84 @@
   resize: vertical;
 }
 
+/* Photo Upload Styles */
+.photo-upload-container {
+  width: 100%;
+}
+
+.photo-upload-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  border: 2px dashed #cbd5e1;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background-color: #f8fafc;
+}
+
+.photo-upload-label:hover {
+  border-color: #0A3251;
+  background-color: #f0f9ff;
+}
+
+.photo-upload-label svg {
+  color: #64748b;
+  margin-bottom: 8px;
+  transition: color 0.2s;
+}
+
+.photo-upload-label:hover svg {
+  color: #0A3251;
+}
+
+.photo-upload-label span {
+  display: block;
+  font-weight: 500;
+  color: #334155;
+  margin-bottom: 4px;
+}
+
+.photo-upload-label small {
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+
+.photo-preview {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.photo-preview img {
+  width: 100%;
+  height: auto;
+  max-height: 300px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.btn-remove-photo {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-remove-photo:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
 .error-message {
   background-color: #fee2e2;
   border: 1px solid #fecaca;

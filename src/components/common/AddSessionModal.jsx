@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { X } from 'lucide-react';
+import { X, Upload } from 'lucide-react';
 import { useAddSession } from '../../hooks/useAddSession';
+import SearchableSelect from './SearchableSelect';
+import { LANGUAGES, MAX_PHOTO_SIZE, ALLOWED_PHOTO_TYPES } from '../../constants/languages';
 import './AddSessionModal.css';
 
 const AddSessionModal = ({ isOpen, onClose, partners, onSessionAdded }) => {
@@ -8,13 +10,21 @@ const AddSessionModal = ({ isOpen, onClose, partners, onSessionAdded }) => {
     partner_id: '',
     date: new Date().toISOString().split('T')[0],
     duration: 60,
-    languages: '',
+    languages: [],
     status: 'pendente',
     notes: '',
+    sessionPhoto: null,
   });
 
   const { addSession, loading, error } = useAddSession();
   const [submitError, setSubmitError] = useState('');
+  const [photoPreview, setPhotoPreview] = useState(null);
+
+  // Converter lista de parceiros para formato esperado pelo SearchableSelect
+  const partnerOptions = partners.map(p => ({
+    name: `${p.name} (${p.hub})`,
+    code: p.id,
+  }));
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,6 +32,75 @@ const AddSessionModal = ({ isOpen, onClose, partners, onSessionAdded }) => {
       ...prev,
       [name]: name === 'duration' ? parseInt(value) : value,
     }));
+  };
+
+  const handleLanguageChange = (selectedLanguages) => {
+    setFormData(prev => ({
+      ...prev,
+      languages: selectedLanguages,
+    }));
+  };
+
+  const handlePartnerChange = (partnerId) => {
+    setFormData(prev => ({
+      ...prev,
+      partner_id: partnerId,
+    }));
+  };
+
+  const handlePhotoChange = (e) => {
+    const file = e.target.files?.[0];
+    processPhotoFile(file);
+  };
+
+  const processPhotoFile = (file) => {
+    if (!file) return;
+
+    // Validar tipo
+    if (!ALLOWED_PHOTO_TYPES.includes(file.type)) {
+      setSubmitError('Tipo de arquivo não permitido. Use PNG, JPEG, GIF ou WebP.');
+      return;
+    }
+
+    // Validar tamanho
+    if (file.size > MAX_PHOTO_SIZE) {
+      setSubmitError(`Arquivo muito grande. Máximo de ${Math.round(MAX_PHOTO_SIZE / 1024 / 1024)}MB.`);
+      return;
+    }
+
+    setFormData(prev => ({
+      ...prev,
+      sessionPhoto: file,
+    }));
+
+    // Criar preview
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPhotoPreview(reader.result);
+    };
+    reader.readAsDataURL(file);
+    setSubmitError('');
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const file = e.dataTransfer.files?.[0];
+    processPhotoFile(file);
+  };
+
+  const removePhoto = () => {
+    setFormData(prev => ({
+      ...prev,
+      sessionPhoto: null,
+    }));
+    setPhotoPreview(null);
   };
 
   const handleSubmit = async (e) => {
@@ -33,8 +112,8 @@ const AddSessionModal = ({ isOpen, onClose, partners, onSessionAdded }) => {
       return;
     }
 
-    if (!formData.languages.trim()) {
-      setSubmitError('Por favor, informe os idiomas praticados');
+    if (!formData.languages || formData.languages.length === 0) {
+      setSubmitError('Por favor, selecione pelo menos um idioma');
       return;
     }
 
@@ -46,10 +125,12 @@ const AddSessionModal = ({ isOpen, onClose, partners, onSessionAdded }) => {
         partner_id: '',
         date: new Date().toISOString().split('T')[0],
         duration: 60,
-        languages: '',
+        languages: [],
         status: 'pendente',
         notes: '',
+        sessionPhoto: null,
       });
+      setPhotoPreview(null);
       
       // Callback para atualizar lista
       if (onSessionAdded) {
@@ -61,6 +142,7 @@ const AddSessionModal = ({ isOpen, onClose, partners, onSessionAdded }) => {
       setSubmitError(result.error);
     }
   };
+
 
   if (!isOpen) return null;
 
@@ -75,23 +157,17 @@ const AddSessionModal = ({ isOpen, onClose, partners, onSessionAdded }) => {
         </div>
 
         <form onSubmit={handleSubmit} className="modal-form">
-          {/* Parceiro */}
+          {/* Parceiro com Busca */}
           <div className="form-group">
-            <label htmlFor="partner_id">Parceiro *</label>
-            <select
-              id="partner_id"
-              name="partner_id"
+            <label>Parceiro *</label>
+            <SearchableSelect
+              options={partnerOptions}
               value={formData.partner_id}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Selecione um parceiro...</option>
-              {partners.map(partner => (
-                <option key={partner.id} value={partner.id}>
-                  {partner.name} ({partner.hub})
-                </option>
-              ))}
-            </select>
+              onChange={handlePartnerChange}
+              placeholder="Buscar parceiro por nome ou hub..."
+              displayKey="name"
+              valueKey="code"
+            />
           </div>
 
           {/* Data */}
@@ -122,17 +198,17 @@ const AddSessionModal = ({ isOpen, onClose, partners, onSessionAdded }) => {
             />
           </div>
 
-          {/* Idiomas */}
+          {/* Idiomas com Seletor Pré-definido */}
           <div className="form-group">
-            <label htmlFor="languages">Idiomas Praticados *</label>
-            <input
-              id="languages"
-              name="languages"
-              type="text"
-              placeholder="Ex: Inglês, Português"
+            <label>Idiomas Praticados *</label>
+            <SearchableSelect
+              options={LANGUAGES}
               value={formData.languages}
-              onChange={handleChange}
-              required
+              onChange={handleLanguageChange}
+              placeholder="Selecione os idiomas..."
+              displayKey="name"
+              valueKey="code"
+              multi={true}
             />
           </div>
 
@@ -161,6 +237,41 @@ const AddSessionModal = ({ isOpen, onClose, partners, onSessionAdded }) => {
               onChange={handleChange}
               rows="3"
             />
+          </div>
+
+          {/* Upload de Foto */}
+          <div className="form-group">
+            <label>Foto/Print da Sessão (Opcional)</label>
+            <div className="photo-upload-container">
+              {photoPreview ? (
+                <div className="photo-preview">
+                  <img src={photoPreview} alt="Preview da sessão" />
+                  <button 
+                    type="button" 
+                    className="btn-remove-photo"
+                    onClick={removePhoto}
+                  >
+                    Remover
+                  </button>
+                </div>
+              ) : (
+                <label 
+                  className="photo-upload-label"
+                  onDragOver={handleDragOver}
+                  onDrop={handleDrop}
+                >
+                  <Upload size={24} />
+                  <span>Clique para selecionar ou arraste uma imagem</span>
+                  <small>PNG, JPEG, GIF ou WebP até 5MB</small>
+                  <input
+                    type="file"
+                    accept={ALLOWED_PHOTO_TYPES.join(',')}
+                    onChange={handlePhotoChange}
+                    style={{ display: 'none' }}
+                  />
+                </label>
+              )}
+            </div>
           </div>
 
           {/* Erros */}
