@@ -17,7 +17,7 @@ export const useSessions = () => {
         throw new Error('Usuário não autenticado');
       }
 
-      // Busca todas as sessões do usuário
+      // Busca todas as sessões do usuário com dados do parceiro
       const { data, error: fetchError } = await supabase
         .from('sessions')
         .select(`
@@ -27,7 +27,8 @@ export const useSessions = () => {
           duration,
           languages,
           status,
-          profiles!partner_id(full_name)
+          session_photo_url,
+          profiles!partner_id(full_name, hub)
         `)
         .eq('user_id', user.id)
         .order('date', { ascending: false });
@@ -43,10 +44,12 @@ export const useSessions = () => {
       const formattedSessions = data.map((session) => ({
         id: session.id,
         partner: session.profiles?.full_name || 'Desconhecido',
+        hub: session.profiles?.hub || 'N/A',
         date: new Date(session.date).toLocaleDateString('pt-BR'),
         duration: `${session.duration}min`,
         language: session.languages || 'N/A',
         status: session.status || 'Pendente',
+        photo_url: session.session_photo_url,
       }));
 
       setSessions(formattedSessions);
@@ -61,6 +64,7 @@ export const useSessions = () => {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchSessions();
   }, []);
 

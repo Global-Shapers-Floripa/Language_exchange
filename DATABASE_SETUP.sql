@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS public.sessions (
   languages TEXT,
   status TEXT DEFAULT 'pendente',
   notes TEXT,
+  session_photo_url TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );

@@ -51,6 +51,7 @@ const MySessions = () => {
             <thead>
               <tr>
                 <th>PARCEIRO</th>
+                <th>HUB</th>
                 <th>DATA</th>
                 <th>DURAÇÃO</th>
                 <th>IDIOMA</th>
@@ -61,6 +62,7 @@ const MySessions = () => {
               {sessions.map((session) => (
                 <tr key={session.id}>
                   <td className="partner-name">{session.partner}</td>
+                  <td>{session.hub}</td>
                   <td>{session.date}</td>
                   <td>{session.duration}</td>
                   <td>{session.language}</td>
