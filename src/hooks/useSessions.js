@@ -33,7 +33,12 @@ export const useSessions = () => {
           .eq('user_id', user.id)
           .order('date', { ascending: false });
 
-        if (fetchError) throw fetchError;
+        if (fetchError) {
+          if (fetchError.message.includes('Could not find the table')) {
+            throw new Error('Tabela de sessões não foi criada ainda. Execute o arquivo DATABASE_SETUP.sql no Supabase.');
+          }
+          throw fetchError;
+        }
 
         // Formata os dados
         const formattedSessions = data.map((session) => ({
