@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import DashboardLayout from '../../components/layout/DashboardLayout';
 import PartnerCard from '../../components/common/PartnerCard';
-import { Search, Filter } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { usePartners } from '../../hooks/usePartners';
 import './parceiros.css';
 
@@ -32,14 +32,11 @@ const FindPartners = () => {
             <Search size={18} className="search-icon" />
             <input 
               type="text" 
-              placeholder="Nome, idioma ou hub..." 
+              placeholder="Buscar por nome, idioma ou hub..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <button className="filter-button">
-            <Filter size={18} />
-          </button>
         </div>
       </div>
 
