@@ -1,12 +1,27 @@
-import React from "react";
-import DashboardLayout from "../../components/layout/DashboardLayout";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import DashboardLayout from '../../components/layout/DashboardLayout';
+import './dashboard.css'; 
 import registraSessao from "../../assets/registrar-sessao.svg";
-import "./dashboard.css";
+
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
+  const handleRegisterSession = () => {
+    navigate('/sessions');
+  };
+
   return (
     <DashboardLayout>
       <div className="welcome-banner">
+        <div className="banner-text">
+          <h2>"From words to worlds"</h2>
+          <p>Realizou uma sessão recentemente? Não se esqueça de registrar o impacto!</p>
+        </div>
+        <button className="btn-register" onClick={handleRegisterSession}>
+          <span>+</span> Registrar Sessão
+        </button>
         <div className="banner-content">
           <div className="banner-text">
             <h2>"From words to worlds"</h2>
