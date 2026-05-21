@@ -1,13 +1,19 @@
 .login-page {
   display: flex;
   min-height: 100vh;
+  overflow-y: hidden;
   overflow-x: hidden;
 }
 
 /* Lado Azul */
 .login-side-blue {
   flex: 1;
-  background-color: #0A3251; /* O azul escuro do seu projeto */
+
+  background: linear-gradient(rgba(7, 17, 26, 0.719)), url('../../assets/login-banner.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -17,7 +23,6 @@
   padding: 40px 20px;
   min-height: 100vh;
 }
-
 .brand-wrapper {
   z-index: 2;
   text-align: center;

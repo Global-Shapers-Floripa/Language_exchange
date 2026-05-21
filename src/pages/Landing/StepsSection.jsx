@@ -51,7 +51,7 @@ const ComoFunciona = () => {
       <div className="como-inner-content">
         <div className="section-header-centered">
           <div className="header-icon">
-            <Workflow size={30} color="#1d4ed8" />
+            <Workflow size={30} color="#ff6702" />
           </div>
           <h2 className="section-title">Como funciona</h2>
           <p className="section-subtitle">

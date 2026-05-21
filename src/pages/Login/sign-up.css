@@ -8,14 +8,19 @@
 /* Aproveita o estilo que já fizemos no Login para as metades */
 .login-side-blue {
   flex: 1;
-  background-color: #0A3251;
+
+  background: linear-gradient(rgba(7, 17, 26, 0.719)), url('../../assets/login-banner.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   color: white;
+  position: relative;
   padding: 40px 20px;
-  text-align: center;
   min-height: 100vh;
 }
 

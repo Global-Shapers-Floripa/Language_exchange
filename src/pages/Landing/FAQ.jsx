@@ -53,7 +53,7 @@ const FaqSection = () => {
       <div className="faq-container">
         <div className="section-header-centered">
           <div className="header-icon">
-            <HelpCircle size={30} color="#34baf8" />
+            <HelpCircle size={30} color="#ff7b00" />
           </div>
           <h2 className="section-title title-FAQ">Perguntas Frequentes</h2>
           <p className="section-subtitle subtitle-FAQ">
