@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"; // Adicione useEffect e useS
 import { NavLink, useNavigate } from "react-router-dom";
 import { Home, Users, Calendar, BookOpen, LogOut } from "lucide-react";
 import { supabase } from "../../services/supabaseClient"; // Importe o seu client do supabase
+import logoLE from "../../assets/logo-LanguageExchange.svg";
 import "./styles.css";
 
 const DashboardLayout = ({ children }) => {
@@ -51,8 +52,7 @@ const DashboardLayout = ({ children }) => {
       {/* SIDEBAR ESQUERDA */}
       <aside className="sidebar">
         <div className="sidebar-logo">
-          <div className="logo-icon">🌐</div>
-          <span>SHAPERS LE</span>
+          <img src={logoLE} alt="Logo" />
         </div>
 
         <nav className="sidebar-nav">

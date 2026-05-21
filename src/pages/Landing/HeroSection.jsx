@@ -2,7 +2,7 @@ import React from "react";
 import "./styles.css";
 import "./hero.css";
 //import logoGlobalShapers from "../../assets/logo-azul-GSF.svg";
-import logoLanguageExchange from "../../assets/logo-LE.png";
+import logoLanguageExchange from "../../assets/logo-LanguageExchange.svg";
 import { MapPin } from "lucide-react";
 import { UserPlus } from "lucide-react";
 import { Globe } from "lucide-react";
