@@ -1,25 +1,25 @@
-import React, { useState } from 'react';
-import { Globe, Mail, Lock, Eye, EyeOff, AlertCircle } from 'lucide-react';
-import { supabase } from '../../services/supabaseClient';
-import { useNavigate } from 'react-router-dom';
-import { 
-  checkRateLimit, 
-  resetRateLimit, 
-  logSecurityEvent 
-} from '../../utils/securityUtils';
-import './login.css';
+import React, { useState } from "react";
+import { Globe, Mail, Lock, Eye, EyeOff, AlertCircle } from "lucide-react";
+import { supabase } from "../../services/supabaseClient";
+import { useNavigate } from "react-router-dom";
+import {
+  checkRateLimit,
+  resetRateLimit,
+  logSecurityEvent,
+} from "../../utils/securityUtils";
+import "./login.css";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMsg('');
+    setErrorMsg("");
     setLoading(true);
 
     try {
@@ -27,33 +27,38 @@ const Login = () => {
       const rateLimit = checkRateLimit(email);
       if (!rateLimit.allowed) {
         const minutes = Math.ceil(rateLimit.remainingTime / 60);
-        throw new Error(`Muitas tentativas de login. Tente novamente em ${minutes} minuto(s).`);
+        throw new Error(
+          `Muitas tentativas de login. Tente novamente em ${minutes} minuto(s).`,
+        );
       }
 
       // 1. Tentativa de Login no Auth do Supabase
-      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const { data: authData, error: authError } =
+        await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
 
       // Erros comuns: senha errada ou usuário não existe
       if (authError) {
-        logSecurityEvent('login_failed', { 
-          email, 
-          reason: authError.message 
+        logSecurityEvent("login_failed", {
+          email,
+          reason: authError.message,
         });
-        
-        if (authError.message === 'Invalid login credentials') {
-          throw new Error('E-mail ou senha incorretos. Verifique e tente novamente.');
+
+        if (authError.message === "Invalid login credentials") {
+          throw new Error(
+            "E-mail ou senha incorretos. Verifique e tente novamente.",
+          );
         }
         throw authError;
       }
 
       // 2. Buscar o perfil para checar aprovação
       const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('is_approved')
-        .eq('id', authData.user.id)
+        .from("profiles")
+        .select("is_approved")
+        .eq("id", authData.user.id)
         .single();
 
       if (profileError) throw profileError;
@@ -61,22 +66,23 @@ const Login = () => {
       // 3. Bloqueio caso não esteja aprovado
       if (!profile.is_approved) {
         await supabase.auth.signOut();
-        logSecurityEvent('login_pending_approval', { email });
-        throw new Error('Sua conta está em análise. Você receberá um aviso assim que for aprovado!');
+        logSecurityEvent("login_pending_approval", { email });
+        throw new Error(
+          "Sua conta está em análise. Você receberá um aviso assim que for aprovado!",
+        );
       }
 
       // Login bem-sucedido
       resetRateLimit(email);
-      logSecurityEvent('login_success', { email });
-      
-      // Se passou por tudo, vai pro Dashboard
-      navigate('/dashboard');
+      logSecurityEvent("login_success", { email });
 
+      // Se passou por tudo, vai pro Dashboard
+      navigate("/dashboard");
     } catch (err) {
       setErrorMsg(err.message);
-      logSecurityEvent('login_error', { 
-        email, 
-        error: err.message 
+      logSecurityEvent("login_error", {
+        email,
+        error: err.message,
       });
     } finally {
       setLoading(false);
@@ -85,25 +91,29 @@ const Login = () => {
 
   const handleForgotPassword = async () => {
     if (!email) {
-      setErrorMsg('Por favor, digite seu e-mail');
+      setErrorMsg("Por favor, digite seu e-mail");
       return;
     }
 
     setLoading(true);
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email);
-      
-      if (error) throw error;
-      
-      logSecurityEvent('password_reset_requested', { email });
-      setErrorMsg(''); // Limpar erro anterior
-      alert('Link de recuperação enviado para seu e-mail! Verifique a caixa de entrada (ou spam).');
-    } catch (err) {
-      logSecurityEvent('password_reset_failed', { 
-        email, 
-        error: err.message 
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`,
       });
-      setErrorMsg('Erro ao enviar link de recuperação: ' + err.message);
+
+      if (error) throw error;
+
+      logSecurityEvent("password_reset_requested", { email });
+      setErrorMsg(""); // Limpar erro anterior
+      alert(
+        "Link de recuperação enviado para seu e-mail! Verifique a caixa de entrada (ou spam).",
+      );
+    } catch (err) {
+      logSecurityEvent("password_reset_failed", {
+        email,
+        error: err.message,
+      });
+      setErrorMsg("Erro ao enviar link de recuperação: " + err.message);
     } finally {
       setLoading(false);
     }
@@ -114,10 +124,12 @@ const Login = () => {
       <div className="login-side-blue">
         <div className="brand-wrapper">
           <div className="logo-placeholder">
-             <span className="logo-text">GLOBAL SHAPERS</span>
+            <span className="logo-text">GLOBAL SHAPERS</span>
           </div>
           <div className="login-hero-text">
-            <h1>Language <span>Exchange</span></h1>
+            <h1>
+              Language <span>Exchange</span>
+            </h1>
             <p>"From words to worlds"</p>
           </div>
         </div>
@@ -127,7 +139,9 @@ const Login = () => {
       <div className="login-side-form">
         <div className="form-container">
           <h2>Bem-vindo</h2>
-          <p className="form-subtitle">Acesse sua conta para começar a praticar.</p>
+          <p className="form-subtitle">
+            Acesse sua conta para começar a praticar.
+          </p>
 
           {/* Banner de Erro */}
           {errorMsg && (
@@ -142,9 +156,9 @@ const Login = () => {
               <label>E-mail</label>
               <div className="input-wrapper">
                 <Mail size={18} />
-                <input 
-                  type="email" 
-                  placeholder="seu@email.com" 
+                <input
+                  type="email"
+                  placeholder="seu@email.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -155,26 +169,26 @@ const Login = () => {
             <div className="input-group">
               <div className="label-row">
                 <label>Senha</label>
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   className="forgot-password-btn"
                   onClick={handleForgotPassword}
                   disabled={loading}
                 >
-                  Esqueceu?
+                  Esqueceu sua senha?
                 </button>
               </div>
               <div className="input-wrapper">
                 <Lock size={18} />
-                <input 
-                  type={showPassword ? "text" : "password"} 
-                  placeholder="••••••••" 
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   className="toggle-password"
                   onClick={() => setShowPassword(!showPassword)}
                 >
@@ -184,11 +198,13 @@ const Login = () => {
             </div>
 
             <button type="submit" className="btn-login" disabled={loading}>
-              {loading ? 'Entrando...' : 'Entrar'}
+              {loading ? "Entrando..." : "Entrar"}
             </button>
           </form>
 
-          <p className="signup-link">Não tem conta? <a href="/signup">Crie uma aqui</a></p>
+          <p className="signup-link">
+            Não tem conta? <a href="/signup">Crie uma aqui</a>
+          </p>
         </div>
       </div>
     </div>

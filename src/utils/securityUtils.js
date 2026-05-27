@@ -1,31 +1,25 @@
 // Validação de força de senha
 export const validatePasswordStrength = (password) => {
   const errors = [];
-  
+
+  // mínimo 8 caracteres
   if (password.length < 8) {
-    errors.push('Mínimo de 8 caracteres');
+    errors.push("Mínimo de 8 caracteres");
   }
-  
-  if (!/[A-Z]/.test(password)) {
-    errors.push('Pelo menos uma letra maiúscula');
+
+  // pelo menos uma letra (maiúscula ou minúscula)
+  if (!/[a-zA-Z]/.test(password)) {
+    errors.push("Pelo menos uma letra");
   }
-  
-  if (!/[a-z]/.test(password)) {
-    errors.push('Pelo menos uma letra minúscula');
-  }
-  
+
+  // pelo menos um número
   if (!/[0-9]/.test(password)) {
-    errors.push('Pelo menos um número');
+    errors.push("Pelo menos um número");
   }
-  
-  if (!/[!@#$%^&*()_+=\-[\]{};':"\\|,.<>/?]/.test(password)) {
-    errors.push('Pelo menos um caractere especial (!@#$%^&*)');
-  }
-  
+
   return {
     isValid: errors.length === 0,
     errors,
-    strength: 5 - errors.length
   };
 };
 

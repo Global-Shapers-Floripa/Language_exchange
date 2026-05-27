@@ -197,3 +197,68 @@
 .nav-item.active svg {
   color: #0A3251; /* Ou a cor de destaque do seu design */
 }
+
+
+/* =========================
+PERFIL
+========================= */
+
+.clickable-profile {
+  cursor: pointer;
+}
+
+.avatar-wrapper {
+  position: relative;
+  width: 56px;
+  height: 56px;
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: 0.2s ease;
+}
+
+/* Overlay */
+.avatar-edit-overlay {
+  position: absolute;
+  inset: 0;
+
+  background: rgba(15, 23, 42, 0.72);
+
+  border-radius: 50%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0;
+
+  transition: 0.2s ease;
+
+  color: white;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  text-align: center;
+
+  padding: 6px;
+}
+
+.avatar-wrapper:hover .avatar-edit-overlay {
+  opacity: 1;
+}
+
+.avatar-wrapper:hover .avatar {
+  transform: scale(1.04);
+}
+
+.edit-icon {
+  width: 16px;
+  height: 16px;
+  margin-bottom: 4px;
+}

@@ -1,36 +1,61 @@
-import React from 'react';
-import './partner-card.css';
-import { MessageSquare } from 'lucide-react';
+import React from "react";
 
-const PartnerCard = ({ name, hub, speaks, learns }) => {
+import { MessageSquare } from "lucide-react";
+
+import "./partner-card.css";
+
+const PartnerCard = ({ partner, onConnect }) => {
   return (
     <div className="partner-card">
-      <div className="card-header">
-        <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`} alt={name} className="card-avatar" />
-        <div className="card-titles">
-          <h4>{name}</h4>
-          <span>📍 HUB {hub?.toUpperCase()}</span>
+      <div className="partner-header">
+        <img
+          src={
+            partner.photo_url ||
+            `https://api.dicebear.com/7.x/avataaars/svg?seed=${partner.full_name}`
+          }
+          alt={partner.full_name}
+          className="partner-avatar"
+        />
+
+        <div>
+          <h3>{partner.full_name}</h3>
+
+          <p>📍 HUB {partner.hub}</p>
         </div>
       </div>
 
-      <div className="card-info">
-        <div className="info-group">
-          <label>FALA</label>
-          <div className="tags">
-            {speaks?.split(',').map(lang => <span key={lang} className="tag speaks">{lang.trim()}</span>)}
-          </div>
-        </div>
-        
-        <div className="info-group">
-          <label>APRENDE</label>
-          <div className="tags">
-            {learns?.split(',').map(lang => <span key={lang} className="tag learns">{lang.trim()}</span>)}
-          </div>
+      <div className="partner-section">
+        <span className="section-label">FALA</span>
+
+        <div className="tags">
+          {partner.speaksArray?.map((lang) => (
+            <span key={lang} className="tag green">
+              {lang}
+            </span>
+          ))}
         </div>
       </div>
 
-      <button className="btn-connect">
-        <MessageSquare size={16} /> Conectar
+      <div className="partner-section">
+        <span className="section-label">
+          APRENDE
+        </span>
+
+        <div className="tags">
+          {partner.learnsArray?.map((lang) => (
+            <span key={lang} className="tag blue">
+              {lang}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <button
+        className="connect-btn"
+        onClick={onConnect}
+      >
+        <MessageSquare size={18} />
+        Conectar
       </button>
     </div>
   );

@@ -1,0 +1,18 @@
+export const INTERESTS = [
+  "Tecnologia",
+  "Design",
+  "Programação",
+  "UX/UI",
+  "IA",
+  "Negócios",
+  "Startups",
+  "Marketing",
+  "Idiomas",
+  "Viagens",
+  "Música",
+  "Cinema",
+  "Fotografia",
+  "Leitura",
+  "Esportes",
+  "Games",
+];

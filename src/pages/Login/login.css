@@ -69,17 +69,23 @@
 .login-side-form {
   flex: 1;
   background-color: white;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 40px 20px;
+
+  padding: 0 20px;
+  padding-top: 20px;
+
   min-height: 100vh;
+  height: 100vh;
 }
 
 .form-container {
   width: 100%;
   max-width: 400px;
-  min-height: auto;
+
+  padding: 40px 0;
 }
 
 .form-container h2 {
@@ -143,6 +149,7 @@
   font-weight: bold;
   font-size: 1rem;
   margin-top: 10px;
+  margin-bottom: 15px;
 }
 
 

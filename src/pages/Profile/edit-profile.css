@@ -1,0 +1,290 @@
+.edit-profile-container {
+  padding: 32px;
+}
+
+.edit-profile-header {
+  margin-bottom: 24px;
+}
+
+.edit-profile-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.edit-profile-header p {
+  color: #777;
+}
+
+.edit-profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.profile-top-card,
+.form-card {
+  background: #fff;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.profile-top-card {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.profile-avatar-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.photo-preview {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #f3f3f3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.no-photo {
+  font-size: 42px;
+}
+
+.upload-btn {
+  background: #08b9ff;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.upload-btn:hover {
+  opacity: 0.9;
+}
+
+.file-input {
+  display: none;
+}
+
+.profile-main-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.profile-name {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.profile-hub {
+  font-size: 14px;
+  font-weight: 600;
+  color: #08b9ff;
+}
+
+.section-title {
+  margin-bottom: 24px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group.full {
+  grid-column: span 2;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.form-input,
+.form-textarea {
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #08b9ff;
+}
+
+.form-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.btn-cancel,
+.btn-save {
+  border: none;
+  border-radius: 14px;
+  padding: 14px 22px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-cancel {
+  background: #ececec;
+}
+
+.btn-save {
+  background: #08b9ff;
+  color: white;
+}
+
+.btn-save:hover,
+.btn-cancel:hover {
+  opacity: 0.9;
+}
+
+.loading-container {
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+.spinner {
+  width: 42px;
+  height: 42px;
+  border: 4px solid #ddd;
+  border-top: 4px solid #08b9ff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .edit-profile-container {
+    padding: 16px;
+  }
+
+  .profile-top-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-group.full {
+    grid-column: span 1;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .btn-cancel,
+  .btn-save {
+    width: 100%;
+  }
+}
+
+/* =========================
+   CROPPER MODAL
+========================= */
+
+.crop-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 9999;
+}
+
+.crop-container {
+  width: 90%;
+  max-width: 500px;
+
+  background: #111827;
+
+  border-radius: 24px;
+
+  padding: 20px;
+}
+
+.cropper-wrapper {
+  position: relative;
+
+  width: 100%;
+  height: 400px;
+
+  background: #000;
+
+  border-radius: 20px;
+
+  overflow: hidden;
+}
+
+.crop-actions {
+  margin-top: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.crop-actions input[type="range"] {
+  width: 100%;
+}
+
+.crop-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+

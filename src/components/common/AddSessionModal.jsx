@@ -22,7 +22,7 @@ const AddSessionModal = ({ isOpen, onClose, partners, onSessionAdded }) => {
 
   // Converter lista de parceiros para formato esperado pelo SearchableSelect
   const partnerOptions = partners.map(p => ({
-    name: `${p.name} (${p.hub})`,
+    name: `${p.full_name} (${p.hub})`,
     code: p.id,
   }));
 

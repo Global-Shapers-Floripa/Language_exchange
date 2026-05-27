@@ -1,19 +1,12 @@
 import React, { useState } from "react";
-import {
-  User,
-  Mail,
-  MapPin,
-  Languages,
-  Lock,
-  MessageSquare,
-} from "lucide-react";
+import { User, Mail, MapPin, Lock } from "lucide-react";
 import "./sign-up.css";
 import { supabase } from "../../services/supabaseClient";
-import { 
-  validatePasswordStrength, 
-  sanitizeInput, 
+import {
+  validatePasswordStrength,
+  sanitizeInput,
   validateEmail,
-  logSecurityEvent 
+  logSecurityEvent,
 } from "../../utils/securityUtils";
 
 const SignUp = () => {
@@ -21,20 +14,21 @@ const SignUp = () => {
     name: "",
     email: "",
     hub: "",
-    speaks: "",
-    learns: "",
     password: "",
     confirmPassword: "",
   });
 
   const [error, setError] = useState("");
   const [passwordErrors, setPasswordErrors] = useState([]);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [isTermsOpen, setIsTermsOpen] = useState(false);
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-    // Bloqueia números nos campos de Nome e Idiomas usando Regex
-    if (name === "name" || name === "speaks" || name === "learns") {
+    // Bloqueia números no campo de Nome usando Regex
+    if (name === "name") {
       const onlyLetters = value.replace(/[0-9]/g, "");
       setFormData({ ...formData, [name]: onlyLetters });
       return;
@@ -68,7 +62,9 @@ const SignUp = () => {
     // Validação: força da senha
     const passwordValidation = validatePasswordStrength(formData.password);
     if (!passwordValidation.isValid) {
-      setError(`Senha fraca. Requisitos: ${passwordValidation.errors.join(", ")}`);
+      setError(
+        `Senha fraca. Requisitos: ${passwordValidation.errors.join(", ")}`,
+      );
       logSecurityEvent("signup_weak_password", { email: formData.email });
       return;
     }
@@ -80,13 +76,20 @@ const SignUp = () => {
       return;
     }
 
+    // Validação dos termos
+    {
+      !acceptedTerms && (
+        <p className="terms-warning">
+          Você precisa aceitar os termos e condições para continuar.
+        </p>
+      );
+    }
+
     // Sanitizar inputs antes de enviar
     const sanitizedData = {
       name: sanitizeInput(formData.name),
       email: formData.email.toLowerCase().trim(),
       hub: sanitizeInput(formData.hub),
-      speaks: sanitizeInput(formData.speaks),
-      learns: sanitizeInput(formData.learns),
       password: formData.password,
     };
 
@@ -98,9 +101,9 @@ const SignUp = () => {
       });
 
       if (authError) {
-        logSecurityEvent("signup_auth_failed", { 
-          email: sanitizedData.email, 
-          error: authError.message 
+        logSecurityEvent("signup_auth_failed", {
+          email: sanitizedData.email,
+          error: authError.message,
         });
         throw authError;
       }
@@ -113,30 +116,26 @@ const SignUp = () => {
             full_name: sanitizedData.name,
             email: sanitizedData.email,
             hub: sanitizedData.hub,
-            speaks: sanitizedData.speaks,
-            learns: sanitizedData.learns,
             is_approved: false,
           },
         ]);
 
         if (profileError) {
-          logSecurityEvent("signup_profile_failed", { 
-            email: sanitizedData.email, 
-            error: profileError.message 
+          logSecurityEvent("signup_profile_failed", {
+            email: sanitizedData.email,
+            error: profileError.message,
           });
           throw profileError;
         }
 
         logSecurityEvent("signup_success", { email: sanitizedData.email });
-        alert(
-          "Solicitação enviada! Verifique o seu e-mail para confirmar a conta (se habilitado) ou aguarde a aprovação do Hub.",
-        );
+        setSuccessModalOpen(true);
       }
     } catch (err) {
       setError(err.message || "Ocorreu um erro ao criar a conta.");
-      logSecurityEvent("signup_error", { 
-        email: sanitizedData.email, 
-        error: err.message 
+      logSecurityEvent("signup_error", {
+        email: sanitizedData.email,
+        error: err.message,
       });
     }
   };
@@ -204,38 +203,6 @@ const SignUp = () => {
               </div>
             </div>
 
-            <div className="languages-row">
-              <div className="input-group">
-                <label>Idiomas que fala</label>
-                <div className="input-wrapper">
-                  <Languages size={18} />
-                  <input
-                    name="speaks"
-                    type="text"
-                    value={formData.speaks}
-                    onChange={handleInputChange}
-                    placeholder="Ex: Português"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="input-group">
-                <label>Idiomas que quer aprender</label>
-                <div className="input-wrapper">
-                  <MessageSquare size={18} />
-                  <input
-                    name="learns"
-                    type="text"
-                    value={formData.learns}
-                    onChange={handleInputChange}
-                    placeholder="Ex: Inglês"
-                    required
-                  />
-                </div>
-              </div>
-            </div>
-
             <div className="input-group">
               <label>Senha</label>
               <div className="input-wrapper">
@@ -252,20 +219,34 @@ const SignUp = () => {
                 <div className="password-requirements">
                   <p className="requirement-title">Requisitos de senha:</p>
                   <ul>
-                    <li className={!passwordErrors.includes('Mínimo de 8 caracteres') ? 'met' : ''}>
+                    <li
+                      className={
+                        !passwordErrors.includes("Mínimo de 8 caracteres")
+                          ? "met"
+                          : ""
+                      }
+                    >
                       ✓ Mínimo de 8 caracteres
                     </li>
-                    <li className={!passwordErrors.includes('Pelo menos uma letra maiúscula') ? 'met' : ''}>
-                      ✓ Pelo menos uma letra maiúscula
+
+                    <li
+                      className={
+                        !passwordErrors.includes("Pelo menos uma letra")
+                          ? "met"
+                          : ""
+                      }
+                    >
+                      ✓ Pelo menos uma letra
                     </li>
-                    <li className={!passwordErrors.includes('Pelo menos uma letra minúscula') ? 'met' : ''}>
-                      ✓ Pelo menos uma letra minúscula
-                    </li>
-                    <li className={!passwordErrors.includes('Pelo menos um número') ? 'met' : ''}>
+
+                    <li
+                      className={
+                        !passwordErrors.includes("Pelo menos um número")
+                          ? "met"
+                          : ""
+                      }
+                    >
                       ✓ Pelo menos um número
-                    </li>
-                    <li className={!passwordErrors.includes('Pelo menos um caractere especial (!@#$%^&*)') ? 'met' : ''}>
-                      ✓ Pelo menos um caractere especial (!@#$%^&*)
                     </li>
                   </ul>
                 </div>
@@ -286,7 +267,38 @@ const SignUp = () => {
               </div>
             </div>
 
-            <button type="submit" className="btn-signup">
+            <div className="terms-container">
+              <label className="terms-checkbox">
+                <input
+                  type="checkbox"
+                  checked={acceptedTerms}
+                  onChange={(e) => setAcceptedTerms(e.target.checked)}
+                />
+
+                <span>
+                  Aceito os{" "}
+                  <button
+                    type="button"
+                    className="terms-link"
+                    onClick={() => setIsTermsOpen(true)}
+                  >
+                    termos e condições de privacidade
+                  </button>
+                </span>
+              </label>
+            </div>
+
+            {!acceptedTerms && (
+              <p className="terms-warning">
+                Aceite os termos e condições para continuar.
+              </p>
+            )}
+
+            <button
+              type="submit"
+              className={`btn-signup ${!acceptedTerms ? "disabled" : ""}`}
+              disabled={!acceptedTerms}
+            >
               Solicitar Acesso
             </button>
           </form>
@@ -295,6 +307,53 @@ const SignUp = () => {
           </p>
         </div>
       </div>
+
+      {isTermsOpen && (
+        <div className="terms-modal-overlay">
+          <div className="terms-modal">
+            <h3>Termos e Condições de Privacidade</h3>
+
+            <div className="terms-content">
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </p>
+
+              <p>
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                laboris nisi ut aliquip ex ea commodo consequat.
+              </p>
+
+              <p>
+                Duis aute irure dolor in reprehenderit in voluptate velit esse
+                cillum dolore eu fugiat nulla pariatur.
+              </p>
+            </div>
+
+            <button
+              className="close-terms-btn"
+              onClick={() => setIsTermsOpen(false)}
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      )}
+
+      {successModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-box">
+            <h3>Conta criada com sucesso 🎉</h3>
+
+            <p>
+              Sua solicitação foi enviada para o Hub. Você poderá acessar a
+              plataforma assim que sua conta for aprovada.
+            </p>
+
+            <button onClick={() => setSuccessModalOpen(false)}>Entendi</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

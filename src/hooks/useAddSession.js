@@ -15,14 +15,14 @@ export const useAddSession = () => {
       
       // Fazer upload para o Supabase Storage
       const { error: uploadError } = await supabase.storage
-        .from('session-photos')
+        .from('session-proofs')
         .upload(`sessions/${fileName}`, file);
 
       if (uploadError) throw uploadError;
 
       // Obter URL pública
       const { data: { publicUrl } } = supabase.storage
-        .from('session-photos')
+        .from('session-proofs')
         .getPublicUrl(`sessions/${fileName}`);
 
       return publicUrl;

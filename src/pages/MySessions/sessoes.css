@@ -127,3 +127,68 @@
   color: #991b1b;
   font-weight: 600;
 }
+
+
+/* =========================
+THUMBNAIL
+========================= */
+
+.session-thumbnail {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  object-fit: cover;
+  cursor: pointer;
+  transition: 0.2s ease;
+  border: 2px solid #e2e8f0;
+}
+
+.session-thumbnail:hover {
+  transform: scale(1.05);
+}
+
+.no-proof {
+  color: #94a3b8;
+}
+
+/* =========================
+MODAL FOTO
+========================= */
+
+.image-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.image-modal {
+  position: relative;
+  max-width: 900px;
+  width: 100%;
+}
+
+.image-modal img {
+  width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 20px;
+  background: white;
+}
+
+.close-image-btn {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: white;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}

@@ -1,0 +1,87 @@
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #0b1220;
+  color: #fff;
+}
+
+/* SIDEBAR */
+.admin-sidebar {
+  width: 220px;
+  padding: 20px;
+  background: rgba(255,255,255,0.03);
+  border-right: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-sidebar button {
+  background: transparent;
+  border: none;
+  color: #fff;
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.admin-sidebar button.active {
+  background: rgba(8,185,255,0.2);
+  color: #08b9ff;
+}
+
+/* CONTENT */
+.admin-content {
+  flex: 1;
+  padding: 24px;
+}
+
+/* DASHBOARD */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: rgba(255,255,255,0.05);
+  padding: 20px;
+  border-radius: 12px;
+}
+
+/* USERS */
+.users-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.user-card {
+  background: rgba(255,255,255,0.05);
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.user-card button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 8px;
+  background: #08b9ff;
+  border: none;
+  color: white;
+  border-radius: 8px;
+}
+
+/* 📱 RESPONSIVO */
+@media (max-width: 768px) {
+  .admin-layout {
+    flex-direction: column;
+  }
+
+  .admin-sidebar {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+  }
+}

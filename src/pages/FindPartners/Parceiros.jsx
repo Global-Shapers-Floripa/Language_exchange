@@ -1,38 +1,108 @@
-import React, { useState, useMemo } from 'react';
-import DashboardLayout from '../../components/layout/DashboardLayout';
-import PartnerCard from '../../components/common/PartnerCard';
-import { Search } from 'lucide-react';
-import { usePartners } from '../../hooks/usePartners';
-import './parceiros.css';
+import React, { useState, useMemo, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+import DashboardLayout from "../../components/layout/DashboardLayout";
+import PartnerCard from "../../components/common/PartnerCard";
+import PartnerModal from "../../components/common/PartnerModal";
+import { Search } from "lucide-react";
+
+import { usePartners } from "../../hooks/usePartners";
+import { supabase } from "../../services/supabaseClient";
+import Swal from "sweetalert2";
+
+import "./parceiros.css";
 
 const FindPartners = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedPartner, setSelectedPartner] = useState(null);
+
+  // Controle de perfil incompleto
+  const [isProfileIncomplete, setIsProfileIncomplete] = useState(false);
+
   const { partners, loading, error } = usePartners();
 
-  // Filtro de busca em tempo real
+  // =========================
+  // VERIFICAR PERFIL DO USUÁRIO
+  // =========================
+  useEffect(() => {
+    const checkUserProfile = async () => {
+      try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+
+        if (!user) return;
+
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("speaks, learns")
+          .eq("id", user.id)
+          .single();
+
+        if (profile) {
+          setIsProfileIncomplete(!profile.speaks || !profile.learns);
+        }
+      } catch (err) {
+        console.error("Erro ao checar perfil:", err);
+      }
+    };
+
+    checkUserProfile();
+  }, []);
+
+  // =========================
+  // FILTRO
+  // =========================
   const filteredPartners = useMemo(() => {
     if (!searchTerm.trim()) return partners;
 
     const term = searchTerm.toLowerCase();
-    return partners.filter(partner => 
-      partner.name.toLowerCase().includes(term) ||
-      partner.hub.toLowerCase().includes(term) ||
-      partner.speaks.toLowerCase().includes(term) ||
-      partner.learns.toLowerCase().includes(term)
-    );
+
+    return partners.filter((partner) => {
+      return (
+        partner.full_name?.toLowerCase().includes(term) ||
+        partner.hub?.toLowerCase().includes(term) ||
+        partner.speaks?.toLowerCase().includes(term) ||
+        partner.learns?.toLowerCase().includes(term)
+      );
+    });
   }, [partners, searchTerm]);
+
+  // =========================
+  // CONECTAR (COM TRAVA)
+  // =========================
+  const handleConnectClick = (partner) => {
+    if (isProfileIncomplete) {
+      Swal.fire({
+        title: "Acesso restrito",
+        text: "Você precisa preencher seus idiomas no perfil antes de ver os dados de contato de outros membros.",
+        icon: "warning",
+        confirmButtonText: "Completar Perfil",
+        showCancelButton: true,
+        cancelButtonText: "Agora não",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/profile");
+        }
+      });
+    } else {
+      setSelectedPartner(partner);
+    }
+  };
 
   return (
     <DashboardLayout>
       <div className="partners-page-header">
         <h2>Encontrar Parceiros</h2>
-        
+
         <div className="search-container">
           <div className="search-input-wrapper">
             <Search size={18} className="search-icon" />
-            <input 
-              type="text" 
-              placeholder="Buscar por nome, idioma ou hub..." 
+
+            <input
+              type="text"
+              placeholder="Buscar por nome, idioma ou hub..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -56,17 +126,28 @@ const FindPartners = () => {
         {!loading && !error && filteredPartners.length === 0 && (
           <div className="empty-message">
             <p>
-              {searchTerm.trim() 
-                ? 'Nenhum parceiro encontrado com esse critério.' 
-                : 'Nenhum parceiro disponível no momento.'}
+              {searchTerm.trim()
+                ? "Nenhum parceiro encontrado."
+                : "Nenhum parceiro disponível."}
             </p>
           </div>
         )}
 
-        {!loading && !error && filteredPartners.map(partner => (
-          <PartnerCard key={partner.id} {...partner} />
-        ))}
+        {!loading &&
+          !error &&
+          filteredPartners.map((partner) => (
+            <PartnerCard
+              key={partner.id}
+              partner={partner}
+              onConnect={() => handleConnectClick(partner)}
+            />
+          ))}
       </div>
+
+      <PartnerModal
+        partner={selectedPartner}
+        onClose={() => setSelectedPartner(null)}
+      />
     </DashboardLayout>
   );
 };
