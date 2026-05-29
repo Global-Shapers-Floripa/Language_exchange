@@ -1,158 +1,225 @@
 .partner-card {
-  background: #ffffff;
-
-  border-radius: 24px;
-
-  padding: 24px;
-
-  border: 1px solid #edf2f7;
-
+  background: #FFFFFF;
+  box-shadow: 0px 3px 10px 1px rgba(7, 9, 14, 0.199);
+  border-radius: 40px;
   display: flex;
   flex-direction: column;
-
-  gap: 22px;
-
-  transition: 0.2s ease;
-
+  align-items: center;
+  width: 100%;
+  max-width: 280px;
+  position: relative;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+  transition: transform 0.3s ease, box-shadow 0.2s ease;
   min-height: 100%;
+  padding: 8px;
+  overflow: hidden;
+  height: 100%;
 }
 
 .partner-card:hover {
   transform: translateY(-4px);
-
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+  box-shadow: 0px 10px 25px 6px rgba(0, 0, 0, 0.15);
 }
 
-.partner-header {
-  display: flex;
-  align-items: center;
+/* Perfect Match Badge */
+.perfect-match-card {
+  border: 2px solid #00acf08f;
+}
 
-  gap: 16px;
+.perfect-match-badge {
+  position: absolute;
+  top: 18px;
+  right: -35px;
+  background: #00acf0;
+  color: white;
+  padding: 6px 40px;
+  font-size: 12px;
+  font-weight: 700;
+  transform: rotate(35deg);
+  box-shadow: 0 4px 10px rgba(5, 19, 34, 0.281);
+  z-index: 10;
+}
+
+/* Banner da Bandeira */
+.flag-banner {
+  width: 100%;
+  height: 80px;
+  border-radius: 30px;
+  background-size: cover;
+  background-position: center;
+  filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.15));
+}
+
+/* Avatar Sobreposto */
+.avatar-container {
+  margin-top: -60px; /* Puxa a foto para cima da bandeira */
+  z-index: 2;
+  display: flex;
+  justify-content: center;
 }
 
 .partner-avatar {
-  width: 72px;
-  height: 72px;
-
-  border-radius: 18px;
-
+  width: 80px;
+  height: 80px;
+  border-radius: 500px;
+  border: 5px solid #FFFFFF;
+  box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.15);
   object-fit: cover;
-
   background: #f1f5f9;
 }
 
-.partner-header h3 {
-  margin: 0;
-
-  font-size: 1.35rem;
-  font-weight: 700;
-
-  color: #0f172a;
-
-  line-height: 1.3;
-}
-
-.partner-header p {
-  margin-top: 6px;
-
-  color: #64748b;
-
-  font-size: 0.95rem;
-}
-
-.partner-section {
+/* Informações Principais (Nome e Local) */
+.partner-main-info {
   display: flex;
   flex-direction: column;
-
-  gap: 10px;
+  align-items: center;
 }
 
-.section-label {
-  font-size: 0.75rem;
-
-  font-weight: 800;
-
-  color: #cbd5e1;
-
-  letter-spacing: 1px;
+.partner-name {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  color: #35315B;
+  text-align: center;
 }
 
-.tags {
+.partner-location {
+  margin: 6px 0 0 0;
+  font-weight: 400;
+  font-size: .8rem;
+  color: rgba(11, 8, 41, 0.63);
+  display: flex;
+  padding: 0 10px;
+  line-height: 1;
+  align-items: center;
+  gap: 6px;
+}
+
+.partner-country {
+  margin: 4px 0 0 0;
+  font-weight: 500;
+  font-size: .78rem;
+  color: rgba(11, 8, 41, 0.55);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1;
+  padding: 0 10px;
+}
+
+/* Linha divisória */
+.divider {
+  width: 80%;
+  height: 1px;
+  background: #ddd2d2a6;
+  margin: 8px 0;
+}
+
+/* Detalhes (Idiomas e Botão) */
+.partner-details-card {
+  width: 100%;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
+
+  flex: 1;
+  
+}
+
+.partner-section-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.section-title-card {
+  font-weight: 500;
+  font-size: .8rem;
+  letter-spacing: 0.05em;
+  color: rgb(115, 114, 128);
+  margin-bottom: 5px;
+}
+
+.tags-card {
   display: flex;
   flex-wrap: wrap;
-
-  gap: 10px;
+  gap: 5px;
 }
 
-.tag {
-  padding: 8px 14px;
-
-  border-radius: 999px;
-
-  font-size: 0.85rem;
-
-  font-weight: 700;
-}
-
-.tag.green {
-  background: #dcfce7;
-  color: #15803d;
-}
-
-.tag.blue {
-  background: #dbeafe;
-  color: #1d4ed8;
-}
-
-.connect-btn {
-  width: 100%;
-
-  height: 52px;
-
-  border-radius: 14px;
-
-  border: 1px solid #dbe3ef;
-
-  background: white;
-
-  color: #0A3251;
-
-  font-weight: 700;
-
-  font-size: 0.95rem;
-
+.tag-card {
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.05em;
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 24px;
+  box-sizing: border-box;
+}
 
-  gap: 10px;
+.tag-card.orange {
+  background: rgba(255, 132, 0, 0.21);
+  color: #FF8400;
+}
 
-  cursor: pointer;
+.tag-card.green {
+  background: rgba(0, 255, 0, 0.13);
+  color: #00BE33;
+}
 
-  transition: 0.2s ease;
+.tag-card-empty {
+  font-size: 14px;
+  color: #a0aec0;
+  font-style: italic;
+}
 
+.card-footer {
   margin-top: auto;
+
+}
+
+/* Botão de Conectar */
+.connect-btn {
+  margin-top: 10px;
+  width: 100%;
+  background: rgba(43, 135, 191, 0.13);
+  border: 2px solid #12ADE5;
+  border-radius: 15px;
+  color: #0595EF;
+  font-weight: 500;
+  font-size: 1.2rem;
+  padding: 8px;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Montserrat', sans-serif;
+
+  margin-bottom: 10px;
 }
 
 .connect-btn:hover {
-  background: #f8fafc;
-
-  border-color: #0A3251;
-
-  transform: translateY(-1px);
+  background: rgba(15, 139, 216, 0.322);
+  transform: translateY(-2px);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 400px) {
   .partner-card {
-    padding: 20px;
+    border-radius: 30px;
   }
-
-  .partner-avatar {
-    width: 60px;
-    height: 60px;
+  .partner-name {
+    font-size: 22px;
   }
-
-  .partner-header h3 {
-    font-size: 1.1rem;
+  .connect-btn {
+    font-size: 20px;
   }
 }

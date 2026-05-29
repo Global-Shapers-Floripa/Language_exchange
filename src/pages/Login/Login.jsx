@@ -66,10 +66,11 @@ const Login = () => {
       // 3. Bloqueio caso não esteja aprovado
       if (!profile.is_approved) {
         await supabase.auth.signOut();
+
         logSecurityEvent("login_pending_approval", { email });
-        throw new Error(
-          "Sua conta está em análise. Você receberá um aviso assim que for aprovado!",
-        );
+
+        navigate("/pending-approval");
+        return;
       }
 
       // Login bem-sucedido

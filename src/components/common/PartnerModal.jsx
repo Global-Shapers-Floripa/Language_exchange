@@ -4,8 +4,14 @@ import "./PartnerModal.css";
 const PartnerModal = ({ partner, onClose }) => {
   if (!partner) return null;
 
+  const isPerfectMatch =
+    partner.matchScore >= 10;
+
   return (
-    <div className="partner-modal-overlay" onClick={onClose}>
+    <div
+      className="partner-modal-overlay"
+      onClick={onClose}
+    >
       <div
         className="partner-modal"
         onClick={(e) => e.stopPropagation()}
@@ -16,6 +22,12 @@ const PartnerModal = ({ partner, onClose }) => {
         >
           ✕
         </button>
+
+        {isPerfectMatch && (
+          <div className="perfect-match-modal-badge">
+            ✨ Match Perfeito
+          </div>
+        )}
 
         <div className="partner-modal-header">
           <img
@@ -30,6 +42,14 @@ const PartnerModal = ({ partner, onClose }) => {
           <h2>{partner.full_name}</h2>
 
           <span>HUB {partner.hub}</span>
+
+          <p className="match-level">
+            Compatibilidade:
+            <strong>
+              {" "}
+              {partner.compatibility}
+            </strong>
+          </p>
         </div>
 
         <div className="partner-modal-section">

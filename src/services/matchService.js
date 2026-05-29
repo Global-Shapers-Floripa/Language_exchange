@@ -15,65 +15,47 @@ const normalizeList = (text) => {
 // =========================
 // CALCULAR SCORE
 // =========================
-const calculateMatchScore = (
-  currentUser,
-  profile
-) => {
+const calculateMatchScore = (currentUser, profile) => {
   let score = 0;
 
-  const currentSpeaks = normalizeList(
-    currentUser.speaks
-  );
+  const currentSpeaks = normalizeList(currentUser.speaks);
 
-  const currentLearns = normalizeList(
-    currentUser.learns
-  );
+  const currentLearns = normalizeList(currentUser.learns);
 
-  const profileSpeaks = normalizeList(
-    profile.speaks
-  );
+  const profileSpeaks = normalizeList(profile.speaks);
 
-  const profileLearns = normalizeList(
-    profile.learns
-  );
+  const profileLearns = normalizeList(profile.learns);
 
   // =========================
-  // FALA O QUE EU QUERO APRENDER
+  // MATCHES
   // =========================
-  currentLearns.forEach((lang) => {
-    if (profileSpeaks.includes(lang)) {
-      score += 3;
-    }
-  });
 
-  // =========================
-  // QUER APRENDER O QUE EU FALO
-  // =========================
-  currentSpeaks.forEach((lang) => {
-    if (profileLearns.includes(lang)) {
-      score += 3;
-    }
-  });
+  // pessoa fala o que eu quero aprender
+  const teachesWhatILearn = profileSpeaks.filter((lang) =>
+    currentLearns.includes(lang),
+  );
+
+  // pessoa quer aprender o que eu falo
+  const learnsWhatISpeak = profileLearns.filter((lang) =>
+    currentSpeaks.includes(lang),
+  );
 
   // =========================
   // MATCH PERFEITO
   // =========================
-  const speaksWhatILearn =
-    currentLearns.some((lang) =>
-      profileSpeaks.includes(lang)
-    );
-
-  const learnsWhatISpeak =
-    currentSpeaks.some((lang) =>
-      profileLearns.includes(lang)
-    );
-
   if (
-    speaksWhatILearn &&
-    learnsWhatISpeak
+    teachesWhatILearn.length > 0 &&
+    learnsWhatISpeak.length > 0
   ) {
-    score += 5;
+    score += 100;
   }
+
+  // =========================
+  // SCORE INDIVIDUAL
+  // =========================
+  score += teachesWhatILearn.length * 40;
+
+  score += learnsWhatISpeak.length * 40;
 
   // =========================
   // MESMO HUB
@@ -84,7 +66,7 @@ const calculateMatchScore = (
     currentUser.hub.toLowerCase() ===
       profile.hub.toLowerCase()
   ) {
-    score += 1;
+    score += 10;
   }
 
   return score;
@@ -93,9 +75,7 @@ const calculateMatchScore = (
 // =========================
 // PEGAR MATCHES
 // =========================
-export const getMatches = async (
-  currentUserId
-) => {
+export const getMatches = async (currentUserId) => {
   try {
     // =========================
     // USUÁRIO ATUAL
@@ -122,7 +102,12 @@ export const getMatches = async (
     } = await supabase
       .from("profiles")
       .select("*")
-      .neq("id", currentUserId);
+      .eq("is_approved", true)
+      .neq("id", currentUserId)
+      .not("speaks", "is", null)
+      .not("learns", "is", null)
+      .neq("speaks", "")
+      .neq("learns", "");
 
     if (profilesError) {
       throw profilesError;
@@ -131,32 +116,58 @@ export const getMatches = async (
     // =========================
     // CALCULAR MATCHES
     // =========================
-    const matches = profiles.map(
-      (profile) => {
-        const score = calculateMatchScore(
-          currentUser,
-          profile
-        );
+    const matches = profiles.map((profile) => {
+      const score = calculateMatchScore(
+        currentUser,
+        profile,
+      );
 
-        return {
-          ...profile,
-          matchScore: score,
-        };
+      // =========================
+      // COMPATIBILIDADE
+      // =========================
+      let compatibility = "Baixa";
+
+      if (score >= 100) {
+        compatibility = "Perfeito";
+      } else if (score >= 60) {
+        compatibility = "Alta";
+      } else if (score >= 30) {
+        compatibility = "Média";
       }
-    );
+
+      return {
+        ...profile,
+
+        speaksArray: profile.speaks
+          ? profile.speaks
+              .split(",")
+              .map((item) => item.trim())
+          : [],
+
+        learnsArray: profile.learns
+          ? profile.learns
+              .split(",")
+              .map((item) => item.trim())
+          : [],
+
+        matchScore: score,
+
+        compatibility,
+      };
+    });
 
     // =========================
     // ORDENAR
     // =========================
     matches.sort(
-      (a, b) => b.matchScore - a.matchScore
+      (a, b) => b.matchScore - a.matchScore,
     );
 
     return matches;
   } catch (error) {
     console.error(
       "Erro ao buscar matches:",
-      error
+      error,
     );
 
     return [];

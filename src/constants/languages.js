@@ -25,6 +25,66 @@ export const LANGUAGES = [
   { code: 'hi', name: 'Hindi' },
   { code: 'th', name: 'Tailandês' },
   { code: 'vi', name: 'Vietnamita' },
+
+  // Novos idiomas
+  { code: 'uk', name: 'Ucraniano' },
+  { code: 'ro', name: 'Romeno' },
+  { code: 'bg', name: 'Búlgaro' },
+  { code: 'sr', name: 'Sérvio' },
+  { code: 'hr', name: 'Croata' },
+  { code: 'sk', name: 'Eslovaco' },
+  { code: 'sl', name: 'Esloveno' },
+  { code: 'et', name: 'Estoniano' },
+  { code: 'lv', name: 'Letão' },
+  { code: 'lt', name: 'Lituano' },
+
+  { code: 'id', name: 'Indonésio' },
+  { code: 'ms', name: 'Malaio' },
+  { code: 'tl', name: 'Tagalo' },
+  { code: 'bn', name: 'Bengali' },
+  { code: 'ur', name: 'Urdu' },
+  { code: 'fa', name: 'Persa' },
+  { code: 'ps', name: 'Pashto' },
+
+  { code: 'sw', name: 'Suaíli' },
+  { code: 'am', name: 'Amárico' },
+  { code: 'zu', name: 'Zulu' },
+  { code: 'af', name: 'Africâner' },
+
+  { code: 'ca', name: 'Catalão' },
+  { code: 'eu', name: 'Basco' },
+  { code: 'gl', name: 'Galego' },
+  { code: 'ga', name: 'Irlandês' },
+  { code: 'cy', name: 'Galês' },
+  { code: 'is', name: 'Islandês' },
+  { code: 'mt', name: 'Maltês' },
+  { code: 'sq', name: 'Albanês' },
+  { code: 'mk', name: 'Macedônio' },
+
+  { code: 'hy', name: 'Armênio' },
+  { code: 'ka', name: 'Georgiano' },
+  { code: 'az', name: 'Azerbaijano' },
+  { code: 'kk', name: 'Cazaque' },
+  { code: 'uz', name: 'Uzbeque' },
+  { code: 'mn', name: 'Mongol' },
+
+  { code: 'ta', name: 'Tâmil' },
+  { code: 'te', name: 'Telugu' },
+  { code: 'ml', name: 'Malaiala' },
+  { code: 'kn', name: 'Canarês' },
+  { code: 'mr', name: 'Marata' },
+  { code: 'gu', name: 'Gujarati' },
+  { code: 'pa', name: 'Punjabi' },
+
+  { code: 'ne', name: 'Nepalês' },
+  { code: 'si', name: 'Cingalês' },
+  { code: 'km', name: 'Khmer' },
+  { code: 'lo', name: 'Lao' },
+  { code: 'my', name: 'Birmanês' },
+
+  { code: 'eo', name: 'Esperanto' },
+  { code: 'la', name: 'Latim' },
+  { code: 'zh-cn', name: 'Mandarim' },
 ];
 
 export const MAX_PHOTO_SIZE = 5 * 1024 * 1024; // 5MB

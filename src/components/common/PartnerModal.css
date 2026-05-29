@@ -129,3 +129,31 @@
   background: #dbeafe;
   color: #1d4ed8;
 }
+
+.perfect-match-modal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  background: linear-gradient(
+    135deg,
+    #7c3aed,
+    #a855f7
+  );
+
+  color: white;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  padding: 8px 14px;
+
+  border-radius: 999px;
+
+  margin-bottom: 18px;
+}
+
+.match-level {
+  margin-top: 10px;
+  color: #666;
+}

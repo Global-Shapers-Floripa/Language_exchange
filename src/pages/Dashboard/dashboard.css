@@ -2,64 +2,65 @@
 BANNER
 ========================= */
 
-.welcome-banner {
-  background: linear-gradient(
-    90deg,
-    rgba(171, 183, 222, 0.49) 0%,
-    #dee0e97d 100%
-  );
+.dash-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
-  border-radius: 30px;
+.welcome-banner {
+  background: linear-gradient(90deg,
+      #183a55 0%,
+      #1d4a6e 100%);
+
+  border-radius: 20px;
 
   display: flex;
 
-  width: 100%;
-
-  margin-top: 30px;
+  margin-top: 10px;
 
   justify-content: space-between;
 
   align-items: center;
 
-  padding: 24px 32px;
+  padding: 15px 20px;
+  border-left: #ff6600 7px solid;
+  border-right: #ff6600 7px solid;
 
   position: relative;
 
-  overflow: hidden;
 }
 
 .banner-content {
   display: flex;
 
-  flex-direction: column;
-
-  align-items: flex-start;
+  align-items: center;
+  justify-content: space-between;
 
   gap: 18px;
-
-  max-width: 55%;
+  width: 100%;
 
   z-index: 2;
 }
 
 .banner-text h2 {
-  font-size: 2rem;
+  font-size: 1.2rem;
+  letter-spacing: 0.9px;
 
   font-weight: 800;
 
-  color: #2b3361;
+  color: #ffffff;
 
   margin: 0;
 }
 
 .banner-text p {
-  font-size: 1rem;
+  font-size: .9rem;
+  margin-left: 10px;
 
-  color: #2b3361;
+  color: #ffffff;
 
   opacity: 0.9;
 
-  margin: 0;
 
   line-height: 1.5;
 }
@@ -69,7 +70,7 @@ BOTÃO
 ========================= */
 
 .btn-register {
-  background: #f29326;
+  background: #ff6600;
 
   color: white;
 
@@ -95,7 +96,7 @@ BOTÃO
 }
 
 .btn-register:hover {
-  background: #e08113;
+  background: #e06f05;
 
   transform: translateY(-2px);
 }
@@ -122,25 +123,6 @@ BOTÃO
   height: 10px;
 }
 
-/* =========================
-IMAGEM
-========================= */
-
-.banner-image-container {
-  position: absolute;
-
-  bottom: -55px;
-
-  right: -110px;
-
-  z-index: 1;
-}
-
-.banner-image {
-  width: 310px;
-
-  object-fit: contain;
-}
 
 /* =========================
 HEADER
@@ -148,30 +130,32 @@ HEADER
 
 .section-header {
   display: flex;
-
   justify-content: space-between;
-
   align-items: center;
-
-  margin: 48px 0 24px;
+  margin: 30px 0 24px;
 }
 
 .section-header h3 {
   font-size: 1.5rem;
 
-  color: #1e293b;
+  color: #0e2a58;
 
   margin: 0;
 }
 
 .section-header a {
-  color: #0A3251;
+  color: #0f2452ab;
 
   text-decoration: none;
 
   font-weight: 700;
 
+  transition: .5s;
   font-size: 0.95rem;
+}
+
+.section-header a:hover {
+  color: #89a8e9;
 }
 
 /* =========================
@@ -181,158 +165,11 @@ GRID
 .partners-grid {
   display: grid;
 
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(280px, 1fr)
-  );
+  grid-template-columns: repeat(auto-fit,
+      minmax(200px, 1fr));
 
-  gap: 24px;
-}
-
-/* =========================
-CARD
-========================= */
-
-.partner-card {
-  background: white;
-
-  border-radius: 24px;
-
-  padding: 24px;
-
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: flex-start;
-
-  gap: 18px;
-
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-
-  border: 1px solid #edf2f7;
-
-  transition: 0.2s ease;
-}
-
-.partner-card:hover {
-  transform: translateY(-4px);
-
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
-}
-
-/* =========================
-AVATAR
-========================= */
-
-.partner-avatar img {
-  width: 78px;
-
-  height: 78px;
-
-  border-radius: 50%;
-
-  object-fit: cover;
-
-  border: 3px solid #08b9ff;
-}
-
-/* =========================
-INFO
-========================= */
-
-.partner-info {
-  width: 100%;
-}
-
-.partner-info h4 {
-  margin: 0;
-
-  font-size: 1.2rem;
-
-  font-weight: 700;
-
-  color: #0f172a;
-}
-
-.partner-hub {
-  display: inline-block;
-
-  margin-top: 4px;
-
-  font-size: 0.8rem;
-
-  font-weight: 700;
-
-  color: #08b9ff;
-}
-
-.partner-match {
-  margin-top: 14px;
-
-  font-size: 0.9rem;
-
-  font-weight: 700;
-
-  color: #0A3251;
-}
-
-.partner-languages {
-  margin-top: 18px;
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 10px;
-
-  font-size: 0.92rem;
-
-  color: #475569;
-}
-
-.partner-languages strong {
-  color: #0f172a;
-}
-
-/* =========================
-BOTÃO CONECTAR
-========================= */
-
-.btn-connect {
-  width: 100%;
-
-  margin-top: 24px;
-
-  border: 1px solid #dbe3ee;
-
-  background: white;
-
-  color: #0A3251;
-
-  padding: 13px;
-
-  border-radius: 14px;
-
-  font-weight: 700;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  gap: 8px;
-
-  cursor: pointer;
-
-  transition: 0.2s;
-}
-
-.btn-connect:hover {
-  background: #f8fafc;
-
-  border-color: #0A3251;
+  gap: 15px;
+   align-items: stretch;
 }
 
 /* =========================

@@ -15,6 +15,7 @@
   display: flex;
   gap: 12px;
   align-items: center;
+  width: 50%;
 }
 
 .search-input-wrapper {
@@ -26,7 +27,7 @@
   border-radius: 12px;
   padding: 0 16px;
   width: 100%;
-  max-width: 400px;
+  max-width: 700px;
   height: 48px;
   transition: 0.2s;
 }

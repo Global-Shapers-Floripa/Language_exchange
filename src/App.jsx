@@ -8,6 +8,7 @@ import Landing from "./pages/Landing";
 import Login from "./pages/Login/Login";
 import SignUp from "./pages/Login/SignUp";
 import ResetPassword from "./pages/Login/ResetPassword";
+import PendingApproval from "./pages/Login/PendingApproval";
 
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Partner from "./pages/FindPartners/Parceiros";
@@ -39,6 +40,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/project-partners" element={<ProjectPartners />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/pending-approval" element={<PendingApproval />} />
       </Routes>
     </Router>
   );

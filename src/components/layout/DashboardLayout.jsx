@@ -7,6 +7,7 @@ import {
   User,
   Calendar,
   BookOpen,
+  Globe,
   LogOut,
   Handshake,
 } from "lucide-react";
@@ -15,7 +16,7 @@ import { supabase } from "../../services/supabaseClient";
 import logoLE from "../../assets/logo-LanguageExchange.svg";
 import "./styles.css";
 
-const DashboardLayout = ({ children }) => {
+const DashboardLayout = ({ children, isLoading = false }) => {
   const navigate = useNavigate();
 
   const [isAdmin, setIsAdmin] = useState(false);
@@ -49,8 +50,10 @@ const DashboardLayout = ({ children }) => {
 
       // 3. busca no Supabase em background
       const {
-        data: { user },
-      } = await supabase.auth.getUser();
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      const user = session?.user;
 
       if (!user) {
         navigate("/login");
@@ -83,6 +86,25 @@ const DashboardLayout = ({ children }) => {
     };
   }, [navigate]);
 
+  if (isLoading) {
+    return (
+      <div
+        style={{
+          width: "100%",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          background: "#fcf8f8",
+          color: "#666",
+          fontSize: "16px",
+        }}
+      >
+        <div className="loader"></div>
+      </div>
+    );
+  }
+
   // =========================
   // LOGOUT
   // =========================
@@ -104,6 +126,7 @@ const DashboardLayout = ({ children }) => {
       <aside className="sidebar">
         <div className="sidebar-logo">
           <img src={logoLE} alt="Logo" />
+          <p>Language Exchange</p>
         </div>
 
         <nav className="sidebar-nav">
@@ -189,8 +212,10 @@ const DashboardLayout = ({ children }) => {
       {/* CONTEÚDO */}
       <main className="main-content">
         <header className="top-header">
-          <span className="community-tag">GLOBAL SHAPERS COMMUNITY</span>
-
+          <span className="community-tag">
+            <Globe size={16} />
+            <p>GLOBAL SHAPERS COMMUNITY</p>
+          </span>
           <div
             className="user-profile clickable-profile"
             onClick={() => navigate("/profile")}

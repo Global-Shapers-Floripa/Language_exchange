@@ -13,6 +13,7 @@ import TagSelect from "../../components/common/TagSelect";
 
 import { LANGUAGES } from "../../constants/languages";
 import { INTERESTS } from "../../constants/interests";
+import { COUNTRIES } from "../../constants/countries";
 
 import { supabase } from "../../services/supabaseClient";
 
@@ -33,6 +34,7 @@ const EditProfile = () => {
     full_name: "",
     email: "",
     hub: "",
+    country: "", // Novo campo adicionado ao estado
     phone: "",
     description: "",
 
@@ -99,6 +101,8 @@ const EditProfile = () => {
             email: profile.email || "",
 
             hub: profile.hub || "",
+            
+            country: profile.country || "", // Carrega o país do banco de dados
 
             phone: profile.phone || "",
 
@@ -398,6 +402,8 @@ const EditProfile = () => {
             email: formData.email,
 
             hub: formData.hub,
+            
+            country: formData.country, // Salva o código do país escolhido no banco
 
             phone: formData.phone,
 
@@ -433,7 +439,7 @@ const EditProfile = () => {
 
       Swal.fire({
         icon: "success",
-        title: "Perfil atualizado",
+        title: "Perfil updated",
         timer: 1500,
         showConfirmButton: false,
       });
@@ -599,18 +605,34 @@ const EditProfile = () => {
                 />
               </div>
 
+              {/* Seção Hub (Bloqueado) e País lado a lado */}
               <div className="form-group">
                 <label>Hub</label>
-
                 <input
                   type="text"
                   name="hub"
                   value={formData.hub}
-                  onChange={
-                    handleInputChange
-                  }
-                  className="form-input"
+                  disabled
+                  className="form-input input-disabled"
+                  title="O Hub não pode ser alterado após a validação."
                 />
+              </div>
+
+              <div className="form-group">
+                <label>País</label>
+                <select
+                  name="country"
+                  value={formData.country}
+                  onChange={handleInputChange}
+                  className="form-input"
+                >
+                  <option value="">Selecione um país</option>
+                  {COUNTRIES.map((country) => (
+                    <option key={country.code} value={country.code}>
+                      {country.name}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div className="form-group full">
