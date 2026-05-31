@@ -309,25 +309,7 @@ MODAL
   color: #475569;
 }
 
-.close-modal-btn {
-  width: 100%;
 
-  margin-top: 20px;
-
-  border: none;
-
-  background: #0A3251;
-
-  color: white;
-
-  padding: 12px;
-
-  border-radius: 12px;
-
-  font-weight: 700;
-
-  cursor: pointer;
-}
 
 /* =========================
 RESPONSIVO

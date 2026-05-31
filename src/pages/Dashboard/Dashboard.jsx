@@ -6,6 +6,7 @@ import { supabase } from "../../services/supabaseClient";
 import { getMatches } from "../../services/matchService";
 import Swal from "sweetalert2";
 import PartnerCard from "../../components/common/PartnerCard";
+import PartnerModal from "../../components/common/PartnerModal";
 
 import "./dashboard.css";
 
@@ -213,26 +214,12 @@ const Dashboard = () => {
               ))
           )}
         </div>
-        {/* MODAL CONTATO */}
+       {/* MODAL CONTATO */}
         {selectedPartner && (
-          <div className="modal-overlay" onClick={() => setSelectedPartner(null)}>
-            <div className="connect-modal" onClick={(e) => e.stopPropagation()}>
-              <h3>Conectar com {selectedPartner.full_name}</h3>
-              <p>
-                <strong>Email:</strong> {selectedPartner.email || "Não informado"}
-              </p>
-              <p>
-                <strong>Telefone:</strong>{" "}
-                {selectedPartner.phone || "Não informado"}
-              </p>
-              <button
-                className="close-modal-btn"
-                onClick={() => setSelectedPartner(null)}
-              >
-                X
-              </button>
-            </div>
-          </div>
+          <PartnerModal 
+            partner={selectedPartner} 
+            onClose={() => setSelectedPartner(null)} 
+          />
         )}
       </div>
     </DashboardLayout>
