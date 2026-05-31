@@ -15,6 +15,7 @@ import Partner from "./pages/FindPartners/Parceiros";
 import Sessoes from "./pages/MySessions/Sessoes";
 import Recursos from "./pages/Resources/Recursos";
 import Profile from "./pages/Profile/EditProfile";
+import Help from "./pages/Help/Help";
 import ProjectPartners from "./pages/Partners/ProjectsPartners";
 import "./App.css";
 
@@ -36,9 +37,10 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/partners" element={<Partner />} />
         <Route path="/sessions" element={<Sessoes />} />
+        <Route path="/project-partners" element={<ProjectPartners />} />
         <Route path="/resources" element={<Recursos />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/project-partners" element={<ProjectPartners />} />
+        <Route path="/help" element={<Help />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/pending-approval" element={<PendingApproval />} />
       </Routes>

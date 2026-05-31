@@ -10,6 +10,7 @@ import {
   Globe,
   LogOut,
   Handshake,
+  CircleQuestionMark
 } from "lucide-react";
 
 import { supabase } from "../../services/supabaseClient";
@@ -188,6 +189,16 @@ const DashboardLayout = ({ children, isLoading = false }) => {
           >
             <User size={20} />
             Meu Perfil
+          </NavLink>
+
+          <NavLink
+            to="/help"
+            className={({ isActive }) =>
+              isActive ? "nav-item active" : "nav-item"
+            }
+          >
+            <CircleQuestionMark size={20} />
+            Ajuda
           </NavLink>
 
           {isAdmin && (
