@@ -1,12 +1,8 @@
-import React, {
-  useEffect,
-  useState,
-  useCallback,
-} from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 import Cropper from "react-easy-crop";
-
 import { useNavigate } from "react-router-dom";
+import { SquarePen } from "lucide-react";
 
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import TagSelect from "../../components/common/TagSelect";
@@ -26,15 +22,15 @@ const EditProfile = () => {
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
-  const [currentUser, setCurrentUser] =
-    useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
 
   const [formData, setFormData] = useState({
     full_name: "",
     email: "",
     hub: "",
-    country: "", // Novo campo adicionado ao estado
+    country: "",
     phone: "",
     description: "",
 
@@ -49,21 +45,11 @@ const EditProfile = () => {
   // =========================
   // CROPPER
   // =========================
-  const [crop, setCrop] = useState({
-    x: 0,
-    y: 0,
-  });
-
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-
-  const [croppedAreaPixels, setCroppedAreaPixels] =
-    useState(null);
-
-  const [imageSrc, setImageSrc] =
-    useState(null);
-
-  const [showCropModal, setShowCropModal] =
-    useState(false);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [imageSrc, setImageSrc] = useState(null);
+  const [showCropModal, setShowCropModal] = useState(false);
 
   // =========================
   // CARREGAR PERFIL
@@ -82,12 +68,11 @@ const EditProfile = () => {
 
         setCurrentUser(user);
 
-        const { data: profile, error } =
-          await supabase
-            .from("profiles")
-            .select("*")
-            .eq("id", user.id)
-            .single();
+        const { data: profile, error } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", user.id)
+          .single();
 
         if (error) {
           console.error(error);
@@ -95,51 +80,26 @@ const EditProfile = () => {
 
         if (profile) {
           setFormData({
-            full_name:
-              profile.full_name || "",
-
+            full_name: profile.full_name || "",
             email: profile.email || "",
-
             hub: profile.hub || "",
-            
-            country: profile.country || "", // Carrega o país do banco de dados
-
+            country: profile.country || "",
             phone: profile.phone || "",
-
-            description:
-              profile.description || "",
-
+            description: profile.description || "",
             speaks: profile.speaks
-              ? profile.speaks
-                  .split(",")
-                  .map((item) =>
-                    item.trim()
-                  )
+              ? profile.speaks.split(",").map((item) => item.trim())
               : [],
-
             learns: profile.learns
-              ? profile.learns
-                  .split(",")
-                  .map((item) =>
-                    item.trim()
-                  )
+              ? profile.learns.split(",").map((item) => item.trim())
               : [],
-
             interests: profile.interests
-              ? profile.interests
-                  .split(",")
-                  .map((item) =>
-                    item.trim()
-                  )
+              ? profile.interests.split(",").map((item) => item.trim())
               : [],
-
-            photo_url:
-              profile.photo_url || "",
+            photo_url: profile.photo_url || "",
           });
         }
       } catch (error) {
         console.error(error);
-
         Swal.fire({
           icon: "error",
           title: "Erro",
@@ -158,7 +118,6 @@ const EditProfile = () => {
   // =========================
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -166,71 +125,34 @@ const EditProfile = () => {
   };
 
   // =========================
-  // CROPPER
+  // CROPPER E FOTOS
   // =========================
-  const onCropComplete = useCallback(
-    (_, croppedPixels) => {
-      setCroppedAreaPixels(
-        croppedPixels
-      );
-    },
-    []
-  );
+  const onCropComplete = useCallback((_, croppedPixels) => {
+    setCroppedAreaPixels(croppedPixels);
+  }, []);
 
-  // =========================
-  // FOTO
-  // =========================
   const handlePhotoChange = async (e) => {
     const file = e.target.files?.[0];
-
     if (!file) return;
 
-    const imageUrl =
-      URL.createObjectURL(file);
-
+    const imageUrl = URL.createObjectURL(file);
     setImageSrc(imageUrl);
-
     setShowCropModal(true);
   };
 
-  // =========================
-  // GERAR IMAGEM CORTADA
-  // =========================
   const createImage = (url) =>
     new Promise((resolve, reject) => {
       const image = new Image();
-
-      image.addEventListener(
-        "load",
-        () => resolve(image)
-      );
-
-      image.addEventListener(
-        "error",
-        (error) => reject(error)
-      );
-
-      image.setAttribute(
-        "crossOrigin",
-        "anonymous"
-      );
-
+      image.addEventListener("load", () => resolve(image));
+      image.addEventListener("error", (error) => reject(error));
+      image.setAttribute("crossOrigin", "anonymous");
       image.src = url;
     });
 
-  const getCroppedImg = async (
-    imageSrc,
-    pixelCrop
-  ) => {
-    const image = await createImage(
-      imageSrc
-    );
-
-    const canvas =
-      document.createElement("canvas");
-
-    const ctx =
-      canvas.getContext("2d");
+  const getCroppedImg = async (imageSrc, pixelCrop) => {
+    const image = await createImage(imageSrc);
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
 
     canvas.width = pixelCrop.width;
     canvas.height = pixelCrop.height;
@@ -244,7 +166,7 @@ const EditProfile = () => {
       0,
       0,
       pixelCrop.width,
-      pixelCrop.height
+      pixelCrop.height,
     );
 
     return new Promise((resolve) => {
@@ -254,130 +176,81 @@ const EditProfile = () => {
     });
   };
 
-  // =========================
-  // SALVAR FOTO CORTADA
-  // =========================
-  const handleSaveCroppedPhoto =
-    async () => {
-      try {
-        if (
-          !imageSrc ||
-          !croppedAreaPixels
-        )
-          return;
+  const handleSaveCroppedPhoto = async () => {
+    try {
+      if (!imageSrc || !croppedAreaPixels) return;
 
-        const croppedImage =
-          await getCroppedImg(
-            imageSrc,
-            croppedAreaPixels
-          );
+      const croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels);
+      const fileName = `${currentUser.id}.jpg`;
+      const filePath = `profiles/${fileName}`;
+      const bucketName = "profile-photos";
 
-        const fileName = `${currentUser.id}.jpg`;
+      await supabase.storage.from(bucketName).remove([filePath]);
 
-        const filePath = `profiles/${fileName}`;
-
-        const bucketName =
-          "profile-photos";
-
-        await supabase.storage
-          .from(bucketName)
-          .remove([filePath]);
-
-        const { error: uploadError } =
-          await supabase.storage
-            .from(bucketName)
-            .upload(
-              filePath,
-              croppedImage,
-              {
-                upsert: true,
-                contentType:
-                  "image/jpeg",
-              }
-            );
-
-        if (uploadError) {
-          throw uploadError;
-        }
-
-        const {
-          data: { publicUrl },
-        } = supabase.storage
-          .from(bucketName)
-          .getPublicUrl(filePath);
-
-        setFormData((prev) => ({
-          ...prev,
-          photo_url: `${publicUrl}?t=${Date.now()}`,
-        }));
-
-        setShowCropModal(false);
-
-        Swal.fire({
-          icon: "success",
-          title: "Foto Adicionada!",
-          timer: 1500,
-          showConfirmButton: false,
+      const { error: uploadError } = await supabase.storage
+        .from(bucketName)
+        .upload(filePath, croppedImage, {
+          upsert: true,
+          contentType: "image/jpeg",
         });
-      } catch (error) {
-        console.error(error);
 
-        Swal.fire({
-          icon: "error",
-          title: "Erro",
-          text: "Erro ao salvar imagem",
-        });
-      }
-    };
+      if (uploadError) throw uploadError;
+
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from(bucketName).getPublicUrl(filePath);
+
+      setFormData((prev) => ({
+        ...prev,
+        photo_url: `${publicUrl}?t=${Date.now()}`,
+      }));
+
+      setShowCropModal(false);
+
+      Swal.fire({
+        icon: "success",
+        title: "Foto Adicionada!",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Erro",
+        text: "Erro ao salvar imagem",
+      });
+    }
+  };
 
   // =========================
   // VALIDAR
   // =========================
   const validateForm = () => {
     if (!formData.full_name.trim()) {
-      Swal.fire(
-        "Erro",
-        "Digite seu nome",
-        "warning"
-      );
-
+      Swal.fire("Erro", "Digite seu nome", "warning");
       return false;
     }
-
     if (!formData.email.trim()) {
-      Swal.fire(
-        "Erro",
-        "Digite seu email",
-        "warning"
-      );
-
+      Swal.fire("Erro", "Digite seu email", "warning");
       return false;
     }
-
-    if (
-      formData.speaks.length === 0
-    ) {
+    if (formData.speaks.length === 0) {
       Swal.fire(
         "Erro",
         "Selecione pelo menos um idioma que você fala",
-        "warning"
+        "warning",
       );
-
       return false;
     }
-
-    if (
-      formData.learns.length === 0
-    ) {
+    if (formData.learns.length === 0) {
       Swal.fire(
         "Erro",
         "Selecione pelo menos um idioma que deseja aprender",
-        "warning"
+        "warning",
       );
-
       return false;
     }
-
     return true;
   };
 
@@ -392,62 +265,35 @@ const EditProfile = () => {
     try {
       setSaving(true);
 
-      const { error } =
-        await supabase
-          .from("profiles")
-          .update({
-            full_name:
-              formData.full_name,
+      const { error } = await supabase
+        .from("profiles")
+        .update({
+          full_name: formData.full_name,
+          email: formData.email,
+          hub: formData.hub,
+          country: formData.country,
+          phone: formData.phone,
+          description: formData.description,
+          speaks: formData.speaks.join(", "),
+          learns: formData.learns.join(", "),
+          interests: formData.interests.join(", "),
+          photo_url: formData.photo_url,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", currentUser.id);
 
-            email: formData.email,
-
-            hub: formData.hub,
-            
-            country: formData.country, // Salva o código do país escolhido no banco
-
-            phone: formData.phone,
-
-            description:
-              formData.description,
-
-            speaks:
-              formData.speaks.join(
-                ", "
-              ),
-
-            learns:
-              formData.learns.join(
-                ", "
-              ),
-
-            interests:
-              formData.interests.join(
-                ", "
-              ),
-
-            photo_url:
-              formData.photo_url,
-
-            updated_at:
-              new Date().toISOString(),
-          })
-          .eq("id", currentUser.id);
-
-      if (error) {
-        throw error;
-      }
+      if (error) throw error;
 
       Swal.fire({
         icon: "success",
-        title: "Perfil updated",
+        title: "Perfil atualizado",
         timer: 1500,
         showConfirmButton: false,
       });
 
-      navigate("/profile");
+      setIsEditing(false);
     } catch (error) {
       console.error(error);
-
       Swal.fire({
         icon: "error",
         title: "Erro",
@@ -459,13 +305,6 @@ const EditProfile = () => {
   };
 
   // =========================
-  // CANCELAR
-  // =========================
-  const handleCancel = () => {
-    navigate("/dashboard");
-  };
-
-  // =========================
   // LOADING
   // =========================
   if (loading) {
@@ -473,334 +312,350 @@ const EditProfile = () => {
       <DashboardLayout>
         <div className="loading-container">
           <div className="spinner"></div>
-
           <p>Carregando perfil...</p>
         </div>
       </DashboardLayout>
     );
   }
 
-  // =========================
-  // LABELS
-  // =========================
-  const languageLabels =
-    LANGUAGES.map(
-      (lang) =>
-        lang.name || lang.label
-    );
+  const languageLabels = LANGUAGES.map((lang) => lang.name || lang.label);
+  const countryName = COUNTRIES.find((c) => c.code === formData.country)?.name;
 
   return (
     <DashboardLayout>
       <div className="edit-profile-container">
         <div className="edit-profile-header">
-          <h1>Meu Perfil</h1>
-
-          <p>
-            Visualize e atualize suas
-            informações pessoais.
-          </p>
+          <div>
+            <h1>Meu Perfil</h1>
+            <p>
+              {isEditing
+                ? "Atualize suas informações pessoais."
+                : "Visualize suas informações pessoais."}
+            </p>
+          </div>
         </div>
 
-        <form
-          onSubmit={handleSubmit}
-          className="edit-profile-form"
-        >
-          {/* TOPO */}
-          <div className="profile-top-card">
+        {/* CARD ÚNICO UNIFICADO */}
+        <div className="unified-card">
+          {/* SEÇÃO DO TOPO (FOTO, NOME, HUB) */}
+          <div className="profile-top-section">
             <div className="profile-avatar-area">
               <div className="photo-preview">
                 {formData.photo_url ? (
                   <img
-                    src={
-                      formData.photo_url
-                    }
+                    src={formData.photo_url}
                     alt="Foto"
                     className="preview-image"
                   />
                 ) : (
-                  <div className="no-photo">
-                    👤
-                  </div>
+                  <div className="no-photo">👤</div>
                 )}
               </div>
 
-              <label className="upload-btn">
-                Alterar foto
-
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={
-                    handlePhotoChange
-                  }
-                  className="file-input"
-                />
-              </label>
+              {isEditing && (
+                <label className="upload-btn">
+                  Alterar foto
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handlePhotoChange}
+                    className="file-input"
+                  />
+                </label>
+              )}
             </div>
 
             <div className="profile-main-info">
               <h2 className="profile-name">
-                {formData.full_name ||
-                  "Seu nome"}
+                {formData.full_name || "Nome pendente"}
               </h2>
-
               <span className="profile-hub">
-                HUB{" "}
-                {formData.hub ||
-                  "NÃO DEFINIDO"}
+                HUB {formData.hub || "NÃO DEFINIDO"}
               </span>
             </div>
           </div>
 
-          {/* FORM */}
-          <div className="form-card">
-            <h2 className="section-title">
-              Informações pessoais
-            </h2>
+          {!isEditing && (
+            <button
+              className="btn-edit-inside-card"
+              onClick={() => setIsEditing(true)}
+              aria-label="Editar perfil"
+            >
+              <SquarePen size={18} />
+            </button>
+          )}
 
-            <div className="form-grid">
-              <div className="form-group">
-                <label>
-                  Nome completo
-                </label>
+          {/* DIVISÓRIA SUTIL */}
+          <div className="card-divider"></div>
 
-                <input
-                  type="text"
-                  name="full_name"
-                  value={
-                    formData.full_name
-                  }
-                  onChange={
-                    handleInputChange
-                  }
-                  className="form-input"
-                />
-              </div>
+          {/* SEÇÃO INFERIOR (VISUALIZAÇÃO VS EDIÇÃO) */}
+          {!isEditing ? (
+            <div className="profile-bottom-section view-mode">
+              <h2 className="section-title">Informações pessoais</h2>
 
-              <div className="form-group">
-                <label>Email</label>
+              <div className="info-grid">
+                <div className="info-group">
+                  <span className="info-label">Nome completo</span>
+                  <span
+                    className={`info-value ${!formData.full_name ? "empty-text" : ""}`}
+                  >
+                    {formData.full_name || "Nome não informado"}
+                  </span>
+                </div>
 
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={
-                    handleInputChange
-                  }
-                  className="form-input"
-                />
-              </div>
+                <div className="info-group">
+                  <span className="info-label">Email</span>
+                  <span
+                    className={`info-value ${!formData.email ? "empty-text" : ""}`}
+                  >
+                    {formData.email || "Email não informado"}
+                  </span>
+                </div>
 
-              <div className="form-group">
-                <label>Telefone</label>
+                <div className="info-group">
+                  <span className="info-label">Telefone</span>
+                  <span
+                    className={`info-value ${!formData.phone ? "empty-text" : ""}`}
+                  >
+                    {formData.phone || "Telefone pendente de preencher"}
+                  </span>
+                </div>
 
-                <input
-                  type="text"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={
-                    handleInputChange
-                  }
-                  className="form-input"
-                />
-              </div>
+                <div className="info-group">
+                  <span className="info-label">País</span>
+                  <span
+                    className={`info-value ${!countryName ? "empty-text" : ""}`}
+                  >
+                    {countryName || "País pendente de preencher"}
+                  </span>
+                </div>
 
-              {/* Seção Hub (Bloqueado) e País lado a lado */}
-              <div className="form-group">
-                <label>Hub</label>
-                <input
-                  type="text"
-                  name="hub"
-                  value={formData.hub}
-                  disabled
-                  className="form-input input-disabled"
-                  title="O Hub não pode ser alterado após a validação."
-                />
-              </div>
+                <div className="info-group full">
+                  <span className="info-label">Sobre você</span>
+                  <p
+                    className={`info-value description-text ${!formData.description ? "empty-text" : ""}`}
+                  >
+                    {formData.description ||
+                      "Descrição pendente de preencher. Adicione uma breve descrição sobre quem você é."}
+                  </p>
+                </div>
 
-              <div className="form-group">
-                <label>País</label>
-                <select
-                  name="country"
-                  value={formData.country}
-                  onChange={handleInputChange}
-                  className="form-input"
-                >
-                  <option value="">Selecione um país</option>
-                  {COUNTRIES.map((country) => (
-                    <option key={country.code} value={country.code}>
-                      {country.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+                <div className="info-group full">
+                  <span className="info-label">Idiomas que você fala</span>
+                  <div className="tags-container">
+                    {formData.speaks.length > 0 ? (
+                      formData.speaks.map((lang, idx) => (
+                        <span key={idx} className="view-tag">
+                          {lang}
+                        </span>
+                      ))
+                    ) : (
+                      <span className="empty-text">
+                        Nenhum idioma de fala selecionado
+                      </span>
+                    )}
+                  </div>
+                </div>
 
-              <div className="form-group full">
-                <label>
-                  Sobre você
-                </label>
+                <div className="info-group full">
+                  <span className="info-label">
+                    Idiomas que deseja aprender
+                  </span>
+                  <div className="tags-container">
+                    {formData.learns.length > 0 ? (
+                      formData.learns.map((lang, idx) => (
+                        <span key={idx} className="view-tag">
+                          {lang}
+                        </span>
+                      ))
+                    ) : (
+                      <span className="empty-text">
+                        Nenhum idioma de interesse selecionado
+                      </span>
+                    )}
+                  </div>
+                </div>
 
-                <textarea
-                  name="description"
-                  value={
-                    formData.description
-                  }
-                  onChange={
-                    handleInputChange
-                  }
-                  className="form-textarea"
-                  placeholder="Conte um pouco sobre você..."
-                />
-              </div>
-
-              {/* FALA */}
-              <div className="form-group full">
-                <label>
-                  Idiomas que você
-                  fala
-                </label>
-
-                <TagSelect
-                  options={
-                    languageLabels
-                  }
-                  selectedItems={
-                    formData.speaks
-                  }
-                  onSelect={(item) =>
-                    setFormData(
-                      (prev) => ({
-                        ...prev,
-                        speaks: [
-                          ...prev.speaks,
-                          item,
-                        ],
-                      })
-                    )
-                  }
-                  onRemove={(item) =>
-                    setFormData(
-                      (prev) => ({
-                        ...prev,
-                        speaks:
-                          prev.speaks.filter(
-                            (lang) =>
-                              lang !==
-                              item
-                          ),
-                      })
-                    )
-                  }
-                  placeholder="Selecione idiomas..."
-                />
-              </div>
-
-              {/* APRENDE */}
-              <div className="form-group full">
-                <label>
-                  Idiomas que deseja
-                  aprender
-                </label>
-
-                <TagSelect
-                  options={
-                    languageLabels
-                  }
-                  selectedItems={
-                    formData.learns
-                  }
-                  onSelect={(item) =>
-                    setFormData(
-                      (prev) => ({
-                        ...prev,
-                        learns: [
-                          ...prev.learns,
-                          item,
-                        ],
-                      })
-                    )
-                  }
-                  onRemove={(item) =>
-                    setFormData(
-                      (prev) => ({
-                        ...prev,
-                        learns:
-                          prev.learns.filter(
-                            (lang) =>
-                              lang !==
-                              item
-                          ),
-                      })
-                    )
-                  }
-                  placeholder="Selecione idiomas..."
-                />
-              </div>
-
-              {/* INTERESSES */}
-              <div className="form-group full">
-                <label>
-                  Interesses
-                </label>
-
-                <TagSelect
-                  options={INTERESTS}
-                  selectedItems={
-                    formData.interests
-                  }
-                  onSelect={(item) =>
-                    setFormData(
-                      (prev) => ({
-                        ...prev,
-                        interests: [
-                          ...prev.interests,
-                          item,
-                        ],
-                      })
-                    )
-                  }
-                  onRemove={(item) =>
-                    setFormData(
-                      (prev) => ({
-                        ...prev,
-                        interests:
-                          prev.interests.filter(
-                            (
-                              interest
-                            ) =>
-                              interest !==
-                              item
-                          ),
-                      })
-                    )
-                  }
-                  placeholder="Selecione interesses..."
-                />
+                <div className="info-group full">
+                  <span className="info-label">Interesses</span>
+                  <div className="tags-container">
+                    {formData.interests.length > 0 ? (
+                      formData.interests.map((interest, idx) => (
+                        <span key={idx} className="view-tag">
+                          {interest}
+                        </span>
+                      ))
+                    ) : (
+                      <span className="empty-text">
+                        Nenhum interesse selecionado
+                      </span>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="edit-profile-form">
+              <div className="profile-bottom-section">
+                <h2 className="section-title">Editar Informações</h2>
 
-            {/* BOTÕES */}
-            <div className="form-actions">
-              <button
-                type="button"
-                className="btn-cancel"
-                onClick={handleCancel}
-              >
-                Cancelar
-              </button>
+                <div className="form-grid">
+                  <div className="form-group">
+                    <label>Nome completo</label>
+                    <input
+                      type="text"
+                      name="full_name"
+                      value={formData.full_name}
+                      onChange={handleInputChange}
+                      className="form-input"
+                    />
+                  </div>
 
-              <button
-                type="submit"
-                className="btn-save"
-                disabled={saving}
-              >
-                {saving
-                  ? "Salvando..."
-                  : "Salvar alterações"}
-              </button>
-            </div>
-          </div>
-        </form>
+                  <div className="form-group">
+                    <label>Email</label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="form-input"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Telefone</label>
+                    <input
+                      type="text"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      className="form-input"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Hub</label>
+                    <input
+                      type="text"
+                      name="hub"
+                      value={formData.hub}
+                      disabled
+                      className="form-input input-disabled"
+                      title="O Hub não pode ser alterado após a validação."
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>País</label>
+                    <select
+                      name="country"
+                      value={formData.country}
+                      onChange={handleInputChange}
+                      className="form-input"
+                    >
+                      <option value="">Selecione um país</option>
+                      {COUNTRIES.map((country) => (
+                        <option key={country.code} value={country.code}>
+                          {country.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="form-group full">
+                    <label>Sobre você</label>
+                    <textarea
+                      name="description"
+                      value={formData.description}
+                      onChange={handleInputChange}
+                      className="form-textarea"
+                      placeholder="Conte um pouco sobre você..."
+                    />
+                  </div>
+
+                  <div className="form-group full">
+                    <label>Idiomas que você fala</label>
+                    <TagSelect
+                      options={languageLabels}
+                      selectedItems={formData.speaks}
+                      onSelect={(item) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          speaks: [...prev.speaks, item],
+                        }))
+                      }
+                      onRemove={(item) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          speaks: prev.speaks.filter((lang) => lang !== item),
+                        }))
+                      }
+                      placeholder="Selecione idiomas..."
+                    />
+                  </div>
+
+                  <div className="form-group full">
+                    <label>Idiomas que deseja aprender</label>
+                    <TagSelect
+                      options={languageLabels}
+                      selectedItems={formData.learns}
+                      onSelect={(item) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          learns: [...prev.learns, item],
+                        }))
+                      }
+                      onRemove={(item) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          learns: prev.learns.filter((lang) => lang !== item),
+                        }))
+                      }
+                      placeholder="Selecione idiomas..."
+                    />
+                  </div>
+
+                  <div className="form-group full">
+                    <label>Interesses</label>
+                    <TagSelect
+                      options={INTERESTS}
+                      selectedItems={formData.interests}
+                      onSelect={(item) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          interests: [...prev.interests, item],
+                        }))
+                      }
+                      onRemove={(item) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          interests: prev.interests.filter(
+                            (interest) => interest !== item,
+                          ),
+                        }))
+                      }
+                      placeholder="Selecione interesses..."
+                    />
+                  </div>
+                </div>
+
+                <div className="form-actions">
+                  <button
+                    type="button"
+                    className="btn-cancel"
+                    onClick={() => setIsEditing(false)}
+                  >
+                    Cancelar
+                  </button>
+
+                  <button type="submit" className="btn-save" disabled={saving}>
+                    {saving ? "Salvando..." : "Salvar alterações"}
+                  </button>
+                </div>
+              </div>
+            </form>
+          )}
+        </div>
 
         {/* MODAL CROPPER */}
         {showCropModal && (
@@ -816,9 +671,7 @@ const EditProfile = () => {
                   showGrid={false}
                   onCropChange={setCrop}
                   onZoomChange={setZoom}
-                  onCropComplete={
-                    onCropComplete
-                  }
+                  onCropComplete={onCropComplete}
                 />
               </div>
 
@@ -829,22 +682,14 @@ const EditProfile = () => {
                   max={3}
                   step={0.1}
                   value={zoom}
-                  onChange={(e) =>
-                    setZoom(
-                      e.target.value
-                    )
-                  }
+                  onChange={(e) => setZoom(e.target.value)}
                 />
 
                 <div className="crop-buttons">
                   <button
                     type="button"
                     className="btn-cancel"
-                    onClick={() =>
-                      setShowCropModal(
-                        false
-                      )
-                    }
+                    onClick={() => setShowCropModal(false)}
                   >
                     Cancelar
                   </button>
@@ -852,9 +697,7 @@ const EditProfile = () => {
                   <button
                     type="button"
                     className="btn-save"
-                    onClick={
-                      handleSaveCroppedPhoto
-                    }
+                    onClick={handleSaveCroppedPhoto}
                   >
                     Salvar foto
                   </button>
