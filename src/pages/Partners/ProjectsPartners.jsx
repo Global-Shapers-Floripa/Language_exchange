@@ -21,7 +21,7 @@ const ProjetoIdiomas = () => {
         <section className="project-section">
           <div>
             <h2 className="section-title-project">Escola de Idiomas Shapers</h2>
-            <p>
+            <p className="project-description">
               Aprender idiomas através de experiências reais e conexões humanas.
             </p>
           </div>

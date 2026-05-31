@@ -170,6 +170,9 @@ RESPONSIVO
 ========================= */
 
 @media (max-width: 768px) {
+  .project-page {
+    padding-bottom: 20px;
+  }
   .project-hero {
     padding: 32px 24px;
   }
@@ -182,6 +185,30 @@ RESPONSIVO
     font-size: 1rem;
   }
 
+  .section-title-project {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .project-description {
+    text-align: center;
+    margin: 0 auto;
+    width: 90%;
+    font-size: .9rem;
+  }
+
+  .section-title h2 {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: -30px;
+  }
+
+
+  .about-grid {
+    padding: 0 10px;
+  }
+
+
   .final-cta {
     padding: 36px 24px;
   }
@@ -192,5 +219,11 @@ RESPONSIVO
 
   .timeline-item {
     flex-direction: column;
+    margin: 0 10px;
   }
+
+  .final-cta {
+    margin: 40px 10px;
+  }
+
 }
