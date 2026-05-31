@@ -188,7 +188,7 @@ const DashboardLayout = ({ children, isLoading = false }) => {
             }
           >
             <User size={20} />
-            Meu Perfil
+            Perfil
           </NavLink>
 
           <NavLink
@@ -209,7 +209,7 @@ const DashboardLayout = ({ children, isLoading = false }) => {
               }
             >
               <Users size={20} />
-              Admin Panel
+              Admin 
             </NavLink>
           )}
         </nav>

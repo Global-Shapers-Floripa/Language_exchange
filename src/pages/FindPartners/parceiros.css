@@ -2,11 +2,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 20px 0 40px 0;
+  margin: 20px 0 10px 0;
 }
 
 .partners-page-header h2 {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   color: #0A3251;
   font-weight: 700;
 }
