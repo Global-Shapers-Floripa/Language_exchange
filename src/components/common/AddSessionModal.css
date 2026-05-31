@@ -30,6 +30,16 @@
   border-bottom: 1px solid #e2e8f0;
 }
 
+.header-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-title-icon {
+  color: #f97316; 
+}
+
 .modal-header h2 {
   font-size: 1.5rem;
   color: #0A3251;

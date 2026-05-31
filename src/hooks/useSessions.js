@@ -38,6 +38,7 @@ export const useSessions = () => {
             date,
             duration,
             languages,
+            notes,
             session_photo_url,
             profiles!partner_id (
               full_name,
@@ -87,6 +88,8 @@ export const useSessions = () => {
 
           languages: languageNames || "N/A",
 
+          notes: session.notes || "",
+
           session_photo_url: session.session_photo_url,
         };
       });
@@ -113,10 +116,33 @@ export const useSessions = () => {
     init();
   }, []);
 
+  const deleteSession = async (sessionId) => {
+  try {
+    const { error } = await supabase
+      .from("sessions")
+      .delete()
+      .eq("id", sessionId);
+
+    if (error) throw error;
+
+    await fetchSessions();
+
+    return { success: true };
+  } catch (err) {
+    console.error("Erro ao deletar sessão:", err);
+
+    return {
+      success: false,
+      error: err.message,
+    };
+  }
+};
+
   return {
     sessions,
     loading,
     error,
+    deleteSession,
     refetch: fetchSessions,
   };
 };

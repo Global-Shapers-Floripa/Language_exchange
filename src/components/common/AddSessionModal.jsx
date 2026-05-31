@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Upload } from 'lucide-react';
+import { X, Upload, FilePlus } from 'lucide-react';
 import { useAddSession } from '../../hooks/useAddSession';
 import SearchableSelect from './SearchableSelect';
 import { LANGUAGES, MAX_PHOTO_SIZE, ALLOWED_PHOTO_TYPES } from '../../constants/languages';
@@ -11,7 +11,6 @@ const AddSessionModal = ({ isOpen, onClose, partners, onSessionAdded }) => {
     date: new Date().toISOString().split('T')[0],
     duration: 60,
     languages: [],
-    status: 'pendente',
     notes: '',
     sessionPhoto: null,
   });
@@ -126,7 +125,6 @@ const AddSessionModal = ({ isOpen, onClose, partners, onSessionAdded }) => {
         date: new Date().toISOString().split('T')[0],
         duration: 60,
         languages: [],
-        status: 'pendente',
         notes: '',
         sessionPhoto: null,
       });
@@ -143,22 +141,27 @@ const AddSessionModal = ({ isOpen, onClose, partners, onSessionAdded }) => {
     }
   };
 
-
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
+    <div className="modal-overlay" onClick={onClose}>
+      <div 
+        className="modal-content" 
+        onClick={(e) => e.stopPropagation()} 
+      >
         <div className="modal-header">
-          <h2>Registrar Nova Sessão</h2>
-          <button className="modal-close" onClick={onClose}>
+          <div className="header-title-group">
+            <FilePlus size={24} className="header-title-icon" />
+            <h2>Registrar Nova Sessão</h2>
+          </div>
+          <button type="button" className="modal-close" onClick={onClose}>
             <X size={24} />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="modal-form">
-          {/* Parceiro com Busca */}
-          <div className="form-group">
+          {/* Parceiro com Busca - COM A NOVA CLASSE */}
+          <div className="form-group force-vertical-dropdown">
             <label>Parceiro *</label>
             <SearchableSelect
               options={partnerOptions}
@@ -198,8 +201,8 @@ const AddSessionModal = ({ isOpen, onClose, partners, onSessionAdded }) => {
             />
           </div>
 
-          {/* Idiomas com Seletor Pré-definido */}
-          <div className="form-group">
+          {/* Idiomas com Seletor Pré-definido - COM A NOVA CLASSE */}
+          <div className="form-group force-vertical-dropdown">
             <label>Idiomas Praticados *</label>
             <SearchableSelect
               options={LANGUAGES}
@@ -210,20 +213,6 @@ const AddSessionModal = ({ isOpen, onClose, partners, onSessionAdded }) => {
               valueKey="code"
               multi={true}
             />
-          </div>
-
-          {/* Status */}
-          <div className="form-group">
-            <label htmlFor="status">Status</label>
-            <select
-              id="status"
-              name="status"
-              value={formData.status}
-              onChange={handleChange}
-            >
-              <option value="pendente">Pendente</option>
-              <option value="registrada">Registrada</option>
-            </select>
           </div>
 
           {/* Notas */}
