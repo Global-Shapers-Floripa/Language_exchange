@@ -61,13 +61,15 @@ const MySessions = () => {
       <div className="sessions-header">
         <h2>Minhas Sessões</h2>
 
-        <button
-          className="btn-new-session"
-          onClick={() => setIsModalOpen(true)}
-        >
-          <PlusCircle size={20} />
-          Novo Registro
-        </button>
+        <div className="container-new-session-btn">
+          <button
+            className="btn-new-session"
+            onClick={() => setIsModalOpen(true)}
+          >
+            <PlusCircle size={20} />
+            Novo Registro
+          </button>
+        </div>
       </div>
 
       {/* LOADING */}
