@@ -1,9 +1,9 @@
 .resources-header {
-  margin: 20px 0 40px 0;
+  margin: 0px 0 20px 0;
 }
 
 .resources-header h2 {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   color: #0A3251;
   font-weight: 700;
 }
@@ -11,13 +11,13 @@
 .resources-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
+  gap: 20px;
 }
 
 .resource-card {
   background: white;
   border-radius: 20px;
-  padding: 32px;
+  padding: 25px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
@@ -30,13 +30,17 @@
 }
 
 .resource-icon-wrapper {
-  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: start;
+  margin-bottom: 20px;
 }
 
-.resource-card h3 {
-  font-size: 1.1rem;
+.resource-icon-wrapper h3 {
+  font-size: 1.2rem;
   color: #1e293b;
-  margin-bottom: 12px;
+  line-height: 0.9;
   font-weight: 700;
 }
 
@@ -44,7 +48,7 @@
   font-size: 0.9rem;
   color: #64748b;
   line-height: 1.5;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   flex-grow: 1;
 }
 
@@ -56,6 +60,12 @@
   text-decoration: none;
   font-weight: 700;
   font-size: 0.85rem;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  width: fit-content;
 }
 
 .resource-link:hover {
@@ -72,5 +82,147 @@
 @media (max-width: 768px) {
   .resources-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================
+   NOVOS ESTILOS DO MODAL
+   ========================================= */
+
+/* Fundo escuro atrás do modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(10, 50, 81, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 20px;
+  box-sizing: border-box;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+/* Caixa branca central */
+.modal-content {
+  background: white;
+  border-radius: 24px 0 0 24px;
+  padding: 30px;
+  width: 100%;
+  max-width: 650px;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.3s ease-out;
+}
+
+/* Botão de Fechar no canto superior */
+.modal-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.modal-close:hover {
+  background: #e2e8f0;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.modal-header h3 {
+  font-size: 1.5rem;
+  color: #0A3251;
+  margin: 0;
+}
+
+.modal-icon-wrapper {
+  background: #f8fafc;
+  padding: 12px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Estilização do Conteúdo (Textos do Modal) */
+.modal-body-content h4 {
+  font-size: 1.1rem;
+  color: #1e293b;
+  margin: 24px 0 8px 0;
+  font-weight: 700;
+}
+
+.modal-body-content h4:first-child {
+  margin-top: 0;
+}
+
+.modal-body-content p {
+  font-size: 1rem;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.modal-body-content ul {
+  padding-left: 20px;
+  margin-bottom: 16px;
+}
+
+.modal-body-content li {
+  font-size: 1rem;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+/* Animações */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsividade do Modal */
+@media (max-width: 600px) {
+  .modal-content {
+    padding: 24px;
+    border-radius: 20px;
+  }
+  
+  .modal-header h3 {
+    font-size: 1.25rem;
   }
 }

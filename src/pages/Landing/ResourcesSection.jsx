@@ -57,7 +57,7 @@ const ResourcesSection = () => {
           {resources.map((item) => (
             <div key={item.id} className="resource-card">
               <div className="icon-wrapper">{item.icon}</div>
-              <h3>{item.title}</h3>
+              <h3 className="card-title-resources">{item.title}</h3>
               <p>{item.description}</p>
               <a href={item.linkUrl} className="card-link">
                 {item.linkText}

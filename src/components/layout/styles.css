@@ -84,7 +84,7 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  padding: 25px;
+  padding: 0 25px;
 }
 
 .top-header {
@@ -147,28 +147,41 @@
 
 
 /* ... seu código anterior ... */
-
 @media (max-width: 768px) {
   .dashboard-container {
-    flex-direction: column; /* Empilha o conteúdo em cima da barra */
+    flex-direction: column;
   }
 
+  /* ==================================
+     BARRA DE NAVEGAÇÃO INFERIOR MOBILE
+  ================================== */
   .sidebar {
     width: 100%;
-    height: 70px;
+    height: 75px; /* Levemente mais alto para facilitar o clique */
     position: fixed;
     bottom: 0;
     left: 0;
-    flex-direction: row; /* Itens um ao lado do outro */
-    padding: 0 10px;
+    flex-direction: row;
+    padding: 0;
     border-right: none;
     border-top: 1px solid #e2e8f0;
     z-index: 1000;
-    justify-content: space-around;
-    align-items: center;
+    background: #ffffff; /* Fundo branco aplicado */
+    
+    /* Habilita rolagem horizontal e previne esmagamento */
+    overflow-x: auto; 
+    justify-content: flex-start;
+    -webkit-overflow-scrolling: touch;
+    
+    /* Oculta scrollbar nativa (visual mais limpo) */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
-  /* Esconde o logo e o botão de sair no mobile para caber os itens */
+  .sidebar::-webkit-scrollbar {
+    display: none;
+  }
+
   .sidebar-logo, .btn-logout {
     display: none;
   }
@@ -176,34 +189,76 @@
   .sidebar-nav {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
-    width: 100%;
+    justify-content: flex-start;
+    width: max-content; /* Permite esticar além da tela para o scroll */
     margin: 0;
+    padding: 0 10px;
+    align-items: center;
+    height: 100%;
+    gap: 8px; /* Espaço entre abas */
   }
 
   .nav-item {
-    flex-direction: column; /* Ícone em cima, texto embaixo */
+    flex-direction: column;
     gap: 4px;
     font-size: 0.65rem;
-    padding: 8px;
+    padding: 8px 12px;
     margin: 0;
-    background: none !important; /* Remove o fundo cinza no mobile */
+    background: none !important;
+    color: #64748b; /* Cinza legível no fundo branco */
+    min-width: 75px; /* Garante espaço para o texto não quebrar */
+    text-align: center;
   }
 
   .nav-item svg {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
   }
 
+  /* Destaque para aba ativa no mobile */
+  .nav-item.active {
+    color: #0A3251; 
+    font-weight: 700;
+  }
+
+  .nav-item.active svg {
+    color: #0A3251;
+  }
+
+  /* ==================================
+     CONTEÚDO PRINCIPAL E HEADER
+  ================================== */
   .main-content {
-    padding: 0 20px 100px 20px; /* Padding extra embaixo para não cobrir o conteúdo */
+    padding: 0 20px 100px 20px;
   }
 
   .top-header {
-    padding: 10px 0;
+    height: auto;
+    padding: 5px 0;
+    flex-direction: column; /* Coloca a tag de comunidade acima do perfil */
+    align-items: flex-start;
   }
   
-  /* Ajuste do banner para mobile */
+  .community-tag {
+    font-size: 0.65rem;
+    justify-content: center; 
+    text-align: center;
+    width: 100%;
+    margin: 0; /* Remove margens extras para atuar como faixa */
+  }
+
+  .user-profile {
+    width: 100%; /* Ocupa a largura total para afastar os itens */
+    justify-content: space-between; /* Nome na esquerda, foto na direita */
+  }
+
+  .user-info {
+    text-align: left; /* Alinha nome e hub à esquerda */
+    align-items: flex-start;
+  }
+
+  /* Ajuste do banner (se houver) */
   .welcome-banner {
     flex-direction: column;
     padding: 24px;
@@ -211,6 +266,8 @@
     gap: 20px;
   }
 }
+
+
 
 .nav-item.active svg {
   color: #0A3251; /* Ou a cor de destaque do seu design */
@@ -227,13 +284,13 @@ PERFIL
 
 .avatar-wrapper {
   position: relative;
-  width: 56px;
-  height: 56px;
+  width: 50px;
+  height: 50px;
 }
 
 .avatar {
-  width: 56px;
-  height: 56px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   object-fit: cover;
   transition: 0.2s ease;
@@ -279,6 +336,10 @@ PERFIL
   width: 16px;
   height: 16px;
   margin-bottom: 4px;
+}
+
+.user-info p {
+  font-size: .9rem;
 }
 
 .dashboard-loading-screen {
