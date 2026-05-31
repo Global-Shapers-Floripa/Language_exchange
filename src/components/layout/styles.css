@@ -164,6 +164,7 @@
     flex-direction: row;
     padding: 0;
     border-right: none;
+    border-radius: 20px 20px 0 0;
     border-top: 1px solid #e2e8f0;
     z-index: 1000;
     background: #ffffff; /* Fundo branco aplicado */
@@ -363,5 +364,11 @@ PERFIL
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+    padding: 0 10px 100px 10px;
   }
 }

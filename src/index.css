@@ -37,3 +37,22 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+@media (max-width: 768px) {
+::-webkit-scrollbar {
+  width: 2px; /* Barra vertical */
+  height: 2px; /* Barra horizontal */
+}
+  /* 2. O fundo da barra (a trilha) */
+::-webkit-scrollbar-track {
+  background: #ffffff54; 
+  border-radius: 5px;
+}
+
+
+::-webkit-scrollbar-thumb {
+  background: rgb(32, 79, 150); /* Usando sua variável de azul */
+  border:none; /* Cria um espaçamento sutil em volta */
+}
+
+}

@@ -6,12 +6,12 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 280px; 
+  max-width: 280px;
   position: relative;
   box-sizing: border-box;
   font-family: 'Montserrat', sans-serif;
   transition: transform 0.3s ease, box-shadow 0.2s ease;
-  height: 100%; 
+  height: 100%;
   padding: 8px;
   overflow: hidden;
 }
@@ -52,7 +52,8 @@
 
 /* Avatar Sobreposto */
 .avatar-container {
-  margin-top: -60px; /* Puxa a foto para cima da bandeira */
+  margin-top: -60px;
+  /* Puxa a foto para cima da bandeira */
   z-index: 2;
   display: flex;
   justify-content: center;
@@ -127,7 +128,7 @@
   box-sizing: border-box;
 
   flex: 1;
-  
+
 }
 
 .partner-section-card {
@@ -223,9 +224,12 @@
      MINIATURIZAÇÃO DOS CARDS
   ================================== */
   .partner-card {
-    max-width: 100%; /* Permite que o card ocupe a largura da sua coluna */
-    padding: 6px; /* Reduz o respiro interno geral */
-    border-radius: 24px; /* Suaviza as bordas para combinar com o tamanho menor */
+    max-width: 100%;
+    /* Permite que o card ocupe a largura da sua coluna */
+    padding: 6px;
+    /* Reduz o respiro interno geral */
+    border-radius: 24px;
+    /* Suaviza as bordas para combinar com o tamanho menor */
   }
 
   /* Ajuste do banner da bandeira */
@@ -236,12 +240,13 @@
 
   /* Ajuste do Avatar */
   .avatar-container {
-    margin-top: -35px; /* Puxa menos para cima devido à foto menor */
+    margin-top: -55px;
+    /* Puxa menos para cima devido à foto menor */
   }
 
   .partner-avatar {
-    width: 55px;
-    height: 55px;
+    width: 56px;
+    height: 56px;
     border-width: 3px;
   }
 
@@ -260,14 +265,14 @@
     margin-top: 4px;
   }
 
-  .partner-location, 
+  .partner-location,
   .partner-country {
     font-size: 0.7rem;
     padding: 0 4px;
     gap: 4px;
   }
 
-  .partner-location svg, 
+  .partner-location svg,
   .partner-country svg {
     width: 12px;
     height: 12px;
@@ -287,14 +292,15 @@
   .tag-card {
     padding: 4px 8px;
     font-size: 10px;
-    height: auto; /* Deixa a altura flexível caso o nome do idioma seja longo */
+    height: auto;
+    /* Deixa a altura flexível caso o nome do idioma seja longo */
     border-radius: 6px;
   }
 
   /* Botão Conectar */
   .connect-btn {
-    font-size: 0.85rem;
-    padding: 8px;
+    font-size: 0.75rem;
+    padding: 5px;
     gap: 6px;
     border-radius: 10px;
     margin-top: 4px;
@@ -312,20 +318,8 @@
     font-size: 9px;
     padding: 3px 6px;
   }
-  
+
   .partner-name {
     font-size: 0.85rem;
-  }
-}
-
-@media (max-width: 400px) {
-  .partner-card {
-    border-radius: 30px;
-  }
-  .partner-name {
-    font-size: 22px;
-  }
-  .connect-btn {
-    font-size: 20px;
   }
 }
