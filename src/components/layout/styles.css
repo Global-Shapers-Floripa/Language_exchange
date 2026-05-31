@@ -236,17 +236,13 @@
 
   .top-header {
     height: auto;
-    padding: 5px 0;
+    padding: 10px 0;
     flex-direction: column; /* Coloca a tag de comunidade acima do perfil */
     align-items: flex-start;
   }
   
   .community-tag {
-    font-size: 0.65rem;
-    justify-content: center; 
-    text-align: center;
-    width: 100%;
-    margin: 0; /* Remove margens extras para atuar como faixa */
+    display: none; /* Remove margens extras para atuar como faixa */
   }
 
   .user-profile {
