@@ -347,28 +347,53 @@ RESPONSIVO
   .welcome-banner {
     width: 100%;
 
-    padding: 24px;
+    padding: 10px;
 
     text-align: center;
   }
 
   .banner-content {
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    gap: 10px;
   }
 
   .banner-text h2 {
-    font-size: 1.6rem;
+    font-size: 1rem;
   }
 
   .banner-text p {
-    font-size: 0.95rem;
+    font-size: 0.8rem;
   }
+
+  .btn-register {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    gap: 8px;
+  }
+
 
   .section-header {
     flex-direction: column;
 
     align-items: flex-start;
 
-    gap: 10px;
+    gap: 0px;
+  }
+
+
+  .section-header h3 {
+    font-size: 1.2rem;
+  }
+
+  .section-header a {
+    font-size: 0.85rem;
+  }
+
+    .partners-grid {
+    grid-template-columns: repeat(2, 1fr); /* Força exatas 2 colunas */
+    gap: 10px; /* Reduz o espaçamento entre os cards para caber melhor */
+    padding: 10px 0;
   }
 }

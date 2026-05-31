@@ -211,6 +211,113 @@
   transform: translateY(-2px);
 }
 
+@media (max-width: 768px) {
+  /* ... (mantenha os ajustes que você já tem do banner e header) ... */
+
+  /* ==================================
+     GRID DOS PARCEIROS (2 COLUNAS)
+  ================================== */
+
+
+  /* ==================================
+     MINIATURIZAÇÃO DOS CARDS
+  ================================== */
+  .partner-card {
+    max-width: 100%; /* Permite que o card ocupe a largura da sua coluna */
+    padding: 6px; /* Reduz o respiro interno geral */
+    border-radius: 24px; /* Suaviza as bordas para combinar com o tamanho menor */
+  }
+
+  /* Ajuste do banner da bandeira */
+  .flag-banner {
+    height: 55px;
+    border-radius: 18px;
+  }
+
+  /* Ajuste do Avatar */
+  .avatar-container {
+    margin-top: -35px; /* Puxa menos para cima devido à foto menor */
+  }
+
+  .partner-avatar {
+    width: 55px;
+    height: 55px;
+    border-width: 3px;
+  }
+
+  /* Faixa de Match Perfeito (para não vazar da tela) */
+  .perfect-match-badge {
+    top: 10px;
+    right: -25px;
+    padding: 4px 25px;
+    font-size: 9px;
+    transform: rotate(35deg);
+  }
+
+  /* Textos Principais */
+  .partner-name {
+    font-size: 0.9rem;
+    margin-top: 4px;
+  }
+
+  .partner-location, 
+  .partner-country {
+    font-size: 0.7rem;
+    padding: 0 4px;
+    gap: 4px;
+  }
+
+  .partner-location svg, 
+  .partner-country svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* Áreas de Idioma */
+  .partner-details-card {
+    padding: 0 8px;
+    gap: 8px;
+  }
+
+  .section-title-card {
+    font-size: 0.7rem;
+    margin-bottom: 3px;
+  }
+
+  .tag-card {
+    padding: 4px 8px;
+    font-size: 10px;
+    height: auto; /* Deixa a altura flexível caso o nome do idioma seja longo */
+    border-radius: 6px;
+  }
+
+  /* Botão Conectar */
+  .connect-btn {
+    font-size: 0.85rem;
+    padding: 8px;
+    gap: 6px;
+    border-radius: 10px;
+    margin-top: 4px;
+  }
+
+  .connect-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* Garante que em telas muito, muito pequenas (ex: iPhone SE), ele não quebre as tags */
+@media (max-width: 360px) {
+  .tag-card {
+    font-size: 9px;
+    padding: 3px 6px;
+  }
+  
+  .partner-name {
+    font-size: 0.85rem;
+  }
+}
+
 @media (max-width: 400px) {
   .partner-card {
     border-radius: 30px;
