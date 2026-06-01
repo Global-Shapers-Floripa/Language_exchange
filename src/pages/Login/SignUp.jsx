@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { User, Mail, MapPin, Lock } from "lucide-react";
 import "./sign-up.css";
 import { supabase } from "../../services/supabaseClient";
@@ -287,7 +288,7 @@ const SignUp = () => {
             </button>
           </form>
           <p className="signup-prompt">
-            Já tem conta? <a href="/login">Fazer Login</a>
+            Já tem conta? <Link to="/login">Fazer Login</Link>
           </p>
         </div>
       </div>
