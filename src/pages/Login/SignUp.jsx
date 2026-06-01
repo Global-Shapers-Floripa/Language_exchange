@@ -27,7 +27,6 @@ const SignUp = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-    // Bloqueia números no campo de Nome usando Regex
     if (name === "name") {
       const onlyLetters = value.replace(/[0-9]/g, "");
       setFormData({ ...formData, [name]: onlyLetters });
@@ -41,7 +40,6 @@ const SignUp = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
-    // Validar força de senha em tempo real
     if (name === "password") {
       const validation = validatePasswordStrength(value);
       setPasswordErrors(validation.errors);
@@ -52,14 +50,12 @@ const SignUp = () => {
     e.preventDefault();
     setError("");
 
-    // Validação: senhas coincidem
     if (formData.password !== formData.confirmPassword) {
       setError("As senhas não coincidem!");
       logSecurityEvent("signup_password_mismatch", { email: formData.email });
       return;
     }
 
-    // Validação: força da senha
     const passwordValidation = validatePasswordStrength(formData.password);
     if (!passwordValidation.isValid) {
       setError(
@@ -69,23 +65,16 @@ const SignUp = () => {
       return;
     }
 
-    // Validação: email válido
     if (!validateEmail(formData.email)) {
       setError("E-mail inválido. Verifique e tente novamente.");
       logSecurityEvent("signup_invalid_email", { email: formData.email });
       return;
     }
 
-    // Validação dos termos
-    {
-      !acceptedTerms && (
-        <p className="terms-warning">
-          Você precisa aceitar os termos e condições para continuar.
-        </p>
-      );
+    if (!acceptedTerms) {
+      return;
     }
 
-    // Sanitizar inputs antes de enviar
     const sanitizedData = {
       name: sanitizeInput(formData.name),
       email: formData.email.toLowerCase().trim(),
@@ -94,7 +83,6 @@ const SignUp = () => {
     };
 
     try {
-      // 1. Criar o usuário no Auth do Supabase
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: sanitizedData.email,
         password: sanitizedData.password,
@@ -108,7 +96,6 @@ const SignUp = () => {
         throw authError;
       }
 
-      // 2. Se o usuário foi criado, salvar os dados extras na tabela profiles
       if (authData.user) {
         const { error: profileError } = await supabase.from("profiles").insert([
           {
@@ -228,7 +215,6 @@ const SignUp = () => {
                     >
                       ✓ Mínimo de 8 caracteres
                     </li>
-
                     <li
                       className={
                         !passwordErrors.includes("Pelo menos uma letra")
@@ -238,7 +224,6 @@ const SignUp = () => {
                     >
                       ✓ Pelo menos uma letra
                     </li>
-
                     <li
                       className={
                         !passwordErrors.includes("Pelo menos um número")
@@ -274,7 +259,6 @@ const SignUp = () => {
                   checked={acceptedTerms}
                   onChange={(e) => setAcceptedTerms(e.target.checked)}
                 />
-
                 <span>
                   Aceito os{" "}
                   <button
@@ -314,19 +298,54 @@ const SignUp = () => {
             <h3>Termos e Condições de Privacidade</h3>
 
             <div className="terms-content">
+              <h4>TERMOS DE USO DA PLATAFORMA</h4>
+              <p><strong>Versão 1.0 | Maio de 2026</strong></p>
+
+              <h5>APRESENTAÇÃO DA PLATAFORMA</h5>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                A Plataforma do Projeto Language Exchange é um ambiente digital colaborativo criado por membros da rede Global Shapers Community, mais especificamente o Hub Florianópolis com a finalidade de promover intercâmbio linguístico e cultural entre seus participantes. A Plataforma possui natureza voluntária, colaborativa, educacional, internacional e sem finalidade lucrativa. Seu objetivo é conectar participantes interessados em ensinar e aprender idiomas reciprocamente, promovendo troca cultural e desenvolvimento pessoal.
               </p>
 
+              <h5>ACEITAÇÃO DOS TERMOS</h5>
               <p>
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea commodo consequat.
+                Ao realizar cadastro e utilizar a Plataforma, o usuário declara que leu integralmente estes Termos de Uso, compreendeu suas disposições, concorda integralmente com suas regras, possui capacidade legal para utilizar a Plataforma e compromete-se a agir em conformidade com os valores da comunidade Global Shapers. Caso o usuário não concorde com estes Termos, deverá se abster de utilizar a Plataforma.
               </p>
 
+              <h5>ELEGIBILIDADE</h5>
               <p>
-                Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum dolore eu fugiat nulla pariatur.
+                A utilização da Plataforma é restrita a membros ativos da Global Shapers Community, alumnis e participantes autorizados pela equipe gestora do projeto.
+              </p>
+
+              <h5>REGRAS DE CONDUTA</h5>
+              <p>
+                Os usuários comprometem-se a agir com respeito, cordialidade e boa-fé, respeitar diferenças culturais, linguísticas, religiosas, étnicas, políticas e sociais e utilizar a Plataforma exclusivamente para fins compatíveis com sua proposta educacional e comunitária. É expressamente proibido praticar assédio, discriminação ou violência, sob qualquer forma; divulgar conteúdo ofensivo, ilegal ou abusivo; utilizar a Plataforma para fins comerciais; solicitar pagamentos ou vantagens financeiras; compartilhar dados pessoais de terceiros sem autorização; realizar gravações sem consentimento expresso; utilizar a Plataforma para perseguição, spam ou captação indevida de informações.
+              </p>
+
+              <hr style={{ margin: "20px 0", borderTop: "1px solid #ddd" }} />
+
+              <h4>POLÍTICA DE PRIVACIDADE E TRATAMENTO DE DADOS PESSOAIS</h4>
+              <p><strong>Versão 1.0 | Maio de 2026</strong></p>
+
+              <h5>PREÂMBULO</h5>
+              <p>
+                Esta Política de Privacidade e Tratamento de Dados Pessoais descreve como o Global Shapers Florianópolis (Hub Florianópolis), responsável pelo Projeto Language Exchange, coleta, utiliza, armazena, compartilha e protege os dados pessoais dos usuários da Plataforma. O Hub Florianópolis atua como Controlador dos Dados Pessoais nos termos da Lei Geral de Proteção de Dados Pessoais (LGPD - Lei no 13.709/2018).
+              </p>
+
+              <h5>DADOS PESSOAIS COLETADOS</h5>
+              <p>O Hub Florianópolis coleta as seguintes categorias de dados pessoais:</p>
+              <ul>
+                <li><strong>Dados para fins de Identificação e Cadastro:</strong> Nome completo; Endereço de e-mail; País e cidade de residência; Foto de perfil; Data de nascimento (para verificação de elegibilidade etária); Informações de perfil relacionadas à comunidade Global Shapers (Hub do qual participa).</li>
+                <li><strong>Dados para fins Linguísticos e Educacionais:</strong> Idiomas falados (nativos ou fluentes) e respectivos níveis de proficiência; Idiomas que o Usuário deseja aprender; Disponibilidade de horários; Histórico de sessões realizadas (datas, duração, Par Linguístico).</li>
+              </ul>
+
+              <h5>COMPARTILHAMENTO DE DADOS</h5>
+              <p>
+                O Hub Florianópolis poderá compartilhar dados pessoais dos usuários nas seguintes hipóteses: Com outros usuários (Para fins de formação de pares linguísticos); Com Prestadores de Serviço (Operadores); Com a Rede Global Shapers/Fórum Econômico Mundial; e Por Determinação Legal ou Judicial.
+              </p>
+
+              <h5>DIREITOS DOS TITULARES DE DADOS</h5>
+              <p>
+                O Usuário poderá exercer seus direitos gratuitamente, a qualquer momento, por meio do e-mail globalshapersflorianopolis@gmail.com. Dúvidas, solicitações ou denúncias poderão ser encaminhadas à equipe administradora da Plataforma pelos canais oficiais do projeto.
               </p>
             </div>
 
@@ -344,12 +363,10 @@ const SignUp = () => {
         <div className="modal-overlay">
           <div className="modal-box">
             <h3>Conta criada com sucesso 🎉</h3>
-
             <p>
               Sua solicitação foi enviada para o Hub. Você poderá acessar a
               plataforma assim que sua conta for aprovada.
             </p>
-
             <button onClick={() => setSuccessModalOpen(false)}>Entendi</button>
           </div>
         </div>

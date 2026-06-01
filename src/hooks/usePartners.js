@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
-
+import { calculateMatch } from "../services/matchService";
 import { supabase } from "../services/supabaseClient";
 
 export const usePartners = () => {
   const [partners, setPartners] = useState([]);
-
   const [loading, setLoading] = useState(true);
-
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -42,12 +40,6 @@ export const usePartners = () => {
         // =========================
         // TODOS OS PERFIS VÁLIDOS
         // =========================
-        // Regras:
-        // - aprovado
-        // - não sou eu mesmo
-        // - possui speaks
-        // - possui learns
-        // =========================
         const { data, error: fetchError } = await supabase
           .from("profiles")
           .select("*")
@@ -63,24 +55,7 @@ export const usePartners = () => {
         }
 
         // =========================
-        // ARRAYS DO USUÁRIO LOGADO
-        // =========================
-        const currentSpeaks = currentUser.speaks
-          ? currentUser.speaks
-              .split(",")
-              .map((item) => item.trim().toLowerCase())
-              .filter(Boolean)
-          : [];
-
-        const currentLearns = currentUser.learns
-          ? currentUser.learns
-              .split(",")
-              .map((item) => item.trim().toLowerCase())
-              .filter(Boolean)
-          : [];
-
-        // =========================
-        // CALCULAR MATCH
+        // FORMATAR + CALCULAR MATCH
         // =========================
         const formattedPartners = data.map((profile) => {
           const speaksArray = profile.speaks
@@ -97,61 +72,10 @@ export const usePartners = () => {
                 .filter(Boolean)
             : [];
 
-          const speaksLower = speaksArray.map((item) => item.toLowerCase());
-
-          const learnsLower = learnsArray.map((item) => item.toLowerCase());
-
-          // =========================
-          // MATCHES
-          // =========================
-
-          // pessoa fala o que eu quero aprender
-          const teachesWhatILearn = speaksLower.filter((lang) =>
-            currentLearns.includes(lang),
+          const match = calculateMatch(
+            currentUser,
+            profile,
           );
-
-          // pessoa quer aprender o que eu falo
-          const learnsWhatISpeak = learnsLower.filter((lang) =>
-            currentSpeaks.includes(lang),
-          );
-
-          // =========================
-          // SCORE
-          // =========================
-          let matchScore = 0;
-
-          // MATCH PERFEITO
-          if (teachesWhatILearn.length > 0 && learnsWhatISpeak.length > 0) {
-            matchScore += 100;
-          }
-
-          // fala idioma que quero aprender
-          matchScore += teachesWhatILearn.length * 40;
-
-          // quer aprender idioma que falo
-          matchScore += learnsWhatISpeak.length * 40;
-
-          // mesmo hub
-          if (
-            currentUser.hub &&
-            profile.hub &&
-            currentUser.hub.toLowerCase() === profile.hub.toLowerCase()
-          ) {
-            matchScore += 10;
-          }
-
-          // =========================
-          // LABEL DO MATCH
-          // =========================
-          let compatibility = "Baixa";
-
-          if (matchScore >= 10) {
-            compatibility = "Match Perfeito";
-          } else if (matchScore >= 6) {
-            compatibility = "Alta";
-          } else if (matchScore >= 3) {
-            compatibility = "Média";
-          }
 
           return {
             id: profile.id,
@@ -178,29 +102,26 @@ export const usePartners = () => {
 
             learnsArray,
 
-            matchScore,
-
-            compatibility,
-
-            teachesWhatILearn,
-
-            learnsWhatISpeak,
+            ...match,
           };
         });
 
         // =========================
         // ORDENAR MELHORES MATCHES
         // =========================
-        formattedPartners.sort((a, b) => b.matchScore - a.matchScore);
+        formattedPartners.sort(
+          (a, b) => b.matchScore - a.matchScore,
+        );
 
         setPartners(formattedPartners);
-
         setError(null);
       } catch (err) {
-        console.error("Erro ao buscar parceiros:", err);
+        console.error(
+          "Erro ao buscar parceiros:",
+          err,
+        );
 
         setError(err.message);
-
         setPartners([]);
       } finally {
         setLoading(false);

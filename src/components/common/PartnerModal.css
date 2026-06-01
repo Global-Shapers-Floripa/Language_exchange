@@ -203,14 +203,24 @@
   margin-bottom: 0;
 }
 
+.contact-section p {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+ 
+}
+
 .contact-info-list {
   display: flex;
+  text-align: center;
   flex-direction: column;
   gap: 10px;
 }
 
 .contact-info-list p {
   margin: 0;
+  width: 100%;
   color: #334155;
   display: flex;
   align-items: center;

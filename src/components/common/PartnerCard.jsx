@@ -4,7 +4,14 @@ import { COUNTRIES } from "../../constants/countries";
 import "./partner-card.css";
 
 const PartnerCard = ({ partner, onConnect }) => {
-  const isPerfectMatch = partner.matchScore >= 10;
+  const isPerfectMatch =
+  partner.compatibility === "Match Perfeito";
+
+  console.log(
+  partner.full_name,
+  partner.matchScore,
+  partner.compatibility
+);
 
   // Busca o nome do país baseado no código (ex: "BR" -> "Brasil")
   const countryObj = COUNTRIES.find((c) => c.code === partner.country);
@@ -95,6 +102,24 @@ const PartnerCard = ({ partner, onConnect }) => {
             )}
           </div>
         </div>
+
+        <div className="match-container">
+<div
+  className="match-percentage"
+  title="A compatibilidade é calculada com base nos idiomas que você fala, idiomas que deseja aprender e proximidade de hub."
+>
+   {partner.matchScore}% compatível
+</div>
+
+  <div className="match-bar">
+    <div
+      className="match-fill"
+      style={{
+        width: `${partner.matchScore}%`,
+      }}
+    />
+  </div>
+</div>
 
         {/* Botão Conectar */}
         <div className="card-footer">

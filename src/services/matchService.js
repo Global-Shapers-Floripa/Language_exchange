@@ -13,73 +13,98 @@ const normalizeList = (text) => {
 };
 
 // =========================
-// CALCULAR SCORE
+// CALCULAR MATCH
 // =========================
-const calculateMatchScore = (currentUser, profile) => {
-  let score = 0;
-
-  const currentSpeaks = normalizeList(currentUser.speaks);
-
-  const currentLearns = normalizeList(currentUser.learns);
-
-  const profileSpeaks = normalizeList(profile.speaks);
-
-  const profileLearns = normalizeList(profile.learns);
-
-  // =========================
-  // MATCHES
-  // =========================
-
-  // pessoa fala o que eu quero aprender
-  const teachesWhatILearn = profileSpeaks.filter((lang) =>
-    currentLearns.includes(lang),
+export const calculateMatch = (
+  currentUser,
+  profile,
+) => {
+  const currentSpeaks = normalizeList(
+    currentUser.speaks,
   );
 
-  // pessoa quer aprender o que eu falo
-  const learnsWhatISpeak = profileLearns.filter((lang) =>
-    currentSpeaks.includes(lang),
+  const currentLearns = normalizeList(
+    currentUser.learns,
   );
 
-  // =========================
-  // MATCH PERFEITO
-  // =========================
-  if (
-    teachesWhatILearn.length > 0 &&
-    learnsWhatISpeak.length > 0
-  ) {
-    score += 100;
+  const profileSpeaks = normalizeList(
+    profile.speaks,
+  );
+
+  const profileLearns = normalizeList(
+    profile.learns,
+  );
+
+  const teachesWhatILearn =
+    profileSpeaks.filter((lang) =>
+      currentLearns.includes(lang),
+    );
+
+  const learnsWhatISpeak =
+    profileLearns.filter((lang) =>
+      currentSpeaks.includes(lang),
+    );
+
+  let percentage = 0;
+
+  // fala idioma que quero aprender
+  if (teachesWhatILearn.length > 0) {
+    percentage += 50;
   }
 
-  // =========================
-  // SCORE INDIVIDUAL
-  // =========================
-  score += teachesWhatILearn.length * 40;
+  // quer aprender idioma que falo
+  if (learnsWhatISpeak.length > 0) {
+    percentage += 50;
+  }
 
-  score += learnsWhatISpeak.length * 40;
-
-  // =========================
-  // MESMO HUB
-  // =========================
+  // mesmo hub
   if (
     currentUser.hub &&
     profile.hub &&
     currentUser.hub.toLowerCase() ===
       profile.hub.toLowerCase()
   ) {
-    score += 10;
+    percentage += 5;
   }
 
-  return score;
+  percentage = Math.min(
+    percentage,
+    100,
+  );
+
+  let compatibility = "Baixa";
+
+  if (percentage >= 95) {
+    compatibility = "Match Perfeito";
+  } else if (percentage >= 70) {
+    compatibility = "Alta";
+  } else if (percentage >= 40) {
+    compatibility = "Média";
+  }
+console.log({
+  nome: profile.full_name,
+  currentSpeaks,
+  currentLearns,
+  profileSpeaks,
+  profileLearns,
+  teachesWhatILearn,
+  learnsWhatISpeak,
+});
+  return {
+    matchScore: percentage,
+    compatibility,
+    teachesWhatILearn,
+    learnsWhatISpeak,
+  };
 };
 
 // =========================
 // PEGAR MATCHES
 // =========================
-export const getMatches = async (currentUserId) => {
+export const getMatches = async (
+  currentUserId,
+) => {
   try {
-    // =========================
-    // USUÁRIO ATUAL
-    // =========================
     const {
       data: currentUser,
       error: currentUserError,
@@ -93,9 +118,6 @@ export const getMatches = async (currentUserId) => {
       throw currentUserError;
     }
 
-    // =========================
-    // OUTROS PERFIS
-    // =========================
     const {
       data: profiles,
       error: profilesError,
@@ -113,54 +135,41 @@ export const getMatches = async (currentUserId) => {
       throw profilesError;
     }
 
-    // =========================
-    // CALCULAR MATCHES
-    // =========================
-    const matches = profiles.map((profile) => {
-      const score = calculateMatchScore(
-        currentUser,
-        profile,
-      );
+    const matches = profiles.map(
+      (profile) => {
+        const match =
+          calculateMatch(
+            currentUser,
+            profile,
+          );
 
-      // =========================
-      // COMPATIBILIDADE
-      // =========================
-      let compatibility = "Baixa";
+        return {
+          ...profile,
 
-      if (score >= 100) {
-        compatibility = "Perfeito";
-      } else if (score >= 60) {
-        compatibility = "Alta";
-      } else if (score >= 30) {
-        compatibility = "Média";
-      }
+          speaksArray: profile.speaks
+            ? profile.speaks
+                .split(",")
+                .map((item) =>
+                  item.trim(),
+                )
+            : [],
 
-      return {
-        ...profile,
+          learnsArray: profile.learns
+            ? profile.learns
+                .split(",")
+                .map((item) =>
+                  item.trim(),
+                )
+            : [],
 
-        speaksArray: profile.speaks
-          ? profile.speaks
-              .split(",")
-              .map((item) => item.trim())
-          : [],
+          ...match,
+        };
+      },
+    );
 
-        learnsArray: profile.learns
-          ? profile.learns
-              .split(",")
-              .map((item) => item.trim())
-          : [],
-
-        matchScore: score,
-
-        compatibility,
-      };
-    });
-
-    // =========================
-    // ORDENAR
-    // =========================
     matches.sort(
-      (a, b) => b.matchScore - a.matchScore,
+      (a, b) =>
+        b.matchScore - a.matchScore,
     );
 
     return matches;

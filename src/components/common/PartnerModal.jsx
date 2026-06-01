@@ -6,7 +6,8 @@ import "./PartnerModal.css";
 const PartnerModal = ({ partner, onClose }) => {
   if (!partner) return null;
 
-  const isPerfectMatch = partner.matchScore >= 10;
+const isPerfectMatch =
+  partner.compatibility === "Match Perfeito";
 
   // Busca a bandeira do país
   const countryObj = COUNTRIES?.find((c) => c.code === partner.country);
