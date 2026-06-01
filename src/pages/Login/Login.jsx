@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Globe, Mail, Lock, Eye, EyeOff, AlertCircle } from "lucide-react";
 import { supabase } from "../../services/supabaseClient";
 import { useNavigate } from "react-router-dom";
@@ -203,9 +204,9 @@ const Login = () => {
             </button>
           </form>
 
-          <p className="signup-link">
-            Não tem conta? <a href="/signup">Crie uma aqui</a>
-          </p>
+        <p className="signup-link">
+  Não tem conta? <Link to="/signup">Crie uma aqui</Link>
+</p>
         </div>
       </div>
     </div>
