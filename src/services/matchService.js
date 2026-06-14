@@ -81,15 +81,7 @@ export const calculateMatch = (
   } else if (percentage >= 40) {
     compatibility = "Média";
   }
-console.log({
-  nome: profile.full_name,
-  currentSpeaks,
-  currentLearns,
-  profileSpeaks,
-  profileLearns,
-  teachesWhatILearn,
-  learnsWhatISpeak,
-});
+
   return {
     matchScore: percentage,
     compatibility,

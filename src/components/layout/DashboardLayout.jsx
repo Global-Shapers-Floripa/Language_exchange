@@ -10,6 +10,8 @@ import {
   BookOpen,
   LogOut,
   Handshake,
+  UserStar,
+  HelpCircle,
 } from "lucide-react";
 
 import { supabase } from "../../services/supabaseClient";
@@ -168,6 +170,30 @@ const DashboardLayout = ({ children }) => {
           >
             <User size={20} />
             Meu Perfil
+          </NavLink>
+
+           <NavLink
+            to="/help"
+            className={({ isActive }) =>
+              isActive
+                ? "nav-item active"
+                : "nav-item"
+            }
+          >
+            <HelpCircle size={20} />
+            Ajuda
+          </NavLink>
+
+          <NavLink
+            to="/admin"
+            className={({ isActive }) =>
+              isActive
+                ? "nav-item active"
+                : "nav-item"
+            }
+          >
+            <UserStar size={20} />
+            Admin
           </NavLink>
         </nav>
 

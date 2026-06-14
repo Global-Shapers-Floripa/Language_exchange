@@ -3,6 +3,8 @@ import Landing from './pages/Landing';
 import Login from './pages/Login/Login';
 import SignUp from './pages/Login/SignUp';
 
+import AdminDashboard from './pages/Admin/Admin';
+
 
 import Dashboard from './pages/Dashboard/Dashboard';
 import Partner from './pages/FindPartners/Parceiros';
@@ -10,6 +12,7 @@ import Sessoes from './pages/MySessions/Sessoes';
 import Recursos from './pages/Resources/Recursos';
 import Profile from './pages/Profile/EditProfile';
 import ProjectPartners from './pages/Partners/ProjectsPartners';
+import Help from './pages/Help/Help';
 import './App.css';
 
 function App() {
@@ -22,13 +25,15 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
 
+        <Route path="/admin" element={<AdminDashboard />} />
+
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/partners" element={<Partner />} />
         <Route path="/sessions" element={<Sessoes />} />
         <Route path="/resources" element={<Recursos />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/project-partners" element={<ProjectPartners />} />
-        
+        <Route path="/help" element={<Help />} />
       </Routes>
     </Router>
   );
