@@ -178,41 +178,43 @@ const Dashboard = () => {
             </button>
           </div>
         </div>
-        {/* HEADER */}
-        <div className="section-header">
-          <h3>Parceiros Sugeridos</h3>
-          <a href="/partners">Ver todos &gt;</a>
-        </div>
-        {/* MATCHES */}
-        <div className="partners-grid">
-          {loadingMatches ? (
-            <>
-              {[1, 2, 3].map((item) => (
-                <div key={item} className="match-skeleton">
-                  <div className="skeleton-avatar"></div>
-                  <div className="skeleton-line short"></div>
-                  <div className="skeleton-line"></div>
-                  <div className="skeleton-tags">
-                    <span></span>
-                    <span></span>
+        <div className="parceiros-dashboard-preview">
+          {/* HEADER */}
+          <div className="section-header-dashboard">
+            <h3>Parceiros Sugeridos</h3>
+            <a href="/partners">Ver todos &gt;</a>
+          </div>
+          {/* MATCHES */}
+          <div className="partners-grid">
+            {loadingMatches ? (
+              <>
+                {[1, 2, 3].map((item) => (
+                  <div key={item} className="match-skeleton">
+                    <div className="skeleton-avatar"></div>
+                    <div className="skeleton-line short"></div>
+                    <div className="skeleton-line"></div>
+                    <div className="skeleton-tags">
+                      <span></span>
+                      <span></span>
+                    </div>
+                    <div className="skeleton-button"></div>
                   </div>
-                  <div className="skeleton-button"></div>
-                </div>
-              ))}
-            </>
-          ) : matches.length === 0 ? (
-            <p style={{ color: "#666" }}>Nenhum parceiro encontrado.</p>
-          ) : (
-            matches
-              .slice(0, 4)
-              .map((partner) => (
-                <PartnerCard
-                  key={partner.id}
-                  partner={partner}
-                  onConnect={() => handleConnectClick(partner)}
-                />
-              ))
-          )}
+                ))}
+              </>
+            ) : matches.length === 0 ? (
+              <p style={{ color: "#666" }}>Nenhum parceiro encontrado.</p>
+            ) : (
+              matches
+                .slice(0, 4)
+                .map((partner) => (
+                  <PartnerCard
+                    key={partner.id}
+                    partner={partner}
+                    onConnect={() => handleConnectClick(partner)}
+                  />
+                ))
+            )}
+          </div>
         </div>
        {/* MODAL CONTATO */}
         {selectedPartner && (

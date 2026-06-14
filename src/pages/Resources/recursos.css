@@ -52,6 +52,15 @@
   flex-grow: 1;
 }
 
+/* Container dos botões do card */
+.resource-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  gap: 12px;
+}
+
 .resource-link {
   display: flex;
   align-items: center;
@@ -70,6 +79,26 @@
 
 .resource-link:hover {
   text-decoration: underline;
+}
+
+/* Botão discreto de Download no Card */
+.resource-download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #f1f5f9;
+  color: #475569;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.8rem;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.resource-download-btn:hover {
+  background-color: #e2e8f0;
+  color: #1e293b;
 }
 
 /* Cores dos Ícones */
@@ -99,12 +128,10 @@
     width: 100%;
   }
 }
-
 /* =========================================
-   NOVOS ESTILOS DO MODAL
+   NOVOS ESTILOS DO MODAL E DOWNLOADS
    ========================================= */
 
-/* Fundo escuro atrás do modal */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -122,21 +149,19 @@
   animation: fadeIn 0.2s ease-in-out;
 }
 
-/* Caixa branca central */
 .modal-content {
   background: white;
-  border-radius: 24px 0 0 24px;
-  padding: 30px;
+  border-radius: 24px 0px 0px 24px;
+  padding: 20px;
   width: 100%;
-  max-width: 650px;
-  max-height: 85vh;
+  max-width: 1000px; /* AUMENTADO de 650px para 900px */
+  max-height: 90vh; /* AUMENTADO um pouco a altura máxima do modal */
   overflow-y: auto;
   position: relative;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   animation: slideUp 0.3s ease-out;
 }
 
-/* Botão de Fechar no canto superior */
 .modal-close {
   position: absolute;
   top: 24px;
@@ -151,23 +176,22 @@
   justify-content: center;
   cursor: pointer;
   transition: background 0.2s;
+  z-index: 10;
 }
 
 .modal-close:hover {
   background: #e2e8f0;
 }
 
-.modal-header {
+.modal-header-resource {
   display: flex;
   justify-content: start;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 30px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #e2e8f0;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-.modal-header h3 {
+.modal-header-resource h3 {
   font-size: 1.5rem;
   color: #0A3251;
   margin: 0;
@@ -182,38 +206,53 @@
   justify-content: center;
 }
 
-/* Estilização do Conteúdo (Textos do Modal) */
-.modal-body-content h4 {
-  font-size: 1.1rem;
-  color: #1e293b;
-  margin: 24px 0 8px 0;
+/* Container do PDF dentro do modal */
+.modal-body-pdf {
+  width: 100%;
+  height: 70vh; /* AUMENTADO para ocupar mais a tela */
+  min-height: 500px;
+  border-radius: 12px;
+  overflow: hidden; 
+  background-color: #f1f5f9;
+  margin-bottom: 25px; /* Espaço entre o PDF e o botão abaixo */
+}
+
+/* O iframe em si */
+.pdf-viewer {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* Novo footer para centralizar o botão */
+.modal-footer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Botão de destaque para o Download no footer do Modal */
+.modal-download-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: #0A3251;
+  color: white;
+  text-decoration: none;
   font-weight: 700;
+  font-size: 1rem; /* Fonte levemente maior */
+  padding: 14px 30px; /* Botão mais gordinho */
+  border-radius: 12px;
+  transition: background 0.2s;
+  box-shadow: 0 4px 12px rgba(10, 50, 81, 0.15);
 }
 
-.modal-body-content h4:first-child {
-  margin-top: 0;
+.modal-download-action:hover {
+  background-color: #072237;
 }
 
-.modal-body-content p {
-  font-size: 1rem;
-  color: #475569;
-  line-height: 1.6;
-  margin-bottom: 16px;
-}
-
-.modal-body-content ul {
-  padding-left: 20px;
-  margin-bottom: 16px;
-}
-
-.modal-body-content li {
-  font-size: 1rem;
-  color: #475569;
-  line-height: 1.6;
-  margin-bottom: 8px;
-}
-
-/* Animações */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -233,11 +272,25 @@
 /* Responsividade do Modal */
 @media (max-width: 600px) {
   .modal-content {
-    padding: 24px;
+    padding: 20px;
     border-radius: 20px;
   }
   
-  .modal-header h3 {
+  .modal-header-container {
+    padding-right: 0;
+    margin-top: 20px;
+  }
+
+  .modal-body-pdf {
+    height: 55vh;
+    min-height: 400px;
+  }
+
+  .modal-download-action {
+    width: 100%;
+  }
+  
+  .modal-header-resource h3 {
     font-size: 1.25rem;
   }
 }

@@ -1,125 +1,93 @@
 import React, { useEffect, useState } from "react";
+
 import { NavLink, useNavigate } from "react-router-dom";
-import { getCachedUser, setCachedUser } from "../../hooks/useCache";
+
 import {
   Home,
   Users,
   User,
   Calendar,
   BookOpen,
-  Globe,
   LogOut,
   Handshake,
-  CircleQuestionMark
 } from "lucide-react";
 
 import { supabase } from "../../services/supabaseClient";
+
 import logoLE from "../../assets/logo-LanguageExchange.svg";
+
 import "./styles.css";
 
-const DashboardLayout = ({ children, isLoading = false }) => {
+const DashboardLayout = ({ children }) => {
   const navigate = useNavigate();
 
-  const [isAdmin, setIsAdmin] = useState(false);
-
   const [userData, setUserData] = useState({
-    name: "",
-    hub: "",
+    name: "Carregando...",
+    hub: "SHAPER",
     photo_url: "",
   });
 
   // =========================
-  // CARREGAR PERFIL (SEM TRAVAR LAYOUT)
+  // CARREGAR PERFIL
   // =========================
   useEffect(() => {
-    let isMounted = true;
+    const getUserProfile = async () => {
+      try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
 
-    const run = async () => {
-      // 1. pega cache PRIMEIRO
-      const cached = getCachedUser();
+        if (!user) {
+          navigate("/login");
+          return;
+        }
 
-      // 2. aplica cache APÓS render (não no corpo do effect)
-      if (cached?.profile && isMounted) {
-        setUserData({
-          name: cached.profile.full_name || "Usuário",
-          hub: cached.profile.hub || "SHAPER",
-          photo_url: cached.profile.photo_url || "",
-        });
+        const { data, error } = await supabase
+          .from("profiles")
+          .select("full_name, hub, photo_url")
+          .eq("id", user.id)
+          .single();
 
-        setIsAdmin(!!cached.profile.is_admin);
-      }
+        if (error) {
+          console.error(error);
+          return;
+        }
 
-      // 3. busca no Supabase em background
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
-      const user = session?.user;
-
-      if (!user) {
-        navigate("/login");
-        return;
-      }
-
-      const { data } = await supabase
-        .from("profiles")
-        .select("full_name, hub, photo_url, is_admin")
-        .eq("id", user.id)
-        .single();
-
-      if (data && isMounted) {
-        setUserData({
-          name: data.full_name || "Usuário",
-          hub: data.hub || "SHAPER",
-          photo_url: data.photo_url || "",
-        });
-
-        setIsAdmin(!!data.is_admin);
-
-        setCachedUser(user, data);
+        if (data) {
+          setUserData({
+            name: data.full_name || "Usuário",
+            hub: data.hub || "SHAPER",
+            photo_url: data.photo_url || "",
+          });
+        }
+      } catch (err) {
+        console.error(
+          "Erro ao carregar usuário:",
+          err
+        );
       }
     };
 
-    run();
-
-    return () => {
-      isMounted = false;
-    };
+    getUserProfile();
   }, [navigate]);
-
-  if (isLoading) {
-    return (
-      <div
-        style={{
-          width: "100%",
-          height: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          background: "#fcf8f8",
-          color: "#666",
-          fontSize: "16px",
-        }}
-      >
-        <div className="loader"></div>
-      </div>
-    );
-  }
 
   // =========================
   // LOGOUT
   // =========================
   const handleLogout = async () => {
     await supabase.auth.signOut();
+
     navigate("/");
   };
 
   // =========================
-  // AVATAR (SEM FLICKER)
+  // FOTO
   // =========================
-  const avatarUrl = userData.photo_url?.trim()
-    ? userData.photo_url
-    : `https://api.dicebear.com/7.x/avataaars/svg?seed=${userData.name || "user"}`;
+  const avatarUrl =
+    userData.photo_url &&
+    userData.photo_url !== ""
+      ? userData.photo_url
+      : `https://api.dicebear.com/7.x/avataaars/svg?seed=${userData.name}`;
 
   return (
     <div className="dashboard-container">
@@ -127,14 +95,15 @@ const DashboardLayout = ({ children, isLoading = false }) => {
       <aside className="sidebar">
         <div className="sidebar-logo">
           <img src={logoLE} alt="Logo" />
-          <p>Language Exchange</p>
         </div>
 
         <nav className="sidebar-nav">
           <NavLink
             to="/dashboard"
             className={({ isActive }) =>
-              isActive ? "nav-item active" : "nav-item"
+              isActive
+                ? "nav-item active"
+                : "nav-item"
             }
           >
             <Home size={20} />
@@ -144,7 +113,9 @@ const DashboardLayout = ({ children, isLoading = false }) => {
           <NavLink
             to="/partners"
             className={({ isActive }) =>
-              isActive ? "nav-item active" : "nav-item"
+              isActive
+                ? "nav-item active"
+                : "nav-item"
             }
           >
             <Users size={20} />
@@ -154,7 +125,9 @@ const DashboardLayout = ({ children, isLoading = false }) => {
           <NavLink
             to="/sessions"
             className={({ isActive }) =>
-              isActive ? "nav-item active" : "nav-item"
+              isActive
+                ? "nav-item active"
+                : "nav-item"
             }
           >
             <Calendar size={20} />
@@ -164,7 +137,9 @@ const DashboardLayout = ({ children, isLoading = false }) => {
           <NavLink
             to="/resources"
             className={({ isActive }) =>
-              isActive ? "nav-item active" : "nav-item"
+              isActive
+                ? "nav-item active"
+                : "nav-item"
             }
           >
             <BookOpen size={20} />
@@ -174,47 +149,32 @@ const DashboardLayout = ({ children, isLoading = false }) => {
           <NavLink
             to="/project-partners"
             className={({ isActive }) =>
-              isActive ? "nav-item active" : "nav-item"
+              isActive
+                ? "nav-item active"
+                : "nav-item"
             }
           >
             <Handshake size={20} />
-            Parceiros
+             Parceiros
           </NavLink>
 
           <NavLink
             to="/profile"
             className={({ isActive }) =>
-              isActive ? "nav-item active" : "nav-item"
+              isActive
+                ? "nav-item active"
+                : "nav-item"
             }
           >
             <User size={20} />
-            Perfil
+            Meu Perfil
           </NavLink>
-
-          <NavLink
-            to="/help"
-            className={({ isActive }) =>
-              isActive ? "nav-item active" : "nav-item"
-            }
-          >
-            <CircleQuestionMark size={20} />
-            Ajuda
-          </NavLink>
-
-          {isAdmin && (
-            <NavLink
-              to="/admin"
-              className={({ isActive }) =>
-                isActive ? "nav-item active" : "nav-item"
-              }
-            >
-              <Users size={20} />
-              Admin 
-            </NavLink>
-          )}
         </nav>
 
-        <button className="btn-logout" onClick={handleLogout}>
+        <button
+          className="btn-logout"
+          onClick={handleLogout}
+        >
           <LogOut size={20} />
           Sair
         </button>
@@ -222,36 +182,57 @@ const DashboardLayout = ({ children, isLoading = false }) => {
 
       {/* CONTEÚDO */}
       <main className="main-content">
-        <header className="top-header">
-          <span className="community-tag">
-            <Globe size={16} />
-            <p>GLOBAL SHAPERS COMMUNITY</p>
-          </span>
-          <div
-            className="user-profile clickable-profile"
-            onClick={() => navigate("/profile")}
+  <header className="top-header">
+    <span className="community-tag">
+      GLOBAL SHAPERS COMMUNITY
+    </span>
+
+    <div
+      className="user-profile clickable-profile"
+      onClick={() => navigate("/profile")}
+    >
+      <div className="user-info">
+        <p>{userData.name}</p>
+
+        <span>
+          HUB{" "}
+          {userData.hub?.toUpperCase()}
+        </span>
+      </div>
+
+      <div className="avatar-wrapper">
+        <img
+          src={avatarUrl}
+          alt="Avatar"
+          className="avatar"
+        />
+
+        <div className="avatar-edit-overlay">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+            className="edit-icon"
           >
-            <div className="user-info">
-              <p>{userData.name || "..."}</p>
-              <span>
-                HUB {userData.hub ? userData.hub.toUpperCase() : "..."}
-              </span>
-            </div>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M16.862 4.487a2.25 2.25 0 113.182 3.182L7.5 20.213 3 21l.787-4.5 13.075-12.013z"
+            />
+          </svg>
 
-            <div className="avatar-wrapper">
-              {userData.name && (
-                <img src={avatarUrl} alt="Avatar" className="avatar" />
-              )}
+          <span>Editar perfil</span>
+        </div>
+      </div>
+    </div>
+  </header>
 
-              <div className="avatar-edit-overlay">
-                <span>Editar perfil</span>
-              </div>
-            </div>
-          </div>
-        </header>
-
-        <section className="page-body">{children}</section>
-      </main>
+  <section className="page-body">
+    {children}
+  </section>
+</main>
     </div>
   );
 };

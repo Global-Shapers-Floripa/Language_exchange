@@ -1,38 +1,38 @@
+/* Container Principal */
 .partner-card {
   background: #FFFFFF;
-  box-shadow: 0px 3px 10px 1px rgba(7, 9, 14, 0.199);
-  border-radius: 40px;
+  border: 1px solid #E9EBF8;
+  border-radius: 15px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   width: 100%;
-  max-width: 280px;
-  position: relative;
+  max-width: 250px;
   box-sizing: border-box;
   font-family: 'Montserrat', sans-serif;
   transition: transform 0.3s ease, box-shadow 0.2s ease;
-  height: 100%;
-  padding: 8px;
+  padding: 15px;
+  position: relative;
   overflow: hidden;
+  height: 100%;
 }
 
 .partner-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0px 10px 25px 6px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
 }
 
 /* Perfect Match Badge */
 .perfect-match-card {
-  border: 2px solid #00acf08f;
+  border: 1px solid #00acf08f;
 }
 
 .perfect-match-badge {
   position: absolute;
   top: 18px;
-  right: -35px;
-  background: #00acf0;
+  right: -45px;
+  background: #00acf0d2;
   color: white;
-  padding: 6px 40px;
+  padding: 2px 40px;
   font-size: 12px;
   font-weight: 700;
   transform: rotate(35deg);
@@ -40,95 +40,82 @@
   z-index: 10;
 }
 
-/* Banner da Bandeira */
-.flag-banner {
-  width: 100%;
-  height: 80px;
-  border-radius: 30px;
-  background-size: cover;
-  background-position: center;
-  filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.15));
+/* Estrutura do Topo (Header) em linha */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 4px;
 }
 
-/* Avatar Sobreposto */
+/* Avatar e Bandeira Pequena */
 .avatar-container {
-  margin-top: -60px;
-  /* Puxa a foto para cima da bandeira */
-  z-index: 2;
+  position: relative;
   display: flex;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .partner-avatar {
-  width: 80px;
-  height: 80px;
+  width: 65px;
+  height: 65px;
   border-radius: 500px;
-  border: 5px solid #FFFFFF;
-  box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.15);
+  border: 4px solid #009440;
   object-fit: cover;
   background: #f1f5f9;
+}
+
+.avatar-flag {
+  position: absolute;
+  width: 36px;
+  height: 20px;
+  bottom: -8px;
+  border-radius: 4px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  object-fit: cover;
 }
 
 /* Informações Principais (Nome e Local) */
 .partner-main-info {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .partner-name {
-  margin: 0;
+  margin: 0 0 6px 0;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 14px;
+  color: #35315B;
   line-height: 1.2;
   letter-spacing: 0.05em;
-  color: #35315B;
-  text-align: center;
 }
 
-.partner-location {
-  margin: 6px 0 0 0;
+.partner-location,
+.partner-country {
   font-weight: 400;
-  font-size: .8rem;
+  font-size: 11px;
   color: rgba(11, 8, 41, 0.63);
   display: flex;
-  padding: 0 10px;
-  line-height: 1;
   align-items: center;
-  gap: 6px;
-}
-
-.partner-country {
-  margin: 4px 0 0 0;
-  font-weight: 500;
-  font-size: .78rem;
-  color: rgba(11, 8, 41, 0.55);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  line-height: 1;
-  padding: 0 10px;
+  gap: 4px;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Linha divisória */
 .divider {
-  width: 80%;
+  width: 100%;
   height: 1px;
-  background: #ddd2d2a6;
-  margin: 8px 0;
+  background: #E9EBF8;
+  margin: 16px 0;
 }
 
-/* Detalhes (Idiomas e Botão) */
+/* Detalhes (Idiomas) */
 .partner-details-card {
-  width: 100%;
-  padding: 0 16px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  box-sizing: border-box;
-
+  gap: 16px;
   flex: 1;
-
 }
 
 .partner-section-card {
@@ -137,11 +124,10 @@
 }
 
 .section-title-card {
-  font-weight: 500;
-  font-size: .8rem;
+  font-weight: 400;
+  font-size: 12px;
+  color: rgba(11, 8, 41, 0.64);
   letter-spacing: 0.05em;
-  color: rgba(115, 114, 128, 0.651);
-  margin-bottom: 5px;
 }
 
 .tags-card {
@@ -151,16 +137,15 @@
 }
 
 .tag-card {
-  padding: 10px;
-  border-radius: 10px;
+  padding: 2px 6px;
+  border-radius: 5px;
   font-weight: 600;
   font-size: 12px;
   letter-spacing: 0.05em;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 24px;
-  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
 
 .tag-card.orange {
@@ -179,69 +164,71 @@
   font-style: italic;
 }
 
+/* Footer (Barra de Compatibilidade e Botão) */
 .card-footer {
   margin-top: auto;
-
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-/* Botão de Conectar */
-.connect-btn {
-  margin-top: 10px;
+.match-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.match-percentage {
+  font-size: 11px;
+  color: #64748bbd;
+  font-family: 'Poppins', sans-serif;
+}
+
+.match-bar {
   width: 100%;
-  background: rgba(43, 135, 191, 0.13);
+  height: 8px;
+  background: #E9EBF8;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.match-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #87ade7, #1f5ab1);
+  border-radius: 999px;
+}
+
+/* Botão Conectar */
+.connect-btn {
+  background: #EAF6FD;
   border: 2px solid #12ADE5;
   border-radius: 15px;
   color: #0595EF;
   font-weight: 500;
-  font-size: 1.2rem;
+  font-size: 18px;
   padding: 8px;
-  letter-spacing: 0.05em;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
-  font-family: 'Montserrat', sans-serif;
-
-  margin-bottom: 10px;
+  font-family: 'Poppins', sans-serif;
+  width: 70%;
+ margin: 0 auto;
 }
 
 .connect-btn:hover {
-  background: rgba(15, 139, 216, 0.322);
+  background: #DDF0FA;
   transform: translateY(-2px);
 }
 
+/* Responsividade */
 @media (max-width: 768px) {
-  /* ... (mantenha os ajustes que você já tem do banner e header) ... */
-
-  /* ==================================
-     GRID DOS PARCEIROS (2 COLUNAS)
-  ================================== */
-
-
-  /* ==================================
-     MINIATURIZAÇÃO DOS CARDS
-  ================================== */
   .partner-card {
     max-width: 100%;
-    /* Permite que o card ocupe a largura da sua coluna */
-    padding: 6px;
-    /* Reduz o respiro interno geral */
-    border-radius: 24px;
-    /* Suaviza as bordas para combinar com o tamanho menor */
-  }
-
-  /* Ajuste do banner da bandeira */
-  .flag-banner {
-    height: 55px;
-    border-radius: 18px;
-  }
-
-  /* Ajuste do Avatar */
-  .avatar-container {
-    margin-top: -55px;
-    /* Puxa menos para cima devido à foto menor */
+    padding: 16px;
   }
 
   .partner-avatar {
@@ -250,100 +237,48 @@
     border-width: 3px;
   }
 
-  /* Faixa de Match Perfeito (para não vazar da tela) */
+  .avatar-flag {
+    width: 22px;
+    height: 15px;
+    bottom: -2px;
+  }
+
   .perfect-match-badge {
     top: 10px;
     right: -25px;
     padding: 4px 25px;
     font-size: 9px;
-    transform: rotate(35deg);
   }
 
-  /* Textos Principais */
   .partner-name {
-    font-size: 0.9rem;
-    margin-top: 4px;
+    font-size: 0.95rem;
   }
 
   .partner-location,
   .partner-country {
-    font-size: 0.7rem;
-    padding: 0 4px;
-    gap: 4px;
-  }
-
-  .partner-location svg,
-  .partner-country svg {
-    width: 12px;
-    height: 12px;
-  }
-
-  /* Áreas de Idioma */
-  .partner-details-card {
-    padding: 0 8px;
-    gap: 8px;
+    font-size: 0.75rem;
   }
 
   .section-title-card {
-    font-size: 0.7rem;
-    margin-bottom: 3px;
+    font-size: 0.75rem;
   }
 
   .tag-card {
-    padding: 4px 8px;
-    font-size: 10px;
-    height: auto;
-    /* Deixa a altura flexível caso o nome do idioma seja longo */
+    padding: 4px 10px;
+    font-size: 12px;
     border-radius: 6px;
   }
 
-  /* Botão Conectar */
   .connect-btn {
-    font-size: 0.75rem;
-    padding: 5px;
-    gap: 6px;
-    border-radius: 10px;
-    margin-top: 4px;
-  }
-
-  .connect-btn svg {
-    width: 16px;
-    height: 16px;
+    font-size: 1rem;
+    padding: 8px;
   }
 }
 
-.match-container {
-  margin: 12px 0;
-}
-
-.match-percentage {
-  font-size: 0.75rem;
-  color: #64748b;
-}
-
-.match-bar {
-  width: 100%;
-  height: 8px;
-  background: #e5e7eb;
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.match-fill {
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    #0066ff,
-    #627df3
-  );
-  border-radius: 999px;
-}
-
-/* Garante que em telas muito, muito pequenas (ex: iPhone SE), ele não quebre as tags */
 @media (max-width: 360px) {
   .tag-card {
-    font-size: 9px;
-    padding: 3px 6px;
+    font-size: 10px;
+    padding: 3px 8px;
   }
 
   .partner-name {

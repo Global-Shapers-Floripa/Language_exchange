@@ -9,56 +9,41 @@ BANNER
 
 .welcome-banner {
   background: linear-gradient(90deg,
-      #183a55 0%,
-      #1d4a6e 100%);
-
+      #18385509 0%,
+      #1d4a6e10 100%);
   border-radius: 20px;
-
   display: flex;
-
   margin-top: 10px;
-
   justify-content: space-between;
-
+  border: 1px solid rgb(191, 206, 224);
   align-items: center;
-
   padding: 15px 20px;
   border-left: #ff6600 7px solid;
-  border-right: #ff6600 7px solid;
-
   position: relative;
 
 }
 
 .banner-content {
   display: flex;
-
   align-items: center;
   justify-content: space-between;
-
   gap: 18px;
   width: 100%;
-
   z-index: 2;
 }
 
 .banner-text h2 {
   font-size: 1.2rem;
   letter-spacing: 0.9px;
-
   font-weight: 800;
-
-  color: #ffffff;
-
+  color: #0a0c25c9;
   margin: 0;
 }
 
 .banner-text p {
   font-size: .9rem;
   margin-left: 10px;
-
-  color: #ffffff;
-
+  color: #0a0c25d2;
   opacity: 0.9;
 
 
@@ -71,91 +56,63 @@ BOTÃO
 
 .btn-register {
   background: #ff6600;
-
   color: white;
-
   border: none;
-
   padding: 14px 22px;
-
   border-radius: 14px;
-
   font-weight: 700;
-
   font-size: 1rem;
-
   cursor: pointer;
-
   display: flex;
-
   align-items: center;
-
   gap: 12px;
-
   transition: 0.2s;
 }
 
 .btn-register:hover {
-  background: #e06f05;
-
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 102, 0, 0.3);
 }
 
 .icon-circle {
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
   width: 22px;
-
   height: 22px;
-
   border: 2px solid white;
-
   border-radius: 50%;
 }
 
 .plus-icon {
   width: 10px;
-
   height: 10px;
 }
 
-
-/* =========================
-HEADER
-========================= */
-
-.section-header {
+.section-header-dashboard {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 30px 0 24px;
+  margin: 30px;
+  margin-bottom: 0px;
 }
 
-.section-header h3 {
+.section-header-dashboard h3 {
   font-size: 1.5rem;
-
-  color: #0e2a58;
-
+  color: #0c2752;
   margin: 0;
 }
 
-.section-header a {
-  color: #0f2452ab;
-
+.section-header-dashboard a {
+  color: #0f2452e7;
   text-decoration: none;
-
   font-weight: 700;
-
   transition: .5s;
   font-size: 0.95rem;
 }
 
-.section-header a:hover {
-  color: #89a8e9;
+.section-header-dashboard a:hover {
+  color: #2b4f9c;
 }
 
 /* =========================
@@ -164,15 +121,13 @@ GRID
 
 .partners-grid {
   display: grid;
-
-  grid-template-columns: repeat(auto-fit,
-      minmax(250px, 1fr));
-
-  gap: 15px;
-  justify-items: center;
+  /* Define a coluna com tamanho fixo em vez de elástico (tira o 1fr) */
+  grid-template-columns: repeat(auto-fit, 250px);
+  gap: 10px;
+  /* Centraliza o bloco inteiro do grid no meio da tela */
+  justify-content: center;
   width: 100%;
-   align-items: stretch;
-   padding: 20px 0;
+  padding: 20px 0;
 }
 
 /* =========================
@@ -356,7 +311,7 @@ RESPONSIVO
   }
 
 
-  .section-header {
+  .section-header-dashboard {
     flex-direction: column;
 
     align-items: flex-start;
@@ -365,21 +320,23 @@ RESPONSIVO
   }
 
 
-  .section-header h3 {
+  .section-header-dashboard h3 {
     font-size: 1.2rem;
     width: 100%;
     text-align: center;
   }
 
-  .section-header a {
+  .section-header-dashboard a {
     width: 100%;
     text-align: center;
     font-size: 0.85rem;
   }
 
-    .partners-grid {
-    grid-template-columns: repeat(2, 1fr); /* Força exatas 2 colunas */
-    gap: 5px; /* Reduz o espaçamento entre os cards para caber melhor */
+  .partners-grid {
+    grid-template-columns: repeat(2, 1fr);
+    /* Força exatas 2 colunas */
+    gap: 5px;
+    /* Reduz o espaçamento entre os cards para caber melhor */
     padding: 10px 0;
   }
 }
