@@ -97,6 +97,7 @@ const DashboardLayout = ({ children }) => {
       <aside className="sidebar">
         <div className="sidebar-logo">
           <img src={logoLE} alt="Logo" />
+          <p>Language Exchange</p>
         </div>
 
         <nav className="sidebar-nav">

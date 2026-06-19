@@ -69,7 +69,6 @@ export const useAddSession = () => {
             date: sessionData.date,
             duration: sessionData.duration,
             languages: languagesString,
-            status: sessionData.status || 'pendente',
             notes: sessionData.notes,
             session_photo_url: photoUrl,
           },

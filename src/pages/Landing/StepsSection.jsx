@@ -40,7 +40,7 @@ const steps = [
 
 const ComoFunciona = () => {
   return (
-    <section className="como-section-wrapper">
+    <section className="como-section-wrapper" id="como-funciona">
       {/* Divider Orgânico no Topo */}
       <div className="custom-shape-divider-top-steps">
         <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">

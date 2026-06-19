@@ -9,6 +9,12 @@
   font-family: 'Montserrat', sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 60px; 
+}
+
+
 /* 1. Define a largura da barra */
 ::-webkit-scrollbar {
   width: 10px; /* Barra vertical */

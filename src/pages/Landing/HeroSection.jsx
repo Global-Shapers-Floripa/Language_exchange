@@ -1,42 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
 import "./styles.css";
-import "./hero.css";
-//import logoGlobalShapers from "../../assets/logo-azul-GSF.svg";
+import "./hero.css"; // Assumindo que os estilos do banner estão aqui
 import logoLanguageExchange from "../../assets/logo-LanguageExchange.svg";
-import { MapPin } from "lucide-react";
-import { UserPlus } from "lucide-react";
-import { Globe } from "lucide-react";
-
+import { MapPin, UserPlus, Globe } from "lucide-react";
 import SobreSection from "./Sobre-projeto";
-
 import { Link } from "react-router-dom";
 
 const HeroSection = () => {
+  // Estado para controlar o menu hambúrguer no mobile
+  const [menuOpen, setMenuOpen] = useState(false);
+  const closeMenu = () => setMenuOpen(false);
+
   return (
     <>
-      {/* Header isolado da Hero */}
+      {/* Header isolado da Hero - Agora com o design Glassmorphism */}
       <header className="landing-header">
-        <div className="container">
-          <nav className="landing-nav">
+        <div className="container landing-nav">
+          <Link to="/" onClick={closeMenu}>
             <img
               src={logoLanguageExchange}
-              alt="Global Shapers Logo"
+              alt="Language Exchange Logo"
               className="logo-nav"
             />
-            <div className="nav-links">
-              <a href="#projeto">O Projeto</a>
-              <a href="#como-funciona">Como funciona</a>
-              <a href="#nosso-hub">Hub Florianópolis</a>
-              <a href="#contato">Contato</a>
-            </div>
-            <Link to="/dashboard">
+          </Link>
+
+          <nav className={`nav-links ${menuOpen ? "active" : ""}`}>
+            <a href="#projeto" onClick={closeMenu}>O Projeto</a>
+            <a href="#como-funciona" onClick={closeMenu}>Como funciona</a>
+            <a href="#faq" onClick={closeMenu}>Perguntas Frequentes</a>
+            <a href="#contato" onClick={closeMenu}>Contato</a>
+
+            {/* Botão Faça Parte aparece dentro do menu no celular */}
+            <Link to="/dashboard" className="mobile-cta" onClick={closeMenu}>
               <button className="cta-header">Faça parte</button>
             </Link>
           </nav>
+
+          {/* Grupo da direita (Botão Desktop + Hambúrguer) */}
+          <div className="navbar-right-actions">
+            <Link to="/dashboard" className="desktop-cta">
+              <button className="cta-header">Faça parte</button>
+            </Link>
+
+            <button
+              className="hamburger"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Abrir menu"
+            >
+              <span />
+              <span />
+              <span />
+            </button>
+          </div>
         </div>
       </header>
 
-      {/* Hero Section focada apenas no Banner */}
+      {/* Hero Section focada apenas no Banner (Conteúdo intacto) */}
       <section className="hero-section">
         <div className="container">
           <div className="hero-content">

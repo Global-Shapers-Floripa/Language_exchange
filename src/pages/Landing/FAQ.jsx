@@ -9,7 +9,7 @@ const FaqSection = () => {
     {
       question: "Quem pode participar do Language Exchange?",
       answer:
-        "O programa é exclusivo para membros (Shapers e Alunos) da rede Global Shapers Community. Se você faz parte de um Hub, está convidado a se registrar.",
+        "O programa é exclusivo para membros Shapers da rede Global Shapers Community. Se você faz parte de um Hub, está convidado a se registrar.",
     },
     {
       question: "Como funciona o sistema de Match?",
@@ -33,7 +33,7 @@ const FaqSection = () => {
   };
 
   return (
-    <section className="faq-section-wrapper">
+    <section className="faq-section-wrapper" id="faq">
       {/* O DIVIDER */}
       <div className="custom-shape-divider-top-faq">
         <svg

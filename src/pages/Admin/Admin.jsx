@@ -2,58 +2,72 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../services/supabaseClient";
 import DashboardLayout from "../../components/layout/DashboardLayout";
+import { COUNTRIES } from "../../constants/countries";
+import { LANGUAGES } from "../../constants/languages";
+import { Users, MapPin, Languages, GraduationCap } from "lucide-react";
 import "./admin.css";
 
-// 🌍 Função auxiliar para bandeiras (adicione mais conforme a necessidade do seu Hub)
-const getCountryFlag = (country) => {
-  if (!country) return "";
-  const map = {
-    "brasil": "🇧🇷",
-    "brazil": "🇧🇷",
-    "portugal": "🇵🇹",
-    "eua": "🇺🇸",
-    "usa": "🇺🇸",
-    "estados unidos": "🇺🇸",
-    "inglaterra": "🇬🇧",
-    "uk": "🇬🇧",
-    "espanha": "🇪🇸",
-    "frança": "🇫🇷",
-    "argentina": "🇦🇷",
-    "canadá": "🇨🇦",
-    "canada": "🇨🇦",
-    "itália": "🇮🇹",
-    "italia": "🇮🇹",
-    "alemanha": "🇩🇪",
-    "rússia": "🇷🇺",
-    "russia": "🇷🇺",
-    "china": "🇨🇳"
+// Função para buscar nome e bandeira do país
+const getCountryInfo = (code) => {
+  if (!code) return { name: "Não informado", flag: "" };
+  const upperCode = code.toUpperCase().trim();
+  const countryObj = COUNTRIES.find((c) => c.code === upperCode);
+
+  return {
+    name: countryObj ? countryObj.name : code,
+    flag: `https://flagcdn.com/w20/${upperCode.toLowerCase()}.png`,
   };
-  return map[country.toLowerCase().trim()] || "🌐";
+};
+
+// Função para pegar as iniciais do nome
+const getInitials = (name) => {
+  if (!name) return "U";
+  const parts = name.split(" ");
+  if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+  return name.substring(0, 2).toUpperCase();
+};
+
+const formatLanguages = (languages) => {
+  if (!languages) return "";
+
+  return languages
+    .split(",")
+    .map((code) => {
+      const language = LANGUAGES.find((lang) => lang.code === code.trim());
+
+      return language ? language.name : code;
+    })
+    .join(", ");
 };
 
 const Admin = () => {
   const navigate = useNavigate();
-  
-  // Estados de Dados
+
   const [users, setUsers] = useState([]);
   const [sessions, setSessions] = useState([]);
-  const [stats, setStats] = useState({ total: 0, approved: 0, pending: 0, topHubs: [], topLanguages: [] });
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [stats, setStats] = useState({
+    total: 0,
+    approved: 0,
+    pending: 0,
+    topHubs: [],
+    topSpeaks: [],
+    topLearns: [],
+    maxHub: 0,
+    maxSpeak: 0,
+    maxLearn: 0,
+  });
   const [loading, setLoading] = useState(true);
 
-  // Estados de Busca (Filtros)
   const [userSearch, setUserSearch] = useState("");
-  const [sessionSearch, setSessionSearch] = useState("");
 
-  // Estados dos Modais
   const [selectedUser, setSelectedUser] = useState(null);
-  const [selectedSession, setSelectedSession] = useState(null);
 
   useEffect(() => {
     const checkAccessAndFetchData = async () => {
       try {
         setLoading(true);
-        
-        // 1. Verifica autenticação e permissão
+
         const { data: auth } = await supabase.auth.getUser();
         if (!auth?.user) {
           navigate("/login");
@@ -71,15 +85,16 @@ const Admin = () => {
           return;
         }
 
-        // 2. Busca Usuários
         const { data: profilesData, error: profilesError } = await supabase
           .from("profiles")
-          .select("*")
-          .order("created_at", { ascending: false });
+          .select("*");
 
         if (profilesError) throw profilesError;
 
-        // 3. Busca Sessões
+        const sortedProfiles = profilesData.sort((a, b) =>
+          (a.full_name || "").localeCompare(b.full_name || ""),
+        );
+
         const { data: sessionsData, error: sessionsError } = await supabase
           .from("sessions")
           .select("*")
@@ -87,39 +102,78 @@ const Admin = () => {
 
         if (sessionsError) throw sessionsError;
 
-        // 4. Processa Estatísticas do DashboardAdmin antigo
-        const total = profilesData.length;
-        const approved = profilesData.filter(u => u.is_approved).length;
+        const totalSessions = sessionsData.length;
+
+        const totalMinutes = sessionsData.reduce(
+          (acc, s) => acc + (s.duration || 0),
+          0,
+        );
+
+        const averageDuration =
+          totalSessions > 0 ? Math.round(totalMinutes / totalSessions) : 0;
+
+        const total = sortedProfiles.length;
+        const approved = sortedProfiles.filter((u) => u.is_approved).length;
         const pending = total - approved;
 
         const hubCount = {};
-        const langCount = {};
+        const speaksCount = {};
+        const learnsCount = {};
 
-        profilesData.forEach(u => {
+        sortedProfiles.forEach((u) => {
           if (u.hub) hubCount[u.hub] = (hubCount[u.hub] || 0) + 1;
-          if (u.speaks) langCount[u.speaks] = (langCount[u.speaks] || 0) + 1;
-          if (u.learns) langCount[u.learns] = (langCount[u.learns] || 0) + 1;
+          if (u.speaks)
+            speaksCount[u.speaks] = (speaksCount[u.speaks] || 0) + 1;
+          if (u.learns)
+            learnsCount[u.learns] = (learnsCount[u.learns] || 0) + 1;
         });
 
-        const topHubs = Object.entries(hubCount).sort((a, b) => b[1] - a[1]).slice(0, 5);
-        const topLanguages = Object.entries(langCount).sort((a, b) => b[1] - a[1]).slice(0, 5);
+        const topHubs = Object.entries(hubCount)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 5);
+        const topSpeaks = Object.entries(speaksCount)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 5);
+        const topLearns = Object.entries(learnsCount)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 5);
 
-        setStats({ total, approved, pending, topHubs, topLanguages });
-        setUsers(profilesData || []);
-        
-        // Mapeia os nomes para as sessões
-        const mappedSessions = (sessionsData || []).map(session => {
-          const host = profilesData.find(p => p.id === session.user_id);
-          const partner = profilesData.find(p => p.id === session.partner_id);
+        // Pega o valor máximo para as barras de progresso
+        const maxHub = topHubs.length ? topHubs[0][1] : 1;
+        const maxSpeak = topSpeaks.length ? topSpeaks[0][1] : 1;
+        const maxLearn = topLearns.length ? topLearns[0][1] : 1;
+
+        setStats({
+          total,
+          approved,
+          pending,
+
+          totalSessions,
+          totalMinutes,
+          averageDuration,
+
+          topHubs,
+          topSpeaks,
+          topLearns,
+          maxHub,
+          maxSpeak,
+          maxLearn,
+        });
+        setUsers(sortedProfiles);
+
+        const mappedSessions = (sessionsData || []).map((session) => {
+          const host = sortedProfiles.find((p) => p.id === session.user_id);
+          const partner = sortedProfiles.find(
+            (p) => p.id === session.partner_id,
+          );
           return {
             ...session,
             host_name: host ? host.full_name : "Usuário Desconhecido",
-            partner_name: partner ? partner.full_name : "Parceiro Desconhecido"
+            partner_name: partner ? partner.full_name : "Parceiro Desconhecido",
           };
         });
-        
-        setSessions(mappedSessions);
 
+        setSessions(mappedSessions);
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
       } finally {
@@ -130,231 +184,341 @@ const Admin = () => {
     checkAccessAndFetchData();
   }, [navigate]);
 
-  // ✅ Função de Aprovação Integrada (Com envio de Email)
-  const approveUser = async (userToApprove) => {
+  const approveUser = async (userToApprove, e) => {
+    e.stopPropagation(); // Evita abrir o modal ao clicar em aprovar
     try {
-      // 1. Atualiza no banco
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from("profiles")
         .update({ is_approved: true })
-        .eq("id", userToApprove.id)
-        .select();
+        .eq("id", userToApprove.id);
 
       if (error) throw error;
-      console.log("Registro atualizado:", data);
 
-      // 2. Dispara e-mail
-      await fetch("https://ndiadfadpicgppzvlynk.supabase.co/functions/v1/send-approval-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: userToApprove.email,
-          name: userToApprove.full_name,
-        }),
-      });
+      await fetch(
+        "https://ndiadfadpicgppzvlynk.supabase.co/functions/v1/send-approval-email",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: userToApprove.email,
+            name: userToApprove.full_name,
+          }),
+        },
+      );
 
-      // 3. Atualiza estado local e estatísticas
-      const updatedUsers = users.map(u => u.id === userToApprove.id ? { ...u, is_approved: true } : u);
+      const updatedUsers = users.map((u) =>
+        u.id === userToApprove.id ? { ...u, is_approved: true } : u,
+      );
       setUsers(updatedUsers);
-      
-      const approvedCount = updatedUsers.filter(u => u.is_approved).length;
-      setStats(prev => ({
+
+      const approvedCount = updatedUsers.filter((u) => u.is_approved).length;
+      setStats((prev) => ({
         ...prev,
         approved: approvedCount,
-        pending: updatedUsers.length - approvedCount
+        pending: updatedUsers.length - approvedCount,
       }));
-
-      alert("Usuário aprovado com sucesso!");
-
     } catch (err) {
       console.error("Erro ao aprovar usuário:", err.message);
       alert("Ocorreu um erro ao tentar aprovar o usuário.");
     }
   };
 
-  // Filtros de Busca
-  const filteredUsers = users.filter(u => {
+  const filteredUsers = users.filter((u) => {
     const searchStr = userSearch.toLowerCase();
     return (
       (u.full_name || "").toLowerCase().includes(searchStr) ||
+      (u.email || "").toLowerCase().includes(searchStr) ||
       (u.hub || "").toLowerCase().includes(searchStr) ||
-      (u.speaks || "").toLowerCase().includes(searchStr) ||
-      (u.learns || "").toLowerCase().includes(searchStr) ||
       (u.country || "").toLowerCase().includes(searchStr)
-    );
-  });
-
-  const filteredSessions = sessions.filter(s => {
-    const searchStr = sessionSearch.toLowerCase();
-    return (
-      (s.host_name || "").toLowerCase().includes(searchStr) ||
-      (s.partner_name || "").toLowerCase().includes(searchStr) ||
-      (s.languages || "").toLowerCase().includes(searchStr)
     );
   });
 
   return (
     <DashboardLayout>
       <div className="admin-container">
-        
-        {/* CABEÇALHO E ESTATÍSTICAS GERAIS */}
-        <div className="admin-header">
-          <h2>Painel Administrativo</h2>
-          <p>Visão geral, usuários e sessões da plataforma.</p>
-        </div>
-
         {loading ? (
-          <div className="loading-message"><p>Carregando painel...</p></div>
+          <div className="loading-message">
+            <p>Carregando painel...</p>
+          </div>
         ) : (
           <>
+            {/* GRID 4 COLUNAS - CARDS DE STATUS */}
             <div className="stats-grid">
-              <div className="stat-card">
-                <h3>Total de Usuários</h3>
-                <span className="stat-value">{stats.total}</span>
-                <div className="stat-sub">
-                  <span className="text-green">{stats.approved} Aprovados</span> | <span className="text-orange">{stats.pending} Pendentes</span>
+              {/* Card 1: Total */}
+              <div className="total-card">
+                <div className="card-header">
+                  <div className="stat-column">
+                    <div className="stat-label">
+                      <Users size={20} />
+                      <span>Total de usuários</span>
+                    </div>
+
+                    <div className="stat-number">{stats.total}</div>
+                  </div>
+
+                  <div className="stat-column">
+                    <span className="stat-label">Aprovados</span>
+
+                    <div className="stat-number approved">{stats.approved}</div>
+                  </div>
+
+                  <div className="stat-column">
+                    <span className="stat-label">Pendentes</span>
+
+                    <div className="stat-number pending">{stats.pending}</div>
+                  </div>
+
+                  <div className="stat-column">
+                    <span className="stat-label">Total Sessões</span>
+
+                    <div className="stat-number sessions">
+                      {sessions.length}
+                    </div>
+                  </div>
                 </div>
               </div>
-              
+
+              {/* Card 2: Hubs */}
               <div className="stat-card list-card">
-                <h3>Top Hubs</h3>
+                <div className="card-top">
+                  <h3>TOP HUBS</h3>
+                  <MapPin size={20} color="#64748b" />
+                </div>
                 <ul>
-                  {stats.topHubs.map(([hub, count]) => (
-                    <li key={hub}><strong>{hub}</strong> <span>{count} membros</span></li>
+                  {stats.topHubs.map(([hub, count], index) => (
+                    <li key={hub}>
+                      <div className="list-item-content">
+                        <span className="item-rank">0{index + 1}</span>
+                        <span className="item-name">{hub}</span>
+                        <span className="item-count">{count}</span>
+                      </div>
+                      <div className="list-bar">
+                        <div
+                          className="list-bar-fill dark"
+                          style={{ width: `${(count / stats.maxHub) * 100}%` }}
+                        ></div>
+                      </div>
+                    </li>
                   ))}
                 </ul>
               </div>
 
+              {/* Card 3: Idiomas Falados */}
               <div className="stat-card list-card">
-                <h3>Top Idiomas</h3>
+                <div className="card-top">
+                  <h3>IDIOMAS FALADOS</h3>
+                  <Languages size={20} color="#64748b" />
+                </div>
                 <ul>
-                  {stats.topLanguages.map(([lang, count]) => (
-                    <li key={lang}><strong>{lang}</strong> <span>{count} pessoas</span></li>
+                  {stats.topSpeaks.map(([lang, count]) => (
+                    <li key={lang}>
+                      <div className="list-item-content">
+                        <span className="item-name">{lang}</span>
+                        <span className="item-count">{count} pessoas</span>
+                      </div>
+                      <div className="list-bar">
+                        <div
+                          className="list-bar-fill orange"
+                          style={{
+                            width: `${(count / stats.maxSpeak) * 100}%`,
+                          }}
+                        ></div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Card 4: Idiomas a Aprender */}
+              <div className="stat-card list-card">
+                <div className="card-top">
+                  <h3>IDIOMAS A APRENDER</h3>
+                  <GraduationCap size={20} color="#64748b" />
+                </div>
+                <ul>
+                  {stats.topLearns.map(([lang, count]) => (
+                    <li key={lang}>
+                      <div className="list-item-content">
+                        <span className="item-name">{lang}</span>
+                        <span className="item-count">{count} interessados</span>
+                      </div>
+                      <div className="list-bar">
+                        <div
+                          className="list-bar-fill yellow"
+                          style={{
+                            width: `${(count / stats.maxLearn) * 100}%`,
+                          }}
+                        ></div>
+                      </div>
+                    </li>
                   ))}
                 </ul>
               </div>
             </div>
 
-            {/* SEÇÃO: USUÁRIOS */}
+            {/* HEADER DA TABELA */}
             <div className="admin-section">
-              <div className="section-header">
-                <h3>Gerenciamento de Usuários</h3>
-                <input 
-                  type="text" 
-                  className="search-input" 
-                  placeholder="Pesquisar por nome, idioma, hub..." 
-                  value={userSearch}
-                  onChange={(e) => setUserSearch(e.target.value)}
-                />
+              <div className="management-header">
+                <div>
+                  <span className="sub-heading">GESTÃO</span>
+                  <h2 className="main-heading">Usuários da plataforma</h2>
+                  <p className="results-count">
+                    {filteredUsers.length} • RESULTADOS
+                  </p>
+                </div>
+                <div className="search-wrapper">
+                  <svg
+                    className="search-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#94a3b8"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.3-4.3" />
+                  </svg>
+                  <input
+                    type="text"
+                    className="search-input"
+                    placeholder="Buscar por nome, e-mail ou local..."
+                    value={userSearch}
+                    onChange={(e) => setUserSearch(e.target.value)}
+                  />
+                </div>
               </div>
 
+              {/* TABELA */}
               <div className="table-container">
                 <table className="admin-table">
                   <thead>
                     <tr>
-                      <th>Usuário</th>
-                      <th>Localização</th>
-                      <th>Idiomas</th>
-                      <th>Ações</th>
+                      <th>USUÁRIO</th>
+                      <th>LOCALIZAÇÃO</th>
+                      <th>IDIOMAS</th>
+                      <th>STATUS</th>
+                      <th>AÇÕES</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredUsers.map((user) => (
-                      <tr key={user.id}>
-                        <td>
-                          <div className="user-cell">
-                            <img
-                              src={user.photo_url || "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.full_name || "User")}
-                              alt={user.full_name}
-                              className="user-thumbnail"
-                            />
-                            <div>
-                              <p className="user-name">
-                                {user.full_name || "Sem nome"} {getCountryFlag(user.country)}
-                              </p>
-                              <p className="user-email">{user.email}</p>
+                    {filteredUsers.map((user) => {
+                      const countryInfo = getCountryInfo(user.country);
+                      return (
+                        <tr key={user.id}>
+                          <td>
+                            <div className="user-cell">
+                              {user.photo_url ? (
+                                <img
+                                  src={user.photo_url}
+                                  alt={user.full_name}
+                                  className="user-avatar"
+                                />
+                              ) : (
+                                <div className="user-avatar-placeholder">
+                                  {getInitials(user.full_name)}
+                                </div>
+                              )}
+                              <div>
+                                <p className="user-name">
+                                  {user.full_name || "Sem nome"}
+                                </p>
+                                <p className="user-email">{user.email}</p>
+                              </div>
                             </div>
-                          </div>
-                        </td>
-                        <td>
-                          <p className="table-text fw-bold">{user.hub || "N/A"}</p>
-                          <p className="table-text-small">{user.country || "Não informado"}</p>
-                        </td>
-                        <td>
-                          <div className="languages-cell">
-                            {user.speaks && <span className="lang-badge speaks">🗣️ {user.speaks}</span>}
-                            {user.learns && <span className="lang-badge learns">📚 {user.learns}</span>}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="actions-cell">
-                            {!user.is_approved && (
-                              <button className="btn-approve" onClick={() => approveUser(user)}>
-                                Aprovar
-                              </button>
+                          </td>
+                          <td>
+                            <div className="location-cell">
+                              {countryInfo.flag ? (
+                                <img
+                                  src={countryInfo.flag}
+                                  alt="Flag"
+                                  className="flag-icon"
+                                />
+                              ) : (
+                                <span className="flag-placeholder">FLAG</span>
+                              )}
+                              <div>
+                                <p className="table-text fw-medium">
+                                  {user.hub || "N/A"}
+                                </p>
+                                <p className="table-text-small">
+                                  {countryInfo.name}
+                                </p>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div className="languages-cell">
+                              {user.speaks && (
+                                <div className="lang-group">
+                                  <span className="lang-label">DOMINA</span>
+                                  <div className="lang-chips">
+                                    {user.speaks.split(",").map((lang) => (
+                                      <span key={lang} className="chip outline">
+                                        {lang.trim()}
+                                      </span>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                              {user.learns && (
+                                <div className="lang-group mt-1">
+                                  <span className="lang-label">APRENDE</span>
+                                  <div className="lang-chips">
+                                    {user.learns.split(",").map((lang) => (
+                                      <span key={lang} className="chip orange">
+                                        {lang.trim()}
+                                      </span>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </td>
+                          <td>
+                            {user.is_approved ? (
+                              <span className="status-badge approved">
+                                <span className="dot"></span> APROVADO
+                              </span>
+                            ) : (
+                              <span className="status-badge pending">
+                                <span className="dot"></span> PENDENTE
+                              </span>
                             )}
-                            <button className="btn-icon" onClick={() => setSelectedUser(user)} title="Ver Detalhes">
-                              👁️
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
+                          </td>
+                          <td>
+                            <div className="actions-cell">
+                              {!user.is_approved && (
+                                <button
+                                  className="btn-approve-text"
+                                  onClick={(e) => approveUser(user, e)}
+                                >
+                                  Aprovar
+                                </button>
+                              )}
+                              <button
+                                className="btn-details"
+                                onClick={() => setSelectedUser(user)}
+                              >
+                                Visualizar Detalhes ↗
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
                     {filteredUsers.length === 0 && (
-                      <tr><td colSpan="4" className="text-center py-4">Nenhum usuário encontrado.</td></tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            {/* SEÇÃO: SESSÕES */}
-            <div className="admin-section">
-              <div className="section-header">
-                <h3>Sessões Registradas</h3>
-                <input 
-                  type="text" 
-                  className="search-input" 
-                  placeholder="Pesquisar por participante, idioma..." 
-                  value={sessionSearch}
-                  onChange={(e) => setSessionSearch(e.target.value)}
-                />
-              </div>
-
-              <div className="table-container">
-                <table className="admin-table">
-                  <thead>
-                    <tr>
-                      <th>Participantes</th>
-                      <th>Data</th>
-                      <th>Idioma da Sessão</th>
-                      <th>Ações</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredSessions.map((session) => (
-                      <tr key={session.id}>
-                        <td>
-                          <p className="table-text fw-bold">{session.host_name}</p>
-                          <p className="table-text-small">com {session.partner_name}</p>
-                        </td>
-                        <td>
-                          <p className="table-text">{new Date(session.date).toLocaleDateString("pt-BR")}</p>
-                          <p className="table-text-small">{session.duration} min</p>
-                        </td>
-                        <td>
-                          <span className="lang-badge neutral">{session.languages || "N/A"}</span>
-                        </td>
-                        
-                        <td>
-                          <button className="btn-icon" onClick={() => setSelectedSession(session)} title="Ver Sessão">
-                            👁️
-                          </button>
+                      <tr>
+                        <td
+                          colSpan="5"
+                          className="text-center py-4 empty-state"
+                        >
+                          Nenhum usuário encontrado.
                         </td>
                       </tr>
-                    ))}
-                    {filteredSessions.length === 0 && (
-                      <tr><td colSpan="4" className="text-center py-4">Nenhuma sessão encontrada.</td></tr>
                     )}
                   </tbody>
                 </table>
@@ -364,74 +528,129 @@ const Admin = () => {
         )}
       </div>
 
-      {/* MODAL: DETALHES DO USUÁRIO */}
+      <div className="sessions-section">
+        <div className="card-top">
+          <h3>ÚLTIMAS SESSÕES</h3>
+        </div>
+
+        <div className="sessions-list">
+          {sessions.length === 0 ? (
+            <p className="empty-sessions">Nenhuma sessão registrada.</p>
+          ) : (
+            sessions.map((session) => (
+              <div key={session.id} className="session-item">
+                <div className="session-info">
+                  <h4>
+                    {session.host_name} ↔ {session.partner_name}
+                  </h4>
+
+                  <p>📅 {new Date(session.date).toLocaleDateString("pt-BR")}</p>
+
+                  <p>⏱️ {session.duration} minutos</p>
+
+                  {session.languages && (
+                    <p>🌎 {formatLanguages(session.languages)}</p>
+                  )}
+
+                  {session.notes && <p>📝 {session.notes}</p>}
+                </div>
+
+                {session.session_photo_url && (
+                  <img
+                    src={session.session_photo_url}
+                    alt="Comprovante"
+                    className="session-proof"
+                    onClick={() => setSelectedImage(session.session_photo_url)}
+                  />
+                )}
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+
+      {/* MODAL MANTIDO COMO ESTAVA, APENAS ESTILOS ATUALIZADOS VIA CSS */}
       {selectedUser && (
         <div className="modal-overlay" onClick={() => setSelectedUser(null)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <button className="close-btn" onClick={() => setSelectedUser(null)}>✕</button>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="close-btn" onClick={() => setSelectedUser(null)}>
+              ✕
+            </button>
             <div className="modal-header">
-              <img 
-                src={selectedUser.photo_url || "https://ui-avatars.com/api/?name=" + encodeURIComponent(selectedUser.full_name)} 
-                alt="Foto" 
-                className="modal-photo" 
-              />
+              {selectedUser.photo_url ? (
+                <img
+                  src={selectedUser.photo_url}
+                  alt="Foto"
+                  className="modal-photo"
+                />
+              ) : (
+                <div className="modal-photo placeholder-modal">
+                  {getInitials(selectedUser.full_name)}
+                </div>
+              )}
               <div>
-                <h2>{selectedUser.full_name} {getCountryFlag(selectedUser.country)}</h2>
-                <p>{selectedUser.email} • {selectedUser.phone || "Sem telefone"}</p>
+                <h2 className="modal-title">
+                  {selectedUser.full_name}
+                  {getCountryInfo(selectedUser.country).flag && (
+                    <img
+                      src={getCountryInfo(selectedUser.country).flag}
+                      alt="Bandeira"
+                      className="flag-icon ml-2"
+                    />
+                  )}
+                </h2>
+                <p>{selectedUser.email}</p>
               </div>
             </div>
             <div className="modal-body">
               <div className="info-group">
-                <label>Hub & Localização</label>
-                <p>{selectedUser.hub || "Não preenchido"} - {selectedUser.country || "Não preenchido"}</p>
+                <label>Hub & País</label>
+                <p>
+                  {selectedUser.hub || "N/A"} -{" "}
+                  {getCountryInfo(selectedUser.country).name}
+                </p>
               </div>
               <div className="info-group">
                 <label>Descrição</label>
-                <p>{selectedUser.description || "Nenhuma descrição fornecida."}</p>
+                <p>{selectedUser.description || "Sem descrição."}</p>
               </div>
               <div className="info-group">
                 <label>Interesses</label>
-                <p>{selectedUser.interests || "Nenhum interesse listado."}</p>
-              </div>
-              <div className="info-group">
-                <label>Criado em</label>
-                <p>{new Date(selectedUser.created_at).toLocaleString("pt-BR")}</p>
+                <p>{selectedUser.interests || "Sem interesses."}</p>
               </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* MODAL: DETALHES DA SESSÃO */}
-      {selectedSession && (
-        <div className="modal-overlay" onClick={() => setSelectedSession(null)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <button className="close-btn" onClick={() => setSelectedSession(null)}>✕</button>
-            <h2>Detalhes da Sessão</h2>
-            <div className="modal-body">
-              <div className="info-group">
-                <label>Participantes</label>
-                <p><strong>{selectedSession.host_name}</strong> convidou <strong>{selectedSession.partner_name}</strong></p>
-              </div>
-              <div className="info-group">
-                <label>Data e Duração</label>
-                <p>{new Date(selectedSession.date).toLocaleString("pt-BR")} • {selectedSession.duration} minutos</p>
-              </div>
-              <div className="info-group">
-                <label>Idiomas Praticados</label>
-                <p>{selectedSession.languages || "Não especificado"}</p>
-              </div>
-              <div className="info-group">
-                <label>Anotações</label>
-                <p>{selectedSession.notes || "Nenhuma anotação."}</p>
-              </div>
-              {selectedSession.session_photo_url && (
-                <div className="info-group">
-                  <label>Comprovante (Foto)</label>
-                  <img src={selectedSession.session_photo_url} alt="Sessão" className="session-proof-img" />
-                </div>
-              )}
-            </div>
+      {selectedImage && (
+        <div
+          className="image-modal-overlay"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div className="image-modal" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="close-image-btn"
+              onClick={() => setSelectedImage(null)}
+            >
+              ✕
+            </button>
+
+            <img
+              src={selectedImage}
+              alt="Comprovante"
+              className="modal-session-image"
+            />
+
+            <a
+              href={selectedImage}
+              download
+              target="_blank"
+              rel="noopener noreferrer"
+              className="download-btn"
+            >
+              Baixar imagem
+            </a>
           </div>
         </div>
       )}

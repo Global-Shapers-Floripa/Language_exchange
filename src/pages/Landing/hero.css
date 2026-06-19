@@ -1,124 +1,182 @@
-/* Seção HEADER */
+/* =========================================
+   Seção HEADER (Estilo Replicado do Modelo)
+   ========================================= */
+
+.landing-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 0;
+
+  /* Efeito Glassmorphism */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.719);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
 
 .landing-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px 3rem;
-
-    background-color: rgb(255, 255, 255);
-
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 3rem;
 }
 
 .logo-nav {
-    width: 60px;
-
+  height: 55px; /* Ajustado para manter a proporção da logo nova */
+  width: auto;
+  padding: 5px 0;
 }
 
 .nav-links {
-    display: flex;
-    gap: 25px;
-
+  display: flex;
+  align-items: center;
+  gap: 32px;
 }
 
 .nav-links a {
-    color: var(--blue-primary);
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.95rem;
-    position: relative;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--blue-primary, #134b9e); /* Usa a variável que você já tinha */
+  text-decoration: none;
+  transition: 0.3s;
 }
 
-/* Criando a linha base */
-.nav-links a::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 0;
-    height: 2px;
-    background-color: rgb(255, 94, 0);
-    transition: width 0.5s ease;
+.nav-links a:hover {
+  color: rgb(255, 94, 0); /* Cor laranja do seu projeto ao passar o mouse */
 }
 
-/* Efeito ao passar o mouse */
-.nav-links a:hover::after {
-    width: 100%;
-    /* Expande a linha totalmente para a direita */
+.navbar-right-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 .cta-header {
-    background-color: var(--blue-primary);
-    color: white;
-    padding: 10px 30px;
-    font-size: 0.85rem;
-    border: none;
-    letter-spacing: 1px;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: .5s;
-    box-shadow: 2px 4px 3px rgba(0, 0, 0, 0.2);
-
+  background-color: var(--blue-primary, #134b9e);
+  color: white;
+  padding: 10px 28px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 .cta-header:hover {
-    background-color: rgb(19, 75, 158);
-    transform: scale(.95);
-    box-shadow: none;
+  transform: translateY(-2px);
+  background-color: rgb(19, 75, 158);
 }
 
-@media (max-width: 750px) {
-    .nav-links a:nth-child(3) {
-        display: none;
-    }
+.mobile-cta {
+  display: none;
 }
 
-@media (max-width: 650px) {
-    .landing-nav {
-        padding: 5px 1.5rem;
-    }
-
-    .nav-links a:nth-child(4) {
-        display: none;
-    }
-
-    .nav-links a:nth-child(1) {
-        display: none;
-    }
+/* Esconde os links antigos por padrão no desktop */
+.desktop-cta {
+  display: block;
 }
 
-@media (max-width: 400px) {
-    .nav-links a:nth-child(2) {
-        display: none;
-    }
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.hamburger span {
+  width: 26px;
+  height: 3px;
+  background: var(--blue-primary, #134b9e);
+  border-radius: 999px;
+  transition: 0.3s;
+}
+
+/* Responsividade e Menu Mobile */
+@media (max-width: 880px) {
+  .landing-header {
+    padding: 8px 0;
+  }
+
+  .landing-nav {
+    padding: 0 1.5rem;
+  }
+
+  .logo-nav {
+    height: 50px;
+  }
+
+  .desktop-cta {
+    display: none; /* Esconde o botão do header no celular */
+  }
+
+  .hamburger {
+    display: flex; /* Mostra o ícone do menu */
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 30px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    
+    /* Animação de descida */
+    transform: translateY(-20px);
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s ease-in-out;
+  }
+
+  .nav-links.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .mobile-cta {
+    display: flex;
+    text-decoration: none;
+  }
 }
 
 /* Seção BANNER */
 
 .hero-section {
     position: relative;
-    width: 100%;
+    
+    /* ========================================================
+       NOVAS REGRAS PARA O EFEITO DE "BORDA/CARD"
+       ======================================================== */
+    width: calc(100% - 40px); /* Subtrai 40px da largura total (sobra 20px de cada lado) */
+    max-width: 1400px; /* Limite de largura para não esticar demais em telas gigantes */
+    margin: 90px auto 20px auto; /* 100px no topo (para não ficar atrás da navbar fixa) e "auto" para centralizar */
+    border-radius: 30px; /* Arredonda bastante os cantos */
+    /* ======================================================== */
+
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow: hidden; /* Fundamental para a imagem não vazar das bordas arredondadas */
 
-    /* Ajuste da Imagem e Overlay */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5),
-            /* Escurece a imagem (0.5 é a opacidade) */
-            rgba(0, 0, 0, 0.5)),
-        url('../../assets/back-banner.webp');
-    /* Caminho da sua imagem otimizada */
-
+    /* Ajuste da Imagem e Overlay (Mantido do seu original) */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../../assets/back-banner.webp');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 
     /* Garante uma altura mínima para o banner aparecer bem */
-    min-height: 600px;
+    min-height: 550px;
 
-    display: flex;
     align-items: center;
-    /* Centraliza o conteúdo verticalmente */
     justify-content: center;
 }
 
