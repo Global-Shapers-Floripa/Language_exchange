@@ -9,11 +9,15 @@
   z-index: 1000;
   padding: 0;
 
-  /* Efeito Glassmorphism */
+  /* Reduzimos a opacidade do branco de 0.719 para 0.2 (20%) */
+  background: rgba(255, 255, 255, 0.2); 
+
+  /* O blur agora vai ficar muito mais evidente */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  background: rgba(255, 255, 255, 0.719);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+  /* Uma bordinha translúcida embaixo ajuda a dar o efeito de vidro */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .landing-nav {
