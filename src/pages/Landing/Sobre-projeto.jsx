@@ -1,88 +1,86 @@
-import { Globe2, ShieldCheck, Zap, HeartHandshake } from "lucide-react";
+import React from "react";
 import "./sobre-projeto.css";
-import ImgHub from "../../assets/img-hub.png";
+import logoLanguageExchange from "../../assets/logo-LanguageExchange.svg"; // Seu placeholder
 
 const ConhecaProjeto = () => {
   return (
-    <section id="projeto" className="projeto-container">
-      <div className="projeto-content">
-        <div className="section-header">
-          <div className="header-icon">
-            <Globe2 size={30} />
-          </div>
-          <h2 className="section-title">Sobre o Projeto</h2>
-          <p className="section-subtitle">
-            Conectando Shapers através do diálogo e cooperação global
+    <section id="sobre" className="sobre-container">
+      <div className="sobre-content">
+        
+        {/* COLUNA ESQUERDA - TEXTOS */}
+        <div className="sobre-left">
+          <div className="sobre-tag">// SOBRE</div>
+          
+          <h2 className="sobre-title">
+            A GENTE ACREDITA QUE <br />
+            <span className="highlight-orange">CONVERSA</span> <br />
+            MUDA O MUNDO.
+          </h2>
+          
+          <p className="sobre-text">
+            O Language Exchange nasceu em julho de 2025 no Hub Global Shapers
+            Florianópolis como uma resposta simples: e se a gente usasse a
+            própria rede pra praticar idiomas com quem entende o nosso jeito de
+            mudar o mundo?
           </p>
-        </div>
+          
+          <p className="sobre-text">
+            Não é app, não é EdTech. É Shaper falando com Shaper — sobre
+            projeto, cidade, comida ruim, política, riso. <strong>Expanda seus horizontes
+            através da conexão cultural.</strong>
+          </p>
 
-        <div className="projeto-grid">
-          <div className="projeto-image-wrapper">
-            <img src={ImgHub} alt="Hub Florianópolis" className="projeto-img" />
-          </div>
-
-          <div className="projeto-info">
-            <div className="projeto-extra">
-              <p className="projeto-text-small">
-                Fazemos parte de uma rede global que conecta pessoas de diferentes
-                culturas, origens e idiomas. Por meio de conversas
-                significativas e experiências compartilhadas, criamos
-                oportunidades para praticar idiomas, desenvolver confiança,
-                formar amizades e abrir portas para <span className="highlight-blue">oportunidades globais reais.
-                </span>
-                .
-              </p>
-
-              <p className="projeto-origin">
-                Criado em julho de 2025 pelo Hub de Florianópolis.
-              </p>
-
-              <div className="projeto-stats">
-                <div className="stat-card">
-                  <strong>82</strong>
-                  <span>Shapers</span>
-                </div>
-
-                <div className="stat-card">
-                  <strong>23</strong>
-                  <span>Nationalities</span>
-                </div>
-
-                <div className="stat-card">
-                  <strong>31</strong>
-                  <span>Hubs</span>
-                </div>
-              </div>
-            </div>
-
-            <ul className="projeto-list">
-              <li>
-                <div className="list-icon">
-                  <Globe2 size={20} />
-                </div>
-                <span>Conexão entre Hubs internacionais</span>
-              </li>
-              <li>
-                <div className="list-icon">
-                  <ShieldCheck size={20} />
-                </div>
-                <span>Ambiente seguro e amigável para prática</span>
-              </li>
-              <li>
-                <div className="list-icon">
-                  <Zap size={20} />
-                </div>
-                <span>Desenvolvimento de competências globais</span>
-              </li>
-              <li>
-                <div className="list-icon">
-                  <HeartHandshake size={20} />
-                </div>
-                <span>Fortalecimento da rede Shapers</span>
-              </li>
-            </ul>
+          {/* Imagem decorativa (Placeholder) */}
+          <div className="sobre-decoration">
+            <img 
+              src={logoLanguageExchange} 
+              alt="Decoração" 
+              className="decor-img"
+            />
           </div>
         </div>
+
+        {/* COLUNA DIREITA - BALÕES (BLOBS) */}
+        <div className="sobre-right-grid">
+          
+          {/* Balão Laranja */}
+          <div className="blob-card blob-orange">
+            <h3 className="blob-title">HUBS QUE SE FALAM</h3>
+            <p className="blob-text">
+              Conexão direta com Shapers de mais de 40 hubs em outros continentes — 
+              sem intermediário, sem agência.
+            </p>
+          </div>
+
+          {/* Balão Azul Escuro */}
+          <div className="blob-card blob-navy">
+            <h3 className="blob-title blob-title-light">AMBIENTE SEGURO</h3>
+            <p className="blob-text blob-text-light">
+              Comunidade vetada pela rede Global Shapers, com guia de boas práticas e 
+              moderação dos organizadores.
+            </p>
+          </div>
+
+          {/* Balão Roxo */}
+          <div className="blob-card blob-purple">
+            <h3 className="blob-title">COMPETÊNCIA GLOBAL</h3>
+            <p className="blob-text">
+              Desenvolva fluência, repertório cultural e soft skills que não cabem 
+              em um curso de idioma.
+            </p>
+          </div>
+
+          {/* Balão Creme Claro */}
+          <div className="blob-card blob-peach">
+            <h3 className="blob-title">REDE QUE FORTALECE</h3>
+            <p className="blob-text">
+              Quanto mais Shapers conversam, mais forte fica a rede global — e os 
+              projetos que a gente faz acontecer.
+            </p>
+          </div>
+
+        </div>
+
       </div>
     </section>
   );

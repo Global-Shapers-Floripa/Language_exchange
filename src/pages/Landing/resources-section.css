@@ -1,104 +1,181 @@
-/* 1. O Wrapper ocupa a largura total e define a cor de fundo da seção */
-.resources-section-wrapper {
-  position: relative;
-  background-color: #ffffff; /* Cor levemente azulada/cinza para destacar do branco */
+/* =========================================
+   WRAPPER DA SEÇÃO (Isolado com prefixo .site-)
+   ========================================= */
+.site-resources-wrapper {
+  background-color: var(--bg-cream, #fcf7f2);
+  padding: 100px 20px;
   width: 100%;
-  padding: 4rem 0 ; /* Aumentei o padding top por causa da curva */
+}
+
+.site-resources-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* =========================================
+   HEADER DA SEÇÃO
+   ========================================= */
+.site-resources-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 80px;
+  gap: 40px;
+}
+
+.site-header-left {
+  flex: 1;
+}
+
+.site-section-tag {
+  display: block;
+  color: var(--brand-orange, #ff8c2b);
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-weight: 700;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+.site-section-title {
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-size: 4.5rem; 
+  line-height: 0.9;
+  color: var(--dark-navy, #0b0f24);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.site-header-right {
+  flex: 1;
+  max-width: 400px;
+  padding-bottom: 10px;
+}
+
+.site-section-description {
+  font-family: var(--font-body, 'Poppins', sans-serif);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-gray, #333333);
   margin: 0;
 }
 
-/* 2. O Divider agora gruda no topo do wrapper */
-.custom-shape-divider-top {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  overflow: hidden;
-  line-height: 0;
-}
-
-.custom-shape-divider-top svg {
-  position: relative;
-  display: block;
-  width: calc(100% + 1.3px);
-  height: 80px;
-  margin-top: -1px;
-}
-
-.custom-shape-divider-top .shape-fill {
-  fill: #ecf3fa; /* Cor da seção de CIMA (Herosection/Como funciona) */
-}
-
-/* 3. O Container interno centraliza o conteúdo */
-.resources-inner-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* Header centralizado */
-.section-header-centered {
-  text-align: center;
-  margin-bottom: 50px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-
-/* Grid e Cards */
-.resources-grid {
+/* =========================================
+   GRID E CARDS (BLOBS)
+   ========================================= */
+.site-resources-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
 }
 
-.resource-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 20px;
-  padding: 32px;
-  transition: all 0.3s ease;
+/* O CARD PRINCIPAL */
+.site-resource-blob {
   display: flex;
   flex-direction: column;
-}
-
-.resource-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.08);
-}
-
-.icon-wrapper {
-  background-color: #eff6ff;
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
+  padding: 4rem 3rem; 
+  aspect-ratio: 1 / 1; 
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
 }
 
-.card-title-resources {
-  font-size: 20px;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 12px;
+.site-resource-blob:hover {
+  transform: translateY(-8px);
 }
 
-.resource-card p {
-  font-size: 15px;
-  color: #475569;
-  line-height: 1.6;
-  margin-bottom: 24px;
-  flex-grow: 1;
-}
-
-.card-link {
+.site-blob-content {
   display: flex;
-  align-items: center;
-  color: #2563eb;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 14px;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+/* TIPOGRAFIA DENTRO DO CARD */
+.site-card-tag {
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--dark-navy, #0b0f24);
+  margin-bottom: 10px;
+}
+
+.site-card-title {
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-size: 2.2rem;
+  line-height: 1;
+  color: var(--dark-navy, #0b0f24);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.site-card-description {
+  font-family: var(--font-body, 'Poppins', sans-serif);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--dark-navy, #0b0f24);
+  font-weight: 500;
+  margin: 0;
+}
+
+/* =========================================
+   CORES E FORMATOS ORGÂNICOS
+   ========================================= */
+
+.site-blob-peach {
+  background-color: #f7deb5;
+  border-radius: 50% 50% 40% 60% / 60% 40% 50% 50%;
+}
+
+.site-blob-purple {
+  background-color: var(--bg-purple, #9cb0e1);
+  border-radius: 40% 60% 50% 50% / 50% 50% 60% 50%;
+}
+
+.site-blob-orange {
+  background-color: var(--brand-orange, #ff8c2b);
+  border-radius: 60% 40% 60% 40% / 40% 60% 40% 60%;
+}
+
+/* =========================================
+   RESPONSIVIDADE
+   ========================================= */
+@media (max-width: 1024px) {
+  .site-resources-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .site-header-right {
+    max-width: 100%;
+  }
+
+  .site-resources-grid {
+    gap: 20px;
+  }
+
+  .site-resource-blob {
+    padding: 3rem 2rem;
+    aspect-ratio: auto;
+    min-height: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .site-section-title {
+    font-size: 3.5rem;
+  }
+
+  .site-resources-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .site-resource-blob {
+    min-height: 250px;
+    border-radius: 40px !important; 
+  }
 }

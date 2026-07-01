@@ -1,7 +1,9 @@
 .flag-strip-container {
   width: 100%;
-  height: 60px; /* Aumentei um pouco para acomodar bandeiras maiores */
-  background-color: var(--bg-white);
+  height: 60px; /* Reduzido de 85px para 60px para uma faixa bem mais fina */
+  background-color: var(--bg-cream, #fcf7f2);
+  border-top: 3px solid var(--dark-navy, #0b0f24);
+  border-bottom: 3px solid var(--dark-navy, #0b0f24);
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -10,38 +12,54 @@
 
 .flag-track {
   display: flex;
+  align-items: center;
   width: max-content;
-  gap: 1.5rem; 
-  animation: scrollFlags 40s linear infinite; 
+  gap: 2.5rem; 
+  padding-left: 2.5rem;
+  animation: scrollFlags 35s linear infinite; 
 }
 
 .flag-item {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.6rem;
+  justify-content: center;
+  gap: 3px; /* Espaço bem menor entre a bandeira e o texto */
+  min-width: max-content; /* Impede que o item seja espremido */
 }
 
 .country-flag {
-  /* AUMENTAR O TAMANHO: de 35px para 50px */
-  width: 50px;
-  height: 32px; 
+  width: 28px; /* Bandeira menor e mais delicada */
+  height: 18px; 
   object-fit: cover;
-  border-radius: 4px; /* Aumentei levemente o arredondamento para combinar com o tamanho */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  border-radius: 3px; 
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-.country-code {
-  font-size: 0.9rem; /* Aumentei um pouco a fonte para acompanhar */
+.greeting-text {
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-size: 0.95rem; /* Texto levemente menor */
   font-weight: 700;
-  color: #444;
+  color: var(--dark-navy, #0b0f24);
+  text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: 0.5px;
+  white-space: nowrap; /* A SOLUÇÃO: Impede que o texto (especialmente o asiático) quebre na vertical */
 }
 
-/* A animação permanece igual, pois o -50% é relativo ao tamanho total do track */
+.separator-dot {
+  width: 7px; /* Bolinha proporcionalmente menor */
+  height: 7px;
+  background-color: var(--brand-orange, #ff8c2b);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
 @keyframes scrollFlags {
   0% {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translateX(-33.33%);
   }
 }

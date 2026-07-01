@@ -1,64 +1,76 @@
 import React from "react";
-import { Instagram, ArrowUpRight, Mail, Linkedin, Facebook } from "lucide-react";
+import { Instagram, Linkedin, Youtube, Mail } from "lucide-react";
 import "./footer.css";
-import LogoFooter from "../../assets/logo-branca-GSF.svg";
-
+import logoLanguageExchange from "../../assets/logo-LanguageExchange.svg"; // Substitua pela logo correta
 
 const Footer = () => {
   return (
-    <footer className="main-footer">
-      <div className="footer-container">
+    <footer className="site-footer">
+      <div className="site-footer-container">
         
-        <div className="footer-layout-grid">
+        {/* GRID PRINCIPAL */}
+        <div className="site-footer-grid">
           
-          {/* LADO ESQUERDO: Contatos e Redes */}
-          <div className="footer-side left">
-            <div className="footer-group">
-              <h3>Contato</h3>
-              <a href="mailto:shapersfloripa@gmail.com"><Mail size={14} /> shapersfloripa@gmail.com</a>
-              
+          {/* LADO ESQUERDO: Logo, Descrição e Redes Sociais */}
+          <div className="site-footer-col site-col-left">
+            <div className="site-footer-logo">
+              <img src={logoLanguageExchange} alt="Language Exchange" />
             </div>
-            <div className="footer-group">
-              <a href="#">Facebook <ArrowUpRight size={14} /></a>
-              <a href="https://instagram.com/globalshapersfloripa">Instagram <ArrowUpRight size={14} /></a>
-              <a href="#">LinkedIn <ArrowUpRight size={14} /></a>
-            </div>
-          </div>
-
-          {/* CENTRO: Logo e CTAs */}
-          <div className="footer-center">
-            <div className="shapers-logo-wrapper">
-              <img src={LogoFooter} alt="Global Shapers" />
-            </div>
-            <h2 className="footer-brand">Global Shapers</h2>
-            <p className="footer-tagline">"From words to worlds"</p>
+            <p className="site-footer-desc">
+              Uma iniciativa do Global Shapers Florianópolis para conectar culturas através da conversa real.
+            </p>
             
-            <div className="footer-actions">
-              <a href="#" className="btn-cta primary">
-                Faça parte <ArrowUpRight size={18} />
+            {/* Ícones das redes substituindo as hashtags */}
+            <div className="site-social-icons">
+              <a href="mailto:shapersfloripa@gmail.com" aria-label="E-mail" target="_blank" rel="noopener noreferrer">
+                <Mail size={22} />
               </a>
-              <a href="#" className="btn-cta secondary">
-                Nosso Instagram <Instagram size={18} />
+              <a href="https://instagram.com/globalshapersfloripa" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                <Instagram size={22} />
+              </a>
+              <a href="https://linkedin.com/company/globalshapersfloripa" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+                <Linkedin size={22} />
+              </a>
+              <a href="https://youtube.com/@globalshapersfloripa" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+                <Youtube size={22} />
               </a>
             </div>
           </div>
 
-          {/* LADO DIREITO: Seções da LP */}
-          <div className="footer-side right">
-            <div className="footer-group">
-              <h3>Navegação</h3>
-              <a href="#">O Projeto</a>
-              <a href="#">Como funciona</a>
-              <a href="#">FAQ</a>
-              <a href="#">Privacidade</a>
+          {/* CENTRO: Navegação */}
+          <div className="site-footer-col site-col-center">
+            <h3 className="site-footer-title">NAVEGAÇÃO</h3>
+            <nav className="site-footer-nav">
+              <a href="#sobre">Sobre</a>
+              <a href="#plataforma">Plataforma</a>
+              <a href="#mapa">Mapa</a>
+              <a href="#hub">Hub Floripa</a>
+              <a href="#faq">FAQ</a>
+              <a href="#contato">Contato</a>
+            </nav>
+          </div>
+
+          {/* LADO DIREITO: Fale com a gente */}
+          <div className="site-footer-col site-col-right">
+            <h3 className="site-footer-title">FALE COM A GENTE</h3>
+            <div className="site-footer-contact-info">
+              <p>shapersfloripa@gmail.com</p>
+              <p>@globalshapersfloripa</p>
             </div>
           </div>
 
         </div>
 
-        <div className="footer-copyright">
-          <p>© 2026 Global Shapers Florianópolis. Todos os direitos reservados.</p>
+        {/* BARRA INFERIOR: Direitos e Créditos */}
+        <div className="site-footer-bottom">
+          <p className="site-copyright">
+            Todos os direitos reservados. Global Shapers Florianópolis 2026.
+          </p>
+          <p className="site-credits">
+            Feito com ❤️ por <a href="#" target="_blank" rel="noopener noreferrer">Global Shapers Florianópolis</a>
+          </p>
         </div>
+
       </div>
     </footer>
   );

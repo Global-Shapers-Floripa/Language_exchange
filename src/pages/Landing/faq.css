@@ -1,126 +1,179 @@
-.faq-section-wrapper {
-  position: relative;
-  background-color: #0f172a; /* Fundo Escuro do FAQ */
+/* =========================================
+   WRAPPER PRINCIPAL (Fundo Escuro e Pontinhos)
+   ========================================= */
+.site-faq-wrapper {
+  background-color: var(--dark-navy, #0b0f24);
+  /* Padrão de pontinhos em um azul claro suave */
+  background-image: radial-gradient(rgba(156, 176, 225, 0.15) 2px, transparent 2px);
+  background-size: 30px 30px;
+  padding: 100px 20px;
   width: 100%;
-  padding: 100px 0 80px 0;
-  z-index: 1; /* Garante que esta seção não suma */
 }
 
-.custom-shape-divider-top-faq {
-  position: absolute;
-  top: -1px; /* O -1px evita uma linha branca de erro de renderização */
-  left: 0;
-  width: 100%;
-  overflow: hidden;
-  line-height: 0;
-  z-index: 2;
-}
-
-.custom-shape-divider-top-faq svg {
-  display: block;
-  width: calc(100% + 1.3px);
-  height: 80px;
-}
-
-.custom-shape-divider-top-faq .shape-fill {
-  /* ATENÇÃO: Essa cor deve ser IGUAL ao background da seção de RECURSOS */
-  fill: #ffffff; 
-}
-
-.faq-section {
-  padding: 4rem 20px;
-  background-color: #0f172a;
-}
-
-.faq-container {
-  max-width: 800px; /* FAQ fica melhor em um container mais estreito */
+.site-faq-container {
+  max-width: 1200px;
   margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr; /* Distribuição fiel à imagem (Dir maior) */
+  gap: 80px;
+  align-items: flex-start;
 }
 
+/* =========================================
+   LADO ESQUERDO (Títulos)
+   ========================================= */
+.site-faq-left {
+  position: sticky; /* Faz o título grudar enquanto desce nas perguntas */
+  top: 120px;
+}
 
-/* Cabeçalho Padronizado */
-.section-header-centered {
-  text-align: center;
-  margin-bottom: 20px;
+.site-faq-tag {
+  display: block;
+  color: var(--brand-orange, #ff8c2b);
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-weight: 700;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+.site-faq-title {
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-size: 4.5rem;
+  line-height: 0.9;
+  color: #ffffff; /* Branco puro no título */
+  margin: 0 0 20px 0;
+  text-transform: uppercase;
+}
+
+.site-highlight-orange {
+  color: var(--brand-orange, #ff8c2b);
+}
+
+.site-faq-description {
+  font-family: var(--font-body, 'Poppins', sans-serif);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--bg-cream, #fcf7f2); /* Tom bege pra não ofuscar a visão */
+  opacity: 0.85;
+  max-width: 90%;
+}
+
+/* =========================================
+   LADO DIREITO (Accordion List)
+   ========================================= */
+.site-faq-right {
+  width: 100%;
+}
+
+.site-faq-list {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* Linha separadora do topo (antes do primeiro item) */
+  border-top: 1px solid rgba(255, 255, 255, 0.15); 
 }
 
-.title-FAQ {
-    color: white;
-}
-.subtitle-FAQ {
-    color: #cbd5e1;
-}
-
-/* Accordion Style */
-.faq-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.faq-item {
-  background: #f8fafc;
-  border: none;
-  border-radius: 40px;
-  overflow: hidden;
+.site-faq-item {
+  /* Linha separadora na base de todos os itens */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
-.faq-item:hover {
-  border-color: #34baf8;
-  background: #ffffff;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+.site-faq-item:hover {
+  background-color: rgba(255, 255, 255, 0.02); /* Feedback visual sutil no hover */
 }
 
-.faq-item.active {
-  border-color: #34baf8;
-  background: #ffffff;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-}
-
-.faq-question {
-  padding: 14px 2rem;
+/* Título da Pergunta */
+.site-faq-question {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-weight: 700;
-  color: #1e293b;
-  font-size: 17px;
+  padding: 30px 0;
+  gap: 20px;
 }
 
-.faq-answer {
+.site-faq-question h3 {
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-size: 2rem;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Ícone de (+) e (-) no círculo escuro/branco */
+.site-faq-icon {
+  background-color: var(--bg-cream, #fcf7f2); /* Bolinha begezinha claro */
+  color: var(--dark-navy, #0b0f24); /* Ícone escuro */
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.4s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.site-faq-item.active .site-faq-icon {
+  background-color: var(--brand-orange, #ff8c2b); /* Fica laranja quando abre */
+  color: #ffffff;
+  transform: rotate(90deg); /* Faz uma animação de giro pro menos */
+}
+
+/* Resposta */
+.site-faq-answer {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease-out, padding 0.3s ease;
-  padding: 0 24px;
+  transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+  padding: 0 60px 0 0; /* Impede o texto de encostar onde fica o ícone */
 }
 
-.faq-item.active .faq-answer {
-  max-height: 200px; /* Altura arbitrária para a animação */
-  padding: 0 24px 24px 24px;
+.site-faq-item.active .site-faq-answer {
+  max-height: 300px;
+  padding-bottom: 30px;
 }
 
-.faq-answer p {
-  color: #64748b;
+.site-faq-answer p {
+  font-family: var(--font-body, 'Poppins', sans-serif);
+  font-size: 1.05rem;
   line-height: 1.6;
-  font-size: 15px;
+  color: var(--bg-cream, #fcf7f2); /* Texto da resposta em bege */
   margin: 0;
-  border-top: 1px solid #f1f5f9;
-  padding-top: 16px;
+  opacity: 0.9;
 }
 
-/* Responsividade */
-@media (max-width: 600px) {
-  .section-title {
-    font-size: 26px;
+/* =========================================
+   RESPONSIVIDADE
+   ========================================= */
+@media (max-width: 1024px) {
+  .site-faq-container {
+    grid-template-columns: 1fr; /* Empilha as colunas */
+    gap: 50px;
+  }
+
+  .site-faq-left {
+    position: relative; /* Tira o sticky no mobile */
+    top: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .site-faq-title {
+    font-size: 3.5rem;
+  }
+
+  .site-faq-question h3 {
+    font-size: 1.5rem;
+  }
+
+  .site-faq-question {
+    padding: 25px 0;
   }
   
-  .faq-question {
-    padding: 20px;
-    font-size: 15px;
+  .site-faq-answer {
+    padding-right: 0;
   }
 }

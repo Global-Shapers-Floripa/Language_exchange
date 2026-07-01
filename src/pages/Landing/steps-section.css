@@ -1,135 +1,225 @@
-/* WRAPPER PRINCIPAL - Largura total */
+/* =========================================
+   WRAPPER PRINCIPAL
+   ========================================= */
 .como-section-wrapper {
-    position: relative;
-    background: #ecf3fa;
-    /* O azul claro da seção */
-    padding: 4rem;
-    /* Espaço para o divisor */
-    width: 100%;
+  position: relative;
+  background-color: var(--dark-navy, #0b0f24); /* Fundo escuro da referência */
+  padding: 100px 20px;
+  width: 100%;
+  overflow: hidden; /* Para a boquinha não vazar a tela */
 }
 
-/* DIVIDER */
-.custom-shape-divider-top-steps {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    overflow: hidden;
-    line-height: 0;
+/* =========================================
+   DECORAÇÃO (BOQUINHA)
+   ========================================= */
+.mouth-decoration {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: auto;
+  opacity: 0.6; /* Deixa um pouco mais suave no fundo */
+  transform: translate(20%, -20%); /* Joga ela um pouco pra fora da tela, como na foto */
+  pointer-events: none; /* Para não atrapalhar o clique em nada */
 }
 
-.custom-shape-divider-top-steps svg {
-    position: relative;
-    display: block;
-    width: calc(100% + 1.3px);
-    height: 80px;
-}
-
-.custom-shape-divider-top-steps .shape-fill {
-    fill: #ffffff;
-    /* Cor da seção de cima (Hero/Projeto) */
-}
-
-/* CONTAINER INTERNO CENTRALIZADO */
+/* =========================================
+   CONTAINER INTERNO
+   ========================================= */
 .como-inner-content {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2; /* Garante que fique acima da decoração */
 }
 
-/* HEADER */
-.section-header-centered {
-    text-align: center;
-    margin-bottom: 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* =========================================
+   HEADER
+   ========================================= */
+.como-header {
+  margin-bottom: 80px;
 }
 
+.como-tag {
+  display: block;
+  color: var(--brand-orange, #ff8c2b);
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-weight: 700;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+}
 
-/* STEPS GRID */
+.como-title {
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-size: 4.5rem;
+  line-height: 0.9;
+  color: #ffffff;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.como-title .highlight-orange {
+  color: var(--brand-orange, #ff8c2b);
+}
+
+/* =========================================
+   CONTAINER DOS PASSOS & LINHA PONTILHADA
+   ========================================= */
+.como-steps-container {
+  position: relative;
+  width: 100%;
+}
+
+/* A linha pontilhada que passa por trás dos balões */
+.dotted-line {
+  position: absolute;
+  top: 90px; /* Ajuste para alinhar perfeitamente no meio dos balões */
+  left: 0;
+  width: 100%;
+  height: 4px;
+  /* Cria os pontos espaçados usando linear-gradient */
+  background-image: linear-gradient(to right, rgba(255,255,255,0.8) 40%, transparent 40%);
+  background-size: 20px 4px; /* O 20px define o espaço entre os pontos */
+  background-repeat: repeat-x;
+  z-index: 1;
+}
+
 .como-steps {
-    display: flex;
-    gap: 32px;
-    /* Aumentei um pouco o gap */
-    flex-wrap: wrap;
-    justify-content: center;
-
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  position: relative;
+  z-index: 2; /* Fica acima da linha pontilhada */
 }
 
-/* CARD */
-.step-card {
-    position: relative;
-    flex: 1;
-    min-width: 240px;
-    max-width: 260px;
-    background: #ffffff;
-    padding: 32px 24px;
-    border-radius: 20px;
-    /* Bordas mais orgânicas */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.03);
-    display: flex;
-    flex-direction: column;
-    transition: all 0.3s ease;
+/* =========================================
+   CADA PASSO (COLUNA)
+   ========================================= */
+.step-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
-.step-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.06);
+/* BALÕES ORGÂNICOS */
+.step-blob {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 180px;
+  height: 180px;
+  margin-bottom: 30px;
+  /* Sombrinha suave para destacar do fundo */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); 
+  transition: transform 0.3s ease;
 }
 
-/* NUMBER */
+.step-column:hover .step-blob {
+  transform: scale(1.05);
+}
+
+/* Textos dentro do balão */
+.step-label {
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: -5px; /* Aproxima o PASSO do NÚMERO */
+}
+
 .step-number {
-    position: absolute;
-    top: -12px;
-    left: -12px;
-    width: 36px;
-    height: 36px;
-    background: #ff7b00;
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 0.9rem;
-    box-shadow: 0 4px 8px rgba(29, 78, 216, 0.3);
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1;
 }
 
-.step-icon {
-    color: #1d4ed8;
-    margin-bottom: 16px;
+/* Cores e formatos dos balões baseados na referência */
+.blob-step-orange {
+  background-color: var(--brand-orange, #ff8c2b);
+  color: var(--dark-navy, #0b0f24);
+  border-radius: 40% 60% 50% 50% / 50% 50% 60% 50%;
 }
 
+.blob-step-cream {
+  background-color: var(--bg-cream, #fcf7f2);
+  color: var(--dark-navy, #0b0f24);
+  border-radius: 50% 50% 40% 60% / 60% 40% 50% 50%;
+}
+
+.blob-step-purple {
+  background-color: var(--bg-purple, #9cb0e1);
+  color: var(--dark-navy, #0b0f24);
+  border-radius: 60% 40% 60% 40% / 40% 60% 40% 60%;
+}
+
+.blob-step-orange-alt {
+  background-color: var(--brand-orange, #ff8c2b);
+  color: var(--dark-navy, #0b0f24);
+  border-radius: 50% 50% 60% 40% / 50% 60% 40% 50%;
+}
+
+/* TEXTOS INFERIORES */
 .step-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #1e293b;
-    margin-bottom: 12px;
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-size: 1.5rem;
+  color: #ffffff;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
 }
 
 .step-description {
-    font-size: 0.95rem;
-    line-height: 1.6;
-    color: #64748b;
+  font-family: var(--font-body, 'Poppins', sans-serif);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75); /* Texto claro para leitura no fundo escuro */
 }
 
-/* RESPONSIVO */
-@media (max-width: 900px) {
-    .como-section-wrapper {
-        padding: 100px 0 60px 0;
-    }
+/* =========================================
+   RESPONSIVIDADE
+   ========================================= */
+@media (max-width: 1024px) {
+  .como-steps {
+    gap: 20px;
+  }
+  
+  .step-blob {
+    width: 150px;
+    height: 150px;
+  }
+
+  .dotted-line {
+    top: 75px; /* Ajusta a linha para o novo centro dos balões */
+  }
+
+  .step-number { font-size: 3rem; }
 }
 
-@media (max-width: 600px) {
-    .como-steps {
-        flex-direction: column;
-        align-items: center;
-        padding: 0 1.5rem;
-    }
+@media (max-width: 800px) {
+  .como-section-wrapper {
+    padding: 80px 20px;
+  }
 
-    .step-card {
-        max-width: 100%;
-        width: 100%;
-    }
+  .como-title {
+    font-size: 3.5rem;
+  }
+
+  .como-steps {
+    flex-direction: column;
+    gap: 50px;
+  }
+
+  .dotted-line {
+    /* No celular, a linha horizontal some (ou você pode transformá-la em vertical) */
+    display: none; 
+  }
+
+  .mouth-decoration {
+    width: 200px;
+    transform: translate(30%, -10%);
+  }
 }

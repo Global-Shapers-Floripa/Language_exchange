@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;500;600;700&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -6,22 +8,32 @@
 }
 
 :root {
-  --blue-primary: #0A3251; /* Azul escuro do título e do banner "Realizou uma sessão" */
-  --blue-secondary: #2C6E9D; /* Azul mais claro dos detalhes e botões primários */
-  --blue-glow: #23a7ff; /* Azul vibrante da palavra "Exchange" */
-  --text-gray: #545454; /* Cinza do texto corrido */
-  --bg-light: #F8F9FA; /* Fundo cinza claro dos cards */
-  --bg-white: #FFFFFF; /* Fundo branco */
-  --font-family: 'Poppins', sans-serif; 
+  /* Cores antigas e novas mescladas */
+  --blue-primary: #0A3251; 
+  --blue-secondary: #2C6E9D; 
+  --blue-glow: #23a7ff; 
+  --bg-light: #F8F9FA; 
+  --bg-white: #FFFFFF; 
+  --bg-cream: #fcf7f2;
+  --bg-purple: #9cb0e1;
+  --dark-navy: #0b0f24;
+  --brand-orange: #ff8c2b;
+  --text-gray: #333333; /* Substituiu o #545454 pelo mais escuro da nova paleta */
+
+  /* Tipografia: Criamos duas variáveis separadas */
+  --font-title: 'Bebas Neue', sans-serif;
+  --font-body: 'Poppins', sans-serif;
 }
+
 
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  font-family: var(--font-family);
+  font-family: var(--font-body);
   color: var(--text-gray);
+  background-color: var(--bg-cream);
   line-height: 1.6;
 }
 
@@ -132,3 +144,9 @@ body {
   border-radius: 8px;
 }
 
+h1, h2, h3, h4, h5, h6, .title, .headline {
+  font-family: var(--font-title);
+  font-weight: 700; /* Garante o negrito */
+  text-transform: uppercase; /* Garante a caixa alta (all caps) */
+  color: var(--dark-navy);
+}

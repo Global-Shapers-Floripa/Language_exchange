@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-
 import { NavLink, useNavigate } from "react-router-dom";
-
 import {
   Home,
   Users,
@@ -12,12 +10,11 @@ import {
   Handshake,
   UserStar,
   HelpCircle,
+  Bell,
+  ArrowUpRight
 } from "lucide-react";
-
 import { supabase } from "../../services/supabaseClient";
-
 import logoLE from "../../assets/logo-LanguageExchange.svg";
-
 import "./styles.css";
 
 const DashboardLayout = ({ children }) => {
@@ -63,10 +60,7 @@ const DashboardLayout = ({ children }) => {
           });
         }
       } catch (err) {
-        console.error(
-          "Erro ao carregar usuário:",
-          err
-        );
+        console.error("Erro ao carregar usuário:", err);
       }
     };
 
@@ -78,188 +72,152 @@ const DashboardLayout = ({ children }) => {
   // =========================
   const handleLogout = async () => {
     await supabase.auth.signOut();
-
     navigate("/");
   };
 
   // =========================
-  // FOTO
+  // FOTO & NOME
   // =========================
   const avatarUrl =
-    userData.photo_url &&
-    userData.photo_url !== ""
+    userData.photo_url && userData.photo_url !== ""
       ? userData.photo_url
       : `https://api.dicebear.com/7.x/avataaars/svg?seed=${userData.name}`;
 
+  const firstName = userData.name !== "Carregando..." 
+    ? userData.name.split(" ")[0] 
+    : "Usuário";
+
   return (
-    <div className="dashboard-container">
-      {/* SIDEBAR */}
-      <aside className="sidebar">
-        <div className="sidebar-logo">
-          <img src={logoLE} alt="Logo" />
-          <p>Language Exchange</p>
-        </div>
+    <div className="dashboard-root">
+      <div className="dashboard-container">
+        {/* SIDEBAR */}
+        <aside className="sidebar">
+          <div className="sidebar-logo">
+            <img src={logoLE} alt="Logo Language Exchange" />
+            <p>Language<br/>Exchange</p>
+          </div>
 
-        <nav className="sidebar-nav">
-          <NavLink
-            to="/dashboard"
-            className={({ isActive }) =>
-              isActive
-                ? "nav-item active"
-                : "nav-item"
-            }
-          >
-            <Home size={20} />
-            Início
-          </NavLink>
+          <nav className="sidebar-nav">
+            <NavLink
+              to="/dashboard"
+              className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+            >
+              <Home size={20} />
+              Início
+            </NavLink>
 
-          <NavLink
-            to="/partners"
-            className={({ isActive }) =>
-              isActive
-                ? "nav-item active"
-                : "nav-item"
-            }
-          >
-            <Users size={20} />
-            Conexões
-          </NavLink>
+            <NavLink
+              to="/partners"
+              className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+            >
+              <Users size={20} />
+              Conexões
+            </NavLink>
 
-          <NavLink
-            to="/sessions"
-            className={({ isActive }) =>
-              isActive
-                ? "nav-item active"
-                : "nav-item"
-            }
-          >
-            <Calendar size={20} />
-            Sessões
-          </NavLink>
+            <NavLink
+              to="/sessions"
+              className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+            >
+              <Calendar size={20} />
+              Sessões
+            </NavLink>
 
-          <NavLink
-            to="/resources"
-            className={({ isActive }) =>
-              isActive
-                ? "nav-item active"
-                : "nav-item"
-            }
-          >
-            <BookOpen size={20} />
-            Recursos
-          </NavLink>
+            <NavLink
+              to="/resources"
+              className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+            >
+              <BookOpen size={20} />
+              Recursos
+            </NavLink>
 
-          <NavLink
-            to="/project-partners"
-            className={({ isActive }) =>
-              isActive
-                ? "nav-item active"
-                : "nav-item"
-            }
-          >
-            <Handshake size={20} />
-             Parceiros
-          </NavLink>
+            <NavLink
+              to="/project-partners"
+              className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+            >
+              <Handshake size={20} />
+              Parceiros
+            </NavLink>
 
-          <NavLink
-            to="/profile"
-            className={({ isActive }) =>
-              isActive
-                ? "nav-item active"
-                : "nav-item"
-            }
-          >
-            <User size={20} />
-            Meu Perfil
-          </NavLink>
+            <NavLink
+              to="/profile"
+              className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+            >
+              <User size={20} />
+              Meu Perfil
+            </NavLink>
 
-           <NavLink
-            to="/help"
-            className={({ isActive }) =>
-              isActive
-                ? "nav-item active"
-                : "nav-item"
-            }
-          >
-            <HelpCircle size={20} />
-            Ajuda
-          </NavLink>
+            <NavLink
+              to="/admin"
+              className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+            >
+              <UserStar size={20} />
+              Admin
+            </NavLink>
+          </nav>
 
-          <NavLink
-            to="/admin"
-            className={({ isActive }) =>
-              isActive
-                ? "nav-item active"
-                : "nav-item"
-            }
-          >
-            <UserStar size={20} />
-            Admin
-          </NavLink>
-        </nav>
+          {/* SIDEBAR BOTTOM (Banner + Links) */}
+          <div className="sidebar-bottom">
+            <div className="sidebar-banner">
+              <button className="banner-btn"><ArrowUpRight size={16} /></button>
+              <p>Saiba mais sobre o HUB idealizador do projeto</p>
+            </div>
+            
+            <div className="sidebar-footer-links">
+              <button className="btn-footer" onClick={handleLogout}>
+                <LogOut size={18} />
+                Sair
+              </button>
+              <NavLink to="/help" className="btn-footer">
+                <HelpCircle size={18} />
+                Ajuda
+              </NavLink>
+            </div>
+          </div>
+        </aside>
 
-        <button
-          className="btn-logout"
-          onClick={handleLogout}
-        >
-          <LogOut size={20} />
-          Sair
-        </button>
-      </aside>
+        {/* CONTEÚDO PRINCIPAL (Cartão Branco) */}
+        <main className="main-content">
+          <header className="top-header">
+            <h1 className="greeting-text"><span>Olá,</span> {firstName}!</h1>
 
-      {/* CONTEÚDO */}
-      <main className="main-content">
-  <header className="top-header">
-    <span className="community-tag">
-      GLOBAL SHAPERS COMMUNITY
-    </span>
+            <div className="header-actions">
+              <button className="notification-btn">
+                <Bell size={24} />
+              </button>
 
-    <div
-      className="user-profile clickable-profile"
-      onClick={() => navigate("/profile")}
-    >
-      <div className="user-info">
-        <p>{userData.name}</p>
+              <div
+                className="user-profile clickable-profile"
+                onClick={() => navigate("/profile")}
+              >
+                <div className="avatar-wrapper">
+                  <img src={avatarUrl} alt="Avatar" className="avatar" />
+                  <div className="avatar-edit-overlay">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                      stroke="currentColor"
+                      className="edit-icon"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M16.862 4.487a2.25 2.25 0 113.182 3.182L7.5 20.213 3 21l.787-4.5 13.075-12.013z"
+                      />
+                    </svg>
+                    <span>Editar</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </header>
 
-        <span>
-          HUB{" "}
-          {userData.hub?.toUpperCase()}
-        </span>
+          <section className="page-body">
+            {children}
+          </section>
+        </main>
       </div>
-
-      <div className="avatar-wrapper">
-        <img
-          src={avatarUrl}
-          alt="Avatar"
-          className="avatar"
-        />
-
-        <div className="avatar-edit-overlay">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-            stroke="currentColor"
-            className="edit-icon"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M16.862 4.487a2.25 2.25 0 113.182 3.182L7.5 20.213 3 21l.787-4.5 13.075-12.013z"
-            />
-          </svg>
-
-          <span>Editar perfil</span>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <section className="page-body">
-    {children}
-  </section>
-</main>
     </div>
   );
 };

@@ -1,181 +1,200 @@
-.projeto-container {
-    background-color: #ffffff;
-    padding: 50px 20px;
+/* =========================================
+   SEÇÃO SOBRE (LAYOUT GERAL)
+   ========================================= */
+.sobre-container {
+  background-color: var(--bg-cream, #fcf7f2);
+  padding: 100px 20px;
+  width: 100%;
 }
 
-.projeto-content {
-    max-width: 1100px;
-    margin: 0 auto;
+.sobre-content {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr; /* Coluna direita dos balões um pouco mais larga */
+  gap: 60px;
+  align-items: center;
 }
 
+/* =========================================
+   COLUNA ESQUERDA (TEXTOS)
+   ========================================= */
+.sobre-left {
+  display: flex;
+  flex-direction: column;
+  position: relative; /* Para posicionar a imagem decorativa */
+}
 
-/* GRID */
+.sobre-tag {
+  color: var(--brand-orange, #ff8c2b);
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-weight: 700;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+}
 
-.projeto-grid {
-    display: flex;
+.sobre-title {
+  font-size: 4.5rem;
+  line-height: 0.9;
+  color: var(--dark-navy, #0b0f24);
+  margin-bottom: 30px;
+  text-transform: uppercase;
+}
+
+.sobre-title .highlight-orange {
+  color: var(--brand-orange, #ff8c2b);
+}
+
+.sobre-text {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--text-gray, #333333);
+  margin-bottom: 25px;
+  max-width: 90%;
+}
+
+.sobre-text strong {
+  font-weight: 700;
+  color: var(--dark-navy, #0b0f24);
+}
+
+/* Decoração inferior esquerda */
+.sobre-decoration {
+  margin-top: 20px;
+  width: 120px;
+  height: auto;
+}
+
+.decor-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  opacity: 0.9;
+}
+
+/* =========================================
+   COLUNA DIREITA (BALÕES / BLOBS)
+   ========================================= */
+.sobre-right-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  /* Cria o efeito irregular empurrando a segunda coluna um pouco pra baixo */
+  align-items: start; 
+}
+
+/* O segundo e o quarto balão descem um pouco para dar o efeito de mosaico */
+.blob-navy, .blob-peach {
+  margin-top: 50px; 
+}
+
+/* Estilo base dos Balões para conter o texto */
+.blob-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* O Padding generoso é o que impede o texto de vazar das bordas orgânicas */
+  padding: 3.5rem 2.5rem;
+  aspect-ratio: 1 / 1; /* Mantém os balões proporcionais (quadrados na base) */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+  transition: transform 0.3s ease;
+}
+
+.blob-card:hover {
+  transform: translateY(-5px);
+}
+
+.blob-title {
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-size: 2.2rem;
+  line-height: 1;
+  margin-bottom: 15px;
+  color: var(--dark-navy, #0b0f24);
+}
+
+.blob-text {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--dark-navy, #0b0f24);
+  font-weight: 500;
+}
+
+/* Variações de cor e formato (Border-Radius complexo para formato orgânico) */
+
+.blob-orange {
+  background-color: var(--brand-orange, #ff8c2b);
+  border-radius: 60% 40% 50% 50% / 50% 50% 60% 50%;
+}
+
+.blob-navy {
+  background-color: var(--dark-navy, #0b0f24);
+  border-radius: 40% 60% 30% 70% / 60% 30% 70% 40%;
+}
+
+.blob-purple {
+  background-color: var(--bg-purple, #9cb0e1);
+  border-radius: 50% 50% 30% 70% / 50% 60% 40% 50%;
+}
+
+/* Cor extra para o último balão bege, inspirado na referência */
+.blob-peach {
+  background-color: #f7deb5; 
+  border-radius: 40% 60% 50% 50% / 60% 50% 50% 40%;
+}
+
+/* Classes utilitárias para inverter a cor do texto no fundo escuro */
+.blob-title-light {
+  color: #ffffff;
+}
+
+.blob-text-light {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* =========================================
+   RESPONSIVIDADE
+   ========================================= */
+@media (max-width: 1024px) {
+  .sobre-content {
+    grid-template-columns: 1fr;
     gap: 40px;
+  }
+  
+  .sobre-text {
+    max-width: 100%;
+  }
 
+  .sobre-right-grid {
+    gap: 15px;
+  }
+
+  .blob-card {
+    padding: 2.5rem 2rem;
+  }
 }
 
-/* IMAGEM */
+@media (max-width: 768px) {
+  .sobre-title {
+    font-size: 3.5rem;
+  }
 
-.projeto-image-wrapper {
-    flex: 1;
-    max-width: 43%;
-}
-.projeto-img {
-    width: 100%;
-    height: auto;
-    border-radius: 24px;
-    display: block;
-}
+  .sobre-right-grid {
+    grid-template-columns: 1fr; /* Empilha os balões no celular */
+  }
 
-.projeto-info {
-    flex: 1;
-    max-width: 50%;
-}
+  .blob-navy, .blob-peach {
+    margin-top: 0; /* Tira o degrau no celular */
+  }
 
-/* TEXTO */
+  .blob-card {
+    aspect-ratio: auto; /* Remove a proporção quadrada estrita */
+    min-height: 250px;
+    padding: 3rem 2rem;
+    border-radius: 40px; /* Deixa um pouco menos orgânico no mobile para economizar espaço e focar na leitura */
+  }
 
-.projeto-extra {
-    margin-bottom: 20px;
-}
-
-.projeto-text-small {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #0b2346;
-    margin-bottom: 10px;
-}
-
-.projeto-origin {
-    font-size: 0.9rem;
-    color: #556780;
-    margin-bottom: 16px;
-}
-
-/* PALAVRAS DESTACADAS */
-
-.highlight-blue {
-    color: #2389ff;
-    font-weight: 600;
-}
-
-/* STATS */
-
-.projeto-stats {
-    display: none;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-
-.stat-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    background: #c5e3ec;
-    border-radius: 10px;
-
-    padding: 8px 18px;
-    min-width: 80px;
-}
-
-.stat-card strong {
-    font-size: 1.2rem;
-    color: #0f172a;
-}
-
-.stat-card span {
-    font-size: 0.75rem;
-    color: #475569;
-}
-
-/* LISTA */
-
-.projeto-list {
-    list-style: none;
-    padding: 0;
-
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-
-    margin-top: 25px;
-}
-
-.projeto-list li {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    font-size: 1.05rem;
-    color: #1e293b;
-    font-weight: 600;
-}
-
-.list-icon {
-    color: #128ada;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    flex-shrink: 0;
-}
-
-/* ========================= */
-/* RESPONSIVIDADE */
-/* ========================= */
-
-/* TABLET */
-@media (max-width: 900px) {
-
-    .projeto-container {
-        padding: 60px 20px;
-    }
-
-    .projeto-info {
-        padding: 0 1rem;
-    }
-
-    .projeto-grid {
-        flex-direction: column-reverse;
-        gap: 30px;
-    }
-
-    .projeto-image-wrapper,
-    .projeto-info {
-        max-width: 100%;
-    }
-
-    /* imagem aparece primeiro no mobile */
-    .projeto-image-wrapper {
-        order: -1;
-    }
-
-}
-
-/* MOBILE */
-
-@media (max-width: 600px) {
-
-    .projeto-container {
-        padding: 50px 16px;
-    }
-
-    .projeto-text-small {
-        font-size: 1rem;
-    }
-
-    .projeto-list li {
-        font-size: 0.95rem;
-    }
-
-    .stat-card {
-        padding: 6px 14px;
-        min-width: 70px;
-    }
-
+  .sobre-decoration {
+    display: none; /* Oculta a imagem decorativa no mobile para não poluir */
+  }
 }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { HelpCircle, ChevronDown, ChevronUp } from "lucide-react";
+import { Plus, Minus } from "lucide-react";
 import "./faq.css";
 
 const FaqSection = () => {
@@ -33,56 +33,49 @@ const FaqSection = () => {
   };
 
   return (
-    <section className="faq-section-wrapper" id="faq">
-      {/* O DIVIDER */}
-      <div className="custom-shape-divider-top-faq">
-        <svg
-          data-name="Layer 1"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-            className="shape-fill"
-          ></path>
-        </svg>
-      </div>
-
-      {/* CONTEÚDO */}
-      <div className="faq-container">
-        <div className="section-header-centered">
-          <div className="header-icon">
-            <HelpCircle size={30} color="#ff7b00" />
-          </div>
-          <h2 className="section-title title-FAQ">Perguntas Frequentes</h2>
-          <p className="section-subtitle subtitle-FAQ">
-            Tire suas principais dúvidas sobre como funciona o Language
-            Exchange.
+    <section className="site-faq-wrapper" id="faq">
+      <div className="site-faq-container">
+        
+        {/* LADO ESQUERDO - Títulos */}
+        <div className="site-faq-left">
+          <span className="site-faq-tag">// FAQ</span>
+          <h2 className="site-faq-title">
+            PERGUNTAS <br />
+            QUE <span className="site-highlight-orange">A GENTE OUVE.</span>
+          </h2>
+          <p className="site-faq-description">
+            Não achou a sua? Mande uma mensagem nos nossos contatos. 
+            Respondemos pessoalmente.
           </p>
         </div>
 
-        <div className="faq-list">
-          {faqs.map((faq, index) => (
-            <div
-              key={index}
-              className={`faq-item ${activeIndex === index ? "active" : ""}`}
-              onClick={() => toggleAccordion(index)}
-            >
-              <div className="faq-question">
-                <span>{faq.question}</span>
-                {activeIndex === index ? (
-                  <ChevronUp size={20} color="#34baf8" />
-                ) : (
-                  <ChevronDown size={20} color="#64748b" />
-                )}
+        {/* LADO DIREITO - Sanfona de Perguntas */}
+        <div className="site-faq-right">
+          <div className="site-faq-list">
+            {faqs.map((faq, index) => (
+              <div
+                key={index}
+                className={`site-faq-item ${activeIndex === index ? "active" : ""}`}
+                onClick={() => toggleAccordion(index)}
+              >
+                <div className="site-faq-question">
+                  <h3>{faq.question}</h3>
+                  <div className="site-faq-icon">
+                    {activeIndex === index ? (
+                      <Minus size={18} strokeWidth={2.5} />
+                    ) : (
+                      <Plus size={18} strokeWidth={2.5} />
+                    )}
+                  </div>
+                </div>
+                <div className="site-faq-answer">
+                  <p>{faq.answer}</p>
+                </div>
               </div>
-              <div className="faq-answer">
-                <p>{faq.answer}</p>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
+
       </div>
     </section>
   );

@@ -2,26 +2,38 @@ import React from 'react';
 import './Faixa.css';
 
 const Faixa = () => {
-  // Códigos ISO de 2 letras (ex: Brasil é BR) que a API usa
-  const countries = [
-    'br', 'us', 'es', 'fr', 'de', 'it', 'jp', 'cn', 
-    'gb', 'ca', 'ar', 'mx', 'pt', 'co', 'za'
+  const items = [
+    { code: 'br', text: 'OLÁ' },
+    { code: 'us', text: 'HELLO' },
+    { code: 'it', text: 'CIAO' },
+    { code: 'kr', text: '안녕' },
+    { code: 'de', text: 'HALLO' },
+    { code: 'in', text: 'नमस्ते' },
+    { code: 'se', text: 'HEJ' },
+    { code: 'jp', text: 'こんにちは' },
+    { code: 'es', text: 'HOLA' },
+    { code: 'fr', text: 'BONJOUR' },
   ];
+
+  const repeatedItems = [...items, ...items, ...items];
 
   return (
     <div className="flag-strip-container">
       <div className="flag-track">
-        {countries.concat(countries, countries, countries).map((code, index) => (
-          <div key={index} className="flag-item">
-            <img
-              /* Alterado para carregar uma versão de maior resolução (w160) */
-              src={`https://flagcdn.com/w160/${code}.png`}
-              width="60" /* Definimos um tamanho fixo para o navegador redimensionar com nitidez */
-              alt={`Bandeira ${code}`}
-              className="country-flag"
-              loading="lazy"
-            />
-          </div>
+        {repeatedItems.map((item, index) => (
+          <React.Fragment key={index}>
+            <div className="flag-item">
+              <img
+                src={`https://flagcdn.com/w80/${item.code}.png`}
+                width="28"
+                alt={`Bandeira ${item.code}`}
+                className="country-flag"
+                loading="lazy"
+              />
+              <span className="greeting-text">{item.text}</span>
+            </div>
+            <span className="separator-dot"></span>
+          </React.Fragment>
         ))}
       </div>
     </div>
