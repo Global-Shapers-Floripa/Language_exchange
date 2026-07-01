@@ -2,7 +2,7 @@
    WRAPPER DA SEÇÃO (Isolado com prefixo .site-)
    ========================================= */
 .site-resources-wrapper {
-  background-color: var(--bg-cream, #fcf7f2);
+  background-color: #FAE1CB;
   padding: 100px 20px;
   width: 100%;
 }
@@ -125,7 +125,7 @@
    ========================================= */
 
 .site-blob-peach {
-  background-color: #f7deb5;
+  background-color: var(--bg-cream, #fcf7f2);
   border-radius: 50% 50% 40% 60% / 60% 40% 50% 50%;
 }
 

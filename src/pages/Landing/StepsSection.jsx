@@ -1,6 +1,6 @@
 import React from "react";
 import "./steps-section.css";
-import logoLanguageExchange from "../../assets/logo-LanguageExchange.svg"; // Placeholder para a boca
+import BocaTopo from "../../assets/mouth-halftone-1.png";
 
 const steps = [
   {
@@ -34,7 +34,7 @@ const ComoFunciona = () => {
     <section className="como-section-wrapper" id="como-funciona">
       {/* Imagem decorativa (Boquinha no canto) */}
       <img 
-        src={logoLanguageExchange} 
+        src={BocaTopo} 
         alt="Decoração" 
         className="mouth-decoration" 
       />

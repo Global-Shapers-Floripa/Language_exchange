@@ -1,6 +1,6 @@
 import React from "react";
 import "./sobre-projeto.css";
-import logoLanguageExchange from "../../assets/logo-LanguageExchange.svg"; // Seu placeholder
+import BocaFoto from "../../assets/mouth-halftone-2.png"; 
 
 const ConhecaProjeto = () => {
   return (
@@ -33,7 +33,7 @@ const ConhecaProjeto = () => {
           {/* Imagem decorativa (Placeholder) */}
           <div className="sobre-decoration">
             <img 
-              src={logoLanguageExchange} 
+              src={BocaFoto} 
               alt="Decoração" 
               className="decor-img"
             />

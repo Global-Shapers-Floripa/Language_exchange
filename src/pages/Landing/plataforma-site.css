@@ -1,0 +1,217 @@
+/* =========================================
+   WRAPPER COMPACTO DA SEÇÃO
+   ========================================= */
+.site-plataforma-wrapper {
+  background-color: var(--bg-cream, #fcf7f2);
+  padding: 60px 20px; /* Reduzido para caber bem na tela */
+  width: 100%;
+}
+
+.site-plataforma-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Duas colunas simétricas */
+  gap: 50px;
+  align-items: flex-start;
+}
+
+/* =========================================
+   COLUNA ESQUERDA (Título e Números)
+   ========================================= */
+.site-plataforma-left {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Título no padrão "Como Funciona" */
+.site-tag-plataforma {
+  display: block;
+  color: var(--brand-orange, #ff8c2b);
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.site-title-plataforma {
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-size: 4rem; /* Tamanho padronizado e compacto */
+  line-height: 0.9;
+  color: var(--dark-navy, #0b0f24);
+  margin: 0 0 15px 0;
+  text-transform: uppercase;
+}
+
+.site-title-plataforma .site-highlight-orange {
+  color: var(--brand-orange, #ff8c2b);
+}
+
+.site-intro-plataforma {
+  font-family: var(--font-body, 'Poppins', sans-serif);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text-gray, #333333);
+  margin-bottom: 30px;
+  max-width: 95%;
+}
+
+/* Mini Blobs de Números (Bem menores e discretos) */
+.site-stats-compact {
+  display: flex;
+  gap: 15px; /* Espaço pequeno entre eles */
+}
+
+.site-mini-blob {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem 1rem; /* Bem reduzido */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+}
+
+.site-stat-val {
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-size: 2.5rem; /* Números menores */
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.site-stat-lbl {
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.site-stat-txt {
+  font-family: var(--font-body, 'Poppins', sans-serif);
+  font-size: 0.75rem; /* Texto bem sutil */
+  line-height: 1.4;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* Cores e formatos orgânicos pros Mini-Blobs */
+.site-blob-orange {
+  background-color: var(--brand-orange, #ff8c2b);
+  color: #ffffff;
+  border-radius: 60% 40% 50% 50% / 50% 50% 60% 50%;
+}
+
+.site-blob-purple {
+  background-color: var(--bg-purple, #9cb0e1);
+  color: var(--dark-navy, #0b0f24);
+  border-radius: 40% 60% 30% 70% / 60% 30% 70% 40%;
+}
+
+.site-blob-peach {
+  background-color: #f7deb5;
+  color: var(--dark-navy, #0b0f24);
+  border-radius: 50% 50% 60% 40% / 50% 60% 40% 50%;
+}
+
+/* =========================================
+   COLUNA DIREITA (Foto e Cards)
+   ========================================= */
+.site-plataforma-right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Mantém a foto e os cards próximos */
+}
+
+/* Foto estática sem frescuras */
+.site-mockup-single {
+  width: 100%;
+  height: 240px; /* Altura controlada para não empurrar a tela pra baixo */
+  object-fit: cover;
+  border-radius: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+/* Cards de Funcionalidade (Compactos em lista) */
+.site-features-compact {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.site-feature-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  background-color: #ffffff;
+  padding: 15px 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+.site-feat-num {
+  background-color: #f7deb5; 
+  color: var(--dark-navy, #0b0f24);
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-size: 1.2rem;
+  width: 35px;
+  height: 35px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.site-feat-content h4 {
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-size: 1.2rem;
+  color: var(--dark-navy, #0b0f24);
+  margin: 0 0 4px 0;
+  letter-spacing: 0.5px;
+}
+
+.site-feat-content p {
+  font-family: var(--font-body, 'Poppins', sans-serif);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--text-gray, #333333);
+  margin: 0;
+}
+
+/* =========================================
+   RESPONSIVIDADE
+   ========================================= */
+@media (max-width: 1024px) {
+  .site-plataforma-container {
+    grid-template-columns: 1fr; /* Empilha no tablet/celular */
+    gap: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .site-plataforma-wrapper {
+    padding: 50px 20px;
+  }
+  
+  .site-title-plataforma {
+    font-size: 3.5rem;
+  }
+
+  .site-stats-compact {
+    flex-direction: column; /* Blobs viram lista no celular */
+  }
+
+  .site-mini-blob {
+    padding: 1.5rem;
+    border-radius: 40px !important; /* Bordas mais suaves no mobile */
+  }
+
+  .site-mockup-single {
+    height: 200px;
+  }
+}

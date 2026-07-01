@@ -1,0 +1,152 @@
+/* =========================================
+   WRAPPER DA SEÇÃO CTA
+   ========================================= */
+.site-cta-wrapper {
+  background-color: var(--dark-navy, #0b0f24);
+  /* Fundo com pontinhos azul claro */
+  background-image: radial-gradient(rgba(156, 176, 225, 0.15) 2px, transparent 2px);
+  background-size: 30px 30px;
+  padding: 120px 0; /* Padding lateral 0 para a linha poder vazar fluidamente */
+  width: 100%;
+  overflow: hidden; /* Corta o que sobrar nas laterais */
+}
+
+.site-cta-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* =========================================
+   TEXTOS CENTRALIZADOS
+   ========================================= */
+.site-cta-text-content {
+  margin-bottom: 60px;
+  padding: 0 20px;
+}
+
+.site-cta-title {
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-size: 4.5rem; /* Tamanho reduzido conforme solicitado */
+  line-height: 0.9;
+  color: #ffffff; /* Texto branco para o fundo escuro */
+  margin: 0 0 15px 0;
+  text-transform: uppercase;
+}
+
+.site-cta-subtitle {
+  font-family: var(--font-body, 'Poppins', sans-serif);
+  font-size: 1.15rem;
+  color: var(--bg-cream, #fcf7f2); /* Tom bege claro */
+  margin: 0;
+  opacity: 0.85;
+}
+
+/* =========================================
+   FILEIRA DE BOTÕES (VAZANDO A TELA)
+   ========================================= */
+.site-cta-overflow-container {
+  width: 100%;
+  position: relative;
+  /* Espaço embaixo para a sombra do botão não ser cortada */
+  padding-bottom: 20px; 
+}
+
+.site-cta-buttons-row {
+  /* Truque para centralizar uma div que é maior que a largura da tela */
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content; /* Força a div a ter a largura exata de todos os botões somados */
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+}
+
+/* =========================================
+   BOTÃO PRINCIPAL - ESTILO CARD (CTA)
+   ========================================= */
+.site-cta-btn-main {
+  background-color: var(--bg-cream, #fcf7f2); /* Cor igual ao fundo do card da referência */
+  color: var(--dark-navy, #0b0f24);
+  font-family: var(--font-body, 'Poppins', sans-serif);
+  font-weight: 700;
+  font-size: 1.15rem;
+  padding: 16px 45px;
+  border-radius: 12px; /* Formato levemente arredondado igual ao card */
+  text-decoration: none;
+  
+  /* A sombra colorida sólida simulando profundidade 3D */
+  box-shadow: 6px 6px 0px var(--brand-orange, #ff8c2b);
+  
+  /* Transição rápida para dar a sensação de botão físico */
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+  z-index: 2;
+  white-space: nowrap;
+}
+
+.site-cta-btn-main:hover {
+  /* No hover, o botão desce para preencher o espaço da sombra */
+  transform: translate(6px, 6px);
+  /* A sombra some, criando o efeito visual de ter sido pressionado */
+  box-shadow: 0px 0px 0px transparent;
+}
+
+/* =========================================
+   BOTÕES FANTASMAS (OUTRAS LÍNGUAS)
+   ========================================= */
+.site-cta-btn-ghost {
+  background-color: rgba(255, 255, 255, 0.05); /* Fundo branco bem transparente */
+  color: rgba(255, 255, 255, 0.4); /* Texto mais apagado */
+  font-family: var(--font-body, 'Poppins', sans-serif);
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 16px 35px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Bordinha sutil */
+  white-space: nowrap;
+  pointer-events: none; /* Não clicável */
+  user-select: none;
+  z-index: 1;
+}
+
+/* =========================================
+   RESPONSIVIDADE
+   ========================================= */
+@media (max-width: 900px) {
+  .site-cta-title {
+    font-size: 3.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .site-cta-wrapper {
+    padding: 80px 0;
+  }
+
+  .site-cta-title {
+    font-size: 2.8rem;
+  }
+
+  .site-cta-subtitle {
+    font-size: 1rem;
+  }
+
+  .site-cta-buttons-row {
+    gap: 15px;
+  }
+
+  .site-cta-btn-main {
+    padding: 14px 35px;
+    font-size: 1rem;
+  }
+
+  .site-cta-btn-ghost {
+    padding: 14px 25px;
+    font-size: 0.9rem;
+  }
+}
