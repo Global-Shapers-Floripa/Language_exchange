@@ -3,19 +3,18 @@
    ========================================= */
 .sobre-container {
   background-color: var(--bg-cream, #fcf7f2);
-  padding: 100px 20px;
   width: 100%;
+  max-width: 1300px; 
+  margin: 0 auto;
 }
 
 .sobre-content {
-  max-width: 1300px;
-  margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1.2fr; /* Coluna direita dos balões um pouco mais larga */
+  grid-template-columns: 1fr 1.2fr;
   gap: 60px;
   align-items: center;
+  padding: 3rem;
 }
-
 /* =========================================
    COLUNA ESQUERDA (TEXTOS)
    ========================================= */

@@ -6,16 +6,17 @@
   /* Padrão de pontinhos em um azul claro suave */
   background-image: radial-gradient(rgba(156, 176, 225, 0.15) 2px, transparent 2px);
   background-size: 30px 30px;
-  padding: 100px 20px;
+
   width: 100%;
 }
 
 .site-faq-container {
-  max-width: 1200px;
+  max-width: 1300px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1.5fr; /* Distribuição fiel à imagem (Dir maior) */
   gap: 80px;
+  padding: 3rem;
   align-items: flex-start;
 }
 

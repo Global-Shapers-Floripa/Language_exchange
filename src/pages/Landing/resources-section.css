@@ -1,15 +1,15 @@
 /* =========================================
-   WRAPPER DA SEÇÃO (Isolado com prefixo .site-)
+   WRAPPER DA SEÇÃO RECURSOS
    ========================================= */
 .site-resources-wrapper {
   background-color: #FAE1CB;
-  padding: 100px 20px;
   width: 100%;
 }
 
 .site-resources-container {
-  max-width: 1200px;
+  max-width: 1300px; /* Mantém 1300px */
   margin: 0 auto;
+  padding: 3rem;
 }
 
 /* =========================================

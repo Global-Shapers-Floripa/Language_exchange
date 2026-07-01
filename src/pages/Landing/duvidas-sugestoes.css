@@ -3,12 +3,12 @@
    ========================================= */
 .site-contact-wrapper {
   background-color: var(--bg-cream, #fcf7f2);
-  padding: 100px 20px;
   width: 100%;
 }
 
 .site-contact-container {
-  max-width: 1200px;
+  max-width: 1300px;
+  padding: 3rem;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1.2fr; /* Coluna do Hub levemente mais larga */

@@ -1,12 +1,15 @@
 /* =========================================
-   WRAPPER PRINCIPAL
+   WRAPPER PRINCIPAL COMO FUNCIONA
    ========================================= */
 .como-section-wrapper {
   position: relative;
-  background-color: var(--dark-navy, #0b0f24); /* Fundo escuro da referência */
-  padding: 100px 20px;
+  background-color: var(--dark-navy, #0b0f24);
   width: 100%;
   overflow: hidden; /* Para a boquinha não vazar a tela */
+  
+  /* Removemos o padding daqui para seguir a lógica do seu Hero/Sobre */
+  display: flex; 
+  justify-content: center;
 }
 
 /* =========================================
@@ -18,19 +21,23 @@
   right: 0;
   width: 300px;
   height: auto;
-  opacity: 0.6; /* Deixa um pouco mais suave no fundo */
-  transform: translate(20%, -20%); /* Joga ela um pouco pra fora da tela, como na foto */
-  pointer-events: none; /* Para não atrapalhar o clique em nada */
+  opacity: 0.6;
+  transform: translate(20%, -20%);
+  pointer-events: none;
 }
 
 /* =========================================
    CONTAINER INTERNO
    ========================================= */
 .como-inner-content {
-  max-width: 1200px;
+  width: 100%;
+  max-width: 1300px;
   margin: 0 auto;
   position: relative;
-  z-index: 2; /* Garante que fique acima da decoração */
+  z-index: 2;
+  
+  /* Aqui está o padrão que alinhou suas outras seções */
+  padding: 4rem 3rem; 
 }
 
 /* =========================================

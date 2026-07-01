@@ -1,18 +1,18 @@
 /* =========================================
-   WRAPPER COMPACTO DA SEÇÃO
+   WRAPPER COMPACTO DA SEÇÃO PLATAFORMA
    ========================================= */
 .site-plataforma-wrapper {
   background-color: var(--bg-cream, #fcf7f2);
-  padding: 60px 20px; /* Reduzido para caber bem na tela */
   width: 100%;
 }
 
 .site-plataforma-container {
-  max-width: 1200px;
+  max-width: 1300px; /* Mantém 1300px */
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Duas colunas simétricas */
+  grid-template-columns: 1fr 1fr;
   gap: 50px;
+  padding: 3rem ;
   align-items: flex-start;
 }
 

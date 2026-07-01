@@ -13,7 +13,7 @@
 }
 
 .site-container {
-  max-width: 1400px;
+  max-width: 1300px; /* PADRONIZADO PARA 1300px */
   margin: 0 auto;
 }
 
@@ -21,7 +21,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15px 3rem;
+  padding: 1rem 3rem; 
 }
 
 .logo-container {
@@ -156,7 +156,6 @@
 .site-hero-section {
   position: relative;
   width: 100%;
-  min-height: 100vh;
   margin-top: 50px; 
   background-color: var(--dark-navy, #0b0f24); /* Fundo Azul Escuro */
   
@@ -168,6 +167,8 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+
+  max-height: 900px;
 }
 
 .site-hero-grid {

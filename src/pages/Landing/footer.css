@@ -6,13 +6,13 @@
   /* Padrão de pontinhos igual ao FAQ/Hero */
   background-image: radial-gradient(rgba(156, 176, 225, 0.15) 2px, transparent 2px);
   background-size: 30px 30px;
-  padding: 80px 20px 30px 20px;
   width: 100%;
   border-top: 1px solid rgba(255, 255, 255, 0.05); /* Linha sutil de separação no topo */
 }
 
 .site-footer-container {
-  max-width: 1200px;
+  max-width: 1300px;
+  padding: 3rem;
   margin: 0 auto;
 }
 
