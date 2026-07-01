@@ -34,10 +34,10 @@
 }
 
 .sobre-title {
-  font-size: 4.5rem;
+  font-size: 4rem;
   line-height: 0.9;
   color: var(--dark-navy, #0b0f24);
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   text-transform: uppercase;
 }
 
@@ -46,7 +46,7 @@
 }
 
 .sobre-text {
-  font-size: 1.15rem;
+  font-size: 1rem;
   line-height: 1.6;
   color: var(--text-gray, #333333);
   margin-bottom: 25px;
@@ -60,7 +60,6 @@
 
 /* Decoração inferior esquerda */
 .sobre-decoration {
-  margin-top: 20px;
   width: 120px;
   height: auto;
 }
@@ -69,7 +68,7 @@
   width: 100%;
   height: auto;
   object-fit: contain;
-  opacity: 0.9;
+  opacity: 0.8;
 }
 
 /* =========================================
@@ -78,14 +77,13 @@
 .sobre-right-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  /* Cria o efeito irregular empurrando a segunda coluna um pouco pra baixo */
   align-items: start; 
+  gap: -30px;
 }
 
 /* O segundo e o quarto balão descem um pouco para dar o efeito de mosaico */
 .blob-navy, .blob-peach {
-  margin-top: 50px; 
+  margin-top: 10px; 
 }
 
 /* Estilo base dos Balões para conter o texto */
@@ -93,9 +91,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* O Padding generoso é o que impede o texto de vazar das bordas orgânicas */
-  padding: 3.5rem 2.5rem;
-  aspect-ratio: 1 / 1; /* Mantém os balões proporcionais (quadrados na base) */
+  padding: 3rem 2.5rem;
+  aspect-ratio: 1 / 1; 
   box-shadow: 0 10px 30px rgba(0,0,0,0.03);
   transition: transform 0.3s ease;
 }
@@ -106,14 +103,14 @@
 
 .blob-title {
   font-family: var(--font-title, 'Bebas Neue', sans-serif);
-  font-size: 2.2rem;
+  font-size: 1.8rem;
   line-height: 1;
   margin-bottom: 15px;
   color: var(--dark-navy, #0b0f24);
 }
 
 .blob-text {
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   line-height: 1.5;
   color: var(--dark-navy, #0b0f24);
   font-weight: 500;

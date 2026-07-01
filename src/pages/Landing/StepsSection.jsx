@@ -61,7 +61,7 @@ const ComoFunciona = () => {
                 {/* Balão com o Número */}
                 <div className={`step-blob ${step.colorClass}`}>
                   <span className="step-label">PASSO</span>
-                  <span className="step-number">{step.number}</span>
+                  <span className="step-number-card">{step.number}</span>
                 </div>
 
                 {/* Textos do Passo */}

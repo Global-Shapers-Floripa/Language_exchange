@@ -38,13 +38,16 @@
   
   /* Aqui está o padrão que alinhou suas outras seções */
   padding: 4rem 3rem; 
+  /* Padrão de pontinhos claros */
+  background-image: radial-gradient(rgba(156, 176, 225, 0.15) 2px, transparent 2px);
+  background-size: 30px 30px;
 }
 
 /* =========================================
    HEADER
    ========================================= */
 .como-header {
-  margin-bottom: 80px;
+  margin-bottom: 40px;
 }
 
 .como-tag {
@@ -81,7 +84,7 @@
 /* A linha pontilhada que passa por trás dos balões */
 .dotted-line {
   position: absolute;
-  top: 90px; /* Ajuste para alinhar perfeitamente no meio dos balões */
+  top: 50px; /* Ajuste para alinhar perfeitamente no meio dos balões */
   left: 0;
   width: 100%;
   height: 4px;
@@ -117,8 +120,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 180px;
-  height: 180px;
+  width: 100px;
+  height: 100px;
   margin-bottom: 30px;
   /* Sombrinha suave para destacar do fundo */
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); 
@@ -138,7 +141,7 @@
   margin-bottom: -5px; /* Aproxima o PASSO do NÚMERO */
 }
 
-.step-number {
+.step-number-card {
   font-family: var(--font-title, 'Bebas Neue', sans-serif);
   font-size: 4rem;
   font-weight: 700;
@@ -147,13 +150,13 @@
 
 /* Cores e formatos dos balões baseados na referência */
 .blob-step-orange {
-  background-color: var(--brand-orange, #ff8c2b);
+  background-color: var(--bg-cream, #fcf7f2);
   color: var(--dark-navy, #0b0f24);
   border-radius: 40% 60% 50% 50% / 50% 50% 60% 50%;
 }
 
 .blob-step-cream {
-  background-color: var(--bg-cream, #fcf7f2);
+  background-color: var(--brand-orange, #ff8c2b);
   color: var(--dark-navy, #0b0f24);
   border-radius: 50% 50% 40% 60% / 60% 40% 50% 50%;
 }
