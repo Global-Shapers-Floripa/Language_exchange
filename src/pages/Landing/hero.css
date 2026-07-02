@@ -167,7 +167,6 @@
   position: relative;
   width: 100%;
 
-  padding-top: 30px;
 
   background-color: var(--dark-navy, #0b0f24);
   background-image: radial-gradient(rgba(156, 176, 225, 0.15) 2px, transparent 2px);
@@ -178,9 +177,9 @@
   justify-content: center;
   overflow: hidden;
 
-  /* REMOVIDO: max-height: 900px; (Isso quebrava telas muito largas/altas) */
-  /* ADICIONADO: Garante que ocupa pelo menos a tela toda, mas pode crescer */
-  min-height: 100vh;
+  /* SUBSTITUÍDO: de 100vh para um valor mais flexível. 
+     Isso garante no mínimo 600px de altura, mas tenta ocupar 85% da tela */
+  min-height: max(600px, 85vh); 
 }
 
 .site-hero-grid {
@@ -205,15 +204,15 @@
   align-items: center;
   gap: 8px;
   background-color: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  color: #ffffffe5;
   border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 8px 20px;
+  padding: 4px 15px;
   border-radius: 50px;
   font-family: var(--font-body, 'Poppins', sans-serif);
   font-weight: 700;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   letter-spacing: 1px;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .site-badge-dot {
@@ -229,7 +228,7 @@
   line-height: 0.9;
   color: #ffffff;
   /* Título Branco */
-  margin: 0 0 1.5rem 0;
+  margin: 0 0 1rem 0;
   text-transform: uppercase;
 }
 
@@ -244,7 +243,7 @@
   line-height: 1.6;
   color: var(--bg-cream, #fcf7f2);
   /* Bege claro para leitura confortável */
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
   font-weight: 400;
   opacity: 0.85;
 }
@@ -253,7 +252,7 @@
   display: flex;
   align-items: center;
   gap: 25px;
-  margin-bottom: 3.5rem;
+  margin-bottom: 2rem;
 }
 
 .site-cta-banner-2 {
@@ -376,9 +375,22 @@
 /* =========================================
    RESPONSIVIDADE
    ========================================= */
-@media (max-width: 1024px) {
+/* ADICIONADO: Trava para telas muito grandes (ex: iMacs, Ultrawides) */
+@media (min-width: 1400px) {
+  .site-hero-section {
+    /* Em telas gigantes, ele deixa de seguir o 'vh' e trava num tamanho fixo agradável */
+    min-height: 750px;
+    max-height: 850px; 
+  }
+}
+
+@media (max-width: 1150px) {
   .site-hero-title {
     font-size: 4rem;
+  }
+
+  .site-hero-grid {
+    gap: 0;
   }
 
   .site-hero-section {
@@ -401,7 +413,7 @@
   }
 }
 
-@media (max-width: 950px) {
+@media (max-width: 1050px) {
 
   .last-divider {
     display: none;
@@ -474,7 +486,6 @@
   }
 
   .site-hero-right {
-    height: 400px;
     display: flex;
     justify-content: center;
     margin-top: 40px;

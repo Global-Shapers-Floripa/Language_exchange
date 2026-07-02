@@ -1,71 +1,295 @@
-/* Container pai para alinhar tudo perfeitamente */
-.hero-globe-wrapper {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-  /* APAGADO: width, max-width e aspect-ratio. 
-     Agora a caixa abraça exatamente o tamanho do globo! */
-  padding: 40px 0; /* Espaço para as bandeiras não baterem nos textos */
-}
-
-/* Onde o globo 3D fica */
-.globe-container {
-  /* APAGADO: width: 500px e height: 500px. 
-     O React já controla isso automaticamente pelo style={{}} */
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: grab;
-  z-index: 5;
-}
-
-.globe-container:active {
-  cursor: grabbing;
+/* Container que ocupa a direita do Hero */
+.connections-container {
+    width: 100%;
+    height: auto;
+    min-height: 550px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
 }
 
 /* =========================================
-   CINTURÃO CONTÍNUO
+   A MÁGICA DO ALINHAMENTO COM GAP (Grid)
    ========================================= */
-.flags-continuous-belt {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  z-index: 10;
-  pointer-events: none; 
-  animation: belt-spin 60s linear infinite; 
+.connections-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    /* O ESPAÇAMENTO PADRÃO ENTRE TODOS */
+    align-items: start;
 }
 
-@keyframes belt-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+/* O card da direita desce um pouquinho para o efeito de degrau */
+.chat-connection-card:nth-child(even) {
+    transform: translateY(40px);
 }
 
-/* Posicionadores de cada bandeira no raio */
-.belt-flag-positioner {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  
-  /* MEDIDAS ATUALIZADAS PARA BATER COM A SUA IMAGEM: */
-  width: 42px; 
-  height: 32px;
-  margin-left: -21px; /* Sempre a exata metade da largura */
-  margin-top: -16px;  /* Sempre a exata metade da altura */
+/* O "Card" base */
+.chat-connection-card {
+    width: 290px;
+    border: 2px solid var(--dark-navy, #0b0f24);
+    border-radius: 20px;
+    padding: 12px 12px;
+    box-shadow: 6px 6px 0px rgba(11, 15, 36, 0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    border: 1px solid white;
+
+
 }
 
-/* O visual da imagem da bandeira (PADRONIZADO) */
-.belt-flag-img {
-  width: 42px;
-  height: 32px;
-  object-fit: cover; 
-  border-radius: 2px; 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); 
+
+
+/* =========================================
+   AS CORES E TEMAS
+   ========================================= */
+.theme-orange {
+    background-color: #f57c20;
+    color: #0b0f24;
+
+}
+
+.theme-orange .bubble-left {
+    background-color: #ffffff;
+    color: #0b0f24;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.theme-orange .bubble-right {
+    background-color: #0b0f24;
+    color: #ffffff;
+}
+
+.theme-orange .chat-hub-label {
+    color: #0b0f24;
+    font-weight: 800;
+}
+
+.theme-blue {
+    background-color: #9eb2e1;
+    color: #0b0f24;
+
+}
+
+.theme-blue .bubble-left {
+    background-color: #ffffff;
+    color: #0b0f24;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.theme-blue .bubble-right {
+    background-color: #0b0f24;
+    color: #ffffff;
+}
+
+.theme-blue .chat-hub-label {
+    color: #0b0f24;
+    font-weight: 800;
+}
+
+/* Novo Card Branco no lugar do Escuro */
+.theme-white {
+    background-color: #ffffff;
+    color: #0b0f24;
+
+}
+
+.theme-white .bubble-left {
+    background-color: #f0f0f0;
+    color: #0b0f24;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.theme-white .bubble-right {
+    background-color: #0b0f24;
+    color: #ffffff;
+}
+
+.theme-white .chat-hub-label {
+    color: #f57b20;
+    font-weight: 800;
+}
+
+.theme-yellow {
+    background-color: #f4dea1;
+    color: #0b0f24;
+
+}
+
+
+.theme-yellow .bubble-left {
+    background-color: #ffffff;
+    color: #0b0f24;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.theme-yellow .bubble-right {
+    background-color: #0b0f24;
+    color: #ffffff;
+}
+
+.theme-yellow .chat-hub-label {
+    color: #0b0f24;
+    font-weight: 800;
+}
+
+
+/* =========================================
+   LINHAS DO CHAT, AVATAR E BANDEIRA
+   ========================================= */
+.chat-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    /* Alinha o conteúdo pelo topo */
+}
+
+.chat-row.right {
+    flex-direction: row-reverse;
+}
+
+/* Alinhamento perfeito da foto com a bandeira */
+.avatar-wrapper {
+    position: relative;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 8px;
+    /* Dá espaço para a bandeira não ficar espremida */
+}
+
+.chat-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid var(--dark-navy, #0b0f24);
+    object-fit: cover;
+    background-color: #fff;
+}
+
+/* Bandeira centralizada exata embaixo da foto */
+.chat-flag {
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 20px;
+    object-fit: cover;
+    border-radius: 2px;
+    border: 1px solid var(--dark-navy, #0b0f24);
+    z-index: 2;
+}
+
+.chat-content {
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+}
+
+.chat-row.right .chat-content {
+    align-items: flex-end;
+}
+
+.chat-hub-label {
+    font-family: var(--font-title, 'Bebas Neue', sans-serif);
+    font-size: 1.05rem;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.chat-bubble {
+    font-family: var(--font-body, 'Poppins', sans-serif);
+    font-size: 0.8rem;
+    padding: 10px 14px;
+    line-height: 1.35;
+}
+
+/* Formato de balão tipo WhatsApp */
+.bubble-left {
+    border-radius: 0 12px 12px 12px;
+}
+
+.bubble-right {
+    border-radius: 12px 0 12px 12px;
+    font-weight: 500;
+}
+
+.connection-divider {
+    display: flex;
+    justify-content: center;
+    margin: 4px 0;
+}
+
+@media (max-width: 1150px) {
+    .connections-container {
+        min-height: 400px;
+    }
+
+}
+
+
+/* =========================================
+   RESPONSIVIDADE (Celular)
+   ========================================= */
+@media (max-width: 768px) {
+    .connections-grid {
+        /* Alterado para manter 2 colunas no mobile (2x2) */
+        grid-template-columns: 1fr 1fr;
+
+        /* Reduzindo um pouco o gap para os cards caberem melhor na tela estreita */
+        gap: 15px;
+    }
+
+    .connections-container {
+        min-height: fit-content;
+    }
+
+    /* Tira o degrau no mobile para ficarem todos retos (opcional, pode remover 
+       essa regra se quiser manter o efeito de sobe/desce no celular também) */
+    .chat-connection-card:nth-child(even) {
+        transform: translateY(0);
+    }
+
+    .chat-connection-card {
+        width: 100%;
+        /* Removemos o max-width para que o grid controle o tamanho 
+           e eles se adaptem perfeitamente aos 50% da tela */
+        max-width: none;
+    }
+}
+
+@media (max-width: 550px) {
+
+.connections-grid {
+        /* Alterado para manter 2 colunas no mobile (2x2) */
+        grid-template-columns: 1fr ;
+
+        /* Reduzindo um pouco o gap para os cards caberem melhor na tela estreita */
+        gap: 15px;
+    }
+
+    .theme-white, .theme-yellow {
+        display: none;
+    }
+
+}
+
+@keyframes flutuar {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+
+    /* Distância que o elemento sobe */
+    100% {
+        transform: translateY(0px);
+    }
 }
