@@ -50,6 +50,9 @@
     background-color: #f57c20;
     color: #0b0f24;
 
+    background-image: radial-gradient(#d46611 1px, transparent 1px);
+  background-size: 10px 10px;
+
 }
 
 .theme-orange .bubble-left {
@@ -71,6 +74,9 @@
 .theme-blue {
     background-color: #9eb2e1;
     color: #0b0f24;
+
+    background-image: radial-gradient(#5982e2 1px, transparent 1px);
+  background-size: 10px 10px;
 
 }
 
@@ -95,6 +101,9 @@
     background-color: #ffffff;
     color: #0b0f24;
 
+    background-image: radial-gradient(#d5d5d6 1px, transparent 1px);
+  background-size: 10px 10px;
+
 }
 
 .theme-white .bubble-left {
@@ -116,6 +125,9 @@
 .theme-yellow {
     background-color: #f4dea1;
     color: #0b0f24;
+
+    background-image: radial-gradient(#e2c269 1px, transparent 1px);
+  background-size: 10px 10px;
 
 }
 
