@@ -194,8 +194,8 @@
 }
 
 @media (max-width: 768px) {
-  .site-plataforma-wrapper {
-    padding: 50px 20px;
+  .site-plataforma-container {
+    padding: 2rem; /* Reduz o padding lateral */
   }
   
   .site-title-plataforma {

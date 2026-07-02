@@ -75,7 +75,7 @@
 
 .site-social-icons a:hover {
   background-color: var(--brand-orange, #ff8c2b);
-  color: var(--dark-navy, #0b0f24); /* Ícone fica escuro sobre o fundo laranja */
+  color: var(--dark-navy, #0b0f24);
   transform: translateY(-3px);
 }
 
@@ -109,7 +109,7 @@
 .site-footer-nav a:hover {
   opacity: 1;
   color: var(--brand-orange, #ff8c2b);
-  transform: translateX(4px); /* Efeito suave de mover para o lado ao passar o mouse */
+  transform: translateX(4px);
 }
 
 /* Contatos na Direita */
@@ -119,6 +119,10 @@
   color: var(--bg-cream, #fcf7f2);
   opacity: 0.85;
   margin: 0 0 12px 0;
+  
+  /* IMPORTANTE: Permite que emails muito longos quebrem de linha sem estourar o layout */
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 /* =========================================
@@ -130,7 +134,7 @@
   align-items: center;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding-top: 25px;
-  flex-wrap: wrap; /* Permite que os itens quebrem linha se faltar espaço */
+  flex-wrap: wrap; 
   gap: 15px;
 }
 
@@ -158,12 +162,17 @@
    RESPONSIVIDADE
    ========================================= */
 @media (max-width: 1024px) {
+  .site-footer-container {
+    padding: 2.5rem 2rem; /* Reduz levemente o padding lateral */
+  }
+
   .site-footer-grid {
-    grid-template-columns: 1fr 1fr; /* Duas colunas no tablet */
+    grid-template-columns: 1fr 1fr;
+    gap: 40px; /* Reduzido de 60px para dar respiro aos links e contatos */
   }
 
   .site-col-left {
-    grid-column: span 2; /* A primeira coluna ocupa a linha inteira */
+    grid-column: span 2; 
     text-align: center;
     align-items: center;
   }
@@ -173,24 +182,31 @@
   }
 }
 
-@media (max-width: 600px) {
-  .site-footer {
-    padding: 60px 20px 20px 20px;
+/* Alterado de 600px para 768px para empilhar mais cedo e evitar o esmagamento */
+@media (max-width: 768px) {
+  .site-footer-container {
+    padding: 2rem 1.5rem;
   }
 
   .site-footer-grid {
-    grid-template-columns: 1fr; /* Uma coluna só no mobile */
-    gap: 45px;
+    grid-template-columns: 1fr; /* Força uma coluna só para tudo */
+    gap: 40px;
     text-align: center;
   }
 
+  /* No mobile, a coluna da esquerda não precisa mais ocupar 2 espaços */
+  .site-col-left {
+    grid-column: span 1; 
+  }
+
   .site-col-center,
-  .site-col-right {
+  .site-col-right,
+  .site-footer-col {
     align-items: center;
   }
 
   .site-footer-nav a {
-    margin: 0 auto; /* Centraliza os links no mobile */
+    margin: 0 auto; 
   }
 
   .site-footer-bottom {

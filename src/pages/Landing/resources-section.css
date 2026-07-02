@@ -167,6 +167,11 @@
 }
 
 @media (max-width: 768px) {
+
+  .site-resources-container {
+    padding: 2rem;
+  }
+  
   .site-section-title {
     font-size: 3.5rem;
   }

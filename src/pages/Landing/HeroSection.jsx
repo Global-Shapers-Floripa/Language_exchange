@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./hero.css"; 
 import BackIdiomas from "../../assets/BackIdiomas.png";
 import Boca from "../../assets/mouth-halftone-1.png";
@@ -8,17 +8,36 @@ import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef(null); // Ref para o menu
+
   const closeMenu = () => setMenuOpen(false);
+
+  // Fecha o menu ao clicar fora dele
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    };
+
+    if (menuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuOpen]);
 
   return (
     <>
-      {/* HEADER */}
-      <header className="site-landing-header">
+      {/* HEADER com a Ref adicionada */}
+      <header className="site-landing-header" ref={menuRef}>
         <div className="site-container site-landing-nav">
           
-          {/* Logo limpa, apenas a imagem */}
           <Link to="/" onClick={closeMenu} className="logo-container">
-            {/* Imagem do logo (ícone) e o texto ao lado */}
             <img
               src={logoLanguageExchange}
               alt="Language Exchange Icon"
@@ -29,7 +48,6 @@ const HeroSection = () => {
             </span>
           </Link>
 
-          {/* Navegação atualizada com todas as sessões */}
           <nav className={`site-nav-links ${menuOpen ? "active" : ""}`}>
             <a href="#sobre" onClick={closeMenu}>Sobre</a>
             <a href="#como-funciona" onClick={closeMenu}>Como funciona</a>
@@ -38,19 +56,16 @@ const HeroSection = () => {
             <a href="#faq" onClick={closeMenu}>FAQ</a>
             <a href="#contato" onClick={closeMenu}>Contato</a>
 
-            {/* CTA Mobile */}
             <Link to="/dashboard" className="site-mobile-cta" onClick={closeMenu}>
               <button className="site-cta-header">Faça Parte</button>
             </Link>
           </nav>
 
           <div className="site-navbar-right-actions">
-            {/* CTA Desktop com efeito de pressionar */}
             <Link to="/dashboard" className="site-desktop-cta">
               <button className="site-cta-header">Faça Parte</button>
             </Link>
 
-            {/* Menu Hamburger */}
             <button
               className="site-hamburger"
               onClick={() => setMenuOpen(!menuOpen)}
@@ -68,7 +83,7 @@ const HeroSection = () => {
       <section className="site-hero-section">
         <div className="site-container site-hero-grid">
           
-          {/* Lado Esquerdo - Textos e Botões */}
+          {/* Lado Esquerdo */}
           <div className="site-hero-left">
             <div className="site-subtitle-badge">
               <span className="site-badge-dot"></span>
@@ -85,7 +100,6 @@ const HeroSection = () => {
             </p>
             
             <div className="site-hero-buttons">
-              {/* Botão Principal com o mesmo efeito Neo-brutalista */}
               <Link to="/login">
                 <button className="site-cta-banner-1">
                   Comece a conversar
@@ -96,7 +110,6 @@ const HeroSection = () => {
               </a>
             </div>
 
-            {/* Seção de Estatísticas */}
             <div className="site-hero-stats">
               <div className="site-stat-item">
                 <h3>+40</h3>
@@ -115,13 +128,12 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Lado Direito - Imagens Flutuantes (Mantidas intactas) */}
+          {/* Lado Direito */}
           <div className="site-hero-right">
             <img src={BackIdiomas} alt="Main" className="site-img-main-circle" />
             <img src={Call} alt="Small" className="site-img-small-circle" />
             <img src={Boca} alt="Badge" className="site-img-floating-badge" />
             <img src={Boca} alt="Mouth decoration" className="site-img-floating-mouth" />
-           {/* <div className="site-decorative-dark-circle"></div> */}
           </div>
 
         </div>
