@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import "./hero.css"; 
+import "./hero.css";
 import BackIdiomas from "../../assets/BackIdiomas.png";
 import Boca from "../../assets/mouth-halftone-1.png";
 import Call from "../../assets/photo-call.jpg";
@@ -37,8 +37,14 @@ const HeroSection = () => {
       {/* HEADER com a Ref adicionada */}
       <header className="site-landing-header" ref={menuRef}>
         <div className="site-container site-landing-nav">
-          
-          <Link to="/" onClick={closeMenu} className="logo-container">
+          <Link
+            to="/"
+            onClick={() => {
+              closeMenu();
+              window.scrollTo({ top: 0, behavior: "smooth" }); // Faz a rolagem suave para o topo
+            }}
+            className="logo-container"
+          >
             <img
               src={logoLanguageExchange}
               alt="Language Exchange Icon"
@@ -50,14 +56,30 @@ const HeroSection = () => {
           </Link>
 
           <nav className={`site-nav-links ${menuOpen ? "active" : ""}`}>
-            <a href="#sobre" onClick={closeMenu}>Sobre</a>
-            <a href="#como-funciona" onClick={closeMenu}>Como funciona</a>
-            <a href="#plataforma" onClick={closeMenu}>Plataforma</a>
-            <a href="#recursos" onClick={closeMenu}>Recursos</a>
-            <a href="#faq" onClick={closeMenu}>FAQ</a>
-            <a href="#contato" onClick={closeMenu}>Contato</a>
+            <a href="#sobre" onClick={closeMenu}>
+              Sobre
+            </a>
+            <a href="#como-funciona" onClick={closeMenu}>
+              Como funciona
+            </a>
+            <a href="#plataforma" onClick={closeMenu}>
+              Plataforma
+            </a>
+            <a href="#recursos" onClick={closeMenu}>
+              Recursos
+            </a>
+            <a href="#faq" onClick={closeMenu}>
+              FAQ
+            </a>
+            <a href="#contato" onClick={closeMenu}>
+              Contato
+            </a>
 
-            <Link to="/dashboard" className="site-mobile-cta" onClick={closeMenu}>
+            <Link
+              to="/dashboard"
+              className="site-mobile-cta"
+              onClick={closeMenu}
+            >
               <button className="site-cta-header">Faça Parte</button>
             </Link>
           </nav>
@@ -83,23 +105,27 @@ const HeroSection = () => {
       {/* HERO SECTION */}
       <section className="site-hero-section">
         <div className="site-container site-hero-grid">
-          
           {/* Lado Esquerdo */}
           <div className="site-hero-left">
             <div className="site-subtitle-badge">
               <span className="site-badge-dot"></span>
-              <span className="site-subtitle-text">HUB FLORIANÓPOLIS • DESDE JUL/2025</span>
+              <span className="site-subtitle-text">
+                HUB FLORIANÓPOLIS • DESDE JUL/2025
+              </span>
             </div>
-            
+
             <h1 className="site-hero-title">
-              FROM <span className="site-highlight-orange">WORDS</span><br />
+              FROM <span className="site-highlight-orange">WORDS</span>
+              <br />
               TO WORLDS.
             </h1>
-            
+
             <p className="site-description">
-              Um projeto do Hub Florianópolis que conecta Global Shapers do mundo inteiro para praticar idiomas, trocar cultura e construir uma rede que atravessa fronteiras — uma conversa de cada vez.
+              Um projeto do Hub Florianópolis que conecta Global Shapers do
+              mundo inteiro para praticar idiomas, trocar cultura e construir
+              uma rede que atravessa fronteiras — uma conversa de cada vez.
             </p>
-            
+
             <div className="site-hero-buttons">
               <Link to="/login">
                 <button className="site-cta-banner-1">
@@ -133,7 +159,6 @@ const HeroSection = () => {
           <div className="site-hero-right">
             <HeroGlobe />
           </div>
-
         </div>
       </section>
     </>

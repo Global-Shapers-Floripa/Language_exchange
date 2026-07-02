@@ -7,7 +7,7 @@
   width: 100%;
   z-index: 1000;
   padding: 0;
-  background-color: rgba(252, 252, 255, 0.95);
+  background-color: var(--bg-cream);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }

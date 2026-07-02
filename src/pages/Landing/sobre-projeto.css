@@ -12,7 +12,7 @@
   display: grid;
   grid-template-columns: 1fr 1.2fr;
   gap: 60px;
-  align-items: center;
+  align-items: stretch;
   padding: 3rem;
 }
 /* =========================================
@@ -77,22 +77,26 @@
 .sobre-right-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  align-items: start; 
-  gap: -30px;
+  /* Mudado para 'stretch' para os cards preencherem melhor o espaço */
+  align-items: stretch; 
+  /* ADICIONADO: gap para dar o respiro correto entre eles, horizontal e vertical */
+  gap: 20px; 
 }
 
-/* O segundo e o quarto balão descem um pouco para dar o efeito de mosaico */
-.blob-navy, .blob-peach {
-  margin-top: 10px; 
-}
-
-/* Estilo base dos Balões para conter o texto */
 .blob-card {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 3rem 2.5rem;
-  aspect-ratio: 1 / 1; 
+  
+  /* ALTERADO: Espaçamento interno (Padding)
+     O primeiro valor (1.2rem) é para cima e para baixo.
+     O segundo valor (2rem) é para esquerda e direita. */
+  padding: 1.2rem 2rem; 
+  
+  /* ALTERADO: Reduzimos a altura mínima de 220px para 160px.
+     Assim eles não ficam artificialmente esticados. */
+  min-height: 160px; 
+
   box-shadow: 0 10px 30px rgba(0,0,0,0.03);
   transition: transform 0.3s ease;
 }
@@ -105,7 +109,7 @@
   font-family: var(--font-title, 'Bebas Neue', sans-serif);
   font-size: 1.8rem;
   line-height: 1;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
   color: var(--dark-navy, #0b0f24);
 }
 
@@ -121,22 +125,34 @@
 .blob-orange {
   background-color: var(--brand-orange, #ff8c2b);
   border-radius: 60% 40% 50% 50% / 50% 50% 60% 50%;
+
+  background-image: radial-gradient(#e26701 1px, transparent 1px);
+  background-size: 10px 10px;
 }
 
 .blob-navy {
   background-color: var(--dark-navy, #0b0f24);
   border-radius: 40% 60% 30% 70% / 60% 30% 70% 40%;
+
+  background-image: radial-gradient(#1b2455 1px, transparent 1px);
+  background-size: 10px 10px;
 }
 
 .blob-purple {
   background-color: var(--bg-purple, #9cb0e1);
   border-radius: 50% 50% 30% 70% / 50% 60% 40% 50%;
+
+  background-image: radial-gradient(#7089c7 1px, transparent 1px);
+  background-size: 10px 10px;
 }
 
 /* Cor extra para o último balão bege, inspirado na referência */
 .blob-peach {
   background-color: #f7deb5; 
   border-radius: 40% 60% 50% 50% / 60% 50% 50% 40%;
+
+  background-image: radial-gradient(#e9c893 1px, transparent 1px);
+  background-size: 10px 10px;
 }
 
 /* Classes utilitárias para inverter a cor do texto no fundo escuro */
@@ -166,7 +182,7 @@
   }
 
   .blob-card {
-    padding: 2.5rem 2rem;
+    padding: 2rem;
   }
 }
 
@@ -190,8 +206,7 @@
 
   .blob-card {
     aspect-ratio: auto; /* Remove a proporção quadrada estrita */
-    min-height: 250px;
-    padding: 3rem 2rem;
+    padding: 2rem;
     border-radius: 40px; /* Deixa um pouco menos orgânico no mobile para economizar espaço e focar na leitura */
   }
 

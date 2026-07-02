@@ -51,7 +51,7 @@
     color: #0b0f24;
 
     background-image: radial-gradient(#d46611 1px, transparent 1px);
-  background-size: 10px 10px;
+    background-size: 10px 10px;
 
 }
 
@@ -76,7 +76,7 @@
     color: #0b0f24;
 
     background-image: radial-gradient(#5982e2 1px, transparent 1px);
-  background-size: 10px 10px;
+    background-size: 10px 10px;
 
 }
 
@@ -102,7 +102,7 @@
     color: #0b0f24;
 
     background-image: radial-gradient(#d5d5d6 1px, transparent 1px);
-  background-size: 10px 10px;
+    background-size: 10px 10px;
 
 }
 
@@ -127,7 +127,7 @@
     color: #0b0f24;
 
     background-image: radial-gradient(#e2c269 1px, transparent 1px);
-  background-size: 10px 10px;
+    background-size: 10px 10px;
 
 }
 
@@ -277,21 +277,22 @@
 
 @media (max-width: 550px) {
 
-.connections-grid {
+    .connections-grid {
         /* Alterado para manter 2 colunas no mobile (2x2) */
-        grid-template-columns: 1fr ;
+        grid-template-columns: 1fr;
 
         /* Reduzindo um pouco o gap para os cards caberem melhor na tela estreita */
         gap: 15px;
     }
 
-    .connections-container {   
-    min-height: 400px;
-    
-    padding: 0;
+    .connections-container {
+        min-height: 400px;
+
+        padding: 0;
     }
 
-    .theme-white, .theme-yellow {
+    .theme-white,
+    .theme-yellow {
         display: none;
     }
 
