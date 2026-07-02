@@ -43,7 +43,7 @@ const Footer = () => {
             <nav className="site-footer-nav">
               <a href="#sobre">Sobre</a>
               <a href="#plataforma">Plataforma</a>
-              <a href="#mapa">Mapa</a>
+              <a href="#como-funciona">Como Funciona</a>
               <a href="#hub">Hub Floripa</a>
               <a href="#faq">FAQ</a>
               <a href="#contato">Contato</a>
@@ -54,8 +54,7 @@ const Footer = () => {
           <div className="site-footer-col site-col-right">
             <h3 className="site-footer-title">FALE COM A GENTE</h3>
             <div className="site-footer-contact-info">
-              <p>shapersfloripa@gmail.com</p>
-              <p>@globalshapersfloripa</p>
+              <p>Globalshapersflorianopolis@gmail.com</p>
             </div>
           </div>
 
@@ -67,7 +66,7 @@ const Footer = () => {
             Todos os direitos reservados. Global Shapers Florianópolis 2026.
           </p>
           <p className="site-credits">
-            Feito com ❤️ por <a href="#" target="_blank" rel="noopener noreferrer">Global Shapers Florianópolis</a>
+            Feito com ❤️ por <a href="https://www.globalshapersflorianopolis.com.br/" target="_blank" rel="noopener noreferrer">Global Shapers Florianópolis</a>
           </p>
         </div>
 

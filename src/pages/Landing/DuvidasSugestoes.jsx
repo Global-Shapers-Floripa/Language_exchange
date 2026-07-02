@@ -22,7 +22,7 @@ const ContactSection = () => {
               <div className="site-contact-icon"><Mail size={22} /></div>
               <div className="site-contact-text">
                 <h4>E-MAIL</h4>
-                <p>shapersfloripa@gmail.com</p>
+                <p>globalshapersflorianopolis@gmail.com</p>
               </div>
             </a>
 
