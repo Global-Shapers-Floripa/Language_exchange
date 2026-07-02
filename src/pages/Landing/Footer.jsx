@@ -1,7 +1,7 @@
 import React from "react";
 import { Instagram, Linkedin, Youtube, Mail } from "lucide-react";
 import "./footer.css";
-import logoLanguageExchange from "../../assets/logo-LanguageExchange.svg"; // Substitua pela logo correta
+import logoLanguageExchange from "../../assets/Logo-laranja.png"; // Substitua pela logo correta
 
 const Footer = () => {
   return (

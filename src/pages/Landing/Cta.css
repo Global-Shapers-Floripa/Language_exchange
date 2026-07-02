@@ -6,7 +6,7 @@
   /* Fundo com pontinhos azul claro */
   background-image: radial-gradient(rgba(156, 176, 225, 0.15) 2px, transparent 2px);
   background-size: 30px 30px;
-  padding: 120px 0; /* Padding lateral 0 para a linha poder vazar fluidamente */
+  padding: 100px 0; /* Padding lateral 0 para a linha poder vazar fluidamente */
   width: 100%;
   overflow: hidden; /* Corta o que sobrar nas laterais */
 }
@@ -57,7 +57,7 @@
 .site-cta-buttons-row {
   /* Truque para centralizar uma div que é maior que a largura da tela */
   position: relative;
-  left: 50%;
+  left: 49%;
   transform: translateX(-50%);
   width: max-content; /* Força a div a ter a largura exata de todos os botões somados */
   

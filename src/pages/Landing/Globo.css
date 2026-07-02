@@ -1,0 +1,71 @@
+/* Container pai para alinhar tudo perfeitamente */
+.hero-globe-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  /* APAGADO: width, max-width e aspect-ratio. 
+     Agora a caixa abraça exatamente o tamanho do globo! */
+  padding: 40px 0; /* Espaço para as bandeiras não baterem nos textos */
+}
+
+/* Onde o globo 3D fica */
+.globe-container {
+  /* APAGADO: width: 500px e height: 500px. 
+     O React já controla isso automaticamente pelo style={{}} */
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: grab;
+  z-index: 5;
+}
+
+.globe-container:active {
+  cursor: grabbing;
+}
+
+/* =========================================
+   CINTURÃO CONTÍNUO
+   ========================================= */
+.flags-continuous-belt {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  z-index: 10;
+  pointer-events: none; 
+  animation: belt-spin 60s linear infinite; 
+}
+
+@keyframes belt-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Posicionadores de cada bandeira no raio */
+.belt-flag-positioner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  /* MEDIDAS ATUALIZADAS PARA BATER COM A SUA IMAGEM: */
+  width: 42px; 
+  height: 32px;
+  margin-left: -21px; /* Sempre a exata metade da largura */
+  margin-top: -16px;  /* Sempre a exata metade da altura */
+}
+
+/* O visual da imagem da bandeira (PADRONIZADO) */
+.belt-flag-img {
+  width: 42px;
+  height: 32px;
+  object-fit: cover; 
+  border-radius: 2px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); 
+}

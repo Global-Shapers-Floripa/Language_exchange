@@ -22,19 +22,19 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 3rem;
+  padding: .7rem 3rem;
 }
 
 .logo-container {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 5px;
   text-decoration: none;
 }
 
 .logo-icon {
-  height: 35px;
-  width: 60px;
+  height: 45px;
+  width: 55px;
 }
 
 .logo-text-header {
@@ -80,8 +80,6 @@
   border: none;
   cursor: pointer;
   border-radius: 10px;
-  /* Borda levemente arredondada (estilo card) */
-  /* Sombra sólida laranja */
   box-shadow: 4px 4px 0px var(--dark-navy, #0b0f24);
   transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
   white-space: nowrap;
@@ -107,7 +105,7 @@
 
 /* Tamanhos específicos */
 .site-cta-header {
-  padding: 12px 24px;
+  padding: 10px 24px;
   font-size: 0.9rem;
 }
 
@@ -168,9 +166,9 @@
 .site-hero-section {
   position: relative;
   width: 100%;
-  
-  padding-top: 100px; 
-  
+
+  padding-top: 30px;
+
   background-color: var(--dark-navy, #0b0f24);
   background-image: radial-gradient(rgba(156, 176, 225, 0.15) 2px, transparent 2px);
   background-size: 30px 30px;
@@ -383,6 +381,10 @@
     font-size: 4rem;
   }
 
+  .site-hero-section {
+    padding-top: 80px;
+  }
+
   .site-img-main-circle {
     width: 350px;
     height: 450px;
@@ -400,6 +402,11 @@
 }
 
 @media (max-width: 950px) {
+
+  .last-divider {
+    display: none;
+  }
+
   .site-landing-nav {
     padding: 15px 1.5rem;
   }

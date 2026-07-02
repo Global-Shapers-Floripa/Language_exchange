@@ -1,7 +1,8 @@
 import React from "react";
 import { Mail, Instagram, Linkedin, Youtube } from "lucide-react";
 import "./duvidas-sugestoes.css";
-import logoLanguageExchange from "../../assets/logo-LanguageExchange.svg"; // Placeholder para a foto do Hub
+import HubFloripa from "../../assets/hub-floripa.png"; 
+
 
 const ContactSection = () => {
   return (
@@ -65,14 +66,14 @@ const ContactSection = () => {
               </p>
               
               <a href="https://instagram.com/globalshapersfloripa" target="_blank" rel="noopener noreferrer" className="site-hub-button">
-                Conhecer o Hub Florianópolis &rarr;
+                Conheça o Hub Floripa &rarr;
               </a>
             </div>
 
             {/* Imagem compacta no rodapé do card (se não gostar, basta remover esta div) */}
             <div className="site-hub-image-wrapper">
               <img 
-                src={logoLanguageExchange} 
+                src={HubFloripa} 
                 alt="Equipe Hub Florianópolis" 
                 className="site-hub-img" 
               />

@@ -3,8 +3,9 @@ import "./hero.css";
 import BackIdiomas from "../../assets/BackIdiomas.png";
 import Boca from "../../assets/mouth-halftone-1.png";
 import Call from "../../assets/photo-call.jpg";
-import logoLanguageExchange from "../../assets/logo-LanguageExchange.svg";
+import logoLanguageExchange from "../../assets/Logo-laranja.png";
 import { Link } from "react-router-dom";
+import HeroGlobe from "./Globo";
 
 const HeroSection = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -120,7 +121,7 @@ const HeroSection = () => {
                 <h3>7</h3>
                 <p>idiomas ativos</p>
               </div>
-              <div className="site-stat-divider"></div>
+              <div className="site-stat-divider last-divider"></div>
               <div className="site-stat-item">
                 <h3>100%</h3>
                 <p>feito por Shapers</p>
@@ -128,12 +129,9 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Lado Direito */}
+          {/* Lado Direito - Agora com o Globo Interativo! */}
           <div className="site-hero-right">
-            <img src={BackIdiomas} alt="Main" className="site-img-main-circle" />
-            <img src={Call} alt="Small" className="site-img-small-circle" />
-            <img src={Boca} alt="Badge" className="site-img-floating-badge" />
-            <img src={Boca} alt="Mouth decoration" className="site-img-floating-mouth" />
+            <HeroGlobe />
           </div>
 
         </div>
