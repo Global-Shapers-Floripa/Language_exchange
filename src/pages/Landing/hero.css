@@ -488,8 +488,11 @@
   .site-hero-right {
     display: flex;
     justify-content: center;
-    margin-top: 40px;
+    margin-top: 0px;
+    height: 550px;
   }
+
+
 
   .site-img-main-circle {
     position: relative;
@@ -503,4 +506,10 @@
     left: 50%;
     transform: translateX(-150%);
   }
+}
+@media (max-width: 400px) {
+  .site-hero-right {
+    height: 480px;
+  }
+
 }

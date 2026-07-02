@@ -285,6 +285,12 @@
         gap: 15px;
     }
 
+    .connections-container {   
+    min-height: 400px;
+    
+    padding: 0;
+    }
+
     .theme-white, .theme-yellow {
         display: none;
     }
