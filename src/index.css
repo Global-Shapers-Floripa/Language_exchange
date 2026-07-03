@@ -1,12 +1,28 @@
-:root {
-  --text: #6b6375;
-}
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;500;600;700&display=swap');
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-family);
+}
+
+:root {
+  /* Cores antigas e novas mescladas */
+  --blue-primary: #0A3251; 
+  --blue-secondary: #2C6E9D; 
+  --blue-glow: #23a7ff; 
+  --bg-light: #F8F9FA; 
+  --bg-white: #FFFFFF; 
+  --bg-cream: #fcf7f2;
+  --bg-purple: #9cb0e1;
+  --dark-navy: #0b0f24;
+  --brand-orange: #ff8c2b;
+  --text-gray: #333333; /* Substituiu o #545454 pelo mais escuro da nova paleta */
+
+  /* Tipografia: Criamos duas variáveis separadas */
+  --font-title: 'Bebas Neue', sans-serif;
+  --font-body: 'Poppins', sans-serif;
 }
 
 html {

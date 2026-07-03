@@ -11,10 +11,11 @@ import {
   UserStar,
   HelpCircle,
   Bell,
-  ArrowUpRight
+  ArrowUpRight,
 } from "lucide-react";
 import { supabase } from "../../services/supabaseClient";
-import logoLE from "../../assets/logo-LanguageExchange.svg";
+import logoLE from "../../assets/Logo-laranja.png";
+import BannerSidebar from "../../assets/banner-sidebar.png";
 import "./styles.css";
 
 const DashboardLayout = ({ children }) => {
@@ -83,9 +84,8 @@ const DashboardLayout = ({ children }) => {
       ? userData.photo_url
       : `https://api.dicebear.com/7.x/avataaars/svg?seed=${userData.name}`;
 
-  const firstName = userData.name !== "Carregando..." 
-    ? userData.name.split(" ")[0] 
-    : "Usuário";
+  const firstName =
+    userData.name !== "Carregando..." ? userData.name.split(" ")[0] : "Usuário";
 
   return (
     <div className="dashboard-root">
@@ -93,75 +93,112 @@ const DashboardLayout = ({ children }) => {
         {/* SIDEBAR */}
         <aside className="sidebar">
           <div className="sidebar-logo">
-            <img src={logoLE} alt="Logo Language Exchange" />
-            <p>Language<br/>Exchange</p>
-          </div>
+  <img src={logoLE} alt="Logo Language Exchange" />
+  <p>
+    <span className="text-cream">LANGUAGE</span>
+    <br />
+    EXCHANGE
+  </p>
+</div>
 
           <nav className="sidebar-nav">
             <NavLink
               to="/dashboard"
-              className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+              className={({ isActive }) =>
+                isActive ? "nav-item active" : "nav-item"
+              }
             >
-              <Home size={20} />
+              <div className="icon-wrapper">
+                <Home size={20} />
+              </div>
               Início
             </NavLink>
 
             <NavLink
               to="/partners"
-              className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+              className={({ isActive }) =>
+                isActive ? "nav-item active" : "nav-item"
+              }
             >
-              <Users size={20} />
+              <div className="icon-wrapper">
+                <Users size={20} />
+              </div>
               Conexões
             </NavLink>
 
             <NavLink
               to="/sessions"
-              className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+              className={({ isActive }) =>
+                isActive ? "nav-item active" : "nav-item"
+              }
             >
-              <Calendar size={20} />
+              <div className="icon-wrapper">
+                <Calendar size={20} />
+              </div>
               Sessões
             </NavLink>
 
             <NavLink
               to="/resources"
-              className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+              className={({ isActive }) =>
+                isActive ? "nav-item active" : "nav-item"
+              }
             >
-              <BookOpen size={20} />
+              <div className="icon-wrapper">
+                <BookOpen size={20} />
+              </div>
               Recursos
             </NavLink>
 
             <NavLink
               to="/project-partners"
-              className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+              className={({ isActive }) =>
+                isActive ? "nav-item active" : "nav-item"
+              }
             >
-              <Handshake size={20} />
+              <div className="icon-wrapper">
+                <Handshake size={20} />
+              </div>
               Parceiros
             </NavLink>
 
             <NavLink
               to="/profile"
-              className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+              className={({ isActive }) =>
+                isActive ? "nav-item active" : "nav-item"
+              }
             >
-              <User size={20} />
+              <div className="icon-wrapper">
+                <User size={20} />
+              </div>
               Meu Perfil
             </NavLink>
 
             <NavLink
               to="/admin"
-              className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+              className={({ isActive }) =>
+                isActive ? "nav-item active" : "nav-item"
+              }
             >
-              <UserStar size={20} />
+              <div className="icon-wrapper">
+                <UserStar size={20} />
+              </div>
               Admin
             </NavLink>
           </nav>
 
           {/* SIDEBAR BOTTOM (Banner + Links) */}
           <div className="sidebar-bottom">
-            <div className="sidebar-banner">
-              <button className="banner-btn"><ArrowUpRight size={16} /></button>
-              <p>Saiba mais sobre o HUB idealizador do projeto</p>
-            </div>
-            
+            <div 
+      className="sidebar-banner"
+      style={{ '--banner-img': `url(${BannerSidebar})` }} // Passando a imagem para a variável CSS
+    >
+      <button className="banner-btn">
+        <ArrowUpRight size={18} />
+      </button>
+      <p>Saiba mais sobre o HUB idealizador do projeto</p>
+    </div>
+
             <div className="sidebar-footer-links">
               <button className="btn-footer" onClick={handleLogout}>
                 <LogOut size={18} />
@@ -178,7 +215,9 @@ const DashboardLayout = ({ children }) => {
         {/* CONTEÚDO PRINCIPAL (Cartão Branco) */}
         <main className="main-content">
           <header className="top-header">
-            <h1 className="greeting-text"><span>Olá,</span> {firstName}!</h1>
+            <h1 className="greeting-text">
+              <span>Olá,</span> {firstName}!
+            </h1>
 
             <div className="header-actions">
               <button className="notification-btn">
@@ -213,9 +252,7 @@ const DashboardLayout = ({ children }) => {
             </div>
           </header>
 
-          <section className="page-body">
-            {children}
-          </section>
+          <section className="page-body">{children}</section>
         </main>
       </div>
     </div>
