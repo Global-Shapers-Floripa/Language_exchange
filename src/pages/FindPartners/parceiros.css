@@ -14,6 +14,90 @@
   margin-bottom: 20px;
 }
 
+/* ================================= */
+/* MINHAS CONEXÕES (seção principal) */
+/* ================================= */
+.connections-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.connection-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  padding: 20px 16px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.connection-name-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+}
+
+.connection-flag {
+  width: 20px;
+  height: 14px;
+  object-fit: cover;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.connection-name {
+  display: block;
+  min-width: 0;
+  flex: 0 1 auto;
+  font-size: 0.95rem;
+  color: #0A3251;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.connection-hub {
+  display: block;
+  max-width: 100%;
+  font-size: 0.8rem;
+  color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.connection-card .btn-view-contact {
+  width: 100%;
+  margin-top: 8px;
+}
+
+/* ================================= */
+/* SOLICITAÇÕES (seção secundária, compacta) */
+/* ================================= */
+.requests-secondary {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.secondary-title {
+  font-size: 1.05rem;
+  color: #475569;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
 .requests-container {
   display: flex;
   gap: 24px;
@@ -24,13 +108,15 @@
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
-  padding: 20px;
+  padding: 16px;
+  max-height: 260px;
+  overflow-y: auto;
 }
 
-.requests-column h3 {
-  font-size: 1.1rem;
+.requests-column h4 {
+  font-size: 0.9rem;
   color: #1e293b;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   font-weight: 600;
 }
 
@@ -54,6 +140,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   padding: 12px;
   border: 1px solid #f1f5f9;
   border-radius: 8px;
@@ -64,24 +151,51 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  min-width: 0; /* permite que o bloco de nome trunque em vez de estourar o card */
+  flex: 1;
 }
 
-.request-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #cbd5e1;
+/* min-width: 0 é necessário aqui porque este é o filho flexível que de fato
+   precisa encolher — sem isso o text-overflow: ellipsis abaixo não tem efeito */
+.request-name-block {
+  min-width: 0;
+  flex: 1;
 }
 
-.request-info strong {
+.request-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.request-flag {
+  width: 18px;
+  height: 13px;
+  object-fit: cover;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.request-name-row strong {
   display: block;
+  min-width: 0;
+  flex: 1;
   font-size: 0.95rem;
   color: #0A3251;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.request-info span {
+.request-name-block span {
+  display: block;
+  max-width: 100%;
   font-size: 0.8rem;
   color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Badges de Status */
@@ -121,6 +235,47 @@
 
 .btn-view-request:hover {
   background-color: #2563eb;
+}
+
+.request-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.btn-cancel-sent {
+  background-color: transparent;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-cancel-sent:hover {
+  background-color: #fef2f2;
+  border-color: #ef4444;
+}
+
+.btn-view-contact {
+  background-color: transparent;
+  color: #0A3251;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-view-contact:hover {
+  background-color: #f1f5f9;
+  border-color: #0A3251;
 }
 
 /* ================================= */

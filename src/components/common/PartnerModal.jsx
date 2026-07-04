@@ -1,22 +1,38 @@
 import React, { useState, useEffect } from "react";
-import { MapPin, Globe, Mail, Phone, Lock, UserPlus, Clock } from "lucide-react";
+import { MapPin, Globe, Mail, Phone, Lock, UserPlus, Clock, Check, X } from "lucide-react";
 import { COUNTRIES } from "../../constants/countries"; // Ajuste o caminho se necessário
 import { supabase } from "../../services/supabaseClient"; // Adicionado para buscar/inserir a conexão
+import PersonAvatar from "./PersonAvatar";
 import Swal from "sweetalert2";
 import "./PartnerModal.css";
 
-const PartnerModal = ({ partner, currentUser, onClose }) => {
+// mode="connect" (padrão): fluxo de solicitar/cancelar conexão ao navegar pela rede.
+// mode="review": fluxo de aceitar/rejeitar uma solicitação já recebida (prop `request`).
+const PartnerModal = ({
+  partner,
+  currentUser,
+  onClose,
+  onConnectionChange,
+  mode = "connect",
+  request,
+}) => {
   const [connectionData, setConnectionData] = useState(null);
   const [loadingConnection, setLoadingConnection] = useState(true);
   const [isRequesting, setIsRequesting] = useState(false);
+  const [isCancelling, setIsCancelling] = useState(false);
+  const [isReviewing, setIsReviewing] = useState(false);
 
   // =========================
   // BUSCAR STATUS DA CONEXÃO
   // =========================
   useEffect(() => {
+    // No modo de revisão a solicitação já é conhecida (veio da lista de recebidas
+    // via prop `request`) — não há nada pra buscar, então nem entramos no efeito.
+    if (mode === "review") return;
+
     const fetchConnectionStatus = async () => {
       if (!partner || !currentUser) return;
-      
+
       setLoadingConnection(true);
       try {
         // Busca se existe alguma requisição entre os dois usuários (ida ou volta)
@@ -28,19 +44,66 @@ const PartnerModal = ({ partner, currentUser, onClose }) => {
           )
           .single();
 
-        if (data) {
-          setConnectionData(data);
-        }
+        // Sempre reflete o resultado desta busca (mesmo quando não há conexão),
+        // para não manter o status de um parceiro anterior exibido na tela.
+        setConnectionData(data ?? null);
       } catch (err) {
-        // Se der erro (ex: não encontrar nenhuma linha), apenas ignoramos pois não há conexão
+        // .single() lança erro quando não encontra nenhuma linha — nesse caso não há conexão
         console.log("Nenhuma conexão prévia encontrada.", err);
+        setConnectionData(null);
       } finally {
         setLoadingConnection(false);
       }
     };
 
     fetchConnectionStatus();
-  }, [partner, currentUser]);
+  }, [partner, currentUser, mode]);
+
+  // No modo de revisão, os dados vêm prontos via prop — derivados direto no
+  // render (sem passar por state/efeito) pra nunca ficar desatualizado quando
+  // o usuário abre a revisão de uma solicitação diferente.
+  const effectiveConnectionData = mode === "review" ? (request ?? null) : connectionData;
+  const effectiveLoadingConnection = mode === "review" ? false : loadingConnection;
+
+  // =========================
+  // BUSCAR CONTATO (só quando a conexão está aceita)
+  // =========================
+  // Email/telefone não vêm mais junto com o perfil (ver profile_contacts) —
+  // são buscados sob demanda aqui, e a RLS da tabela garante que só retornam
+  // dado de verdade se existir conexão aceita entre os dois usuários.
+  const [contactInfo, setContactInfo] = useState(null);
+  const [loadingContact, setLoadingContact] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const syncContact = async () => {
+      const isAccepted = effectiveConnectionData?.status === "aceito";
+
+      if (!isAccepted || !partner) {
+        setContactInfo(null);
+        return;
+      }
+
+      setLoadingContact(true);
+      try {
+        const { data } = await supabase
+          .from("profile_contacts")
+          .select("email, phone")
+          .eq("user_id", partner.id)
+          .single();
+
+        if (!cancelled) setContactInfo(data ?? null);
+      } finally {
+        if (!cancelled) setLoadingContact(false);
+      }
+    };
+
+    syncContact();
+    return () => {
+      cancelled = true;
+    };
+  }, [effectiveConnectionData, partner]);
 
   // =========================
   // ENVIAR SOLICITAÇÃO
@@ -48,22 +111,63 @@ const PartnerModal = ({ partner, currentUser, onClose }) => {
   const handleRequestConnection = async () => {
     setIsRequesting(true);
     try {
-      const { error } = await supabase.from("connection_requests").insert([
-        {
-          sender_id: currentUser.id,
-          receiver_id: partner.id,
-          status: "pendente",
-        },
-      ]);
+      // Verifica se o outro usuário já tem uma solicitação pendente para mim
+      const { data: reverseRequest } = await supabase
+        .from("connection_requests")
+        .select("*")
+        .eq("sender_id", partner.id)
+        .eq("receiver_id", currentUser.id)
+        .eq("status", "pendente")
+        .single();
+
+      if (reverseRequest) {
+        // Match mútuo: aceita a solicitação existente em vez de criar uma segunda
+        const { data: updated, error: updateError } = await supabase
+          .from("connection_requests")
+          .update({ status: "aceito" })
+          .eq("id", reverseRequest.id)
+          .select()
+          .single();
+
+        if (updateError) throw updateError;
+
+        // .single() já lançaria erro se o UPDATE não afetasse nenhuma linha (ex: bloqueado por RLS),
+        // mas checamos explicitamente para deixar a intenção clara e não confiar em efeito colateral.
+        if (!updated) {
+          throw new Error(
+            "Não foi possível confirmar a conexão (permissão negada).",
+          );
+        }
+
+        setConnectionData(updated);
+        onConnectionChange?.(updated);
+
+        Swal.fire({
+          title: "Vocês estão conectados!",
+          text: `${partner.full_name} já tinha enviado uma solicitação para você. Agora vocês podem trocar contatos.`,
+          icon: "success",
+          confirmButtonColor: "#0A3251",
+        });
+        return;
+      }
+
+      const { data: created, error } = await supabase
+        .from("connection_requests")
+        .insert([
+          {
+            sender_id: currentUser.id,
+            receiver_id: partner.id,
+            status: "pendente",
+          },
+        ])
+        .select()
+        .single();
 
       if (error) throw error;
 
       // Atualiza o estado local para refletir a nova requisição
-      setConnectionData({
-        sender_id: currentUser.id,
-        receiver_id: partner.id,
-        status: "pendente",
-      });
+      setConnectionData(created);
+      onConnectionChange?.(created);
 
       Swal.fire({
         title: "Enviado!",
@@ -76,6 +180,131 @@ const PartnerModal = ({ partner, currentUser, onClose }) => {
       Swal.fire("Erro", "Não foi possível enviar a solicitação.", "error");
     } finally {
       setIsRequesting(false);
+    }
+  };
+
+  // =========================
+  // CANCELAR SOLICITAÇÃO
+  // =========================
+  const handleCancelRequest = async () => {
+    if (!connectionData) return;
+
+    setIsCancelling(true);
+    try {
+      // .select() faz o Postgres devolver as linhas de fato apagadas: se o RLS
+      // bloquear silenciosamente o delete, "deleted" vem vazio e não há erro —
+      // por isso checamos o resultado em vez de confiar só em "error".
+      const { data: deleted, error } = await supabase
+        .from("connection_requests")
+        .delete()
+        .eq("id", connectionData.id)
+        .select();
+
+      if (error) throw error;
+
+      if (!deleted || deleted.length === 0) {
+        throw new Error(
+          "Não foi possível cancelar a solicitação (permissão negada).",
+        );
+      }
+
+      const removedId = connectionData.id;
+      setConnectionData(null);
+      onConnectionChange?.({ id: removedId, _removed: true });
+
+      Swal.fire({
+        title: "Solicitação cancelada",
+        text: `Sua solicitação para ${partner.full_name} foi cancelada.`,
+        icon: "success",
+        confirmButtonColor: "#0A3251",
+      });
+    } catch (error) {
+      console.error(error);
+      Swal.fire("Erro", "Não foi possível cancelar a solicitação.", "error");
+    } finally {
+      setIsCancelling(false);
+    }
+  };
+
+  // =========================
+  // ACEITAR SOLICITAÇÃO RECEBIDA
+  // =========================
+  const handleAcceptRequest = async () => {
+    if (!request) return;
+
+    setIsReviewing(true);
+    try {
+      const { data: updated, error } = await supabase
+        .from("connection_requests")
+        .update({ status: "aceito" })
+        .eq("id", request.id)
+        .select()
+        .single();
+
+      if (error) throw error;
+      if (!updated) {
+        throw new Error(
+          "Não foi possível aceitar a solicitação (permissão negada).",
+        );
+      }
+
+      setConnectionData(updated);
+      onConnectionChange?.(updated);
+
+      Swal.fire({
+        title: "Conexão aceita!",
+        text: `Agora você e ${partner.full_name} podem trocar contatos.`,
+        icon: "success",
+        confirmButtonColor: "#0A3251",
+      });
+
+      onClose();
+    } catch (error) {
+      console.error(error);
+      Swal.fire("Erro", "Não foi possível aceitar a solicitação.", "error");
+    } finally {
+      setIsReviewing(false);
+    }
+  };
+
+  // =========================
+  // REJEITAR SOLICITAÇÃO RECEBIDA
+  // =========================
+  const handleRejectRequest = async () => {
+    if (!request) return;
+
+    setIsReviewing(true);
+    try {
+      // Mesma blindagem usada no cancelamento: confere se a linha foi
+      // realmente apagada antes de atualizar a UI como sucesso.
+      const { data: deleted, error } = await supabase
+        .from("connection_requests")
+        .delete()
+        .eq("id", request.id)
+        .select();
+
+      if (error) throw error;
+      if (!deleted || deleted.length === 0) {
+        throw new Error(
+          "Não foi possível rejeitar a solicitação (permissão negada).",
+        );
+      }
+
+      onConnectionChange?.({ id: request.id, _removed: true });
+
+      Swal.fire({
+        title: "Solicitação rejeitada",
+        text: `A solicitação de ${partner.full_name} foi rejeitada.`,
+        icon: "success",
+        confirmButtonColor: "#0A3251",
+      });
+
+      onClose();
+    } catch (error) {
+      console.error(error);
+      Swal.fire("Erro", "Não foi possível rejeitar a solicitação.", "error");
+    } finally {
+      setIsReviewing(false);
     }
   };
 
@@ -93,7 +322,7 @@ const PartnerModal = ({ partner, currentUser, onClose }) => {
   const interestsList = partner.interestsArray || (partner.interests ? partner.interests.split(',').map(i => i.trim()) : []);
 
   // Variável para facilitar a checagem se o contato deve ser mostrado
-  const showContactInfo = connectionData?.status === "aceito";
+  const showContactInfo = effectiveConnectionData?.status === "aceito";
 
   return (
     <div className="partner-modal-overlay" onClick={onClose}>
@@ -118,12 +347,10 @@ const PartnerModal = ({ partner, currentUser, onClose }) => {
         ></div>
 
         <div className="partner-modal-header">
-          <img
-            src={
-              partner.photo_url ||
-              `https://api.dicebear.com/7.x/avataaars/svg?seed=${partner.full_name}`
-            }
-            alt={partner.full_name}
+          <PersonAvatar
+            photoUrl={partner.photo_url}
+            seed={partner.id}
+            name={partner.full_name}
             className="partner-modal-avatar"
           />
 
@@ -188,9 +415,39 @@ const PartnerModal = ({ partner, currentUser, onClose }) => {
           {/* ========================= */}
           {/* LÓGICA DE CONEXÃO/CONTATO */}
           {/* ========================= */}
-          {!loadingConnection && (
+          {!effectiveLoadingConnection && mode === "review" && (
+            <div className="partner-modal-section connection-action-wrapper">
+              <div className="request-connection-box review-request-box">
+                <h3>Solicitação de Conexão</h3>
+                <p>
+                  {partner.full_name} quer se conectar com você. Aceite para
+                  liberar os dados de contato ou rejeite a solicitação.
+                </p>
+                <div className="review-actions">
+                  <button
+                    className="btn-reject-request"
+                    onClick={handleRejectRequest}
+                    disabled={isReviewing}
+                  >
+                    <X size={18} />
+                    Rejeitar
+                  </button>
+                  <button
+                    className="btn-accept-request"
+                    onClick={handleAcceptRequest}
+                    disabled={isReviewing}
+                  >
+                    <Check size={18} />
+                    {isReviewing ? "Processando..." : "Aceitar"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {!effectiveLoadingConnection && mode !== "review" && (
             <div className={`partner-modal-section connection-action-wrapper ${showContactInfo ? 'contact-section' : ''}`}>
-              
+
               {/* CASO 1: NÃO HÁ CONEXÃO AINDA */}
               {!connectionData && (
                 <div className="request-connection-box">
@@ -214,10 +471,19 @@ const PartnerModal = ({ partner, currentUser, onClose }) => {
                   <Clock size={24} className="clock-icon" />
                   <h3>Solicitação Pendente</h3>
                   <p>
-                    {connectionData.sender_id === currentUser.id 
-                      ? `Você já enviou uma solicitação para ${partner.full_name}. Aguarde a aprovação!` 
+                    {connectionData.sender_id === currentUser.id
+                      ? `Você já enviou uma solicitação para ${partner.full_name}. Aguarde a aprovação!`
                       : `${partner.full_name} enviou uma solicitação para você. Acesse o painel de Conexões para aceitar.`}
                   </p>
+                  {connectionData.sender_id === currentUser.id && (
+                    <button
+                      className="btn-cancel-request"
+                      onClick={handleCancelRequest}
+                      disabled={isCancelling}
+                    >
+                      {isCancelling ? "Cancelando..." : "Cancelar Solicitação"}
+                    </button>
+                  )}
                 </div>
               )}
 
@@ -234,15 +500,21 @@ const PartnerModal = ({ partner, currentUser, onClose }) => {
                 <>
                   <h3>Contato</h3>
                   <div className="contact-info-list">
-                    <p>
-                      <Mail size={16} />
-                      <strong>Email:</strong> {partner.email || "Não informado"}
-                    </p>
-                    {partner.phone && partner.phone.trim() !== "" && (
-                      <p>
-                        <Phone size={16} />
-                        <strong>Telefone:</strong> {partner.phone}
-                      </p>
+                    {loadingContact ? (
+                      <p>Carregando contato...</p>
+                    ) : (
+                      <>
+                        <p>
+                          <Mail size={16} />
+                          <strong>Email:</strong> {contactInfo?.email || "Não informado"}
+                        </p>
+                        {contactInfo?.phone && contactInfo.phone.trim() !== "" && (
+                          <p>
+                            <Phone size={16} />
+                            <strong>Telefone:</strong> {contactInfo.phone}
+                          </p>
+                        )}
+                      </>
                     )}
                   </div>
                 </>

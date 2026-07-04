@@ -6,6 +6,7 @@ import { SquarePen } from "lucide-react";
 
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import TagSelect from "../../components/common/TagSelect";
+import PersonAvatar from "../../components/common/PersonAvatar";
 
 import { LANGUAGES } from "../../constants/languages";
 import { INTERESTS } from "../../constants/interests";
@@ -70,7 +71,9 @@ const EditProfile = () => {
 
         const { data: profile, error } = await supabase
           .from("profiles")
-          .select("*")
+          .select(
+            "full_name, hub, country, description, speaks, learns, interests, photo_url",
+          )
           .eq("id", user.id)
           .single();
 
@@ -78,13 +81,25 @@ const EditProfile = () => {
           console.error(error);
         }
 
+        // Email/telefone vivem em profile_contacts (RLS restrita) — dono
+        // sempre pode ler o próprio contato
+        const { data: contact, error: contactError } = await supabase
+          .from("profile_contacts")
+          .select("email, phone")
+          .eq("user_id", user.id)
+          .single();
+
+        if (contactError) {
+          console.error(contactError);
+        }
+
         if (profile) {
           setFormData({
             full_name: profile.full_name || "",
-            email: profile.email || "",
+            email: contact?.email || "",
             hub: profile.hub || "",
             country: profile.country || "",
-            phone: profile.phone || "",
+            phone: contact?.phone || "",
             description: profile.description || "",
             speaks: profile.speaks
               ? profile.speaks.split(",").map((item) => item.trim())
@@ -269,10 +284,8 @@ const EditProfile = () => {
         .from("profiles")
         .update({
           full_name: formData.full_name,
-          email: formData.email,
           hub: formData.hub,
           country: formData.country,
-          phone: formData.phone,
           description: formData.description,
           speaks: formData.speaks.join(", "),
           learns: formData.learns.join(", "),
@@ -283,6 +296,17 @@ const EditProfile = () => {
         .eq("id", currentUser.id);
 
       if (error) throw error;
+
+      const { error: contactError } = await supabase
+        .from("profile_contacts")
+        .upsert({
+          user_id: currentUser.id,
+          email: formData.email,
+          phone: formData.phone,
+          updated_at: new Date().toISOString(),
+        });
+
+      if (contactError) throw contactError;
 
       Swal.fire({
         icon: "success",
@@ -341,15 +365,12 @@ const EditProfile = () => {
           <div className="profile-top-section">
             <div className="profile-avatar-area">
               <div className="photo-preview">
-                {formData.photo_url ? (
-                  <img
-                    src={formData.photo_url}
-                    alt="Foto"
-                    className="preview-image"
-                  />
-                ) : (
-                  <div className="no-photo">👤</div>
-                )}
+                <PersonAvatar
+                  photoUrl={formData.photo_url}
+                  seed={currentUser?.id}
+                  name={formData.full_name}
+                  className="preview-image"
+                />
               </div>
 
               {isEditing && (

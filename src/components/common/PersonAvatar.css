@@ -1,0 +1,6 @@
+.person-avatar-img {
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background-color: #f1f5f9;
+}

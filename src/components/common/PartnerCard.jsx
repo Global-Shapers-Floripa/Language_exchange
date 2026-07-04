@@ -1,10 +1,12 @@
 import React from "react";
-import { MessageSquare, MapPin, Globe } from "lucide-react";
+import { MessageSquare, MapPin, Globe, Clock, UserCheck } from "lucide-react";
 import { COUNTRIES } from "../../constants/countries";
+import PersonAvatar from "./PersonAvatar";
 import "./partner-card.css";
 
-const PartnerCard = ({ partner, onConnect }) => {
+const PartnerCard = ({ partner, onConnect, sentRequest, isConnected }) => {
   const isPerfectMatch = partner.compatibility === "Match Perfeito";
+  const isPending = sentRequest?.status === "pendente";
 
   // Busca o nome do país baseado no código (ex: "BR" -> "Brasil")
   const countryObj = COUNTRIES.find((c) => c.code === partner.country);
@@ -24,12 +26,10 @@ const PartnerCard = ({ partner, onConnect }) => {
       {/* Topo do Card */}
       <div className="card-header">
         <div className="avatar-container">
-          <img
-            src={
-              partner.photo_url ||
-              `https://api.dicebear.com/7.x/avataaars/svg?seed=${partner.full_name}`
-            }
-            alt={partner.full_name}
+          <PersonAvatar
+            photoUrl={partner.photo_url}
+            seed={partner.id}
+            name={partner.full_name}
             className="partner-avatar"
           />
           {/* Bandeira posicionada no canto do avatar */}
@@ -110,9 +110,26 @@ const PartnerCard = ({ partner, onConnect }) => {
           </div>
         </div>
 
-        <button className="connect-btn" onClick={onConnect}>
-          <MessageSquare size={18} />
-          Conectar
+        <button
+          className={`connect-btn ${isConnected ? "connect-btn-connected" : isPending ? "connect-btn-pending" : ""}`}
+          onClick={onConnect}
+        >
+          {isConnected ? (
+            <>
+              <UserCheck size={18} />
+              Conectado
+            </>
+          ) : isPending ? (
+            <>
+              <Clock size={18} />
+              Pendente
+            </>
+          ) : (
+            <>
+              <MessageSquare size={18} />
+              Conectar
+            </>
+          )}
         </button>
       </div>
     </div>

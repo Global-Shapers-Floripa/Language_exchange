@@ -14,6 +14,7 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import { supabase } from "../../services/supabaseClient";
+import PersonAvatar from "../common/PersonAvatar";
 import logoLE from "../../assets/Logo-laranja.png";
 import BannerSidebar from "../../assets/banner-sidebar.png";
 import "./styles.css";
@@ -22,6 +23,7 @@ const DashboardLayout = ({ children }) => {
   const navigate = useNavigate();
 
   const [userData, setUserData] = useState({
+    id: null,
     name: "Carregando...",
     hub: "SHAPER",
     photo_url: "",
@@ -55,6 +57,7 @@ const DashboardLayout = ({ children }) => {
 
         if (data) {
           setUserData({
+            id: user.id,
             name: data.full_name || "Usuário",
             hub: data.hub || "SHAPER",
             photo_url: data.photo_url || "",
@@ -79,11 +82,6 @@ const DashboardLayout = ({ children }) => {
   // =========================
   // FOTO & NOME
   // =========================
-  const avatarUrl =
-    userData.photo_url && userData.photo_url !== ""
-      ? userData.photo_url
-      : `https://api.dicebear.com/7.x/avataaars/svg?seed=${userData.name}`;
-
   const firstName =
     userData.name !== "Carregando..." ? userData.name.split(" ")[0] : "Usuário";
 
@@ -229,7 +227,12 @@ const DashboardLayout = ({ children }) => {
                 onClick={() => navigate("/profile")}
               >
                 <div className="avatar-wrapper">
-                  <img src={avatarUrl} alt="Avatar" className="avatar" />
+                  <PersonAvatar
+                    photoUrl={userData.photo_url}
+                    seed={userData.id}
+                    name={userData.name}
+                    className="avatar"
+                  />
                   <div className="avatar-edit-overlay">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

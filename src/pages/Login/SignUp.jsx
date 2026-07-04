@@ -102,7 +102,6 @@ const SignUp = () => {
           {
             id: authData.user.id,
             full_name: sanitizedData.name,
-            email: sanitizedData.email,
             hub: sanitizedData.hub,
             is_approved: false,
           },
@@ -114,6 +113,24 @@ const SignUp = () => {
             error: profileError.message,
           });
           throw profileError;
+        }
+
+        // Email vive em profile_contacts (RLS restrita), não em profiles
+        const { error: contactError } = await supabase
+          .from("profile_contacts")
+          .insert([
+            {
+              user_id: authData.user.id,
+              email: sanitizedData.email,
+            },
+          ]);
+
+        if (contactError) {
+          logSecurityEvent("signup_contact_failed", {
+            email: sanitizedData.email,
+            error: contactError.message,
+          });
+          throw contactError;
         }
 
         logSecurityEvent("signup_success", { email: sanitizedData.email });

@@ -224,6 +224,26 @@
   transform: translateY(-2px);
 }
 
+.connect-btn-pending {
+  background: #fffbeb;
+  border-color: #f59e0b;
+  color: #d97706;
+}
+
+.connect-btn-pending:hover {
+  background: #fef3c7;
+}
+
+.connect-btn-connected {
+  background: #dcfce7;
+  border-color: #22c55e;
+  color: #166534;
+}
+
+.connect-btn-connected:hover {
+  background: #bbf7d0;
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
   .partner-card {

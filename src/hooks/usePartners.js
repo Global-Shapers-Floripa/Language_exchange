@@ -27,9 +27,11 @@ export const usePartners = () => {
         // =========================
         // PERFIL DO USUÁRIO ATUAL
         // =========================
+        // Seleção explícita (sem email/phone — contato não deve trafegar em
+        // massa pra montar a grade; só é buscado sob demanda, quando liberado)
         const { data: currentUser, error: currentError } = await supabase
           .from("profiles")
-          .select("*")
+          .select("speaks, learns, hub")
           .eq("id", user.id)
           .single();
 
@@ -42,7 +44,7 @@ export const usePartners = () => {
         // =========================
         const { data, error: fetchError } = await supabase
           .from("profiles")
-          .select("*")
+          .select("id, full_name, description, hub, photo_url, country, speaks, learns")
           .eq("is_approved", true)
           .neq("id", user.id)
           .not("speaks", "is", null)
@@ -81,10 +83,6 @@ export const usePartners = () => {
             id: profile.id,
 
             full_name: profile.full_name,
-
-            email: profile.email,
-
-            phone: profile.phone,
 
             description: profile.description,
 

@@ -345,6 +345,87 @@
   color: #d97706;
 }
 
+.btn-cancel-request {
+  background: transparent;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-cancel-request:hover:not(:disabled) {
+  background: #fef2f2;
+  border-color: #ef4444;
+}
+
+.btn-cancel-request:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.review-request-box {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+.review-request-box h3 {
+  color: #0A3251;
+}
+
+.review-actions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.btn-accept-request,
+.btn-reject-request {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.btn-accept-request {
+  background-color: #0A3251;
+  color: white;
+}
+
+.btn-accept-request:hover:not(:disabled) {
+  background-color: #0f4876;
+  transform: translateY(-2px);
+}
+
+.btn-reject-request {
+  background: white;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+.btn-reject-request:hover:not(:disabled) {
+  background: #fef2f2;
+  border-color: #ef4444;
+}
+
+.btn-accept-request:disabled,
+.btn-reject-request:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .rejected-box {
   background: #fef2f2;
   border-color: #fecaca;

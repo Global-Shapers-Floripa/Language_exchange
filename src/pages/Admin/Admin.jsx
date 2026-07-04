@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../services/supabaseClient";
 import DashboardLayout from "../../components/layout/DashboardLayout";
+import PersonAvatar from "../../components/common/PersonAvatar";
 import { COUNTRIES } from "../../constants/countries";
 import { LANGUAGES } from "../../constants/languages";
 import { Users, MapPin, Languages, GraduationCap } from "lucide-react";
@@ -17,14 +18,6 @@ const getCountryInfo = (code) => {
     name: countryObj ? countryObj.name : code,
     flag: `https://flagcdn.com/w20/${upperCode.toLowerCase()}.png`,
   };
-};
-
-// Função para pegar as iniciais do nome
-const getInitials = (name) => {
-  if (!name) return "U";
-  const parts = name.split(" ");
-  if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
-  return name.substring(0, 2).toUpperCase();
 };
 
 const formatLanguages = (languages) => {
@@ -91,7 +84,25 @@ const Admin = () => {
 
         if (profilesError) throw profilesError;
 
-        const sortedProfiles = profilesData.sort((a, b) =>
+        // Email/telefone vivem em profile_contacts (RLS restrita) — a policy
+        // de admin libera ver o contato de todo mundo aqui
+        const { data: contactsData, error: contactsError } = await supabase
+          .from("profile_contacts")
+          .select("user_id, email, phone");
+
+        if (contactsError) throw contactsError;
+
+        const contactsByUserId = new Map(
+          (contactsData || []).map((c) => [c.user_id, c]),
+        );
+
+        const profilesWithContact = profilesData.map((p) => ({
+          ...p,
+          email: contactsByUserId.get(p.id)?.email,
+          phone: contactsByUserId.get(p.id)?.phone,
+        }));
+
+        const sortedProfiles = profilesWithContact.sort((a, b) =>
           (a.full_name || "").localeCompare(b.full_name || ""),
         );
 
@@ -410,17 +421,12 @@ const Admin = () => {
                         <tr key={user.id}>
                           <td>
                             <div className="user-cell">
-                              {user.photo_url ? (
-                                <img
-                                  src={user.photo_url}
-                                  alt={user.full_name}
-                                  className="user-avatar"
-                                />
-                              ) : (
-                                <div className="user-avatar-placeholder">
-                                  {getInitials(user.full_name)}
-                                </div>
-                              )}
+                              <PersonAvatar
+                                photoUrl={user.photo_url}
+                                seed={user.id}
+                                name={user.full_name}
+                                className="user-avatar"
+                              />
                               <div>
                                 <p className="user-name">
                                   {user.full_name || "Sem nome"}
@@ -577,17 +583,12 @@ const Admin = () => {
               ✕
             </button>
             <div className="modal-header">
-              {selectedUser.photo_url ? (
-                <img
-                  src={selectedUser.photo_url}
-                  alt="Foto"
-                  className="modal-photo"
-                />
-              ) : (
-                <div className="modal-photo placeholder-modal">
-                  {getInitials(selectedUser.full_name)}
-                </div>
-              )}
+              <PersonAvatar
+                photoUrl={selectedUser.photo_url}
+                seed={selectedUser.id}
+                name={selectedUser.full_name}
+                className="modal-photo"
+              />
               <div>
                 <h2 className="modal-title">
                   {selectedUser.full_name}

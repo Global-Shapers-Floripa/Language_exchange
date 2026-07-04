@@ -96,10 +96,6 @@
   object-fit: cover;
 }
 
-.no-photo {
-  font-size: 42px;
-}
-
 .upload-btn {
   background: #08b9ff;
   color: white;
