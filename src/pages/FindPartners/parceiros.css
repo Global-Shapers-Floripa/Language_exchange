@@ -1,14 +1,136 @@
+/* ================================= */
+/* PAINEL DE CONEXÕES (NOVIDADE)     */
+/* ================================= */
+.connections-panel {
+  background: #f8fafc; /* Fundo suave caso queira destacar */
+  border-radius: 16px;
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  color: #0A3251;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.requests-container {
+  display: flex;
+  gap: 24px;
+}
+
+.requests-column {
+  flex: 1;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.requests-column h3 {
+  font-size: 1.1rem;
+  color: #1e293b;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.empty-requests {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.request-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.request-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  border: 1px solid #f1f5f9;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.request-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.request-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #cbd5e1;
+}
+
+.request-info strong {
+  display: block;
+  font-size: 0.95rem;
+  color: #0A3251;
+}
+
+.request-info span {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+/* Badges de Status */
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.status-pendente {
+  background-color: #e2e8f0;
+  color: #475569;
+}
+
+.status-aceito {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.status-rejeitado {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.btn-view-request {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-view-request:hover {
+  background-color: #2563eb;
+}
+
+/* ================================= */
+/* ESTILOS EXISTENTES ATUALIZADOS    */
+/* ================================= */
 .partners-page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 20px 0 10px 0;
-}
-
-.partners-page-header h2 {
-  font-size: 1.5rem;
-  color: #0A3251;
-  font-weight: 700;
 }
 
 .search-container {
@@ -54,13 +176,6 @@
   color: #cbd5e1;
 }
 
-.search-container {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-
 /* Estados de carregamento, erro e vazio */
 .loading-message,
 .error-message,
@@ -92,25 +207,24 @@
 }
 
 @media (max-width: 768px) {
+  .requests-container {
+    flex-direction: column;
+  }
+
   .partners-page-header {
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     gap: 10px;
     margin: 10px 0;
   }
 
-  .partners-page-header h2 {
-    font-size: 1.2rem;
-    margin-left: 5px;
-  }
-  
   .search-container {
     width: 100%;
   }
-  
+
   .search-input-wrapper {
     flex: 1;
     width: auto;
-    margin: 0 35px;
+    margin: 0; /* Removida a margem excessiva para não quebrar no mobile */
   }
 }

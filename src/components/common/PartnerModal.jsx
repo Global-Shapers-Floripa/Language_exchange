@@ -1,25 +1,99 @@
-import React from "react";
-import { MapPin, Globe, Mail, Phone } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { MapPin, Globe, Mail, Phone, Lock, UserPlus, Clock } from "lucide-react";
 import { COUNTRIES } from "../../constants/countries"; // Ajuste o caminho se necessário
+import { supabase } from "../../services/supabaseClient"; // Adicionado para buscar/inserir a conexão
+import Swal from "sweetalert2";
 import "./PartnerModal.css";
 
-const PartnerModal = ({ partner, onClose }) => {
+const PartnerModal = ({ partner, currentUser, onClose }) => {
+  const [connectionData, setConnectionData] = useState(null);
+  const [loadingConnection, setLoadingConnection] = useState(true);
+  const [isRequesting, setIsRequesting] = useState(false);
+
+  // =========================
+  // BUSCAR STATUS DA CONEXÃO
+  // =========================
+  useEffect(() => {
+    const fetchConnectionStatus = async () => {
+      if (!partner || !currentUser) return;
+      
+      setLoadingConnection(true);
+      try {
+        // Busca se existe alguma requisição entre os dois usuários (ida ou volta)
+        const { data } = await supabase
+          .from("connection_requests")
+          .select("*")
+          .or(
+            `and(sender_id.eq.${currentUser.id},receiver_id.eq.${partner.id}),and(sender_id.eq.${partner.id},receiver_id.eq.${currentUser.id})`
+          )
+          .single();
+
+        if (data) {
+          setConnectionData(data);
+        }
+      } catch (err) {
+        // Se der erro (ex: não encontrar nenhuma linha), apenas ignoramos pois não há conexão
+        console.log("Nenhuma conexão prévia encontrada.", err);
+      } finally {
+        setLoadingConnection(false);
+      }
+    };
+
+    fetchConnectionStatus();
+  }, [partner, currentUser]);
+
+  // =========================
+  // ENVIAR SOLICITAÇÃO
+  // =========================
+  const handleRequestConnection = async () => {
+    setIsRequesting(true);
+    try {
+      const { error } = await supabase.from("connection_requests").insert([
+        {
+          sender_id: currentUser.id,
+          receiver_id: partner.id,
+          status: "pendente",
+        },
+      ]);
+
+      if (error) throw error;
+
+      // Atualiza o estado local para refletir a nova requisição
+      setConnectionData({
+        sender_id: currentUser.id,
+        receiver_id: partner.id,
+        status: "pendente",
+      });
+
+      Swal.fire({
+        title: "Enviado!",
+        text: `Sua solicitação de conexão foi enviada para ${partner.full_name}.`,
+        icon: "success",
+        confirmButtonColor: "#0A3251",
+      });
+    } catch (error) {
+      console.error(error);
+      Swal.fire("Erro", "Não foi possível enviar a solicitação.", "error");
+    } finally {
+      setIsRequesting(false);
+    }
+  };
+
   if (!partner) return null;
 
-const isPerfectMatch =
-  partner.compatibility === "Match Perfeito";
-
-  // Busca a bandeira do país
+  const isPerfectMatch = partner.compatibility === "Match Perfeito";
   const countryObj = COUNTRIES?.find((c) => c.code === partner.country);
   const countryName = countryObj ? countryObj.name : "";
   const flagUrl = partner.country
     ? `https://flagcdn.com/w640/${partner.country.toLowerCase()}.png`
     : "";
 
-  // Garante que temos arrays para mapear as tags (mesmo se vier como string do banco)
   const speaksList = partner.speaksArray || (partner.speaks ? partner.speaks.split(',').map(s => s.trim()) : []);
   const learnsList = partner.learnsArray || (partner.learns ? partner.learns.split(',').map(l => l.trim()) : []);
   const interestsList = partner.interestsArray || (partner.interests ? partner.interests.split(',').map(i => i.trim()) : []);
+
+  // Variável para facilitar a checagem se o contato deve ser mostrado
+  const showContactInfo = connectionData?.status === "aceito";
 
   return (
     <div className="partner-modal-overlay" onClick={onClose}>
@@ -65,7 +139,6 @@ const isPerfectMatch =
 
         <div className="modal-scrollable-content">
           
-          {/* SOBRE (Aparece apenas se existir) */}
           {partner.description && partner.description.trim() !== "" && (
             <div className="partner-modal-section">
               <h3>Sobre</h3>
@@ -101,7 +174,6 @@ const isPerfectMatch =
             </div>
           </div>
 
-          {/* INTERESSES (Aparece apenas se tiver marcado) */}
           {interestsList.length > 0 && (
             <div className="partner-modal-section">
               <h3>Interesses</h3>
@@ -113,23 +185,71 @@ const isPerfectMatch =
             </div>
           )}
 
-          <div className="partner-modal-section contact-section">
-            <h3>Contato</h3>
-            <div className="contact-info-list">
-              <p>
-                <Mail size={16} />
-                <strong>Email:</strong> {partner.email || "Não informado"}
-              </p>
+          {/* ========================= */}
+          {/* LÓGICA DE CONEXÃO/CONTATO */}
+          {/* ========================= */}
+          {!loadingConnection && (
+            <div className={`partner-modal-section connection-action-wrapper ${showContactInfo ? 'contact-section' : ''}`}>
               
-              {/* TELEFONE (Aparece apenas se existir) */}
-              {partner.phone && partner.phone.trim() !== "" && (
-                <p>
-                  <Phone size={16} />
-                  <strong>Telefone:</strong> {partner.phone}
-                </p>
+              {/* CASO 1: NÃO HÁ CONEXÃO AINDA */}
+              {!connectionData && (
+                <div className="request-connection-box">
+                  <Lock size={24} className="lock-icon" />
+                  <h3>Dados Privados</h3>
+                  <p>Solicite uma conexão para trocar contatos e mensagens com {partner.full_name}.</p>
+                  <button 
+                    className="btn-request-connect" 
+                    onClick={handleRequestConnection}
+                    disabled={isRequesting}
+                  >
+                    <UserPlus size={18} />
+                    {isRequesting ? "Enviando..." : "Solicitar Conexão"}
+                  </button>
+                </div>
               )}
+
+              {/* CASO 2: CONEXÃO PENDENTE */}
+              {connectionData?.status === "pendente" && (
+                <div className="request-connection-box pending-box">
+                  <Clock size={24} className="clock-icon" />
+                  <h3>Solicitação Pendente</h3>
+                  <p>
+                    {connectionData.sender_id === currentUser.id 
+                      ? `Você já enviou uma solicitação para ${partner.full_name}. Aguarde a aprovação!` 
+                      : `${partner.full_name} enviou uma solicitação para você. Acesse o painel de Conexões para aceitar.`}
+                  </p>
+                </div>
+              )}
+
+              {/* CASO 3: CONEXÃO REJEITADA */}
+              {connectionData?.status === "rejeitado" && (
+                <div className="request-connection-box rejected-box">
+                  <h3>Conexão Indisponível</h3>
+                  <p>Não é possível visualizar os dados de contato no momento.</p>
+                </div>
+              )}
+
+              {/* CASO 4: CONEXÃO ACEITA (Mostra os contatos!) */}
+              {showContactInfo && (
+                <>
+                  <h3>Contato</h3>
+                  <div className="contact-info-list">
+                    <p>
+                      <Mail size={16} />
+                      <strong>Email:</strong> {partner.email || "Não informado"}
+                    </p>
+                    {partner.phone && partner.phone.trim() !== "" && (
+                      <p>
+                        <Phone size={16} />
+                        <strong>Telefone:</strong> {partner.phone}
+                      </p>
+                    )}
+                  </div>
+                </>
+              )}
+
             </div>
-          </div>
+          )}
 
         </div>
       </div>

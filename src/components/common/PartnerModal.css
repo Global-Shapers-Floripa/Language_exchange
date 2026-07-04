@@ -24,6 +24,10 @@
   max-height: 90vh; 
 }
 
+.swal2-container {
+  z-index: 10000 !important;
+}
+
 @keyframes modalFade {
   from { opacity: 0; transform: translateY(15px); }
   to { opacity: 1; transform: translateY(0); }
@@ -254,4 +258,98 @@
     height: 28px;
     font-size: 14px;
   }
+}
+
+/* ... [MANTENHA TODO O SEU CSS ANTERIOR AQUI E ADICIONE O CÓDIGO ABAIXO] ... */
+
+/* ================================= */
+/* ÁREA DE SOLICITAÇÃO DE CONEXÃO    */
+/* ================================= */
+
+.connection-action-wrapper {
+  margin-top: 10px;
+}
+
+.request-connection-box {
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 16px;
+  padding: 24px 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.request-connection-box h3 {
+  margin: 0;
+  color: #0A3251;
+  font-size: 1.1rem;
+  text-transform: none;
+}
+
+.request-connection-box p {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin: 0 0 10px 0;
+  line-height: 1.4;
+}
+
+.lock-icon {
+  color: #94a3b8;
+  margin-bottom: 4px;
+}
+
+.clock-icon {
+  color: #f59e0b;
+  margin-bottom: 4px;
+}
+
+.btn-request-connect {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #0A3251;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  max-width: 250px;
+}
+
+.btn-request-connect:hover:not(:disabled) {
+  background-color: #0f4876;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(10, 50, 81, 0.2);
+}
+
+.btn-request-connect:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.pending-box {
+  background: #fffbeb;
+  border-color: #fde68a;
+}
+
+.pending-box h3 {
+  color: #d97706;
+}
+
+.rejected-box {
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+.rejected-box h3 {
+  color: #ef4444;
 }
