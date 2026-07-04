@@ -27,6 +27,7 @@ const DashboardLayout = ({ children }) => {
     name: "Carregando...",
     hub: "SHAPER",
     photo_url: "",
+    is_admin: false,
   });
 
   // =========================
@@ -46,7 +47,7 @@ const DashboardLayout = ({ children }) => {
 
         const { data, error } = await supabase
           .from("profiles")
-          .select("full_name, hub, photo_url")
+          .select("full_name, hub, photo_url, is_admin")
           .eq("id", user.id)
           .single();
 
@@ -61,6 +62,7 @@ const DashboardLayout = ({ children }) => {
             name: data.full_name || "Usuário",
             hub: data.hub || "SHAPER",
             photo_url: data.photo_url || "",
+            is_admin: data.is_admin === true,
           });
         }
       } catch (err) {
@@ -172,17 +174,19 @@ const DashboardLayout = ({ children }) => {
               Meu Perfil
             </NavLink>
 
-            <NavLink
-              to="/admin"
-              className={({ isActive }) =>
-                isActive ? "nav-item active" : "nav-item"
-              }
-            >
-              <div className="icon-wrapper">
-                <UserStar size={20} />
-              </div>
-              Admin
-            </NavLink>
+            {userData.is_admin && (
+              <NavLink
+                to="/admin"
+                className={({ isActive }) =>
+                  isActive ? "nav-item active" : "nav-item"
+                }
+              >
+                <div className="icon-wrapper">
+                  <UserStar size={20} />
+                </div>
+                Admin
+              </NavLink>
+            )}
           </nav>
 
           {/* SIDEBAR BOTTOM (Banner + Links) */}

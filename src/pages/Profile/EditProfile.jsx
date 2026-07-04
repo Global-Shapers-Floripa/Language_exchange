@@ -284,7 +284,6 @@ const EditProfile = () => {
         .from("profiles")
         .update({
           full_name: formData.full_name,
-          hub: formData.hub,
           country: formData.country,
           description: formData.description,
           speaks: formData.speaks.join(", "),
@@ -556,14 +555,13 @@ const EditProfile = () => {
 
                   <div className="form-group">
                     <label>Hub</label>
-                    <input
-                      type="text"
-                      name="hub"
-                      value={formData.hub}
-                      disabled
-                      className="form-input input-disabled"
-                      title="O Hub não pode ser alterado após a validação."
-                    />
+                    <p className="info-value">
+                      {formData.hub || "Não definido"}
+                    </p>
+                    <span className="form-hint">
+                      Hub definido na aprovação da conta, não pode ser
+                      alterado.
+                    </span>
                   </div>
 
                   <div className="form-group">

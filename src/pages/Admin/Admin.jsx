@@ -198,10 +198,9 @@ const Admin = () => {
   const approveUser = async (userToApprove, e) => {
     e.stopPropagation(); // Evita abrir o modal ao clicar em aprovar
     try {
-      const { error } = await supabase
-        .from("profiles")
-        .update({ is_approved: true })
-        .eq("id", userToApprove.id);
+      const { error } = await supabase.rpc("approve_profile", {
+        target_id: userToApprove.id,
+      });
 
       if (error) throw error;
 
@@ -230,7 +229,7 @@ const Admin = () => {
       }));
     } catch (err) {
       console.error("Erro ao aprovar usuário:", err.message);
-      alert("Ocorreu um erro ao tentar aprovar o usuário.");
+      alert(err.message || "Ocorreu um erro ao tentar aprovar o usuário.");
     }
   };
 
