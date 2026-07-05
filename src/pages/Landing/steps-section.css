@@ -3,7 +3,7 @@
    ========================================= */
 .como-section-wrapper {
   position: relative;
-  background-color: var(--dark-navy, #0b0f24);
+  background-color: var(--dark-navy, #0B0829);
   width: 100%;
   overflow: hidden; /* Para a boquinha não vazar a tela */
   
@@ -52,7 +52,7 @@
 
 .como-tag {
   display: block;
-  color: var(--brand-orange, #ff8c2b);
+  color: var(--brand-orange, #FF8400);
   font-family: var(--font-title, 'Bebas Neue', sans-serif);
   font-weight: 700;
   font-size: 1.2rem;
@@ -70,7 +70,7 @@
 }
 
 .como-title .highlight-orange {
-  color: var(--brand-orange, #ff8c2b);
+  color: var(--brand-orange, #FF8400);
 }
 
 /* =========================================
@@ -150,26 +150,26 @@
 
 /* Cores e formatos dos balões baseados na referência */
 .blob-step-orange {
-  background-color: var(--bg-cream, #fcf7f2);
-  color: var(--dark-navy, #0b0f24);
+  background-color: var(--bg-cream, #FBF1E7);
+  color: var(--dark-navy, #0B0829);
   border-radius: 40% 60% 50% 50% / 50% 50% 60% 50%;
 }
 
 .blob-step-cream {
-  background-color: var(--brand-orange, #ff8c2b);
-  color: var(--dark-navy, #0b0f24);
+  background-color: var(--brand-orange, #FF8400);
+  color: var(--dark-navy, #0B0829);
   border-radius: 50% 50% 40% 60% / 60% 40% 50% 50%;
 }
 
 .blob-step-purple {
-  background-color: var(--bg-purple, #9cb0e1);
-  color: var(--dark-navy, #0b0f24);
+  background-color: var(--support-blue, #8FA0D8);
+  color: var(--dark-navy, #0B0829);
   border-radius: 60% 40% 60% 40% / 40% 60% 40% 60%;
 }
 
 .blob-step-orange-alt {
-  background-color: var(--brand-orange, #ff8c2b);
-  color: var(--dark-navy, #0b0f24);
+  background-color: var(--brand-orange, #FF8400);
+  color: var(--dark-navy, #0B0829);
   border-radius: 50% 50% 60% 40% / 50% 60% 40% 50%;
 }
 

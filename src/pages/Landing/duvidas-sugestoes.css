@@ -2,7 +2,7 @@
    WRAPPER E CONTAINER GERAL (Isolado)
    ========================================= */
 .site-contact-wrapper {
-  background-color: var(--bg-cream, #fcf7f2);
+  background-color: var(--bg-cream, #FBF1E7);
   width: 100%;
 }
 
@@ -28,7 +28,7 @@
 }
 
 .site-contact-tag {
-  color: var(--brand-orange, #ff8c2b);
+  color: var(--brand-orange, #FF8400);
   font-family: var(--font-title, 'Bebas Neue', sans-serif);
   font-weight: 700;
   font-size: 1.2rem;
@@ -41,7 +41,7 @@
   font-family: var(--font-title, 'Bebas Neue', sans-serif);
   font-size: 4.5rem;
   line-height: 0.9;
-  color: var(--dark-navy, #0b0f24);
+  color: var(--dark-navy, #0B0829);
   text-transform: uppercase;
 }
 
@@ -78,7 +78,7 @@
 }
 
 .site-contact-icon {
-  background-color: var(--dark-navy, #0b0f24);
+  background-color: var(--dark-navy, #0B0829);
   color: #ffffff;
   width: 40px;
   height: 40px;
@@ -91,14 +91,14 @@
 }
 
 .site-contact-item:hover .site-contact-icon {
-  background-color: var(--brand-orange, #ff8c2b);
+  background-color: var(--brand-orange, #FF8400);
   transform: scale(1.1);
 }
 
 .site-contact-text h4 {
   font-family: var(--font-title, 'Bebas Neue', sans-serif);
   font-size: 1.2rem;
-  color: var(--dark-navy, #0b0f24);
+  color: var(--dark-navy, #0B0829);
   letter-spacing: 0.5px;
 }
 
@@ -136,13 +136,13 @@
   font-family: var(--font-title, 'Bebas Neue', sans-serif);
   font-size: 2.5rem;
   line-height: 0.95;
-  color: var(--dark-navy, #0b0f24);
+  color: var(--dark-navy, #0B0829);
   margin-bottom: 5px;
   text-transform: uppercase;
 }
 
 .site-highlight-orange {
-  color: var(--brand-orange, #ff8c2b);
+  color: var(--brand-orange, #FF8400);
 }
 
 .site-hub-text {
@@ -156,7 +156,7 @@
 .site-hub-button {
   display: inline-flex;
   align-items: center;
-  background-color: var(--dark-navy, #0b0f24);
+  background-color: var(--dark-navy, #0B0829);
   color: #ffffff;
   font-family: var(--font-body, 'Poppins', sans-serif);
   font-weight: 600;
@@ -168,7 +168,7 @@
 }
 
 .site-hub-button:hover {
-  background-color: var(--brand-orange, #ff8c2b);
+  background-color: var(--brand-orange, #FF8400);
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(255, 140, 43, 0.3);
 }
@@ -180,7 +180,7 @@
   /* Mantém o tamanho da imagem travado */
   border-radius: 20px;
   overflow: hidden;
-  background-color: var(--bg-purple, #9cb0e1);
+  background-color: var(--support-blue, #8FA0D8);
   /* Fundo caso a imagem demore a carregar */
   display: flex;
   align-items: center;

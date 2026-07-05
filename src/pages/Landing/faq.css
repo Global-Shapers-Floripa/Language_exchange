@@ -2,7 +2,7 @@
    WRAPPER PRINCIPAL (Fundo Escuro e Pontinhos)
    ========================================= */
 .site-faq-wrapper {
-  background-color: var(--dark-navy, #0b0f24);
+  background-color: var(--dark-navy, #0B0829);
   /* Padrão de pontinhos em um azul claro suave */
   background-image: radial-gradient(rgba(156, 176, 225, 0.15) 2px, transparent 2px);
   background-size: 30px 30px;
@@ -30,7 +30,7 @@
 
 .site-faq-tag {
   display: block;
-  color: var(--brand-orange, #ff8c2b);
+  color: var(--brand-orange, #FF8400);
   font-family: var(--font-title, 'Bebas Neue', sans-serif);
   font-weight: 700;
   font-size: 1.2rem;
@@ -49,14 +49,14 @@
 }
 
 .site-highlight-orange {
-  color: var(--brand-orange, #ff8c2b);
+  color: var(--brand-orange, #FF8400);
 }
 
 .site-faq-description {
   font-family: var(--font-body, 'Poppins', sans-serif);
   font-size: 1.05rem;
   line-height: 1.6;
-  color: var(--bg-cream, #fcf7f2); /* Tom bege pra não ofuscar a visão */
+  color: var(--bg-cream, #FBF1E7); /* Tom bege pra não ofuscar a visão */
   opacity: 0.85;
   max-width: 90%;
 }
@@ -106,8 +106,8 @@
 
 /* Ícone de (+) e (-) no círculo escuro/branco */
 .site-faq-icon {
-  background-color: var(--bg-cream, #fcf7f2); /* Bolinha begezinha claro */
-  color: var(--dark-navy, #0b0f24); /* Ícone escuro */
+  background-color: var(--bg-cream, #FBF1E7); /* Bolinha begezinha claro */
+  color: var(--dark-navy, #0B0829); /* Ícone escuro */
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -119,7 +119,7 @@
 }
 
 .site-faq-item.active .site-faq-icon {
-  background-color: var(--brand-orange, #ff8c2b); /* Fica laranja quando abre */
+  background-color: var(--brand-orange, #FF8400); /* Fica laranja quando abre */
   color: #ffffff;
   transform: rotate(90deg); /* Faz uma animação de giro pro menos */
 }
@@ -141,7 +141,7 @@
   font-family: var(--font-body, 'Poppins', sans-serif);
   font-size: 1.05rem;
   line-height: 1.6;
-  color: var(--bg-cream, #fcf7f2); /* Texto da resposta em bege */
+  color: var(--bg-cream, #FBF1E7); /* Texto da resposta em bege */
   margin: 0;
   opacity: 0.9;
 }

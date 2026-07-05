@@ -66,21 +66,21 @@
 }
 
 .site-nav-links a:hover {
-  color: var(--brand-orange, #ff8c2b);
+  color: var(--brand-orange, #FF8400);
 }
 
 /* =========================================
    BOTÕES NEO-BRUTALISTAS (Header e Hero)
    ========================================= */
 .site-cta-header {
-  background-color: var(--brand-orange, #ff8c2b);
-  color: var(--dark-navy, #0b0f24);
+  background-color: var(--brand-orange, #FF8400);
+  color: var(--dark-navy, #0B0829);
   font-family: var(--font-body, 'Poppins', sans-serif);
   font-weight: 700;
   border: none;
   cursor: pointer;
   border-radius: 10px;
-  box-shadow: 4px 4px 0px var(--dark-navy, #0b0f24);
+  box-shadow: 4px 4px 0px var(--dark-navy, #0B0829);
   transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
   white-space: nowrap;
   transition: 0.3s;
@@ -88,8 +88,8 @@
 
 
 .site-cta-banner-1 {
-  background-color: var(--brand-orange, #ff8c2b);
-  color: var(--dark-navy, #0b0f24);
+  background-color: var(--brand-orange, #FF8400);
+  color: var(--dark-navy, #0B0829);
   font-family: var(--font-body, 'Poppins', sans-serif);
   font-weight: 700;
   border: none;
@@ -154,7 +154,7 @@
 .site-hamburger span {
   width: 28px;
   height: 3px;
-  background: var(--dark-navy, #0b0f24);
+  background: var(--dark-navy, #0B0829);
   /* Hambúrguer branco */
   border-radius: 999px;
   transition: 0.3s;
@@ -168,7 +168,7 @@
   width: 100%;
 
 
-  background-color: var(--dark-navy, #0b0f24);
+  background-color: var(--dark-navy, #0B0829);
   background-image: radial-gradient(rgba(156, 176, 225, 0.15) 2px, transparent 2px);
   background-size: 30px 30px;
 
@@ -218,7 +218,7 @@
 .site-badge-dot {
   width: 8px;
   height: 8px;
-  background-color: var(--brand-orange, #ff8c2b);
+  background-color: var(--brand-orange, #FF8400);
   border-radius: 50%;
 }
 
@@ -233,7 +233,7 @@
 }
 
 .site-hero-title .site-highlight-orange {
-  color: var(--brand-orange, #ff8c2b);
+  color: var(--brand-orange, #FF8400);
 }
 
 .site-description {
@@ -241,7 +241,7 @@
   max-width: 600px;
   font-size: 1rem;
   line-height: 1.6;
-  color: var(--bg-cream, #fcf7f2);
+  color: var(--bg-cream, #FBF1E7);
   /* Bege claro para leitura confortável */
   margin-bottom: 2rem;
   font-weight: 400;
@@ -291,7 +291,7 @@
 .site-stat-item p {
   font-family: var(--font-body, 'Poppins', sans-serif);
   font-size: 0.85rem;
-  color: var(--bg-cream, #fcf7f2);
+  color: var(--bg-cream, #FBF1E7);
   margin: 5px 0 0 0;
   opacity: 0.7;
   font-weight: 500;
@@ -331,7 +331,7 @@
   width: 160px;
   height: 160px;
   border-radius: 50%;
-  border: 6px solid var(--dark-navy, #0b0f24);
+  border: 6px solid var(--dark-navy, #0B0829);
   object-fit: cover;
   background-color: #ffffff;
   z-index: 3;
@@ -365,7 +365,7 @@
   right: -10%;
   width: 300px;
   height: 300px;
-  background-color: var(--brand-orange, #ff8c2b);
+  background-color: var(--brand-orange, #FF8400);
   /* Mudei pra laranja pra destacar no fundo escuro */
   border-radius: 50%;
   z-index: 1;
@@ -429,7 +429,7 @@
 
   .site-hamburger {
     display: flex;
-    color: var(--dark-navy, #0b0f24);
+    color: var(--dark-navy, #0B0829);
   }
 
   .site-nav-links {
@@ -437,7 +437,7 @@
     top: 100%;
     left: 0;
     width: 100%;
-    background: var(--bg-cream, #fcf7f2);
+    background: var(--bg-cream, #FBF1E7);
     /* Fundo escuro pro menu mobile */
     flex-direction: column;
     align-items: center;

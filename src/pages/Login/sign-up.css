@@ -138,7 +138,7 @@
   font-size: 13px;
   font-weight: 500;
 
-  color: #dc2626;
+  color: var(--color-error);
 }
 
 /* Link para voltar ao Login */
@@ -168,14 +168,14 @@
 }
 
 .error-message {
-  background-color: #fee2e2;
-  color: #b91c1c;
+  background-color: var(--color-error-bg);
+  color: var(--color-error);
   padding: 10px;
   border-radius: 6px;
   margin-bottom: 20px;
   font-size: 0.85rem;
   text-align: center;
-  border: 1px solid #fecaca;
+  border: 1px solid var(--color-error);
 }
 
 /* Responsividade para o grid de idiomas */
@@ -212,12 +212,12 @@
 
 .password-requirements li {
   padding: 4px 0;
-  color: #dc2626;
+  color: var(--color-error);
   font-size: 0.75rem;
 }
 
 .password-requirements li.met {
-  color: #059669;
+  color: var(--color-success);
   font-weight: 600;
 }
 

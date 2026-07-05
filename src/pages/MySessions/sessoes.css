@@ -73,11 +73,11 @@ ESTADOS GERAIS
 }
 
 .error-message {
-  background-color: #fee2e2;
+  background-color: var(--color-error-bg);
 }
 
 .error-message p {
-  color: #991b1b;
+  color: var(--color-error);
   font-weight: 600;
 }
 
@@ -330,8 +330,8 @@ RESPONSIVIDADE MOBILE
 
 .delete-session-btn {
   border: none;
-  background: #fee2e2;
-  color: #dc2626;
+  background: var(--color-error-bg);
+  color: var(--color-error);
 
   display: flex;
   align-items: center;
@@ -347,5 +347,5 @@ RESPONSIVIDADE MOBILE
 }
 
 .delete-session-btn:hover {
-  background: #fecaca;
+  background: var(--color-error-bg);
 }

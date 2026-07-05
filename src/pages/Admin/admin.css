@@ -120,11 +120,11 @@
 }
 
 .approved {
-  color: #16a34a;
+  color: var(--color-success);
 }
 
 .pending {
-  color: #f59e0b;
+  color: var(--color-pending);
 }
 
 .stat-card h3 {
@@ -170,7 +170,7 @@
 
 .progress-fill.green {
   height: 100%;
-  background: #16a34a;
+  background: var(--color-success);
   border-radius: 4px;
 }
 
@@ -458,23 +458,23 @@
 }
 
 .admin-status-badge.approved {
-  border-color: #bbf7d0;
-  background: #f0fdf4;
-  color: #166534;
+  border-color: var(--color-success);
+  background: var(--color-success-bg);
+  color: var(--color-success);
 }
 
 .admin-status-badge.approved .dot {
-  background: #16a34a;
+  background: var(--color-success);
 }
 
 .admin-status-badge.pending {
-  border-color: #fef08a;
-  background: #fefce8;
-  color: #854d0e;
+  border-color: var(--color-pending);
+  background: var(--color-pending-bg);
+  color: var(--color-pending);
 }
 
 .admin-status-badge.pending .dot {
-  background: #eab308;
+  background: var(--color-pending);
 }
 
 /* Botões */
@@ -505,7 +505,7 @@
 .btn-approve-text {
   background: none;
   border: none;
-  color: #16a34a;
+  color: var(--color-success);
   font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
@@ -518,8 +518,8 @@
 
 .btn-delete-user {
   background: white;
-  border: 1px solid #fecaca;
-  color: #dc2626;
+  border: 1px solid var(--color-error);
+  color: var(--color-error);
   padding: 6px;
   border-radius: 6px;
   display: flex;
@@ -529,8 +529,8 @@
 }
 
 .btn-delete-user:hover {
-  background: #fef2f2;
-  border-color: #dc2626;
+  background: var(--color-error-bg);
+  border-color: var(--color-error);
 }
 
 .empty-state {

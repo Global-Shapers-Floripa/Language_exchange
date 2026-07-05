@@ -31,7 +31,7 @@
 
 .site-section-tag {
   display: block;
-  color: var(--brand-orange, #ff8c2b);
+  color: var(--brand-orange, #FF8400);
   font-family: var(--font-title, 'Bebas Neue', sans-serif);
   font-weight: 700;
   font-size: 1.2rem;
@@ -44,7 +44,7 @@
   font-family: var(--font-title, 'Bebas Neue', sans-serif);
   font-size: 4.5rem; 
   line-height: 0.9;
-  color: var(--dark-navy, #0b0f24);
+  color: var(--dark-navy, #0B0829);
   margin: 0;
   text-transform: uppercase;
 }
@@ -100,7 +100,7 @@
   font-size: 1.1rem;
   font-weight: 700;
   letter-spacing: 1px;
-  color: var(--dark-navy, #0b0f24);
+  color: var(--dark-navy, #0B0829);
   margin-bottom: 10px;
 }
 
@@ -108,7 +108,7 @@
   font-family: var(--font-title, 'Bebas Neue', sans-serif);
   font-size: 2.2rem;
   line-height: 1;
-  color: var(--dark-navy, #0b0f24);
+  color: var(--dark-navy, #0B0829);
   margin-bottom: 16px;
   text-transform: uppercase;
 }
@@ -117,7 +117,7 @@
   font-family: var(--font-body, 'Poppins', sans-serif);
   font-size: 0.95rem;
   line-height: 1.6;
-  color: var(--dark-navy, #0b0f24);
+  color: var(--dark-navy, #0B0829);
   font-weight: 500;
   margin: 0;
 }
@@ -127,17 +127,17 @@
    ========================================= */
 
 .site-blob-peach {
-  background-color: var(--bg-cream, #fcf7f2);
+  background-color: var(--bg-cream, #FBF1E7);
   border-radius: 50% 50% 40% 60% / 60% 40% 50% 50%;
 }
 
 .site-blob-purple {
-  background-color: var(--bg-purple, #9cb0e1);
+  background-color: var(--support-blue, #8FA0D8);
   border-radius: 40% 60% 50% 50% / 50% 50% 60% 50%;
 }
 
 .site-blob-orange {
-  background-color: var(--brand-orange, #ff8c2b);
+  background-color: var(--brand-orange, #FF8400);
   border-radius: 60% 40% 60% 40% / 40% 60% 40% 60%;
 }
 

@@ -2,7 +2,7 @@
    LAYOUT BASE
 ========================= */
 .dashboard-root {
-  background-color: var(--dark-navy, #0b1a2d); /* O fundo azul cobre a tela toda */
+  background-color: var(--dark-navy, #0B0829); /* O fundo azul cobre a tela toda */
   height: 100vh;
   width: 100vw;
   overflow: hidden;
@@ -122,20 +122,20 @@
    ABA ATIVA
 ========================= */
 .nav-item.active {
-  background-color: var(--brand-orange, #ff8c2b);
-  color: var(--dark-navy, #0b0f24);
+  background-color: var(--brand-orange, #FF8400);
+  color: var(--dark-navy, #0B0829);
   font-weight: 600;
 }
 
 /* O fundo da bolinha fica escuro na aba ativa */
 .nav-item.active .icon-wrapper {
-  background-color: var(--dark-navy, #0b0f24);
+  background-color: var(--dark-navy, #0B0829);
 }
 
 /* O ícone fica laranja na aba ativa */
 .nav-item.active svg,
 .nav-item.active i {
-  color: var(--brand-orange, #ff8c2b);
+  color: var(--brand-orange, #FF8400);
 }
 
 /* =========================

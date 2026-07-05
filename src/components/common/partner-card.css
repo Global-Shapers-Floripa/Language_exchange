@@ -225,23 +225,23 @@
 }
 
 .connect-btn-pending {
-  background: #fffbeb;
-  border-color: #f59e0b;
-  color: #d97706;
+  background: var(--color-pending-bg);
+  border-color: var(--color-pending);
+  color: var(--color-pending);
 }
 
 .connect-btn-pending:hover {
-  background: #fef3c7;
+  background: var(--color-pending-bg);
 }
 
 .connect-btn-connected {
-  background: #dcfce7;
-  border-color: #22c55e;
-  color: #166534;
+  background: var(--color-success-bg);
+  border-color: var(--color-success);
+  color: var(--color-success);
 }
 
 .connect-btn-connected:hover {
-  background: #bbf7d0;
+  background: var(--color-success-bg);
 }
 
 /* Responsividade */

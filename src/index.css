@@ -8,17 +8,31 @@
 }
 
 :root {
-  /* Cores antigas e novas mescladas */
-  --blue-primary: #0A3251; 
-  --blue-secondary: #2C6E9D; 
-  --blue-glow: #23a7ff; 
-  --bg-light: #F8F9FA; 
-  --bg-white: #FFFFFF; 
-  --bg-cream: #fcf7f2;
-  --bg-purple: #9cb0e1;
-  --dark-navy: #0b0f24;
-  --brand-orange: #ff8c2b;
+  /* Paleta oficial de marca */
+  --dark-navy: #0B0829;
+  --brand-orange: #FF8400;
+  --support-blue: #8FA0D8;
+  --support-peach: #F9DFC6;
+
+  /* Azuis existentes, fora da paleta oficial */
+  --blue-primary: #0A3251;
+  --blue-secondary: #2C6E9D;
+  --blue-glow: #23a7ff;
+
+  /* Fundos neutros */
+  --bg-light: #F8F9FA;
+  --bg-white: #FFFFFF;
+  --bg-cream: #FBF1E7;
+
   --text-gray: #333333; /* Substituiu o #545454 pelo mais escuro da nova paleta */
+
+  /* Cores semânticas de estado */
+  --color-success: #3F9D6B;
+  --color-success-bg: #E8F5EC;
+  --color-error: #C6483A;
+  --color-error-bg: #FBEAE6;
+  --color-pending: #D99A3C;
+  --color-pending-bg: #FBF1DE;
 
   /* Tipografia: Criamos duas variáveis separadas */
   --font-title: 'Bebas Neue', sans-serif;

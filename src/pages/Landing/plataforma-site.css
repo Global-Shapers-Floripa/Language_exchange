@@ -2,7 +2,7 @@
    WRAPPER COMPACTO DA SEÇÃO PLATAFORMA
    ========================================= */
 .site-plataforma-wrapper {
-  background-color: var(--bg-cream, #fcf7f2);
+  background-color: var(--bg-cream, #FBF1E7);
   width: 100%;
 }
 
@@ -27,7 +27,7 @@
 /* Título no padrão "Como Funciona" */
 .site-tag-plataforma {
   display: block;
-  color: var(--brand-orange, #ff8c2b);
+  color: var(--brand-orange, #FF8400);
   font-family: var(--font-title, 'Bebas Neue', sans-serif);
   font-weight: 700;
   font-size: 1.1rem;
@@ -40,13 +40,13 @@
   font-family: var(--font-title, 'Bebas Neue', sans-serif);
   font-size: 4rem; /* Tamanho padronizado e compacto */
   line-height: 0.9;
-  color: var(--dark-navy, #0b0f24);
+  color: var(--dark-navy, #0B0829);
   margin: 0 0 15px 0;
   text-transform: uppercase;
 }
 
 .site-title-plataforma .site-highlight-orange {
-  color: var(--brand-orange, #ff8c2b);
+  color: var(--brand-orange, #FF8400);
 }
 
 .site-intro-plataforma {
@@ -99,20 +99,20 @@
 
 /* Cores e formatos orgânicos pros Mini-Blobs */
 .site-blob-orange {
-  background-color: var(--brand-orange, #ff8c2b);
+  background-color: var(--brand-orange, #FF8400);
   color: #ffffff;
   border-radius: 60% 40% 50% 50% / 50% 50% 60% 50%;
 }
 
 .site-blob-purple {
-  background-color: var(--bg-purple, #9cb0e1);
-  color: var(--dark-navy, #0b0f24);
+  background-color: var(--support-blue, #8FA0D8);
+  color: var(--dark-navy, #0B0829);
   border-radius: 40% 60% 30% 70% / 60% 30% 70% 40%;
 }
 
 .site-blob-peach {
   background-color: #f7deb5;
-  color: var(--dark-navy, #0b0f24);
+  color: var(--dark-navy, #0B0829);
   border-radius: 50% 50% 60% 40% / 50% 60% 40% 50%;
 }
 
@@ -154,7 +154,7 @@
 
 .site-feat-num {
   background-color: #f7deb5; 
-  color: var(--dark-navy, #0b0f24);
+  color: var(--dark-navy, #0B0829);
   font-family: var(--font-title, 'Bebas Neue', sans-serif);
   font-size: 1.2rem;
   width: 35px;
@@ -170,7 +170,7 @@
 .site-feat-content h4 {
   font-family: var(--font-title, 'Bebas Neue', sans-serif);
   font-size: 1.2rem;
-  color: var(--dark-navy, #0b0f24);
+  color: var(--dark-navy, #0B0829);
   margin: 0 0 4px 0;
   letter-spacing: 0.5px;
 }

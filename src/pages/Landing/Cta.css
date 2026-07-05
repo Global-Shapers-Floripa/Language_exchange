@@ -2,7 +2,7 @@
    WRAPPER DA SEÇÃO CTA
    ========================================= */
 .site-cta-wrapper {
-  background-color: var(--dark-navy, #0b0f24);
+  background-color: var(--dark-navy, #0B0829);
   /* Fundo com pontinhos azul claro */
   background-image: radial-gradient(rgba(156, 176, 225, 0.15) 2px, transparent 2px);
   background-size: 30px 30px;
@@ -39,7 +39,7 @@
 .site-cta-subtitle {
   font-family: var(--font-body, 'Poppins', sans-serif);
   font-size: 1.15rem;
-  color: var(--bg-cream, #fcf7f2); /* Tom bege claro */
+  color: var(--bg-cream, #FBF1E7); /* Tom bege claro */
   margin: 0;
   opacity: 0.85;
 }
@@ -71,8 +71,8 @@
    BOTÃO PRINCIPAL - ESTILO CARD (CTA)
    ========================================= */
 .site-cta-btn-main {
-  background-color: var(--bg-cream, #fcf7f2); /* Cor igual ao fundo do card da referência */
-  color: var(--dark-navy, #0b0f24);
+  background-color: var(--bg-cream, #FBF1E7); /* Cor igual ao fundo do card da referência */
+  color: var(--dark-navy, #0B0829);
   font-family: var(--font-body, 'Poppins', sans-serif);
   font-weight: 700;
   font-size: 1.15rem;
@@ -81,7 +81,7 @@
   text-decoration: none;
   
   /* A sombra colorida sólida simulando profundidade 3D */
-  box-shadow: 6px 6px 0px var(--brand-orange, #ff8c2b);
+  box-shadow: 6px 6px 0px var(--brand-orange, #FF8400);
   
   /* Transição rápida para dar a sensação de botão físico */
   transition: 0.3s;

@@ -302,7 +302,7 @@
 }
 
 .clock-icon {
-  color: #f59e0b;
+  color: var(--color-pending);
   margin-bottom: 4px;
 }
 
@@ -337,18 +337,18 @@
 }
 
 .pending-box {
-  background: #fffbeb;
-  border-color: #fde68a;
+  background: var(--color-pending-bg);
+  border-color: var(--color-pending);
 }
 
 .pending-box h3 {
-  color: #d97706;
+  color: var(--color-pending);
 }
 
 .btn-cancel-request {
   background: transparent;
-  color: #b91c1c;
-  border: 1px solid #fecaca;
+  color: var(--color-error);
+  border: 1px solid var(--color-error);
   border-radius: 12px;
   padding: 10px 20px;
   font-size: 0.85rem;
@@ -358,8 +358,8 @@
 }
 
 .btn-cancel-request:hover:not(:disabled) {
-  background: #fef2f2;
-  border-color: #ef4444;
+  background: var(--color-error-bg);
+  border-color: var(--color-error);
 }
 
 .btn-cancel-request:disabled {
@@ -411,13 +411,13 @@
 
 .btn-reject-request {
   background: white;
-  color: #b91c1c;
-  border: 1px solid #fecaca;
+  color: var(--color-error);
+  border: 1px solid var(--color-error);
 }
 
 .btn-reject-request:hover:not(:disabled) {
-  background: #fef2f2;
-  border-color: #ef4444;
+  background: var(--color-error-bg);
+  border-color: var(--color-error);
 }
 
 .btn-accept-request:disabled,
@@ -427,10 +427,10 @@
 }
 
 .rejected-box {
-  background: #fef2f2;
-  border-color: #fecaca;
+  background: var(--color-error-bg);
+  border-color: var(--color-error);
 }
 
 .rejected-box h3 {
-  color: #ef4444;
+  color: var(--color-error);
 }

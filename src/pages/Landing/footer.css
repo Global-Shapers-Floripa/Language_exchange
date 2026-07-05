@@ -2,7 +2,7 @@
    WRAPPER DO FOOTER (Fundo e Pontinhos)
    ========================================= */
 .site-footer {
-  background-color: var(--dark-navy, #0b0f24);
+  background-color: var(--dark-navy, #0B0829);
   /* Padrão de pontinhos igual ao FAQ/Hero */
   background-image: radial-gradient(rgba(156, 176, 225, 0.15) 2px, transparent 2px);
   background-size: 30px 30px;
@@ -46,7 +46,7 @@
   font-family: var(--font-body, 'Poppins', sans-serif);
   font-size: 1rem;
   line-height: 1.6;
-  color: var(--bg-cream, #fcf7f2);
+  color: var(--bg-cream, #FBF1E7);
   opacity: 0.85;
   margin-bottom: 25px;
   max-width: 90%;
@@ -73,8 +73,8 @@
 }
 
 .site-social-icons a:hover {
-  background-color: var(--brand-orange, #ff8c2b);
-  color: var(--dark-navy, #0b0f24);
+  background-color: var(--brand-orange, #FF8400);
+  color: var(--dark-navy, #0B0829);
   transform: translateY(-3px);
 }
 
@@ -84,7 +84,7 @@
 .site-footer-title {
   font-family: var(--font-title, 'Bebas Neue', sans-serif);
   font-size: 1.5rem;
-  color: var(--brand-orange, #ff8c2b);
+  color: var(--brand-orange, #FF8400);
   letter-spacing: 1px;
 }
 
@@ -97,7 +97,7 @@
 .site-footer-nav a {
   font-family: var(--font-body, 'Poppins', sans-serif);
   font-size: 0.95rem;
-  color: var(--bg-cream, #fcf7f2);
+  color: var(--bg-cream, #FBF1E7);
   text-decoration: none;
   opacity: 0.85;
   transition: opacity 0.2s ease, color 0.2s ease, transform 0.2s ease;
@@ -106,7 +106,7 @@
 
 .site-footer-nav a:hover {
   opacity: 1;
-  color: var(--brand-orange, #ff8c2b);
+  color: var(--brand-orange, #FF8400);
   transform: translateX(4px);
 }
 
@@ -114,7 +114,7 @@
 .site-footer-contact-info p {
   font-family: var(--font-body, 'Poppins', sans-serif);
   font-size: 0.95rem;
-  color: var(--bg-cream, #fcf7f2);
+  color: var(--bg-cream, #FBF1E7);
   opacity: 0.85;
   margin: 0 0 12px 0;
   
@@ -140,20 +140,20 @@
 .site-credits {
   font-family: var(--font-body, 'Poppins', sans-serif);
   font-size: 0.85rem;
-  color: var(--bg-cream, #fcf7f2);
+  color: var(--bg-cream, #FBF1E7);
   opacity: 0.6;
   margin: 0;
 }
 
 .site-credits a {
-  color: var(--bg-cream, #fcf7f2);
+  color: var(--bg-cream, #FBF1E7);
   text-decoration: none;
   font-weight: 600;
   transition: color 0.2s ease;
 }
 
 .site-credits a:hover {
-  color: var(--brand-orange, #ff8c2b);
+  color: var(--brand-orange, #FF8400);
 }
 
 /* =========================================

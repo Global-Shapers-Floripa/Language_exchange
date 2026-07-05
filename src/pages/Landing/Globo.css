@@ -28,7 +28,7 @@
 /* O "Card" base */
 .chat-connection-card {
     width: 290px;
-    border: 2px solid var(--dark-navy, #0b0f24);
+    border: 2px solid var(--dark-navy, #0B0829);
     border-radius: 20px;
     padding: 12px 12px;
     box-shadow: 6px 6px 0px rgba(11, 15, 36, 0.4);
@@ -48,7 +48,7 @@
    ========================================= */
 .theme-orange {
     background-color: #f57c20;
-    color: #0b0f24;
+    color: var(--dark-navy);
 
     background-image: radial-gradient(#d46611 1px, transparent 1px);
     background-size: 10px 10px;
@@ -57,23 +57,23 @@
 
 .theme-orange .bubble-left {
     background-color: #ffffff;
-    color: #0b0f24;
+    color: var(--dark-navy);
     border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .theme-orange .bubble-right {
-    background-color: #0b0f24;
+    background-color: var(--dark-navy);
     color: #ffffff;
 }
 
 .theme-orange .chat-hub-label {
-    color: #0b0f24;
+    color: var(--dark-navy);
     font-weight: 800;
 }
 
 .theme-blue {
     background-color: #9eb2e1;
-    color: #0b0f24;
+    color: var(--dark-navy);
 
     background-image: radial-gradient(#5982e2 1px, transparent 1px);
     background-size: 10px 10px;
@@ -82,24 +82,24 @@
 
 .theme-blue .bubble-left {
     background-color: #ffffff;
-    color: #0b0f24;
+    color: var(--dark-navy);
     border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .theme-blue .bubble-right {
-    background-color: #0b0f24;
+    background-color: var(--dark-navy);
     color: #ffffff;
 }
 
 .theme-blue .chat-hub-label {
-    color: #0b0f24;
+    color: var(--dark-navy);
     font-weight: 800;
 }
 
 /* Novo Card Branco no lugar do Escuro */
 .theme-white {
     background-color: #ffffff;
-    color: #0b0f24;
+    color: var(--dark-navy);
 
     background-image: radial-gradient(#d5d5d6 1px, transparent 1px);
     background-size: 10px 10px;
@@ -108,12 +108,12 @@
 
 .theme-white .bubble-left {
     background-color: #f0f0f0;
-    color: #0b0f24;
+    color: var(--dark-navy);
     border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .theme-white .bubble-right {
-    background-color: #0b0f24;
+    background-color: var(--dark-navy);
     color: #ffffff;
 }
 
@@ -124,7 +124,7 @@
 
 .theme-yellow {
     background-color: #f4dea1;
-    color: #0b0f24;
+    color: var(--dark-navy);
 
     background-image: radial-gradient(#e2c269 1px, transparent 1px);
     background-size: 10px 10px;
@@ -134,17 +134,17 @@
 
 .theme-yellow .bubble-left {
     background-color: #ffffff;
-    color: #0b0f24;
+    color: var(--dark-navy);
     border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .theme-yellow .bubble-right {
-    background-color: #0b0f24;
+    background-color: var(--dark-navy);
     color: #ffffff;
 }
 
 .theme-yellow .chat-hub-label {
-    color: #0b0f24;
+    color: var(--dark-navy);
     font-weight: 800;
 }
 
@@ -178,7 +178,7 @@
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    border: 2px solid var(--dark-navy, #0b0f24);
+    border: 2px solid var(--dark-navy, #0B0829);
     object-fit: cover;
     background-color: #fff;
 }
@@ -193,7 +193,7 @@
     height: 20px;
     object-fit: cover;
     border-radius: 2px;
-    border: 1px solid var(--dark-navy, #0b0f24);
+    border: 1px solid var(--dark-navy, #0B0829);
     z-index: 2;
 }
 

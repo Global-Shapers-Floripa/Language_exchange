@@ -2,7 +2,7 @@
    SEÇÃO SOBRE (LAYOUT GERAL)
    ========================================= */
 .sobre-container {
-  background-color: var(--bg-cream, #fcf7f2);
+  background-color: var(--bg-cream, #FBF1E7);
   width: 100%;
   max-width: 1300px; 
   margin: 0 auto;
@@ -25,7 +25,7 @@
 }
 
 .sobre-tag {
-  color: var(--brand-orange, #ff8c2b);
+  color: var(--brand-orange, #FF8400);
   font-family: var(--font-title, 'Bebas Neue', sans-serif);
   font-weight: 700;
   font-size: 1.2rem;
@@ -36,13 +36,13 @@
 .sobre-title {
   font-size: 4rem;
   line-height: 0.9;
-  color: var(--dark-navy, #0b0f24);
+  color: var(--dark-navy, #0B0829);
   margin-bottom: 10px;
   text-transform: uppercase;
 }
 
 .sobre-title .highlight-orange {
-  color: var(--brand-orange, #ff8c2b);
+  color: var(--brand-orange, #FF8400);
 }
 
 .sobre-text {
@@ -55,7 +55,7 @@
 
 .sobre-text strong {
   font-weight: 700;
-  color: var(--dark-navy, #0b0f24);
+  color: var(--dark-navy, #0B0829);
 }
 
 /* Decoração inferior esquerda */
@@ -110,20 +110,20 @@
   font-size: 1.8rem;
   line-height: 1;
   margin-bottom: 5px;
-  color: var(--dark-navy, #0b0f24);
+  color: var(--dark-navy, #0B0829);
 }
 
 .blob-text {
   font-size: 0.85rem;
   line-height: 1.5;
-  color: var(--dark-navy, #0b0f24);
+  color: var(--dark-navy, #0B0829);
   font-weight: 500;
 }
 
 /* Variações de cor e formato (Border-Radius complexo para formato orgânico) */
 
 .blob-orange {
-  background-color: var(--brand-orange, #ff8c2b);
+  background-color: var(--brand-orange, #FF8400);
   border-radius: 60% 40% 50% 50% / 50% 50% 60% 50%;
 
   background-image: radial-gradient(#e26701 1px, transparent 1px);
@@ -131,7 +131,7 @@
 }
 
 .blob-navy {
-  background-color: var(--dark-navy, #0b0f24);
+  background-color: var(--dark-navy, #0B0829);
   border-radius: 40% 60% 30% 70% / 60% 30% 70% 40%;
 
   background-image: radial-gradient(#1b2455 1px, transparent 1px);
@@ -139,7 +139,7 @@
 }
 
 .blob-purple {
-  background-color: var(--bg-purple, #9cb0e1);
+  background-color: var(--support-blue, #8FA0D8);
   border-radius: 50% 50% 30% 70% / 50% 60% 40% 50%;
 
   background-image: radial-gradient(#7089c7 1px, transparent 1px);
