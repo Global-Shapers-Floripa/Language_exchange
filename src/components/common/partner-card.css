@@ -1,14 +1,37 @@
-/* Container Principal */
 .partner-card {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 250px;
+  max-width: 260px;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
   position: relative;
   overflow: hidden;
   height: 100%;
+
+  background-color: #fff0e0;
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--brand-orange, #F97316) 30%, transparent) 1.5px,
+    transparent 1.5px
+  );
+  background-size: 20px 20px;
+
+  border-radius: 24px;
+  border: 1px solid var(--color-card-border, #FED7AA);
+  padding: 10px;
+
+  /* sem sombra por padrão */
+  box-shadow: none;
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
+
+.partner-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 3px 3px 0 var(--brand-orange);
 }
 
 /* Perfect Match Badge */
@@ -30,39 +53,65 @@
   z-index: 10;
 }
 
-/* Estrutura do Topo (Header) em linha */
+/* Estrutura do Topo (Header) */
 .card-header {
   display: flex;
-  align-items: center;
-  gap: 5px;
+  flex-direction: column;
+  gap: 12px;
   margin-bottom: 4px;
 }
 
-/* Avatar e Bandeira Pequena */
-.avatar-container {
+/* ================================= */
+/* TOPO DO CARD (BLINDADO)           */
+/* ================================= */
+
+.card-header-top {
   position: relative;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  height: 72px;
+  width: 100%;
+}
+
+/* Avatar */
+.avatar-container {
+  position: relative;
+  z-index: 2;
   flex-shrink: 0;
 }
 
 .partner-avatar {
-  width: 65px;
-  height: 65px;
-  border-radius: 500px;
-  border: 4px solid #3a7fda;
+  width: 71px;
+  height: 71px;
+  border-radius: 50%;
+  border: 2px solid var(--brand-orange, #F97316);
   object-fit: cover;
-  background: #f1f5f9;
+  display: block;
 }
 
-.avatar-flag {
+/* Bandeira */
+.flag-banner-container {
   position: absolute;
-  width: 36px;
-  height: 20px;
-  bottom: -8px;
-  border-radius: 4px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+
+  left: 40px;      /* metade do avatar */
+  right: 0;
+
+  top: 50%;
+  transform: translateY(-50%);
+
+  height: 69px;
+
+  border-radius: 0 24px 24px 0;
+  overflow: hidden;
+
+  z-index: 1;
+}
+
+.flag-banner-img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 /* Informações Principais (Nome e Local) */
@@ -70,34 +119,79 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  min-width: 0; 
+  width: 100%;
+}
+
+.partner-name-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  min-width: 0; 
 }
 
 .partner-name {
-  margin: 0 0 6px 0;
-  font-weight: 600;
-  font-size: 14px;
-  color: #35315B;
+  font-family: 'Poppins', sans-serif; 
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--blue-primary, #1A2747);
   line-height: 1.2;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.02em;
+  text-transform: none; 
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.partner-location,
-.partner-country {
-  font-weight: 400;
-  font-size: 11px;
-  color: rgba(11, 8, 41, 0.63);
+/* Badge de compatibilidade ("100% Match") corrigido para casar com o JSX */
+.match-badge-pill {
+  background: var(--brand-orange, #F97316); 
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 5px;
+  border-radius: 999px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.partner-location {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+
+  margin: 0;
+
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(11, 8, 41, 0.74);
+
   font-family: 'Poppins', sans-serif;
+
+  min-width: 0; /* MUITO IMPORTANTE */
+}
+
+.partner-location svg {
+  flex-shrink: 0;
+}
+
+.partner-location-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  min-width: 0;
 }
 
 /* Linha divisória */
 .divider {
   width: 100%;
   height: 1px;
-  background: #E9EBF8;
-  margin: 16px 0;
+  background: color-mix(in srgb, var(--brand-orange) 30%, transparent);
+  margin: 5px 0 10px 0;
 }
 
 /* Detalhes (Idiomas) */
@@ -118,20 +212,21 @@
   font-size: 12px;
   color: rgba(11, 8, 41, 0.64);
   letter-spacing: 0.05em;
+  margin-bottom: 4px;
 }
 
 .tags-card {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
+  gap: 6px;
 }
 
 .tag-card {
-  padding: 2px 6px;
-  border-radius: 5px;
+  padding: 2px 5px;
+  border-radius: 6px;
   font-weight: 600;
   font-size: 12px;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.02em;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -139,13 +234,13 @@
 }
 
 .tag-card.orange {
-  background: rgba(255, 132, 0, 0.21);
-  color: #FF8400;
+  background: var(--color-tag-orange-bg, #FFEDD5);
+  color: var(--color-tag-orange-text, #EA580C);
 }
 
-.tag-card.green {
-  background: rgba(0, 255, 0, 0.13);
-  color: #00BE33;
+.tag-card.blue {
+  background: var(--color-tag-blue-bg, #E0F2FE);
+  color: var(--color-tag-blue-text, #0284C7);
 }
 
 .tag-card-empty {
@@ -154,73 +249,77 @@
   font-style: italic;
 }
 
-/* Footer (Barra de Compatibilidade e Botão) */
+/* Footer (Botão) */
 .card-footer {
   margin-top: auto;
-  padding-top: 16px;
+  padding-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.match-container {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.match-percentage {
-  font-size: 11px;
-  color: #64748bbd;
-  font-family: 'Poppins', sans-serif;
-}
-
-.match-bar {
-  width: 100%;
-  height: 8px;
-  background: #E9EBF8;
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.match-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #87ade7, #1f5ab1);
-  border-radius: 999px;
-}
-
-/* Botão Conectar */
 .connect-btn {
-  border-radius: 15px;
-  font-size: 18px;
-  padding: 8px;
+  background: var(--blue-primary, #1A2747);
+  color: white;
+  border: none;
+  border-radius: 12px;
+
+  font-size: 16px;
+  font-weight: 600;
   font-family: 'Poppins', sans-serif;
+
   width: 70%;
-  margin: 0 auto;
+  padding: 5px;
+  margin: 0 auto 10px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  cursor: pointer;
+
+  /* sem sombra */
+  box-shadow: none;
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    background .2s ease;
 }
 
 .connect-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
+    transform: translateY(-2px);
+    box-shadow: 3px 3px 0 var(--brand-orange);
+}
+
+.connect-btn:active:not(:disabled) {
+  transform: translateY(0);
+
+  box-shadow:
+    2px 2px 0 var(--brand-orange, #F97316);
 }
 
 .connect-btn-pending {
-  background: var(--color-pending-bg);
-  border-color: var(--color-pending);
-  color: var(--color-pending);
+  background-color: rgb(255, 108, 22);
+  border-color: transparent;
+  color: white;
+  box-shadow: none;
 }
 
 .connect-btn-pending:hover {
-  background: var(--color-pending-bg);
+  background-color: rgb(236, 98, 23);
 }
 
 .connect-btn-connected {
-  background: var(--color-success-bg);
-  border-color: var(--color-success);
-  color: var(--color-success);
+  background: #28bd5c;
+  border-color: var(--color-success, #22C55E);
+  color: white;
+  box-shadow: none;
 }
 
 .connect-btn-connected:hover {
-  background: var(--color-success-bg);
+  background: #1ea54d;
 }
 
 /* Responsividade */
@@ -231,15 +330,13 @@
   }
 
   .partner-avatar {
-    width: 56px;
-    height: 56px;
+    width: 60px;
+    height: 60px;
     border-width: 3px;
   }
 
-  .avatar-flag {
-    width: 22px;
-    height: 15px;
-    bottom: -2px;
+  .flag-banner-container {
+    height: 42px;
   }
 
   .perfect-match-badge {
@@ -250,37 +347,11 @@
   }
 
   .partner-name {
-    font-size: 0.95rem;
+    font-size: 15px;
   }
 
   .partner-location,
   .partner-country {
-    font-size: 0.75rem;
-  }
-
-  .section-title-card {
-    font-size: 0.75rem;
-  }
-
-  .tag-card {
-    padding: 4px 10px;
-    font-size: 12px;
-    border-radius: 6px;
-  }
-
-  .connect-btn {
-    font-size: 1rem;
-    padding: 8px;
-  }
-}
-
-@media (max-width: 360px) {
-  .tag-card {
-    font-size: 10px;
-    padding: 3px 8px;
-  }
-
-  .partner-name {
-    font-size: 0.85rem;
+    font-size: 11px;
   }
 }

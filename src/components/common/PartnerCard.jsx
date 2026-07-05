@@ -12,49 +12,68 @@ const PartnerCard = ({ partner, onConnect, sentRequest, isConnected }) => {
   const countryObj = COUNTRIES.find((c) => c.code === partner.country);
   const countryName = countryObj ? countryObj.name : "";
 
-  // Define a URL da bandeira otimizada para o tamanho menor (w80)
+  // Usa formato SVG para garantir máxima qualidade independente do tamanho
   const flagUrl = partner.country
-    ? `https://flagcdn.com/w80/${partner.country.toLowerCase()}.png`
+    ? `https://flagcdn.com/${partner.country.toLowerCase()}.svg`
     : "";
 
   return (
-    <div className={`card card--partner card--hoverable partner-card ${isPerfectMatch ? "perfect-match-card" : ""}`}>
+    <div
+      className={`card--partner partner-card ${isPerfectMatch ? "perfect-match-card" : ""}`}
+    >
       {isPerfectMatch && (
         <div className="perfect-match-badge">Match Perfeito</div>
       )}
 
       {/* Topo do Card */}
       <div className="card-header">
-        <div className="avatar-container">
-          <PersonAvatar
-            photoUrl={partner.photo_url}
-            seed={partner.id}
-            name={partner.full_name}
-            className="partner-avatar"
-          />
-          {/* Bandeira posicionada no canto do avatar */}
-          {flagUrl && (
-            <img 
-              src={flagUrl} 
-              alt={`Bandeira ${countryName}`} 
-              className="avatar-flag" 
+        <div className="card-header-top">
+          <div className="avatar-container">
+            <PersonAvatar
+              photoUrl={partner.photo_url}
+              seed={partner.id}
+              name={partner.full_name}
+              className="partner-avatar"
             />
+          </div>
+
+          {/* Container da Bandeira com novo formato de bandeirola */}
+          {flagUrl && (
+            <div className="flag-banner-container">
+              <img
+                src={flagUrl}
+                alt={`Bandeira ${countryName}`}
+                className="flag-banner-img"
+              />
+            </div>
           )}
         </div>
 
         {/* Informações Principais */}
         <div className="partner-main-info">
-          <h2 className="partner-name">{partner.full_name}</h2>
-          <p className="partner-location">
-            <MapPin size={12} color="#FF5A5F" />
-            Hub {partner.hub || "Não definido"}
-          </p>
-          {countryName && (
-            <p className="partner-country">
-              <Globe size={12} color="#2B50A5" />
-              {countryName}
+          <div className="partner-name-row">
+            <h2 className="partner-name">{partner.full_name}</h2>
+            <span
+              className="match-badge-pill"
+              title="A compatibilidade é calculada com base nos idiomas que você fala, idiomas que deseja aprender e proximidade de hub."
+            >
+              {partner.matchScore}% Match
+            </span>
+          </div>
+
+          <div className="partner-location-row">
+            <p
+              className="partner-location"
+              title={`Hub ${partner.hub || "Não definido"}${countryName ? `, ${countryName}` : ""}`}
+            >
+              <MapPin size={14} color="#FF5A5F" />
+
+              <span className="partner-location-text">
+                Hub {partner.hub || "Não definido"}
+                {countryName && `, ${countryName}`}
+              </span>
             </p>
-          )}
+          </div>
         </div>
       </div>
 
@@ -82,7 +101,7 @@ const PartnerCard = ({ partner, onConnect, sentRequest, isConnected }) => {
           <div className="tags-card">
             {partner.learnsArray?.length > 0 ? (
               partner.learnsArray.map((lang) => (
-                <span key={lang} className="tag-card green">
+                <span key={lang} className="tag-card blue">
                   {lang}
                 </span>
               ))
@@ -93,25 +112,10 @@ const PartnerCard = ({ partner, onConnect, sentRequest, isConnected }) => {
         </div>
       </div>
 
-      {/* Footer (Compatibilidade e Botão) agrupados */}
+      {/* Footer (Botão) */}
       <div className="card-footer">
-        <div className="match-container">
-          <div
-            className="match-percentage"
-            title="A compatibilidade é calculada com base nos idiomas que você fala, idiomas que deseja aprender e proximidade de hub."
-          >
-            {partner.matchScore}% compatível
-          </div>
-          <div className="match-bar">
-            <div
-              className="match-fill"
-              style={{ width: `${partner.matchScore}%` }}
-            />
-          </div>
-        </div>
-
         <button
-          className={`btn btn-secondary connect-btn ${isConnected ? "connect-btn-connected" : isPending ? "connect-btn-pending" : ""}`}
+          className={`connect-btn ${isConnected ? "connect-btn-connected" : isPending ? "connect-btn-pending" : ""}`}
           onClick={onConnect}
         >
           {isConnected ? (

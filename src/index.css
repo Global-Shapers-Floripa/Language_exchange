@@ -35,6 +35,16 @@
   --color-pending: #D99A3C;
   --color-pending-bg: #FBF1DE;
 
+  /* Cores de tags/acentos (Figma) sem equivalente próximo na paleta acima */
+  --color-orange-light: #FFAC52;
+  --color-card-border: #FFC489;
+  --color-tag-orange-bg: #FFD9B1;
+  --color-tag-orange-text: #FF8D2F;
+  --color-tag-blue-bg: rgba(158, 218, 255, 0.59);
+  --color-tag-blue-text: #117BBD;
+  --color-tag-purple-bg: #ECE1FB;
+  --color-tag-purple-text: #7A4FD1;
+
   /* Tipografia: Criamos duas variáveis separadas */
   --font-title: 'Bebas Neue', sans-serif;
   --font-body: 'Poppins', sans-serif;
