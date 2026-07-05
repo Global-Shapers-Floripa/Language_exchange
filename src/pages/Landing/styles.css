@@ -130,4 +130,5 @@ h1, h2, h3, h4, h5, h6, .title, .headline {
   font-weight: 700; /* Garante o negrito */
   text-transform: uppercase; /* Garante a caixa alta (all caps) */
   color: var(--dark-navy);
+  letter-spacing: 0.05em; /* Pequeno espaçamento entre letras */
 }

@@ -1,91 +1,170 @@
 /* =========================
-BANNER
+CONTAINER
 ========================= */
 
 .dash-container {
-  max-width: 1200px;
+  max-width: 1300px;
   margin: 0 auto;
 }
-
-.welcome-banner {
-  background: linear-gradient(90deg,
-      #18385509 0%,
-      #1d4a6e10 100%);
-  border-radius: 20px;
-  display: flex;
-  margin-top: 10px;
-  justify-content: space-between;
-  border: 1px solid rgb(191, 206, 224);
-  align-items: center;
-  padding: 15px 20px;
-  border-left: #ff6600 7px solid;
-  position: relative;
-
-}
-
-.banner-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  width: 100%;
-  z-index: 2;
-}
-
-.banner-text h2 {
-  font-size: 1.2rem;
-  letter-spacing: 0.9px;
-  font-weight: 800;
-  color: #0a0c25c9;
-  margin: 0;
-}
-
-.banner-text p {
-  font-size: .9rem;
-  margin-left: 10px;
-  color: #0a0c25d2;
-  opacity: 0.9;
-
-
-  line-height: 1.5;
-}
-
 /* =========================
-BOTÃO
+DASHBOARD (ESTATÍSTICAS)
 ========================= */
 
-.btn-register {
-  border-radius: 14px;
-  font-size: 1rem;
-  gap: 12px;
+.dashboard-stats-title {
+  font-size: 1.8rem;
+  color: #0c2752;
+  font-weight: 700;
 }
 
-.btn-register:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(10, 50, 81, 0.3);
+.dashboard-stats-grid {
+  display: grid;
+  /* Mantive a sua proporção com o CTA card, caso queira tirar o CTA depois, mude para: grid-template-columns: repeat(4, 1fr); */
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
 }
 
-.icon-circle {
+/* Estilo principal dos 4 cards escuros */
+.dashboard-stat-card {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  border: 2px solid white;
-  border-radius: 50%;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #120a3b; /* Azul escuro do seu Figma */
+  border-radius: 16px;
+  padding: 16px ;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+   background-image: radial-gradient(
+    color-mix(in srgb, rgba(130, 167, 248, 0.384) 30%, transparent) 1.5px,
+    transparent 1.5px
+  );
+  background-size: 10px 10px;
 }
 
-.plus-icon {
-  width: 10px;
-  height: 10px;
+/* Área do título e ícone */
+.dashboard-stat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+}
+
+.dashboard-stat-label {
+  font-size: 0.8rem;
+  color: #e2e8f0; /* Texto mais claro pra contrastar com o fundo */
+  font-weight: 300;
+}
+
+.dashboard-stat-icon {
+  color: #ffffff;
+  stroke-width: 1.5px;
+}
+
+/* Área dos números e bandeiras */
+.dashboard-stat-content {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.dashboard-stat-value {
+  font-size: 2.6rem; /* Tamanho grande igual ao do Figma */
+  font-weight: 400; 
+  color: #ffffff;
+  line-height: 1;
+}
+
+.dashboard-country-flags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.dashboard-country-flag {
+  width: 26px;
+  height: 18px;
+  object-fit: cover;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* === CARD CTA === */
+.dashboard-cta-card {
+  background: var(--brand-orange);
+  border-radius: 20px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: self-start;
+  justify-content: center;
+  gap: 10px;
+  color: white;
+
+  background-image: radial-gradient(
+    color-mix(in srgb, rgb(143, 53, 1) 30%, transparent) 1.5px,
+    transparent 1.5px
+  );
+  background-size: 10px 10px;
+  
+  /* ADICIONADO: Necessário para segurar a imagem absoluta dentro do card */
+  position: relative; 
+  /* ADICIONADO: Impede que a imagem vaze das bordas arredondadas */
+  overflow: hidden; 
+}
+
+/* NOVA CLASSE: Estilização da imagem de fundo */
+.dashboard-cta-decor {
+  position: absolute;
+  top: -18px; 
+  right: -20px; 
+  width: 100px;
+  opacity: 0.5; 
+  pointer-events: none; 
+  z-index: 0;
+}
+
+.dashboard-cta-text,
+.dashboard-cta-btn {
+  position: relative;
+  z-index: 1;
+}
+
+.dashboard-cta-text h4 {
+  font-family: var(--font-title);
+  letter-spacing: 0.1em;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.966);
+}
+
+.dashboard-cta-text p {
+  font-size: 0.8rem;
+  line-height: 1.1;
+}
+
+.dashboard-cta-btn {
+  flex-shrink: 0;
+  background-color: var(--dark-navy);
+  color: white;
+  font-weight: 700;
+  border-radius: 12px;
+  padding: 8px 24px;
+  white-space: nowrap;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dashboard-cta-btn:hover:not(:disabled) {
+  background-color: #051a47;
+  transform: translateY(-2px);
 }
 
 .section-header-dashboard {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 30px;
-  margin-bottom: 0px;
+  margin-top: 30px;
 }
 
 .section-header-dashboard h3 {
@@ -112,11 +191,11 @@ GRID
 
 .partners-grid {
   display: grid;
-  /* Define a coluna com tamanho fixo em vez de elástico (tira o 1fr) */
-  grid-template-columns: repeat(auto-fit, 250px);
+  /* Colunas elásticas (1fr) para o grid ocupar 100% da largura, sem vão
+     nas laterais — os cards esticam um pouco além do tamanho ideal quando
+     necessário para a última coluna terminar na borda direita do grid */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 10px;
-  /* Centraliza o bloco inteiro do grid no meio da tela */
-  justify-content: center;
   width: 100%;
   padding: 20px 0;
 }
@@ -269,38 +348,37 @@ RESPONSIVO
   .banner-content {
     max-width: 100%;
   }
+
+  .dashboard-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard-cta-card {
+    grid-column: span 2;
+  }
 }
 
 @media (max-width: 768px) {
-  .welcome-banner {
-    width: 100%;
-
-    padding: 10px;
-
-    text-align: center;
+  .dashboard-stats-title {
+    margin: 20px 0 0;
   }
 
-  .banner-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  .dashboard-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    margin: 16px 0 0;
     gap: 10px;
   }
 
-  .banner-text h2 {
-    font-size: 1rem;
+  .dashboard-cta-card {
+    grid-column: span 2;
+    padding: 20px;
   }
 
-  .banner-text p {
-    font-size: 0.8rem;
+  .dashboard-cta-btn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
   }
-
-  .btn-register {
-    padding: 10px 15px;
-    font-size: 0.9rem;
-    gap: 8px;
-  }
-
 
   .section-header-dashboard {
     flex-direction: column;

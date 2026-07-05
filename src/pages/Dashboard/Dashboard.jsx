@@ -8,6 +8,10 @@ import Swal from "sweetalert2";
 import PartnerCard from "../../components/common/PartnerCard";
 import PartnerModal from "../../components/common/PartnerModal";
 import WhatsAppBanner from "../../components/common/WhatsAppBanner";
+import { useDashboardStats } from "../../hooks/useDashboardStats";
+import { getFlagUrl } from "../../utils/countryFlag";
+import { Share2, ImageUp, Clock, Globe } from "lucide-react";
+import mouthImg from "../../assets/mouth-halftone-1.png";
 
 import "./dashboard.css";
 
@@ -23,6 +27,14 @@ const Dashboard = () => {
   const [selectedPartner, setSelectedPartner] = useState(null);
 
   const [isProfileIncomplete, setIsProfileIncomplete] = useState(false);
+
+  const {
+    connectionsCount,
+    sessionsCount,
+    practicedTimeLabel,
+    countries,
+    loading: loadingStats,
+  } = useDashboardStats();
 
   // =========================
   // REGISTRAR SESSÃO
@@ -148,40 +160,101 @@ const Dashboard = () => {
   return (
     <DashboardLayout>
       <div className="dash-container">
-        {/* BANNER */}
-        <div className="welcome-banner">
-          <div className="banner-content">
-            <div className="banner-text">
-              <h2>"From words to worlds"</h2>
-              <p>
-                Realizou uma sessão recentemente? Não se esqueça de registrar o
-                impacto!
-              </p>
-            </div>
-            <button className="btn btn-primary btn-register" onClick={handleRegisterSession}>
-              Registrar sessão
-              <span className="icon-circle">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={3}
-                  stroke="currentColor"
-                  className="plus-icon"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 4.5v15m7.5-7.5h-15"
-                  />
-                </svg>
-              </span>
-            </button>
-          </div>
-        </div>
-
         {/* BANNER WHATSAPP */}
         <WhatsAppBanner />
+
+        {/* SEÇÃO DASHBOARD (ESTATÍSTICAS) */}
+        <div className="dashboard-stats-section">
+          <h3 className="dashboard-stats-title">Dashboard</h3>
+
+          <div className="dashboard-stats-grid">
+            {/* Card 1: Conexões */}
+            <div className="card card--stat dashboard-stat-card">
+              <div className="dashboard-stat-header">
+                <span className="dashboard-stat-label">Conexões</span>
+                <Share2 size={20} className="dashboard-stat-icon" />
+              </div>
+              <div className="dashboard-stat-content">
+                <span className="dashboard-stat-value">
+                  {loadingStats ? "…" : connectionsCount}
+                </span>
+              </div>
+            </div>
+
+            {/* Card 2: Sessões registradas */}
+            <div className="card card--stat dashboard-stat-card">
+              <div className="dashboard-stat-header">
+                <span className="dashboard-stat-label">
+                  Sessões registradas
+                </span>
+                <ImageUp size={20} className="dashboard-stat-icon" />
+              </div>
+              <div className="dashboard-stat-content">
+                <span className="dashboard-stat-value">
+                  {loadingStats ? "…" : sessionsCount}
+                </span>
+              </div>
+            </div>
+
+            {/* Card 3: Horas praticadas */}
+            <div className="card card--stat dashboard-stat-card">
+              <div className="dashboard-stat-header">
+                <span className="dashboard-stat-label">Horas praticadas</span>
+                <Clock size={20} className="dashboard-stat-icon" />
+              </div>
+              <div className="dashboard-stat-content">
+                <span className="dashboard-stat-value">
+                  {loadingStats ? "…" : practicedTimeLabel}
+                </span>
+              </div>
+            </div>
+
+            {/* Card 4: Países alcançados */}
+            <div className="card card--stat dashboard-stat-card">
+              <div className="dashboard-stat-header">
+                <span className="dashboard-stat-label">Países alcançados</span>
+                <Globe size={20} className="dashboard-stat-icon" />
+              </div>
+              <div className="dashboard-stat-content">
+                <span className="dashboard-stat-value">
+                  {loadingStats ? "…" : countries.length}
+                </span>
+                {!loadingStats && countries.length > 0 && (
+                  <div className="dashboard-country-flags">
+                    {countries.map((code) => {
+                      const flagUrl = getFlagUrl(code);
+                      return flagUrl ? (
+                        <img
+                          key={code}
+                          src={flagUrl}
+                          alt={code}
+                          className="dashboard-country-flag"
+                        />
+                      ) : null;
+                    })}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Card CTA (Mantido conforme seu código original, mas adapte se não for usar) */}
+            <div className="dashboard-cta-card">
+              {/* Imagem decorativa adicionada aqui */}
+              <img src={mouthImg} alt="" className="dashboard-cta-decor" />
+
+              <div className="dashboard-cta-text">
+                <p>Realizou uma sessão recentemente?</p>
+              </div>
+
+              <button
+                className="btn dashboard-cta-btn"
+                onClick={handleRegisterSession}
+              >
+                Registrar
+              </button>
+            </div>
+          </div>
+        </div>
 
         <div className="parceiros-dashboard-preview">
           {/* HEADER */}
@@ -221,11 +294,11 @@ const Dashboard = () => {
             )}
           </div>
         </div>
-       {/* MODAL CONTATO */}
+        {/* MODAL CONTATO */}
         {selectedPartner && (
-          <PartnerModal 
-            partner={selectedPartner} 
-            onClose={() => setSelectedPartner(null)} 
+          <PartnerModal
+            partner={selectedPartner}
+            onClose={() => setSelectedPartner(null)}
           />
         )}
       </div>

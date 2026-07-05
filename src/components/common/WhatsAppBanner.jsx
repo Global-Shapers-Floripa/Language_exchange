@@ -27,13 +27,13 @@ const WhatsAppBanner = () => {
   };
 
   return (
-    <div className="whatsapp-banner card--sticker">
+    <div className="whatsapp-banner">
       <button
-        className="btn btn-ghost--icon whatsapp-banner-close"
+        className=" whatsapp-banner-close"
         onClick={handleClose}
         aria-label="Fechar"
       >
-        <X size={18} />
+        <X size={12} />
       </button>
 
       <div className="whatsapp-banner-content">
@@ -54,7 +54,7 @@ const WhatsAppBanner = () => {
           href={WHATSAPP_GROUP_LINK}
           target="_blank"
           rel="noopener noreferrer"
-          className="btn whatsapp-banner-cta btn--sticker"
+          className="btn whatsapp-banner-cta"
         >
           Entrar no grupo
         </a>

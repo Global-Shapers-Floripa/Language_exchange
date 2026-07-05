@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 260px;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
   position: relative;
@@ -34,16 +33,12 @@
     box-shadow: 3px 3px 0 var(--brand-orange);
 }
 
-/* Perfect Match Badge */
-.perfect-match-card {
-  border: 1px solid #00acf08f;
-}
 
 .perfect-match-badge {
   position: absolute;
   top: 18px;
   right: -45px;
-  background: #00acf0d2;
+  background: var(--blue-primary);
   color: white;
   padding: 2px 40px;
   font-size: 12px;
@@ -81,8 +76,8 @@
 }
 
 .partner-avatar {
-  width: 71px;
-  height: 71px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   border: 2px solid var(--brand-orange, #F97316);
   object-fit: cover;
@@ -101,7 +96,7 @@
 
   height: 69px;
 
-  border-radius: 0 24px 24px 0;
+  border-radius: 0 100px 100px 0;
   overflow: hidden;
 
   z-index: 1;
