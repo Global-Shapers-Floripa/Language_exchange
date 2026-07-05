@@ -176,3 +176,28 @@
   box-shadow: none;
   background: transparent;
 }
+
+/* =========================
+   TEXTURA PONTILHADA
+========================= */
+/* Mesmo padrão de pontos do hero da Landing (hero.css) — a cor/opacidade do
+   ponto é customizável via --dotted-texture-color, o background-color fica
+   por conta de quem usar a classe */
+.dotted-texture {
+  background-image: radial-gradient(var(--dotted-texture-color, rgba(156, 176, 225, 0.15)) 2px, transparent 2px);
+  background-size: 30px 30px;
+}
+
+/* =========================
+   STICKER (variante decorativa)
+========================= */
+.card--sticker {
+  background: var(--support-peach);
+  border: 3px solid var(--brand-orange);
+  border-radius: 20px;
+  box-shadow: 8px 8px 0 var(--dark-navy);
+}
+
+.btn--sticker {
+  box-shadow: 4px 4px 0 var(--brand-orange);
+}

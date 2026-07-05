@@ -79,6 +79,39 @@
 }
 
 /* ================================= */
+/* CARD: REPORTAR PROBLEMA (discreto) */
+/* ================================= */
+.report-issue-card {
+  margin-top: 20px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.report-issue-card h4 {
+  font-family: var(--font-title);
+  letter-spacing: 0.02em;
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--dark-navy);
+}
+
+.report-issue-card .btn {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .report-issue-card {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* ================================= */
 /* SOLICITAÇÕES (seção secundária, compacta) */
 /* ================================= */
 .requests-secondary {

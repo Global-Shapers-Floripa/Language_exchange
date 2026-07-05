@@ -5,6 +5,7 @@ import DashboardLayout from "../../components/layout/DashboardLayout";
 import PartnerCard from "../../components/common/PartnerCard";
 import PartnerModal from "../../components/common/PartnerModal";
 import PersonAvatar from "../../components/common/PersonAvatar";
+import ReportIssueModal from "../../components/common/ReportIssueModal";
 import { Search } from "lucide-react";
 
 import { usePartners } from "../../hooks/usePartners";
@@ -19,6 +20,7 @@ const FindPartners = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPartner, setSelectedPartner] = useState(null);
   const [reviewingRequest, setReviewingRequest] = useState(null);
+  const [showReportModal, setShowReportModal] = useState(false);
 
   // Novos estados para a lógica de conexões
   const [currentUser, setCurrentUser] = useState(null);
@@ -295,6 +297,17 @@ const FindPartners = () => {
           </ul>
         )}
 
+        {/* CARD: REPORTAR PROBLEMA */}
+        <div className="card report-issue-card card--sticker">
+          <h4>Precisa falar com a gente?</h4>
+          <button
+            className="btn btn-primary btn--sticker"
+            onClick={() => setShowReportModal(true)}
+          >
+            Quero reportar algo
+          </button>
+        </div>
+
         {/* SEÇÃO SECUNDÁRIA: SOLICITAÇÕES PENDENTES */}
         <div className="requests-secondary">
           <h3 className="secondary-title">Solicitações</h3>
@@ -472,6 +485,10 @@ const FindPartners = () => {
         onClose={() => setReviewingRequest(null)}
         onConnectionChange={handleConnectionChange}
       />
+
+      {showReportModal && (
+        <ReportIssueModal onClose={() => setShowReportModal(false)} />
+      )}
     </DashboardLayout>
   );
 };

@@ -7,6 +7,7 @@ import { getMatches } from "../../services/matchService";
 import Swal from "sweetalert2";
 import PartnerCard from "../../components/common/PartnerCard";
 import PartnerModal from "../../components/common/PartnerModal";
+import WhatsAppBanner from "../../components/common/WhatsAppBanner";
 
 import "./dashboard.css";
 
@@ -178,6 +179,10 @@ const Dashboard = () => {
             </button>
           </div>
         </div>
+
+        {/* BANNER WHATSAPP */}
+        <WhatsAppBanner />
+
         <div className="parceiros-dashboard-preview">
           {/* HEADER */}
           <div className="section-header-dashboard">
