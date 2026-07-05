@@ -378,7 +378,7 @@ const SignUp = () => {
       )}
 
       {successModalOpen && (
-        <div className="modal-overlay">
+        <div className="signup-modal-overlay">
           <div className="modal-box">
             <h3>Conta criada com sucesso 🎉</h3>
             <p>

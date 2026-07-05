@@ -550,11 +550,11 @@ const Admin = () => {
                           </td>
                           <td>
                             {user.is_approved ? (
-                              <span className="status-badge approved">
+                              <span className="admin-status-badge approved">
                                 <span className="dot"></span> APROVADO
                               </span>
                             ) : (
-                              <span className="status-badge pending">
+                              <span className="admin-status-badge pending">
                                 <span className="dot"></span> PENDENTE
                               </span>
                             )}
@@ -648,12 +648,12 @@ const Admin = () => {
 
       {/* MODAL MANTIDO COMO ESTAVA, APENAS ESTILOS ATUALIZADOS VIA CSS */}
       {selectedUser && (
-        <div className="modal-overlay" onClick={() => setSelectedUser(null)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <div className="admin-modal-overlay" onClick={() => setSelectedUser(null)}>
+          <div className="admin-modal-content" onClick={(e) => e.stopPropagation()}>
             <button className="close-btn" onClick={() => setSelectedUser(null)}>
               ✕
             </button>
-            <div className="modal-header">
+            <div className="admin-modal-header">
               <PersonAvatar
                 photoUrl={selectedUser.photo_url}
                 seed={selectedUser.id}
@@ -697,12 +697,12 @@ const Admin = () => {
 
       {selectedImage && (
         <div
-          className="image-modal-overlay"
+          className="admin-image-modal-overlay"
           onClick={() => setSelectedImage(null)}
         >
-          <div className="image-modal" onClick={(e) => e.stopPropagation()}>
+          <div className="admin-image-modal" onClick={(e) => e.stopPropagation()}>
             <button
-              className="close-image-btn"
+              className="admin-close-image-btn"
               onClick={() => setSelectedImage(null)}
             >
               ✕

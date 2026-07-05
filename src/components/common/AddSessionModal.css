@@ -1,4 +1,4 @@
-.modal-overlay {
+.session-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -12,7 +12,7 @@
   padding: 20px;
 }
 
-.modal-content {
+.session-modal-content {
   background-color: white;
   border-radius: 16px;
   max-width: 500px;
@@ -22,7 +22,7 @@
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
-.modal-header {
+.session-modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -40,14 +40,14 @@
   color: #f97316; 
 }
 
-.modal-header h2 {
+.session-modal-header h2 {
   font-size: 1.5rem;
   color: #0A3251;
   margin: 0;
   font-weight: 700;
 }
 
-.modal-close {
+.session-modal-close {
   background: none;
   border: none;
   cursor: pointer;
@@ -61,7 +61,7 @@
   transition: all 0.2s;
 }
 
-.modal-close:hover {
+.session-modal-close:hover {
   background-color: #f1f5f9;
   color: #0A3251;
 }
@@ -194,7 +194,7 @@
   font-size: 0.9rem;
 }
 
-.modal-footer {
+.session-modal-footer {
   display: flex;
   gap: 12px;
   justify-content: flex-end;
@@ -242,15 +242,15 @@
 
 /* Responsivo */
 @media (max-width: 600px) {
-  .modal-overlay {
+  .session-modal-overlay {
     padding: 10px;
   }
 
-  .modal-content {
+  .session-modal-content {
     max-width: 100%;
   }
 
-  .modal-header {
+  .session-modal-header {
     padding: 16px;
   }
 
@@ -258,7 +258,7 @@
     padding: 16px;
   }
 
-  .modal-footer {
+  .session-modal-footer {
     flex-direction: column-reverse;
     padding: 16px;
   }

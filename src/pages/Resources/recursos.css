@@ -132,7 +132,7 @@
    NOVOS ESTILOS DO MODAL E DOWNLOADS
    ========================================= */
 
-.modal-overlay {
+.resources-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -149,7 +149,7 @@
   animation: fadeIn 0.2s ease-in-out;
 }
 
-.modal-content {
+.resources-modal-content {
   background: white;
   border-radius: 24px 0px 0px 24px;
   padding: 20px;
@@ -162,7 +162,7 @@
   animation: slideUp 0.3s ease-out;
 }
 
-.modal-close {
+.resources-modal-close {
   position: absolute;
   top: 24px;
   right: 24px;
@@ -179,7 +179,7 @@
   z-index: 10;
 }
 
-.modal-close:hover {
+.resources-modal-close:hover {
   background: #e2e8f0;
 }
 
@@ -226,7 +226,7 @@
 }
 
 /* Novo footer para centralizar o botão */
-.modal-footer {
+.resources-modal-footer {
   display: flex;
   justify-content: center;
   width: 100%;
@@ -271,7 +271,7 @@
 
 /* Responsividade do Modal */
 @media (max-width: 600px) {
-  .modal-content {
+  .resources-modal-content {
     padding: 20px;
     border-radius: 20px;
   }

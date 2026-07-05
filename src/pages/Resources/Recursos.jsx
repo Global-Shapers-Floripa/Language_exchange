@@ -72,10 +72,10 @@ const Resources = () => {
 
       {/* MODAL OVERLAY */}
       {selectedResource && (
-        <div className="modal-overlay" onClick={() => setSelectedResource(null)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            
-            <button className="modal-close" onClick={() => setSelectedResource(null)}>
+        <div className="resources-modal-overlay" onClick={() => setSelectedResource(null)}>
+          <div className="resources-modal-content" onClick={(e) => e.stopPropagation()}>
+
+            <button className="resources-modal-close" onClick={() => setSelectedResource(null)}>
               <X size={24} color="#64748b" />
             </button>
 
@@ -99,7 +99,7 @@ const Resources = () => {
             </div>
 
             {/* Novo rodapé com o botão de download centralizado */}
-            <div className="modal-footer">
+            <div className="resources-modal-footer">
               <a 
                 href={selectedResource.pdfUrl} 
                 download 

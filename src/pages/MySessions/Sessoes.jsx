@@ -152,12 +152,12 @@ const MySessions = () => {
       {/* MODAL FOTO */}
       {selectedImage && (
         <div
-          className="image-modal-overlay"
+          className="sessions-image-modal-overlay"
           onClick={() => setSelectedImage(null)}
         >
-          <div className="image-modal" onClick={(e) => e.stopPropagation()}>
+          <div className="sessions-image-modal" onClick={(e) => e.stopPropagation()}>
             <button
-              className="close-image-btn"
+              className="sessions-close-image-btn"
               onClick={() => setSelectedImage(null)}
             >
               <X size={22} />
@@ -174,7 +174,7 @@ const MySessions = () => {
         >
           <div className="details-modal" onClick={(e) => e.stopPropagation()}>
             <button
-              className="close-image-btn"
+              className="sessions-close-image-btn"
               onClick={() => setSelectedSession(null)}
             >
               <X size={22} />

@@ -330,7 +330,7 @@ const FindPartners = () => {
                           </div>
                         </div>
                         <div className="request-actions">
-                          <span className={`status-badge status-${req.status}`}>
+                          <span className={`partners-status-badge status-${req.status}`}>
                             {req.status === "pendente" ? "Pendente" : "Rejeitado"}
                           </span>
                           {req.status === "pendente" && (
@@ -387,7 +387,7 @@ const FindPartners = () => {
                               Ver solicitação
                             </button>
                           ) : (
-                            <span className={`status-badge status-${req.status}`}>
+                            <span className={`partners-status-badge status-${req.status}`}>
                               Rejeitado
                             </span>
                           )}

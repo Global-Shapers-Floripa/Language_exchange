@@ -144,17 +144,17 @@ const AddSessionModal = ({ isOpen, onClose, partners, onSessionAdded }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div 
-        className="modal-content" 
-        onClick={(e) => e.stopPropagation()} 
+    <div className="session-modal-overlay" onClick={onClose}>
+      <div
+        className="session-modal-content"
+        onClick={(e) => e.stopPropagation()}
       >
-        <div className="modal-header">
+        <div className="session-modal-header">
           <div className="header-title-group">
             <FilePlus size={24} className="header-title-icon" />
             <h2>Registrar Nova Sessão</h2>
           </div>
-          <button type="button" className="modal-close" onClick={onClose}>
+          <button type="button" className="session-modal-close" onClick={onClose}>
             <X size={24} />
           </button>
         </div>
@@ -271,7 +271,7 @@ const AddSessionModal = ({ isOpen, onClose, partners, onSessionAdded }) => {
           )}
 
           {/* Botões */}
-          <div className="modal-footer">
+          <div className="session-modal-footer">
             <button type="button" className="btn-cancel" onClick={onClose}>
               Cancelar
             </button>
