@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "../../services/supabaseClient";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import PersonAvatar from "../../components/common/PersonAvatar";
+import ConfirmModal from "../../components/common/ConfirmModal";
 import { COUNTRIES } from "../../constants/countries";
 import { LANGUAGES } from "../../constants/languages";
 import { Users, MapPin, Languages, GraduationCap, Trash2 } from "lucide-react";
@@ -55,6 +56,7 @@ const Admin = () => {
   const [userSearch, setUserSearch] = useState("");
 
   const [selectedUser, setSelectedUser] = useState(null);
+  const [userPendingDelete, setUserPendingDelete] = useState(null);
 
   useEffect(() => {
     const checkAccessAndFetchData = async () => {
@@ -258,13 +260,14 @@ const Admin = () => {
     return error?.message || "Ocorreu um erro ao tentar excluir o usuário.";
   };
 
-  const deleteUser = async (userToDelete, e) => {
-    e.stopPropagation(); // Evita abrir o modal ao clicar em excluir
+  const requestDeleteUser = (userToDelete, e) => {
+    e.stopPropagation(); // Evita abrir o modal de detalhes ao clicar em excluir
+    setUserPendingDelete(userToDelete);
+  };
 
-    const confirmed = window.confirm(
-      `Tem certeza que deseja excluir permanentemente ${userToDelete.full_name || "este usuário"}? Essa ação não pode ser desfeita.`,
-    );
-    if (!confirmed) return;
+  const confirmDeleteUser = async () => {
+    const userToDelete = userPendingDelete;
+    if (!userToDelete) return;
 
     try {
       const { data, error } = await supabase.functions.invoke(
@@ -577,7 +580,7 @@ const Admin = () => {
                               </button>
                               <button
                                 className="btn btn-danger btn-delete-user"
-                                onClick={(e) => deleteUser(user, e)}
+                                onClick={(e) => requestDeleteUser(user, e)}
                                 aria-label={`Excluir ${user.full_name || "usuário"}`}
                               >
                                 <Trash2 size={16} />
@@ -725,6 +728,17 @@ const Admin = () => {
             </a>
           </div>
         </div>
+      )}
+
+      {userPendingDelete && (
+        <ConfirmModal
+          title="Excluir usuário?"
+          message={`Essa ação não pode ser desfeita. ${userPendingDelete.full_name || "Este usuário"} perderá acesso à plataforma permanentemente.`}
+          confirmText="Excluir"
+          cancelText="Cancelar"
+          onConfirm={confirmDeleteUser}
+          onClose={() => setUserPendingDelete(null)}
+        />
       )}
     </DashboardLayout>
   );
