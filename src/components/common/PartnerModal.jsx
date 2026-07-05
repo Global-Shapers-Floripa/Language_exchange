@@ -169,6 +169,27 @@ const PartnerModal = ({
       setConnectionData(created);
       onConnectionChange?.(created);
 
+      // E-mail de notificação é best-effort: a solicitação já foi criada com
+      // sucesso, então uma falha aqui não deve virar erro pro usuário. A
+      // Edge Function busca o contato do destinatário com service role,
+      // porque a RLS de profile_contacts não libera essa leitura pra quem
+      // enviou (conexão ainda está pendente, não aceita).
+      supabase.functions
+        .invoke("notify-connection-request", {
+          body: {
+            request_id: created.id,
+            app_url: `${window.location.origin}/partners`,
+          },
+        })
+        .then(({ error: notifyError }) => {
+          if (notifyError) {
+            console.error(
+              "Erro ao notificar solicitação de conexão:",
+              notifyError,
+            );
+          }
+        });
+
       Swal.fire({
         title: "Enviado!",
         text: `Sua solicitação de conexão foi enviada para ${partner.full_name}.`,

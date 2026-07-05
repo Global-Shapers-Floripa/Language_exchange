@@ -516,6 +516,23 @@
   text-decoration: underline;
 }
 
+.btn-delete-user {
+  background: white;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 6px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-delete-user:hover {
+  background: #fef2f2;
+  border-color: #dc2626;
+}
+
 .empty-state {
   color: #a8a29e;
   font-style: italic;

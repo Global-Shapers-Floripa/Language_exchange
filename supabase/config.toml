@@ -1,11 +1,23 @@
 
-[functions.send-approval-email]
+[functions.send-email]
 enabled = true
 verify_jwt = false
-import_map = "./functions/send-approval-email/deno.json"
-# Uncomment to specify a custom file path to the entrypoint.
-# Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
-entrypoint = "./functions/send-approval-email/index.ts"
-# Specifies static files to be bundled with the function. Supports glob patterns.
-# For example, if you want to serve static HTML pages in your function:
-# static_files = [ "./functions/send-approval-email/*.html" ]
+import_map = "./functions/send-email/deno.json"
+entrypoint = "./functions/send-email/index.ts"
+
+[functions.notify-connection-request]
+enabled = true
+verify_jwt = false
+import_map = "./functions/notify-connection-request/deno.json"
+entrypoint = "./functions/notify-connection-request/index.ts"
+
+[functions.admin-delete-user]
+enabled = true
+# false porque, com true, a gateway da Supabase intercepta o preflight
+# OPTIONS antes do handler rodar e o rejeita por falta de JWT valido (o
+# preflight nao reenvia o Authorization real) - quebra CORS no browser. A
+# autenticacao real continua acontecendo dentro da function via
+# callerClient.auth.getUser().
+verify_jwt = false
+import_map = "./functions/admin-delete-user/deno.json"
+entrypoint = "./functions/admin-delete-user/index.ts"

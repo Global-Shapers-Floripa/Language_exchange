@@ -5,7 +5,7 @@ import DashboardLayout from "../../components/layout/DashboardLayout";
 import PersonAvatar from "../../components/common/PersonAvatar";
 import { COUNTRIES } from "../../constants/countries";
 import { LANGUAGES } from "../../constants/languages";
-import { Users, MapPin, Languages, GraduationCap } from "lucide-react";
+import { Users, MapPin, Languages, GraduationCap, Trash2 } from "lucide-react";
 import "./admin.css";
 
 // Função para buscar nome e bandeira do país
@@ -204,17 +204,26 @@ const Admin = () => {
 
       if (error) throw error;
 
-      await fetch(
-        "https://ndiadfadpicgppzvlynk.supabase.co/functions/v1/send-approval-email",
+      // userToApprove.email já vem de profile_contacts (join feito no
+      // carregamento da lista via checkAccessAndFetchData) — a RLS de admin
+      // já libera essa leitura, não precisa buscar de novo aqui.
+      const { error: emailError } = await supabase.functions.invoke(
+        "send-email",
         {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: userToApprove.email,
-            name: userToApprove.full_name,
-          }),
+          body: {
+            template: "approval",
+            to: userToApprove.email,
+            data: {
+              recipientName: userToApprove.full_name,
+              appUrl: window.location.origin,
+            },
+          },
         },
       );
+
+      if (emailError) {
+        console.error("Erro ao enviar e-mail de aprovação:", emailError);
+      }
 
       const updatedUsers = users.map((u) =>
         u.id === userToApprove.id ? { ...u, is_approved: true } : u,
@@ -230,6 +239,62 @@ const Admin = () => {
     } catch (err) {
       console.error("Erro ao aprovar usuário:", err.message);
       alert(err.message || "Ocorreu um erro ao tentar aprovar o usuário.");
+    }
+  };
+
+  // supabase.functions.invoke() não expõe o corpo JSON do erro em
+  // `error.message` quando a function retorna status >= 400 — o texto que a
+  // gente mandou (ex: "Apenas admins podem excluir usuários") fica em
+  // `error.context`, que é a Response crua.
+  const extractFunctionErrorMessage = async (error) => {
+    if (error?.context && typeof error.context.json === "function") {
+      try {
+        const body = await error.context.json();
+        if (body?.error) return body.error;
+      } catch {
+        // corpo não era JSON, cai no fallback abaixo
+      }
+    }
+    return error?.message || "Ocorreu um erro ao tentar excluir o usuário.";
+  };
+
+  const deleteUser = async (userToDelete, e) => {
+    e.stopPropagation(); // Evita abrir o modal ao clicar em excluir
+
+    const confirmed = window.confirm(
+      `Tem certeza que deseja excluir permanentemente ${userToDelete.full_name || "este usuário"}? Essa ação não pode ser desfeita.`,
+    );
+    if (!confirmed) return;
+
+    try {
+      const { data, error } = await supabase.functions.invoke(
+        "admin-delete-user",
+        { body: { target_id: userToDelete.id } },
+      );
+
+      if (error) throw new Error(await extractFunctionErrorMessage(error));
+      if (data?.error) throw new Error(data.error);
+
+      const updatedUsers = users.filter((u) => u.id !== userToDelete.id);
+      setUsers(updatedUsers);
+
+      const approvedCount = updatedUsers.filter((u) => u.is_approved).length;
+      setStats((prev) => ({
+        ...prev,
+        total: updatedUsers.length,
+        approved: approvedCount,
+        pending: updatedUsers.length - approvedCount,
+      }));
+
+      if (selectedUser?.id === userToDelete.id) {
+        setSelectedUser(null);
+      }
+    } catch (err) {
+      console.error("Erro ao excluir usuário:", err.message);
+      // Caso o perfil tenha sido removido mas a conta de auth não (erro do
+      // passo 2 na Edge Function), a mensagem já vem explicando isso — o
+      // admin precisa ver esse texto específico, não um genérico.
+      alert(err.message);
     }
   };
 
@@ -509,6 +574,13 @@ const Admin = () => {
                                 onClick={() => setSelectedUser(user)}
                               >
                                 Visualizar Detalhes ↗
+                              </button>
+                              <button
+                                className="btn-delete-user"
+                                onClick={(e) => deleteUser(user, e)}
+                                aria-label={`Excluir ${user.full_name || "usuário"}`}
+                              >
+                                <Trash2 size={16} />
                               </button>
                             </div>
                           </td>
