@@ -42,7 +42,7 @@ const Resources = () => {
 
       <div className="resources-grid">
         {resourceList.map((item, index) => (
-          <div className="resource-card" key={index}>
+          <div className="card card--resource card--hoverable resource-card" key={index}>
             <div className="resource-icon-wrapper">
               {item.icon}
               <h3>{item.title}</h3>
@@ -50,8 +50,8 @@ const Resources = () => {
             <p>{item.desc}</p>
             
             <div className="resource-actions">
-              <button 
-                className="resource-link" 
+              <button
+                className="btn btn-ghost resource-link"
                 onClick={() => setSelectedResource(item)}
               >
                 Acessar agora <ExternalLink size={14} />

@@ -7,7 +7,7 @@ const PendingApproval = () => {
 
   return (
     <div className="pending-page">
-      <div className="pending-card">
+      <div className="card card--pending pending-card">
         <div className="pending-icon">
           <Clock3 size={70} />
         </div>
@@ -23,7 +23,7 @@ const PendingApproval = () => {
           Você receberá um email de aprovação quando sua solicitação for revisada.
         </p>
 
-        <button onClick={() => navigate("/login")}>
+        <button className="btn btn-primary" onClick={() => navigate("/login")}>
           Voltar para login
         </button>
       </div>

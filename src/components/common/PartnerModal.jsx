@@ -349,7 +349,7 @@ const PartnerModal = ({
     <div className="partner-modal-overlay" onClick={onClose}>
       <div className="partner-modal" onClick={(e) => e.stopPropagation()}>
         
-        <button className="close-modal-btn" onClick={onClose}>✕</button>
+        <button className="btn btn-ghost--icon close-modal-btn" onClick={onClose}>✕</button>
 
         {isPerfectMatch && (
           <div className="perfect-match-modal-badge">
@@ -446,7 +446,7 @@ const PartnerModal = ({
                 </p>
                 <div className="review-actions">
                   <button
-                    className="btn-reject-request"
+                    className="btn btn-danger"
                     onClick={handleRejectRequest}
                     disabled={isReviewing}
                   >
@@ -454,7 +454,7 @@ const PartnerModal = ({
                     Rejeitar
                   </button>
                   <button
-                    className="btn-accept-request"
+                    className="btn btn-primary"
                     onClick={handleAcceptRequest}
                     disabled={isReviewing}
                   >
@@ -475,8 +475,8 @@ const PartnerModal = ({
                   <Lock size={24} className="lock-icon" />
                   <h3>Dados Privados</h3>
                   <p>Solicite uma conexão para trocar contatos e mensagens com {partner.full_name}.</p>
-                  <button 
-                    className="btn-request-connect" 
+                  <button
+                    className="btn btn-primary btn-request-connect"
                     onClick={handleRequestConnection}
                     disabled={isRequesting}
                   >
@@ -498,7 +498,7 @@ const PartnerModal = ({
                   </p>
                   {connectionData.sender_id === currentUser.id && (
                     <button
-                      className="btn-cancel-request"
+                      className="btn btn-danger"
                       onClick={handleCancelRequest}
                       disabled={isCancelling}
                     >

@@ -11,11 +11,6 @@
 .pending-card {
   width: 100%;
   max-width: 520px;
-  background: white;
-  border-radius: 24px;
-  padding: 48px;
-  text-align: center;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.15);
 }
 
 .pending-icon {
@@ -48,20 +43,9 @@
   margin-top: 12px;
 }
 
-.pending-card button {
+.pending-card .btn {
   margin-top: 32px;
   width: 100%;
-  border: none;
   border-radius: 14px;
-  padding: 14px;
-  background: #08b9ff;
-  color: white;
   font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.pending-card button:hover {
-  opacity: 0.9;
 }

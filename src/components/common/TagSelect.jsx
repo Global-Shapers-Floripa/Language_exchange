@@ -104,7 +104,7 @@ const TagSelect = ({
         type="text"
         value={search}
         placeholder={placeholder}
-        className="tag-input"
+        className="input tag-input"
         onFocus={() => setIsOpen(true)}
         onClick={() => setIsOpen(true)}
         onChange={(e) => {

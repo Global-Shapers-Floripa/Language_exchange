@@ -114,7 +114,7 @@ const Help = () => {
         </div>
 
         {/* FAQ */}
-        <div className="help-card">
+        <div className="card card--help help-card">
           <div className="section-title">
             <HelpCircle size={22} />
             <h3>Perguntas Frequentes</h3>
@@ -150,7 +150,7 @@ const Help = () => {
         </div>
 
         {/* RECURSOS */}
-        <div className="help-card">
+        <div className="card card--help help-card">
           <div className="section-title">
             <Globe size={22} />
             <h3>Ferramentas Recomendadas</h3>

@@ -269,7 +269,7 @@ const FindPartners = () => {
               const flagUrl = getFlagUrl(other?.country);
 
               return (
-                <li key={conn.id} className="connection-card">
+                <li key={conn.id} className="card card--connection connection-card">
                   <PersonAvatar
                     photoUrl={other?.photo_url}
                     seed={other?.id}
@@ -284,7 +284,7 @@ const FindPartners = () => {
                   </div>
                   <span className="connection-hub">{other?.hub || "Hub"}</span>
                   <button
-                    className="btn-view-contact"
+                    className="btn btn-secondary btn-view-contact"
                     onClick={() => setSelectedPartner(other)}
                   >
                     Ver contato
@@ -335,7 +335,7 @@ const FindPartners = () => {
                           </span>
                           {req.status === "pendente" && (
                             <button
-                              className="btn-cancel-sent"
+                              className="btn btn-danger"
                               onClick={() => handleCancelSentRequest(req.id)}
                             >
                               Cancelar
@@ -381,7 +381,7 @@ const FindPartners = () => {
                         <div className="request-actions">
                           {req.status === "pendente" ? (
                             <button
-                              className="btn-view-request"
+                              className="btn btn-primary btn-view-request"
                               onClick={() => setReviewingRequest(req)}
                             >
                               Ver solicitação
@@ -410,6 +410,7 @@ const FindPartners = () => {
           <div className="search-input-wrapper">
             <Search size={18} className="search-icon" />
             <input
+              className="input"
               type="text"
               placeholder="Buscar por nome, idioma ou hub..."
               value={searchTerm}

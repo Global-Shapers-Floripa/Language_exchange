@@ -177,6 +177,7 @@ const AddSessionModal = ({ isOpen, onClose, partners, onSessionAdded }) => {
           <div className="form-group">
             <label htmlFor="date">Data *</label>
             <input
+              className="input"
               id="date"
               name="date"
               type="date"
@@ -190,6 +191,7 @@ const AddSessionModal = ({ isOpen, onClose, partners, onSessionAdded }) => {
           <div className="form-group">
             <label htmlFor="duration">Duração (minutos) *</label>
             <input
+              className="input"
               id="duration"
               name="duration"
               type="number"
@@ -219,6 +221,7 @@ const AddSessionModal = ({ isOpen, onClose, partners, onSessionAdded }) => {
           <div className="form-group">
             <label htmlFor="notes">Notas</label>
             <textarea
+              className="input"
               id="notes"
               name="notes"
               placeholder="Adicione observações sobre a sessão (opcional)"
@@ -235,9 +238,9 @@ const AddSessionModal = ({ isOpen, onClose, partners, onSessionAdded }) => {
               {photoPreview ? (
                 <div className="photo-preview">
                   <img src={photoPreview} alt="Preview da sessão" />
-                  <button 
-                    type="button" 
-                    className="btn-remove-photo"
+                  <button
+                    type="button"
+                    className="btn btn-danger"
                     onClick={removePhoto}
                   >
                     Remover
@@ -272,10 +275,10 @@ const AddSessionModal = ({ isOpen, onClose, partners, onSessionAdded }) => {
 
           {/* Botões */}
           <div className="session-modal-footer">
-            <button type="button" className="btn-cancel" onClick={onClose}>
+            <button type="button" className="btn btn-secondary" onClick={onClose}>
               Cancelar
             </button>
-            <button type="submit" className="btn-submit" disabled={loading}>
+            <button type="submit" className="btn btn-primary" disabled={loading}>
               {loading ? 'Salvando...' : 'Registrar Sessão'}
             </button>
           </div>

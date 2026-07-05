@@ -157,7 +157,7 @@ const Dashboard = () => {
                 impacto!
               </p>
             </div>
-            <button className="btn-register" onClick={handleRegisterSession}>
+            <button className="btn btn-primary btn-register" onClick={handleRegisterSession}>
               Registrar sessão
               <span className="icon-circle">
                 <svg

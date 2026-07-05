@@ -15,18 +15,8 @@
 }
 
 .resource-card {
-  background: white;
-  border-radius: 20px;
-  padding: 25px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s;
-  border: 1px solid #f8fafc;
-}
-
-.resource-card:hover {
-  transform: translateY(-5px);
 }
 
 .resource-icon-wrapper {
@@ -62,23 +52,9 @@
 }
 
 .resource-link {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #0A3251;
-  text-decoration: none;
   font-weight: 700;
   font-size: 0.85rem;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  font-family: inherit;
   width: fit-content;
-}
-
-.resource-link:hover {
-  text-decoration: underline;
 }
 
 /* Botão discreto de Download no Card */

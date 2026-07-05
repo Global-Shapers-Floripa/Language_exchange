@@ -18,7 +18,7 @@ const PartnerCard = ({ partner, onConnect, sentRequest, isConnected }) => {
     : "";
 
   return (
-    <div className={`partner-card ${isPerfectMatch ? "perfect-match-card" : ""}`}>
+    <div className={`card card--partner card--hoverable partner-card ${isPerfectMatch ? "perfect-match-card" : ""}`}>
       {isPerfectMatch && (
         <div className="perfect-match-badge">Match Perfeito</div>
       )}
@@ -111,7 +111,7 @@ const PartnerCard = ({ partner, onConnect, sentRequest, isConnected }) => {
         </div>
 
         <button
-          className={`connect-btn ${isConnected ? "connect-btn-connected" : isPending ? "connect-btn-pending" : ""}`}
+          className={`btn btn-secondary connect-btn ${isConnected ? "connect-btn-connected" : isPending ? "connect-btn-pending" : ""}`}
           onClick={onConnect}
         >
           {isConnected ? (

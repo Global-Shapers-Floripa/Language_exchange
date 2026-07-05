@@ -63,7 +63,7 @@ const MySessions = () => {
 
         <div className="container-new-session-btn">
           <button
-            className="btn-new-session"
+            className="btn btn-primary btn-new-session"
             onClick={() => setIsModalOpen(true)}
           >
             <PlusCircle size={20} />
@@ -102,7 +102,7 @@ const MySessions = () => {
           {sessions.map((session) => (
             <div
               key={session.id}
-              className="session-card"
+              className="card card--session card--hoverable"
               onClick={() => setSelectedSession(session)}
             >
               <div className="session-card-image">
@@ -131,7 +131,7 @@ const MySessions = () => {
               </div>
 
               <button
-                className="view-session-btn"
+                className="btn btn-ghost--icon view-session-btn"
                 onClick={() => setSelectedSession(session)}
               >
                 <Eye size={18} />
@@ -157,7 +157,7 @@ const MySessions = () => {
         >
           <div className="sessions-image-modal" onClick={(e) => e.stopPropagation()}>
             <button
-              className="sessions-close-image-btn"
+              className="btn btn-ghost--icon sessions-close-image-btn"
               onClick={() => setSelectedImage(null)}
             >
               <X size={22} />
@@ -174,7 +174,7 @@ const MySessions = () => {
         >
           <div className="details-modal" onClick={(e) => e.stopPropagation()}>
             <button
-              className="sessions-close-image-btn"
+              className="btn btn-ghost--icon sessions-close-image-btn"
               onClick={() => setSelectedSession(null)}
             >
               <X size={22} />
@@ -228,7 +228,7 @@ const MySessions = () => {
 
               <div className="details-actions">
                 <button
-                  className="delete-session-btn"
+                  className="btn btn-danger delete-session-btn"
                   onClick={handleDeleteSession}
                 >
                   <Trash2 size={18} />

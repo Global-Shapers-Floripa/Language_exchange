@@ -100,35 +100,14 @@
   box-shadow: 0 0 0 3px rgba(44, 110, 157, 0.1);
 }
 
-.input-wrapper input {
-  border: none;
-  outline: none;
-  width: 100%;
-  font-size: 0.95rem;
-  color: #1d1d1d;
-}
-
 .input-wrapper svg {
   color: #2C6E9D; /* Cor dos ícones lucide */
 }
 
-/* Botão de Solicitação */
-.btn-signup {
+/* Botão de Solicitação: variação de largura/margem sobre o .btn-primary base */
+.login-side-form .btn-primary {
   width: 100%;
-  padding: 14px;
-  background-color: #0A3251;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: bold;
-  font-size: 1rem;
   margin-top: 15px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.btn-signup:hover {
-  background-color: #0d4169;
 }
 
 .terms-warning {
@@ -318,34 +297,6 @@ TERMOS
   height: 16px;
 
   cursor: pointer;
-}
-
-.terms-link {
-  background: none;
-  border: none;
-
-  color: #08b9ff;
-
-  font-weight: 700;
-
-  cursor: pointer;
-
-  padding: 0;
-}
-
-.terms-link:hover {
-  text-decoration: underline;
-}
-
-/* =========================
-BOTÃO DESABILITADO
-========================= */
-
-.btn-signup:disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
-
-  background: #94a3b8;
 }
 
 /* =========================

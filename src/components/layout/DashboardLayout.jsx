@@ -195,18 +195,18 @@ const DashboardLayout = ({ children }) => {
       className="sidebar-banner"
       style={{ '--banner-img': `url(${BannerSidebar})` }} // Passando a imagem para a variável CSS
     >
-      <button className="banner-btn">
+      <button className="btn btn-ghost--icon banner-btn">
         <ArrowUpRight size={18} />
       </button>
       <p>Saiba mais sobre o HUB idealizador do projeto</p>
     </div>
 
             <div className="sidebar-footer-links">
-              <button className="btn-footer" onClick={handleLogout}>
+              <button className="btn btn-ghost btn-footer" onClick={handleLogout}>
                 <LogOut size={18} />
                 Sair
               </button>
-              <NavLink to="/help" className="btn-footer">
+              <NavLink to="/help" className="btn btn-ghost btn-footer">
                 <HelpCircle size={18} />
                 Ajuda
               </NavLink>
@@ -222,7 +222,7 @@ const DashboardLayout = ({ children }) => {
             </h1>
 
             <div className="header-actions">
-              <button className="notification-btn">
+              <button className="btn btn-ghost--icon notification-btn">
                 <Bell size={24} />
               </button>
 

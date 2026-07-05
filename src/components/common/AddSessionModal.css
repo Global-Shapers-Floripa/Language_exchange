@@ -82,26 +82,6 @@
   font-size: 0.9rem;
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-family: inherit;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  outline: none;
-  border-color: #0A3251;
-  box-shadow: 0 0 0 3px rgba(10, 50, 81, 0.1);
-}
-
 .form-group textarea {
   resize: vertical;
 }
@@ -165,23 +145,10 @@
   object-fit: cover;
 }
 
-.btn-remove-photo {
+.photo-preview .btn-danger {
   position: absolute;
   top: 8px;
   right: 8px;
-  background-color: rgba(0, 0, 0, 0.6);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 6px 12px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.btn-remove-photo:hover {
-  background-color: rgba(0, 0, 0, 0.8);
 }
 
 .error-message {
@@ -200,44 +167,6 @@
   justify-content: flex-end;
   padding: 20px 24px;
   border-top: 1px solid #e2e8f0;
-}
-
-.btn-cancel {
-  padding: 12px 24px;
-  border: 1px solid #e2e8f0;
-  background-color: white;
-  color: #64748b;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-cancel:hover {
-  background-color: #f1f5f9;
-  border-color: #cbd5e1;
-  color: #1e293b;
-}
-
-.btn-submit {
-  padding: 12px 24px;
-  background-color: #0A3251;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-submit:hover:not(:disabled) {
-  background-color: #0d4169;
-  box-shadow: 0 4px 12px rgba(10, 50, 81, 0.3);
-}
-
-.btn-submit:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
 }
 
 /* Responsivo */
@@ -263,8 +192,7 @@
     padding: 16px;
   }
 
-  .btn-cancel,
-  .btn-submit {
+  .session-modal-footer .btn {
     width: 100%;
   }
 }

@@ -41,10 +41,6 @@
 /* NOVO: CARD ÚNICO UNIFICADO */
 .unified-card {
   position: relative;
-  background: #fff;
-  border-radius: 24px;
-  padding: 32px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   margin-bottom: 24px;
   display: flex;
   flex-direction: column;
@@ -261,28 +257,10 @@
   margin-top: 32px;
 }
 
-.btn-cancel,
-.btn-save {
-  border: none;
+.form-actions .btn,
+.crop-buttons .btn {
   border-radius: 14px;
   padding: 14px 22px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.btn-cancel {
-  background: #ececec;
-}
-
-.btn-save {
-  background: #08b9ff;
-  color: white;
-}
-
-.btn-save:hover,
-.btn-cancel:hover {
-  opacity: 0.9;
 }
 
 .loading-container {
@@ -303,28 +281,12 @@
   animation: spin 1s linear infinite;
 }
 
-  .btn-edit-inside-card {
+.btn-edit-inside-card {
   position: absolute;
-
   top: 24px;
   right: 24px;
-
-  width: 42px;
-  height: 42px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
   border: 1px solid #e2e8f0;
-  border-radius: 50%;
-
-  background: white;
   color: #08b9ff;
-
-  cursor: pointer;
-  transition: all .2s ease;
-
   z-index: 10;
 }
 
@@ -386,8 +348,7 @@
     flex-direction: column;
   }
 
-  .btn-cancel,
-  .btn-save {
+  .form-actions .btn {
     width: 100%;
   }
 

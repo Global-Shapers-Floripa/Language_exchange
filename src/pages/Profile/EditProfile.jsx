@@ -359,7 +359,7 @@ const EditProfile = () => {
         </div>
 
         {/* CARD ÚNICO UNIFICADO */}
-        <div className="unified-card">
+        <div className="card card--profile unified-card">
           {/* SEÇÃO DO TOPO (FOTO, NOME, HUB) */}
           <div className="profile-top-section">
             <div className="profile-avatar-area">
@@ -397,7 +397,7 @@ const EditProfile = () => {
 
           {!isEditing && (
             <button
-              className="btn-edit-inside-card"
+              className="btn btn-ghost--icon btn-edit-inside-card"
               onClick={() => setIsEditing(true)}
               aria-label="Editar perfil"
             >
@@ -661,13 +661,13 @@ const EditProfile = () => {
                 <div className="form-actions">
                   <button
                     type="button"
-                    className="btn-cancel"
+                    className="btn btn-secondary"
                     onClick={() => setIsEditing(false)}
                   >
                     Cancelar
                   </button>
 
-                  <button type="submit" className="btn-save" disabled={saving}>
+                  <button type="submit" className="btn btn-primary" disabled={saving}>
                     {saving ? "Salvando..." : "Salvar alterações"}
                   </button>
                 </div>
@@ -707,7 +707,7 @@ const EditProfile = () => {
                 <div className="crop-buttons">
                   <button
                     type="button"
-                    className="btn-cancel"
+                    className="btn btn-secondary"
                     onClick={() => setShowCropModal(false)}
                   >
                     Cancelar
@@ -715,7 +715,7 @@ const EditProfile = () => {
 
                   <button
                     type="button"
-                    className="btn-save"
+                    className="btn btn-primary"
                     onClick={handleSaveCroppedPhoto}
                   >
                     Salvar foto

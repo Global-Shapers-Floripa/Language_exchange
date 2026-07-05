@@ -320,7 +320,7 @@ const Admin = () => {
             {/* GRID 4 COLUNAS - CARDS DE STATUS */}
             <div className="stats-grid">
               {/* Card 1: Total */}
-              <div className="total-card">
+              <div className="card card--stat total-card">
                 <div className="card-header">
                   <div className="stat-column">
                     <div className="stat-label">
@@ -354,7 +354,7 @@ const Admin = () => {
               </div>
 
               {/* Card 2: Hubs */}
-              <div className="stat-card list-card">
+              <div className="card card--stat stat-card list-card">
                 <div className="card-top">
                   <h3>TOP HUBS</h3>
                   <MapPin size={20} color="#64748b" />
@@ -379,7 +379,7 @@ const Admin = () => {
               </div>
 
               {/* Card 3: Idiomas Falados */}
-              <div className="stat-card list-card">
+              <div className="card card--stat stat-card list-card">
                 <div className="card-top">
                   <h3>IDIOMAS FALADOS</h3>
                   <Languages size={20} color="#64748b" />
@@ -405,7 +405,7 @@ const Admin = () => {
               </div>
 
               {/* Card 4: Idiomas a Aprender */}
-              <div className="stat-card list-card">
+              <div className="card card--stat stat-card list-card">
                 <div className="card-top">
                   <h3>IDIOMAS A APRENDER</h3>
                   <GraduationCap size={20} color="#64748b" />
@@ -458,7 +458,7 @@ const Admin = () => {
                   </svg>
                   <input
                     type="text"
-                    className="search-input"
+                    className="input search-input"
                     placeholder="Buscar por nome, e-mail ou local..."
                     value={userSearch}
                     onChange={(e) => setUserSearch(e.target.value)}
@@ -563,20 +563,20 @@ const Admin = () => {
                             <div className="actions-cell">
                               {!user.is_approved && (
                                 <button
-                                  className="btn-approve-text"
+                                  className="btn btn-ghost"
                                   onClick={(e) => approveUser(user, e)}
                                 >
                                   Aprovar
                                 </button>
                               )}
                               <button
-                                className="btn-details"
+                                className="btn btn-secondary btn-details"
                                 onClick={() => setSelectedUser(user)}
                               >
                                 Visualizar Detalhes ↗
                               </button>
                               <button
-                                className="btn-delete-user"
+                                className="btn btn-danger btn-delete-user"
                                 onClick={(e) => deleteUser(user, e)}
                                 aria-label={`Excluir ${user.full_name || "usuário"}`}
                               >
@@ -650,7 +650,7 @@ const Admin = () => {
       {selectedUser && (
         <div className="admin-modal-overlay" onClick={() => setSelectedUser(null)}>
           <div className="admin-modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="close-btn" onClick={() => setSelectedUser(null)}>
+            <button className="btn btn-ghost--icon close-btn" onClick={() => setSelectedUser(null)}>
               ✕
             </button>
             <div className="admin-modal-header">
@@ -702,7 +702,7 @@ const Admin = () => {
         >
           <div className="admin-image-modal" onClick={(e) => e.stopPropagation()}>
             <button
-              className="admin-close-image-btn"
+              className="btn btn-ghost--icon admin-close-image-btn"
               onClick={() => setSelectedImage(null)}
             >
               ✕

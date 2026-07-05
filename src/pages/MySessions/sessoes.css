@@ -12,21 +12,7 @@
 }
 
 .btn-new-session {
-  background: #0A3251;
-  color: white;
-  border: none;
-  padding: 12px 24px;
   border-radius: 12px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.btn-new-session:hover {
-  opacity: 0.9;
 }
 
 /* Etiquetas de Idiomas */
@@ -113,16 +99,12 @@ MODAL FOTO
   position: absolute;
   top: 15px;
   right: 15px;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  border: none;
   background: rgba(255, 115, 0, 0.685);
-  cursor: pointer;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+}
+
+.sessions-close-image-btn:hover {
+  background: rgba(255, 115, 0, 0.85);
 }
 
 /* =========================
@@ -150,8 +132,6 @@ RESPONSIVIDADE MOBILE
 
   .btn-new-session {
     width: 80%;
-    align-items: center;
-    justify-content: center;
   }
 
   .sessions-grid {
@@ -163,21 +143,6 @@ RESPONSIVIDADE MOBILE
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 20px;
-}
-
-.session-card {
-  background: white;
-  border-radius: 20px;
-  overflow: hidden;
-  position: relative;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, .08);
-  transition: .2s;
-  cursor: pointer;
-}
-
-.session-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, .12);
 }
 
 .session-card-image {
@@ -220,20 +185,6 @@ RESPONSIVIDADE MOBILE
   position: absolute;
   top: 15px;
   right: 15px;
-
-  width: 42px;
-  height: 42px;
-
-  border: none;
-  border-radius: 50%;
-
-  background: white;
-  cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
   box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
 }
 
@@ -329,23 +280,5 @@ RESPONSIVIDADE MOBILE
 }
 
 .delete-session-btn {
-  border: none;
-  background: var(--color-error-bg);
-  color: var(--color-error);
-
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  padding: 10px 14px;
   border-radius: 10px;
-
-  cursor: pointer;
-  font-weight: 600;
-
-  transition: .2s;
-}
-
-.delete-session-btn:hover {
-  background: var(--color-error-bg);
 }

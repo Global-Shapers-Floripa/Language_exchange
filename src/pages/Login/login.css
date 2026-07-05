@@ -131,28 +131,12 @@
   border-color: #2C6E9D;
 }
 
-.input-wrapper input {
-  border: none;
-  outline: none;
+/* Botão de login: variação de largura/margem sobre o .btn-primary base */
+.login-side-form .btn-primary {
   width: 100%;
-  font-size: 1rem;
-}
-
-/* Botões */
-.btn-login {
-  width: 100%;
-  padding: 14px;
-  background-color: #0A3251;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: bold;
-  font-size: 1rem;
   margin-top: 10px;
   margin-bottom: 15px;
 }
-
-
 
 .forgot-password, .signup-prompt a {
   color: #2C6E9D;
@@ -310,11 +294,11 @@
     gap: 8px;
   }
 
-  .input-wrapper input {
+  .input-wrapper .input {
     font-size: 1rem;
   }
 
-  .btn-login,
+  .btn-primary,
   .btn-google {
     padding: 12px;
     font-size: 0.95rem;
@@ -390,7 +374,7 @@
     padding: 8px 10px;
   }
 
-  .input-wrapper input {
+  .input-wrapper .input {
     font-size: 16px;
   }
 
@@ -398,7 +382,7 @@
     right: 10px;
   }
 
-  .btn-login,
+  .btn-primary,
   .btn-google {
     padding: 11px;
     font-size: 0.9rem;

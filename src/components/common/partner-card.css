@@ -1,24 +1,14 @@
 /* Container Principal */
 .partner-card {
-  background: #FFFFFF;
-  border: 1px solid #E9EBF8;
-  border-radius: 15px;
   display: flex;
   flex-direction: column;
   width: 100%;
   max-width: 250px;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
-  transition: transform 0.3s ease, box-shadow 0.2s ease;
-  padding: 15px;
   position: relative;
   overflow: hidden;
   height: 100%;
-}
-
-.partner-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
 }
 
 /* Perfect Match Badge */
@@ -201,26 +191,15 @@
 
 /* Botão Conectar */
 .connect-btn {
-  background: #EAF6FD;
-  border: 2px solid #12ADE5;
   border-radius: 15px;
-  color: #0595EF;
-  font-weight: 500;
   font-size: 18px;
   padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
   font-family: 'Poppins', sans-serif;
   width: 70%;
- margin: 0 auto;
+  margin: 0 auto;
 }
 
-.connect-btn:hover {
-  background: #DDF0FA;
+.connect-btn:hover:not(:disabled) {
   transform: translateY(-2px);
 }
 

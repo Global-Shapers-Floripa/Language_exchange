@@ -24,12 +24,6 @@
 
 .total-card {
   grid-column: 1 / -1;
-
-  padding: 15px 30px;
-  border-radius: 20px;
-  border: 1px solid #e7e5e4;
-  background: #fff;
-
   transition: all 0.3s ease;
 }
 
@@ -76,10 +70,8 @@
 
 
 .stat-card {
-  background: white;
   padding: 20px 10px;
   border-radius: 8px;
-  border: 1px solid #e7e5e4;
   display: flex;
   flex-direction: column;
 }
@@ -283,18 +275,13 @@
 }
 
 .search-input {
-  width: 100%;
-  padding: 10px 10px 10px 36px;
-  border: 1px solid #e7e5e4;
+  padding-left: 36px;
   border-radius: 6px;
-  font-size: 0.9rem;
-  outline: none;
-  background: white;
-  transition: border-color 0.2s;
 }
 
 .search-input:focus {
   border-color: #a8a29e;
+  box-shadow: none;
 }
 
 /* =========================
@@ -486,15 +473,12 @@
 }
 
 .btn-details {
-  background: white;
-  border: 1px solid #e7e5e4;
+  border-color: #e7e5e4;
   padding: 6px 12px;
   border-radius: 6px;
   font-size: 0.8rem;
   font-weight: 500;
   color: #44403c;
-  cursor: pointer;
-  transition: all 0.2s;
 }
 
 .btn-details:hover {
@@ -503,34 +487,13 @@
 }
 
 .btn-approve-text {
-  background: none;
-  border: none;
   color: var(--color-success);
   font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
-}
-
-.btn-approve-text:hover {
-  text-decoration: underline;
 }
 
 .btn-delete-user {
-  background: white;
-  border: 1px solid var(--color-error);
-  color: var(--color-error);
   padding: 6px;
   border-radius: 6px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-delete-user:hover {
-  background: var(--color-error-bg);
-  border-color: var(--color-error);
 }
 
 .empty-state {
@@ -565,11 +528,6 @@
   position: absolute;
   top: 16px;
   right: 16px;
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  color: #a8a29e;
 }
 
 .admin-modal-header {
@@ -770,15 +728,6 @@
   position: absolute;
   top: 12px;
   right: 12px;
-
-  border: none;
-  background: white;
-
-  width: 36px;
-  height: 36px;
-
-  border-radius: 50%;
-  cursor: pointer;
 }
 
 .download-btn {

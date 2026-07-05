@@ -171,6 +171,7 @@ const SignUp = () => {
               <div className="input-wrapper">
                 <User size={18} />
                 <input
+                  className="input"
                   name="name"
                   type="text"
                   value={formData.name}
@@ -185,6 +186,7 @@ const SignUp = () => {
               <div className="input-wrapper">
                 <Mail size={18} />
                 <input
+                  className="input"
                   name="email"
                   type="email"
                   value={formData.email}
@@ -199,6 +201,7 @@ const SignUp = () => {
               <div className="input-wrapper">
                 <MapPin size={18} />
                 <input
+                  className="input"
                   name="hub"
                   type="text"
                   value={formData.hub}
@@ -213,6 +216,7 @@ const SignUp = () => {
               <div className="input-wrapper">
                 <Lock size={18} />
                 <input
+                  className="input"
                   name="password"
                   type="password"
                   value={formData.password}
@@ -261,6 +265,7 @@ const SignUp = () => {
               <div className="input-wrapper">
                 <Lock size={18} />
                 <input
+                  className="input"
                   name="confirmPassword"
                   type="password"
                   value={formData.confirmPassword}
@@ -281,7 +286,7 @@ const SignUp = () => {
                   Aceito os{" "}
                   <button
                     type="button"
-                    className="terms-link"
+                    className="btn btn-ghost"
                     onClick={() => setIsTermsOpen(true)}
                   >
                     termos e condições de privacidade
@@ -298,7 +303,7 @@ const SignUp = () => {
 
             <button
               type="submit"
-              className={`btn-signup ${!acceptedTerms ? "disabled" : ""}`}
+              className="btn btn-primary"
               disabled={!acceptedTerms}
             >
               Solicitar Acesso

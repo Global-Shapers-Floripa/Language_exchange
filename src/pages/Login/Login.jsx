@@ -159,6 +159,7 @@ const Login = () => {
               <div className="input-wrapper">
                 <Mail size={18} />
                 <input
+                  className="input"
                   type="email"
                   placeholder="seu@email.com"
                   value={email}
@@ -183,6 +184,7 @@ const Login = () => {
               <div className="input-wrapper">
                 <Lock size={18} />
                 <input
+                  className="input"
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
                   value={password}
@@ -199,7 +201,7 @@ const Login = () => {
               </div>
             </div>
 
-            <button type="submit" className="btn-login" disabled={loading}>
+            <button type="submit" className="btn btn-primary" disabled={loading}>
               {loading ? "Entrando..." : "Entrar"}
             </button>
           </form>
