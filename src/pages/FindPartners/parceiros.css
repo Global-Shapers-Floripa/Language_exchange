@@ -2,7 +2,6 @@
 /* PAINEL DE CONEXÕES (NOVIDADE)     */
 /* ================================= */
 .connections-panel {
-  background: #f8fafc; /* Fundo suave caso queira destacar */
   border-radius: 16px;
   margin-bottom: 40px;
 }
