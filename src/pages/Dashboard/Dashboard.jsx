@@ -11,7 +11,7 @@ import WhatsAppBanner from "../../components/common/WhatsAppBanner";
 import { useDashboardStats } from "../../hooks/useDashboardStats";
 import { getFlagUrl } from "../../utils/countryFlag";
 import { Share2, ImageUp, Clock, Globe } from "lucide-react";
-import mouthImg from "../../assets/mouth-halftone-1.png";
+import Camera from "../../assets/camera.png";
 
 import "./dashboard.css";
 
@@ -240,7 +240,7 @@ const Dashboard = () => {
             {/* Card CTA (Mantido conforme seu código original, mas adapte se não for usar) */}
             <div className="dashboard-cta-card">
               {/* Imagem decorativa adicionada aqui */}
-              <img src={mouthImg} alt="" className="dashboard-cta-decor" />
+              <img src={Camera} alt="" className="dashboard-cta-decor" />
 
               <div className="dashboard-cta-text">
                 <p>Realizou uma sessão recentemente?</p>

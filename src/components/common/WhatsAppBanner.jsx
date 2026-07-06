@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { X } from "lucide-react";
 import "./WhatsAppBanner.css";
+import Megafone from "../../assets/megafone.png";
 
 // Logo oficial do WhatsApp (lucide-react não tem ícones de marca)
 const WhatsAppIcon = (props) => (
@@ -16,7 +17,7 @@ const WHATSAPP_GROUP_LINK = "COLOQUE_O_LINK_DO_GRUPO_AQUI";
 
 const WhatsAppBanner = () => {
   const [closed, setClosed] = useState(
-    () => sessionStorage.getItem(STORAGE_KEY) === "true"
+    () => sessionStorage.getItem(STORAGE_KEY) === "true",
   );
 
   if (closed) return null;
@@ -28,6 +29,8 @@ const WhatsAppBanner = () => {
 
   return (
     <div className="whatsapp-banner">
+      <img src={Megafone} alt="" className="dashboard-whats-decor" />
+
       <button
         className=" whatsapp-banner-close"
         onClick={handleClose}
@@ -37,16 +40,12 @@ const WhatsAppBanner = () => {
       </button>
 
       <div className="whatsapp-banner-content">
-        <div className="whatsapp-banner-icon">
-          <WhatsAppIcon width={28} height={28} />
-        </div>
 
         <div className="whatsapp-banner-text">
           <h2>Toda a comunidade em um só lugar</h2>
           <p>
-            Receba avisos, troque dicas e converse com quem também tá
-            praticando idioma. Entra no grupo oficial do Language Exchange no
-            WhatsApp.
+            Receba avisos, troque dicas e converse com quem também tá praticando
+            idioma. Entra no grupo oficial do Language Exchange no WhatsApp.
           </p>
         </div>
 
@@ -55,7 +54,7 @@ const WhatsAppBanner = () => {
           target="_blank"
           rel="noopener noreferrer"
           className="btn whatsapp-banner-cta"
-        >
+        > <WhatsAppIcon width={28} height={28} />
           Entrar no grupo
         </a>
       </div>

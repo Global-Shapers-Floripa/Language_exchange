@@ -102,7 +102,7 @@ const MySessions = () => {
           {sessions.map((session) => (
             <div
               key={session.id}
-              className="card card--session card--hoverable"
+              className="session-card"
               onClick={() => setSelectedSession(session)}
             >
               <div className="session-card-image">

@@ -116,10 +116,11 @@ DASHBOARD (ESTATÍSTICAS)
 /* NOVA CLASSE: Estilização da imagem de fundo */
 .dashboard-cta-decor {
   position: absolute;
-  top: -18px; 
+  bottom: -8px; 
   right: -20px; 
-  width: 100px;
-  opacity: 0.5; 
+  width: 110px;
+  opacity: 0.6; 
+  transform: scaleX(-1);
   pointer-events: none; 
   z-index: 0;
 }

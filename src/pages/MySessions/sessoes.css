@@ -145,6 +145,20 @@ RESPONSIVIDADE MOBILE
   gap: 20px;
 }
 
+.session-card {
+  background: var(--dark-navy);
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  color: white;
+
+  background-image: radial-gradient(rgba(156, 176, 225, 0.15) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
 .session-card-image {
   height: 160px;
 }
@@ -170,7 +184,7 @@ RESPONSIVIDADE MOBILE
 }
 
 .session-card-body h3 {
-  color: #0A3251;
+  color: #ffffff;
   margin-bottom: 10px;
 }
 
@@ -178,7 +192,7 @@ RESPONSIVIDADE MOBILE
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #64748b;
+  color: #f8fbff;
 }
 
 .view-session-btn {
