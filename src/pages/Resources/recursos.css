@@ -10,39 +10,80 @@
 
 .resources-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-}
-
-.resource-card {
-  display: flex;
-  flex-direction: column;
-}
-
-.resource-icon-wrapper {
-  display: flex;
-  align-items: center;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   gap: 10px;
-  justify-content: start;
+
   margin-bottom: 20px;
 }
 
+/* === ESTRUTURA BASE DO CARD BALÃO === */
+.resource-card {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  /* Necessário para posicionar a ponta do balão */
+  border-radius: 40px;
+  /* Borda bem arredondada típica de balão */
+  padding: 20px;
+  margin-bottom: 15px;
+  /* Espaço extra embaixo para o "dente" não encostar em nada */
+
+  /* Textura de pontilhados sutil */
+  background-image: radial-gradient(color-mix(in srgb, currentColor 15%, transparent) 1.5px,
+      transparent 1.5px);
+  background-size: 10px 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.resource-card:hover {
+  transform: translateY(-5px);
+}
+
+/* O "dente" do balão de fala */
+.resource-card::after {
+  content: '';
+  position: absolute;
+  bottom: -14px;
+  /* Posiciona para fora do card na parte de baixo */
+  left: 30px;
+  /* Posição horizontal do dente */
+  border-top: 15px solid;
+  /* A cor será definida nas classes de tema abaixo */
+  border-right: 15px solid transparent;
+  border-left: 0px solid transparent;
+  border-bottom: 0px solid transparent;
+}
+
+/* === ALINHAMENTO INTERNO === */
+.resource-icon-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  justify-content: start;
+  margin-bottom: 10px;
+}
+
+/* A cor herdará automaticamente da classe pai (branca ou escura) */
 .resource-icon-wrapper h3 {
-  font-size: 1.2rem;
-  color: #1e293b;
-  line-height: 0.9;
-  font-weight: 700;
+  font-size: 1.1rem;
+  line-height: 1.1;
+  font-weight: 500;
+  color: inherit;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
 }
 
 .resource-card p {
-  font-size: 0.9rem;
-  color: #64748b;
+  font-size: 0.8rem;
   line-height: 1.5;
-  margin-bottom: 25px;
   flex-grow: 1;
+  color: inherit;
+  opacity: 0.9;
+  /* Deixa o texto levemente mais suave que o título */
 }
 
-/* Container dos botões do card */
+/* === BOTÕES === */
 .resource-actions {
   display: flex;
   align-items: center;
@@ -51,38 +92,80 @@
   gap: 12px;
 }
 
+/* Estilização base para os dois botões mesclarem com as cores */
 .resource-link {
-  font-weight: 700;
-  font-size: 0.85rem;
-  width: fit-content;
-}
-
-/* Botão discreto de Download no Card */
-.resource-download-btn {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 6px;
-  background-color: #f1f5f9;
-  color: #475569;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 8px 16px;
+  border-radius: 12px;
   text-decoration: none;
-  font-weight: 600;
-  font-size: 0.8rem;
-  padding: 6px 12px;
-  border-radius: 8px;
-  transition: all 0.2s;
+  cursor: pointer;
+  color: var(--dark-navy, #0A3251);
+  /* Fundo semitransparente usando a própria cor do texto */
+  background-color: rgba(255, 255, 255, 0.836);
+  border: none;
+  transition: background-color 0.2s;
+  margin-top: 10px;
 }
 
+.resource-link:hover,
 .resource-download-btn:hover {
-  background-color: #e2e8f0;
-  color: #1e293b;
+  background-color: white;
 }
 
-/* Cores dos Ícones */
-.icon-blue { color: #3b82f6; }
-.icon-purple { color: #a855f7; }
-.icon-green { color: #10b981; }
-.icon-orange { color: #f97316; }
-.icon-pink { color: #ec4899; }
+
+/* =========================================
+   CLASSES DE CORES (TEMAS)
+   ========================================= */
+
+/* 1. Laranja */
+.card-orange {
+  background-color: #f36601;
+  color: #ffffff;
+  /* Texto branco */
+}
+
+.card-orange::after {
+  border-top-color: #f36601;
+  /* Pinta o dente do balão */
+}
+
+/* 2. Azul Marinho Escuro */
+.card-navy {
+  background-color: var(--dark-navy, #0A3251);
+  color: #ffffff;
+  /* Texto branco */
+}
+
+.card-navy::after {
+  border-top-color: var(--dark-navy, #0A3251);
+}
+
+/* 3. Azul Claro (Lilás/Periwinkle) */
+.card-blue {
+  background-color: #8fa3d4;
+  color: #0b1121;
+  /* Texto escuro para dar contraste */
+}
+
+.card-blue::after {
+  border-top-color: #8fa3d4;
+}
+
+/* 4. Amarelo / Bege */
+.card-yellow {
+  background-color: var(--support-peach, #fae4c3);
+  color: #0b1121;
+  /* Texto escuro para dar contraste */
+}
+
+.card-yellow::after {
+  border-top-color: var(--support-peach, #fae4c3);
+}
+
 
 @media (max-width: 768px) {
   .resources-grid {
@@ -94,7 +177,7 @@
     font-size: 1.2rem;
   }
 
-  .resource-card{
+  .resource-card {
     margin: 0 auto;
     width: 90%;
   }
@@ -104,6 +187,7 @@
     width: 100%;
   }
 }
+
 /* =========================================
    NOVOS ESTILOS DO MODAL E DOWNLOADS
    ========================================= */
@@ -130,8 +214,10 @@
   border-radius: 24px 0px 0px 24px;
   padding: 20px;
   width: 100%;
-  max-width: 1000px; /* AUMENTADO de 650px para 900px */
-  max-height: 90vh; /* AUMENTADO um pouco a altura máxima do modal */
+  max-width: 1000px;
+  /* AUMENTADO de 650px para 900px */
+  max-height: 90vh;
+  /* AUMENTADO um pouco a altura máxima do modal */
   overflow-y: auto;
   position: relative;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
@@ -185,12 +271,14 @@
 /* Container do PDF dentro do modal */
 .modal-body-pdf {
   width: 100%;
-  height: 70vh; /* AUMENTADO para ocupar mais a tela */
+  height: 70vh;
+  /* AUMENTADO para ocupar mais a tela */
   min-height: 500px;
   border-radius: 12px;
-  overflow: hidden; 
+  overflow: hidden;
   background-color: #f1f5f9;
-  margin-bottom: 25px; /* Espaço entre o PDF e o botão abaixo */
+  margin-bottom: 25px;
+  /* Espaço entre o PDF e o botão abaixo */
 }
 
 /* O iframe em si */
@@ -218,8 +306,10 @@
   color: white;
   text-decoration: none;
   font-weight: 700;
-  font-size: 1rem; /* Fonte levemente maior */
-  padding: 14px 30px; /* Botão mais gordinho */
+  font-size: 1rem;
+  /* Fonte levemente maior */
+  padding: 14px 30px;
+  /* Botão mais gordinho */
   border-radius: 12px;
   transition: background 0.2s;
   box-shadow: 0 4px 12px rgba(10, 50, 81, 0.15);
@@ -230,16 +320,22 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
-  from { 
+  from {
     opacity: 0;
     transform: translateY(20px);
   }
-  to { 
+
+  to {
     opacity: 1;
     transform: translateY(0);
   }
@@ -251,7 +347,7 @@
     padding: 20px;
     border-radius: 20px;
   }
-  
+
   .modal-header-container {
     padding-right: 0;
     margin-top: 20px;
@@ -265,8 +361,79 @@
   .modal-download-action {
     width: 100%;
   }
-  
+
   .modal-header-resource h3 {
     font-size: 1.25rem;
   }
+}
+
+/* =====================
+   TOOLS
+===================== */
+.resource-help-card {
+ margin-bottom: 40px;
+  
+}
+
+.resource-help-card h2{
+  margin-bottom: 10px;
+  color: #0A3251;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 5px;
+}
+
+.tool-card {
+  background: var(--dark-navy, #0A3251);
+   border: 3px solid #ffffff;
+  border-radius: 18px;
+  padding: 20px;
+
+  text-decoration: none;
+  color: inherit;
+
+  transition: all .2s ease;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  background-image: radial-gradient(rgba(156, 176, 225, 0.15) 1px, transparent 1px);
+  background-size: 10px 10px;
+
+}
+
+.tool-card:hover {
+  transform: translateY(-3px);
+  border: 3px solid #08b9ff;
+  box-shadow: 0 8px 24px rgba(8, 185, 255, 0.08);
+}
+
+.tool-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tool-header svg {
+  color: #08b9ff;
+  flex-shrink: 0;
+}
+
+.tool-header h4 {
+  color: white;
+  margin: 0;
+  font-size: 1.3rem;
+  letter-spacing: 1.8px;
+  font-weight: 500;
+}
+
+.tool-card p {
+  margin: 0;
+  color: #c7dbf8;
+  font-size: 14px;
+  line-height: 1.6;
 }

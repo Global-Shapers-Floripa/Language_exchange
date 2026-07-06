@@ -234,10 +234,14 @@
   font-weight: 600;
   color: #17253b;
   margin: 0;
+  letter-spacing: 1.5px;
 }
 
 .greeting-text span {
-  font-weight: 300;
+  font-weight: 500;
+  font-size: 1.2rem;
+  letter-spacing: .5px;
+
 }
 
 .header-actions {

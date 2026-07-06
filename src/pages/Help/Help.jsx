@@ -53,50 +53,6 @@ const Help = () => {
     },
   ];
 
-  const tools = [
-    {
-      name: "Google Meet",
-      icon: <Video size={22} />,
-      description:
-        "Ideal para realizar chamadas de vídeo com seu parceiro de idioma. Funciona diretamente no navegador e não exige instalação.",
-      link: "https://meet.google.com",
-    },
-    {
-      name: "Google Agenda",
-      icon: <Calendar size={22} />,
-      description:
-        "Use para marcar sessões de conversação, receber lembretes automáticos e evitar esquecer seus encontros.",
-      link: "https://calendar.google.com",
-    },
-    {
-      name: "DeepL Translator",
-      icon: <Languages size={22} />,
-      description:
-        "Excelente para traduzir frases completas mantendo contexto e naturalidade. Muito útil durante os estudos.",
-      link: "https://www.deepl.com",
-    },
-    {
-      name: "Reverso Context",
-      icon: <BookOpen size={22} />,
-      description:
-        "Ajuda a entender como palavras e expressões são usadas em situações reais através de exemplos contextualizados.",
-      link: "https://context.reverso.net",
-    },
-    {
-      name: "YouGlish",
-      icon: <Volume2 size={22} />,
-      description:
-        "Permite ouvir a pronúncia correta de palavras e expressões em vídeos reais de falantes nativos.",
-      link: "https://youglish.com",
-    },
-    {
-      name: "World Time Buddy",
-      icon: <Clock3 size={22} />,
-      description:
-        "Facilita encontrar horários compatíveis quando você e seu parceiro estão em países e fusos diferentes.",
-      link: "https://www.worldtimebuddy.com",
-    },
-  ];
 
   const toggleFaq = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
@@ -149,32 +105,6 @@ const Help = () => {
           </div>
         </div>
 
-        {/* RECURSOS */}
-        <div className="card card--help help-card">
-          <div className="section-title">
-            <Globe size={22} />
-            <h3>Ferramentas Recomendadas</h3>
-          </div>
-
-          <div className="tools-grid">
-            {tools.map((tool, index) => (
-              <a
-                key={index}
-                href={tool.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="tool-card"
-              >
-                <div className="tool-header">
-                  {tool.icon}
-                  <h4>{tool.name}</h4>
-                </div>
-
-                <p>{tool.description}</p>
-              </a>
-            ))}
-          </div>
-        </div>
 
         {/* CONTATO */}
         <section className="contact-section">

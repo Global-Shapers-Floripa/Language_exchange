@@ -93,13 +93,13 @@ const DashboardLayout = ({ children }) => {
         {/* SIDEBAR */}
         <aside className="sidebar">
           <div className="sidebar-logo">
-  <img src={logoLE} alt="Logo Language Exchange" />
-  <p>
-    <span className="text-cream">LANGUAGE</span>
-    <br />
-    EXCHANGE
-  </p>
-</div>
+            <img src={logoLE} alt="Logo Language Exchange" />
+            <p>
+              <span className="text-cream">LANGUAGE</span>
+              <br />
+              EXCHANGE
+            </p>
+          </div>
 
           <nav className="sidebar-nav">
             <NavLink
@@ -191,18 +191,21 @@ const DashboardLayout = ({ children }) => {
 
           {/* SIDEBAR BOTTOM (Banner + Links) */}
           <div className="sidebar-bottom">
-            <div 
-      className="sidebar-banner"
-      style={{ '--banner-img': `url(${BannerSidebar})` }} // Passando a imagem para a variável CSS
-    >
-      <button className="btn btn-ghost--icon banner-btn">
-        <ArrowUpRight size={18} />
-      </button>
-      <p>Saiba mais sobre o HUB idealizador do projeto</p>
-    </div>
+            <div
+              className="sidebar-banner"
+              style={{ "--banner-img": `url(${BannerSidebar})` }} // Passando a imagem para a variável CSS
+            >
+              <button className="btn btn-ghost--icon banner-btn">
+                <ArrowUpRight size={18} />
+              </button>
+              <p>Saiba mais sobre o HUB idealizador do projeto</p>
+            </div>
 
             <div className="sidebar-footer-links">
-              <button className="btn btn-ghost btn-footer" onClick={handleLogout}>
+              <button
+                className="btn btn-ghost btn-footer"
+                onClick={handleLogout}
+              >
                 <LogOut size={18} />
                 Sair
               </button>

@@ -126,28 +126,6 @@
     line-height: 1.6;
 }
 
-/* =====================
-   TOOLS
-===================== */
-
-.tools-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 16px;
-}
-
-.tool-card {
-    background: #f8fafc;
-    border-radius: 16px;
-    padding: 18px;
-
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    color: #0A3251;
-    font-weight: 600;
-}
 
 /* =====================
    CONTATO
@@ -273,57 +251,4 @@
     .faq-answer {
         padding: 0 16px 16px;
     }
-}
-
-.tools-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 16px;
-}
-
-.tool-card {
-    background: #fff;
-    border: 1px solid #e2e8f0;
-    border-radius: 18px;
-    padding: 20px;
-
-    text-decoration: none;
-    color: inherit;
-
-    transition: all .2s ease;
-
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.tool-card:hover {
-    transform: translateY(-3px);
-    border-color: #08b9ff;
-    box-shadow: 0 8px 24px rgba(8, 185, 255, 0.08);
-}
-
-.tool-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.tool-header svg {
-    color: #08b9ff;
-    flex-shrink: 0;
-}
-
-.tool-header h4 {
-    margin: 0;
-    font-size: 16px;
-    color: #0A3251;
-    font-weight: 700;
-}
-
-.tool-card p {
-    margin: 0;
-    color: #64748b;
-    font-size: 14px;
-    line-height: 1.6;
 }
