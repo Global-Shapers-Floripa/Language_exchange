@@ -1,12 +1,24 @@
 import React from "react";
-import { MessageSquare, MapPin, Globe, Clock, UserCheck } from "lucide-react";
+import { MessageSquare, MapPin, Globe, Clock, UserCheck, Eye } from "lucide-react";
 import { COUNTRIES } from "../../constants/countries";
 import PersonAvatar from "./PersonAvatar";
 import "./partner-card.css";
 
-const PartnerCard = ({ partner, onConnect, sentRequest, isConnected }) => {
+// viewOnly: usado por "Minhas Conexões" (Parceiros.jsx), que reaproveita este
+// card mas troca a ação do botão para abrir os dados da conexão já aceita
+// em vez de solicitar conexão.
+const PartnerCard = ({ partner, onConnect, sentRequest, isConnected, viewOnly }) => {
   const isPerfectMatch = partner.compatibility === "Match Perfeito";
   const isPending = sentRequest?.status === "pendente";
+
+  // Conexões vêm da tabela com speaks/learns em string; parceiros da busca já
+  // chegam com os arrays prontos (ver usePartners) — aceitamos os dois casos.
+  const speaksArray =
+    partner.speaksArray ||
+    (partner.speaks ? partner.speaks.split(",").map((s) => s.trim()).filter(Boolean) : []);
+  const learnsArray =
+    partner.learnsArray ||
+    (partner.learns ? partner.learns.split(",").map((l) => l.trim()).filter(Boolean) : []);
 
   // Busca o nome do país baseado no código (ex: "BR" -> "Brasil")
   const countryObj = COUNTRIES.find((c) => c.code === partner.country);
@@ -53,12 +65,14 @@ const PartnerCard = ({ partner, onConnect, sentRequest, isConnected }) => {
         <div className="partner-main-info">
           <div className="partner-name-row">
             <h2 className="partner-name">{partner.full_name}</h2>
-            <span
-              className="match-badge-pill"
-              title="A compatibilidade é calculada com base nos idiomas que você fala, idiomas que deseja aprender e proximidade de hub."
-            >
-              {partner.matchScore}% Match
-            </span>
+            {typeof partner.matchScore === "number" && (
+              <span
+                className="match-badge-pill"
+                title="A compatibilidade é calculada com base nos idiomas que você fala, idiomas que deseja aprender e proximidade de hub."
+              >
+                {partner.matchScore}% Match
+              </span>
+            )}
           </div>
 
           <div className="partner-location-row">
@@ -84,8 +98,8 @@ const PartnerCard = ({ partner, onConnect, sentRequest, isConnected }) => {
         <div className="partner-section-card">
           <span className="section-title-card">Fala</span>
           <div className="tags-card">
-            {partner.speaksArray?.length > 0 ? (
-              partner.speaksArray.map((lang) => (
+            {speaksArray.length > 0 ? (
+              speaksArray.map((lang) => (
                 <span key={lang} className="tag-card orange">
                   {lang}
                 </span>
@@ -99,8 +113,8 @@ const PartnerCard = ({ partner, onConnect, sentRequest, isConnected }) => {
         <div className="partner-section-card">
           <span className="section-title-card">Aprende</span>
           <div className="tags-card">
-            {partner.learnsArray?.length > 0 ? (
-              partner.learnsArray.map((lang) => (
+            {learnsArray.length > 0 ? (
+              learnsArray.map((lang) => (
                 <span key={lang} className="tag-card blue">
                   {lang}
                 </span>
@@ -115,10 +129,15 @@ const PartnerCard = ({ partner, onConnect, sentRequest, isConnected }) => {
       {/* Footer (Botão) */}
       <div className="card-footer">
         <button
-          className={`connect-btn ${isConnected ? "connect-btn-connected" : isPending ? "connect-btn-pending" : ""}`}
+          className={`connect-btn ${!viewOnly && isConnected ? "connect-btn-connected" : !viewOnly && isPending ? "connect-btn-pending" : ""}`}
           onClick={onConnect}
         >
-          {isConnected ? (
+          {viewOnly ? (
+            <>
+              <Eye size={18} />
+              Ver dados
+            </>
+          ) : isConnected ? (
             <>
               <UserCheck size={18} />
               Conectado

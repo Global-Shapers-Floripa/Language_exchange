@@ -6,6 +6,7 @@ import PartnerCard from "../../components/common/PartnerCard";
 import PartnerModal from "../../components/common/PartnerModal";
 import PersonAvatar from "../../components/common/PersonAvatar";
 import ReportIssueModal from "../../components/common/ReportIssueModal";
+import ReportBanner from "../../components/common/ReportBanner";
 import { Search } from "lucide-react";
 
 import { usePartners } from "../../hooks/usePartners";
@@ -268,45 +269,19 @@ const FindPartners = () => {
           <ul className="connections-grid">
             {connections.map((conn) => {
               const other = conn.otherProfile;
-              const flagUrl = getFlagUrl(other?.country);
 
               return (
-                <li key={conn.id} className="card card--connection connection-card">
-                  <PersonAvatar
-                    photoUrl={other?.photo_url}
-                    seed={other?.id}
-                    name={other?.full_name}
-                    size={64}
+                <li key={conn.id}>
+                  <PartnerCard
+                    partner={other || {}}
+                    onConnect={() => setSelectedPartner(other)}
+                    viewOnly
                   />
-                  <div className="connection-name-row">
-                    {flagUrl && <img src={flagUrl} alt="" className="connection-flag" />}
-                    <strong className="connection-name" title={other?.full_name || "Usuário"}>
-                      {other?.full_name || "Usuário"}
-                    </strong>
-                  </div>
-                  <span className="connection-hub">{other?.hub || "Hub"}</span>
-                  <button
-                    className="btn btn-secondary btn-view-contact"
-                    onClick={() => setSelectedPartner(other)}
-                  >
-                    Ver contato
-                  </button>
                 </li>
               );
             })}
           </ul>
         )}
-
-        {/* CARD: REPORTAR PROBLEMA */}
-        <div className="card report-issue-card card--sticker">
-          <h4>Precisa falar com a gente?</h4>
-          <button
-            className="btn btn-primary btn--sticker"
-            onClick={() => setShowReportModal(true)}
-          >
-            Quero reportar algo
-          </button>
-        </div>
 
         {/* SEÇÃO SECUNDÁRIA: SOLICITAÇÕES PENDENTES */}
         <div className="requests-secondary">
@@ -413,6 +388,9 @@ const FindPartners = () => {
             </div>
           </div>
         </div>
+
+        {/* BANNER: REPORTAR PROBLEMA */}
+        <ReportBanner onReportClick={() => setShowReportModal(true)} />
       </div>
 
       {/* SEÇÃO DE BUSCA E GRID (Já existia, só ajustei os títulos) */}
@@ -421,7 +399,7 @@ const FindPartners = () => {
 
         <div className="search-container">
           <div className="search-input-wrapper">
-            <Search size={18} className="search-icon" />
+            <Search size={18} className="partners-search-icon" />
             <input
               className="input"
               type="text"

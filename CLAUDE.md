@@ -57,3 +57,10 @@ Supabase Edge Functions live under `supabase/functions/` (Deno runtime) and are 
 - Section dividers like `// =========================` / `// LABEL` / `// =========================` are used throughout hooks/services/components to break up logical blocks (data fetch, formatting, handlers, etc.). Match this style when adding sizeable new blocks in similar files.
 - `speaks`/`learns`/`interests` are stored as comma-separated strings on `profiles`, not arrays or join tables — parsed with `.split(",").map(s => s.trim())` wherever needed.
 - Each page/component imports its own CSS file directly (`import "./thing.css"`); there's no CSS-in-JS or shared design-token file beyond `src/index.css`/`src/App.css`.
+
+## Preferências de trabalho
+
+- Não usar Playwright nem tirar screenshots para conferir mudanças visuais/CSS. 
+  Fazer ajustes de estilo direto no código, sem verificação visual automatizada.
+- Se precisar confirmar algo visualmente, perguntar antes em vez de instalar 
+  ferramentas de screenshot/automação de navegador.

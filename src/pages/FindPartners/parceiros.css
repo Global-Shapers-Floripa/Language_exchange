@@ -21,93 +21,8 @@
   padding: 0;
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 16px;
-  max-height: 480px;
-  overflow-y: auto;
-}
-
-.connection-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 6px;
-}
-
-.connection-name-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  width: 100%;
-}
-
-.connection-flag {
-  width: 20px;
-  height: 14px;
-  object-fit: cover;
-  border-radius: 2px;
-  flex-shrink: 0;
-}
-
-.connection-name {
-  display: block;
-  min-width: 0;
-  flex: 0 1 auto;
-  font-size: 0.95rem;
-  color: #0A3251;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.connection-hub {
-  display: block;
-  max-width: 100%;
-  font-size: 0.8rem;
-  color: #64748b;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.connection-card .btn-view-contact {
-  width: 100%;
-  margin-top: 8px;
-}
-
-/* ================================= */
-/* CARD: REPORTAR PROBLEMA (discreto) */
-/* ================================= */
-.report-issue-card {
-  margin-top: 20px;
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.report-issue-card h4 {
-  font-family: var(--font-title);
-  letter-spacing: 0.02em;
-  margin: 0;
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--dark-navy);
-}
-
-.report-issue-card .btn {
-  flex-shrink: 0;
-  white-space: nowrap;
-}
-
-@media (max-width: 640px) {
-  .report-issue-card {
-    flex-direction: column;
-    text-align: center;
-  }
 }
 
 /* ================================= */
@@ -266,16 +181,6 @@
   font-size: 0.8rem;
 }
 
-.btn-view-contact {
-  border-color: #cbd5e1;
-  padding: 6px 12px;
-  font-size: 0.8rem;
-}
-
-.btn-view-contact:hover {
-  border-color: var(--blue-primary);
-}
-
 /* ================================= */
 /* ESTILOS EXISTENTES ATUALIZADOS    */
 /* ================================= */
@@ -312,7 +217,11 @@
   box-shadow: 0 0 0 3px rgba(10, 50, 81, 0.05);
 }
 
-.search-icon {
+/* Nome específico da página — evita colidir com ".search-icon" de admin.css
+   (mesmo nome de classe, ambos entram no bundle global), que é posicionado
+   em absolute e fazia o ícone sobrepor o texto do input aqui */
+.partners-search-icon {
+  flex-shrink: 0;
   color: #94a3b8;
   margin-right: 12px;
 }

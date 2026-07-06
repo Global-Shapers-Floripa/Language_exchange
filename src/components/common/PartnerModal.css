@@ -356,3 +356,31 @@
 .rejected-box h3 {
   color: var(--color-error);
 }
+
+/* ================================= */
+/* AVISO: PRÓXIMOS PASSOS (pós-conexão) */
+/* ================================= */
+.session-instructions-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #eff6ff;
+  border: 1px dashed #bfdbfe;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-top: 4px;
+  text-align: left;
+}
+
+.session-instructions-icon {
+  flex-shrink: 0;
+  color: #4A90E2;
+  margin-top: 2px;
+}
+
+.session-instructions-box p {
+  margin: 0;
+  color: #334155;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}

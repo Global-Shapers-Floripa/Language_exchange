@@ -1,0 +1,123 @@
+.report-banner {
+  background: var(--brand-orange);
+  border-radius: 20px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: self-start;
+  justify-content: center;
+  gap: 10px;
+  color: white;
+
+  background-image: radial-gradient(
+    color-mix(in srgb, rgb(143, 53, 1) 30%, transparent) 1.5px,
+    transparent 1.5px
+  );
+  background-size: 10px 10px;
+
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+  padding-left: 90px;
+}
+
+.report-banner-decor {
+  position: absolute;
+  bottom: -8px;
+  left: -6px;
+  width: 88px;
+  height: 88px;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+  color: white;
+}
+
+.report-banner-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.747);
+  border: none;
+  width: 24px;
+  height: 24px;
+
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+.report-banner-close:hover {
+  background: rgb(255, 247, 247);
+}
+
+.report-banner-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.report-banner-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.report-banner-text h2 {
+  font-family: var(--font-title);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgb(255, 255, 255);
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.report-banner-text p {
+  color: rgba(255, 255, 255, 0.856);
+  font-size: 0.9rem;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.report-banner-cta {
+  flex-shrink: 0;
+  background-color: var(--dark-navy);
+  color: white;
+  font-weight: 700;
+  border-radius: 12px;
+  padding: 10px 15px;
+  margin-right: 20px;
+  white-space: nowrap;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(255, 132, 0, 0.35);
+}
+
+.report-banner-cta:hover {
+  background-color: #03243f;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .report-banner {
+    padding: 20px;
+  }
+
+  .report-banner-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .report-banner-cta {
+    width: 100%;
+    justify-content: center;
+  }
+}

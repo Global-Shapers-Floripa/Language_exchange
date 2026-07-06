@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { MapPin, Globe, Mail, Phone, Lock, UserPlus, Clock, Check, X } from "lucide-react";
+import { MapPin, Globe, Mail, Phone, Lock, UserPlus, Clock, Check, X, Info } from "lucide-react";
 import { COUNTRIES } from "../../constants/countries"; // Ajuste o caminho se necessário
 import { supabase } from "../../services/supabaseClient"; // Adicionado para buscar/inserir a conexão
 import PersonAvatar from "./PersonAvatar";
@@ -537,6 +537,18 @@ const PartnerModal = ({
                         )}
                       </>
                     )}
+                  </div>
+
+                  {/* ========================= */}
+                  {/* PRÓXIMOS PASSOS DA CONEXÃO */}
+                  {/* ========================= */}
+                  <div className="session-instructions-box">
+                    <Info size={20} className="session-instructions-icon" />
+                    <p>
+                      Chame {partner.full_name}, combinem um horário e realizem
+                      a sessão de prática. Depois, volte na plataforma para
+                      registrar essa sessão na tela de <strong>Sessões</strong>.
+                    </p>
                   </div>
                 </>
               )}

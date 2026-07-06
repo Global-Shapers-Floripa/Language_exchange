@@ -108,12 +108,6 @@
   padding: 15px 30px;
 }
 
-.card--connection {
-  border-radius: 12px;
-  padding: 20px 16px;
-  text-align: center;
-}
-
 .card--session {
   border: none;
   border-radius: 20px;
