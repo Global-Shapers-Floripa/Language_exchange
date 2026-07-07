@@ -3,6 +3,7 @@ import Landing from './pages/Landing';
 import Login from './pages/Login/Login';
 import SignUp from './pages/Login/SignUp';
 import PendingApproval from './pages/Login/PendingApproval';
+import ResetPassword from './pages/Login/ResetPassword';
 
 import AdminDashboard from './pages/Admin/Admin';
 
@@ -26,6 +27,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/pending-approval" element={<PendingApproval />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
 
         <Route path="/admin" element={<AdminDashboard />} />
 
