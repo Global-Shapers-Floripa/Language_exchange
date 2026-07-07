@@ -6,12 +6,6 @@
   margin-bottom: 40px;
 }
 
-.section-title {
-  font-size: 1.5rem;
-  color: #0A3251;
-  font-weight: 700;
-  margin-bottom: 20px;
-}
 
 /* ================================= */
 /* MINHAS CONEXÕES (seção principal) */
@@ -29,9 +23,9 @@
 /* SOLICITAÇÕES (seção secundária, compacta) */
 /* ================================= */
 .requests-secondary {
-  margin-top: 32px;
+  margin: 32px 0;
   padding-top: 24px;
-  border-top: 1px solid #e2e8f0;
+
 }
 
 .secondary-title {

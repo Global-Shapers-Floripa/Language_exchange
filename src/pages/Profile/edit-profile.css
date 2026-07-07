@@ -57,10 +57,8 @@
   padding: 18px 20px;
   border-radius: 20px;
   background-color: #fff0e0;
-  background-image: radial-gradient(
-    color-mix(in srgb, var(--brand-orange) 30%, transparent) 1.5px,
-    transparent 1.5px
-  );
+  background-image: radial-gradient(color-mix(in srgb, var(--brand-orange) 30%, transparent) 1.5px,
+      transparent 1.5px);
   background-size: 14px 14px;
   border: 1px solid var(--color-card-border, #FFC489);
 }
@@ -147,11 +145,7 @@
 
 .section-title {
   margin-bottom: 16px;
-  font-size: 19px;
-  font-weight: 700;
-  color: #0A3251;
-  padding-left: 12px;
-  border-left: 4px solid var(--brand-orange);
+  font-size: 1.2rem;
 }
 
 /* ESTILOS DO MODO VISUALIZAÇÃO */
@@ -445,4 +439,3 @@
 .profile-main-info {
   flex: 1;
 }
-
