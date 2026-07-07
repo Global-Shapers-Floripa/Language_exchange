@@ -1,15 +1,16 @@
-import { useState } from 'react';
-import { supabase } from '../../services/supabaseClient';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Lock, Eye, EyeOff, AlertCircle } from "lucide-react";
+import { supabase } from "../../services/supabaseClient";
 
-import './reset-password.css';
+import "./reset-password.css";
 
 const ResetPassword = () => {
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] =
-    useState('');
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -17,26 +18,25 @@ const ResetPassword = () => {
   const handleResetPassword = async (e) => {
     e.preventDefault();
 
-    setError('');
+    setError("");
 
     if (password !== confirmPassword) {
-      setError('As senhas não coincidem');
+      setError("As senhas não coincidem");
       return;
     }
 
     try {
       setLoading(true);
 
-      const { error } =
-        await supabase.auth.updateUser({
-          password,
-        });
+      const { error } = await supabase.auth.updateUser({
+        password,
+      });
 
       if (error) throw error;
 
-      alert('Senha alterada com sucesso!');
+      alert("Senha alterada com sucesso!");
 
-      navigate('/login');
+      navigate("/login");
     } catch (err) {
       setError(err.message);
     } finally {
@@ -46,37 +46,66 @@ const ResetPassword = () => {
 
   return (
     <div className="reset-page">
-      <form onSubmit={handleResetPassword}>
+      <div className="form-container">
         <h2>Nova senha</h2>
+        <p className="form-subtitle">
+          Escolha uma nova senha para acessar sua conta.
+        </p>
 
-        {error && <p>{error}</p>}
+        {error && (
+          <div className="error-banner">
+            <AlertCircle size={18} />
+            <span>{error}</span>
+          </div>
+        )}
 
-        <input
-          type="password"
-          placeholder="Nova senha"
-          value={password}
-          onChange={(e) =>
-            setPassword(e.target.value)
-          }
-        />
+        <form onSubmit={handleResetPassword}>
+          <div className="input-group">
+            <label>Nova senha</label>
+            <div className="input-wrapper">
+              <Lock size={18} />
+              <input
+                className="input"
+                type={showPassword ? "text" : "password"}
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+          </div>
 
-        <input
-          type="password"
-          placeholder="Confirmar senha"
-          value={confirmPassword}
-          onChange={(e) =>
-            setConfirmPassword(
-              e.target.value,
-            )
-          }
-        />
+          <div className="input-group">
+            <label>Confirmar senha</label>
+            <div className="input-wrapper">
+              <Lock size={18} />
+              <input
+                className="input"
+                type={showPassword ? "text" : "password"}
+                placeholder="••••••••"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              />
+            </div>
+          </div>
 
-        <button type="submit">
-          {loading
-            ? 'Alterando...'
-            : 'Salvar nova senha'}
-        </button>
-      </form>
+          <button type="submit" className="btn btn-primary" disabled={loading}>
+            {loading ? "Alterando..." : "Salvar nova senha"}
+          </button>
+        </form>
+
+        <p className="back-to-login">
+          Lembrou a senha? <Link to="/login">Voltar para o login</Link>
+        </p>
+      </div>
     </div>
   );
 };
