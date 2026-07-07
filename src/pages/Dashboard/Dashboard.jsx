@@ -1,19 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MessageCircle } from "lucide-react";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import { supabase } from "../../services/supabaseClient";
 import { getMatches } from "../../services/matchService";
 import Swal from "sweetalert2";
 import PartnerCard from "../../components/common/PartnerCard";
-import PartnerModal from "../../components/common/PartnerModal";
 import WhatsAppBanner from "../../components/common/WhatsAppBanner";
 import { useDashboardStats } from "../../hooks/useDashboardStats";
 import { getFlagUrl } from "../../utils/countryFlag";
-import { Share2, ImageUp, Clock, Globe } from "lucide-react";
+import { Share2, ImageUp, Clock, Globe, Book, MessageCircle, Calendar } from "lucide-react";
 import Camera from "../../assets/camera.png";
 
 import "./dashboard.css";
+import "../Resources/recursos.css";
+
+// Preview dos 4 recursos "balão" da página /resources — mantido em sincronia
+// manual com resourceList em Recursos.jsx (mesma lógica de duplicação já
+// usada em matchService/usePartners neste projeto).
+const resourcePreview = [
+  {
+    title: "Feedback e Práticas",
+    desc: "Como se comportar na primeira sessão e garantir um match saudável.",
+    icon: <Book size={24} className="icon-blue" />,
+    themeClass: "card-orange",
+  },
+  {
+    title: "Quebra-gelos",
+    desc: "Mais de 50 perguntas para nunca deixar o assunto morrer.",
+    icon: <MessageCircle size={24} className="icon-purple" />,
+    themeClass: "card-navy",
+  },
+  {
+    title: "Toolkit de Tradução",
+    desc: "Ferramentas recomendadas para usar durante a conversa.",
+    icon: <Globe size={24} className="icon-green" />,
+    themeClass: "card-blue",
+  },
+  {
+    title: "Agendamento Eficaz",
+    desc: "Como lidar com diferentes fusos horários globalmente.",
+    icon: <Calendar size={24} className="icon-orange" />,
+    themeClass: "card-yellow",
+  },
+];
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -23,10 +52,6 @@ const Dashboard = () => {
 
   // NOVO loading geral
   const [loadingData, setLoadingData] = useState(true);
-
-  const [selectedPartner, setSelectedPartner] = useState(null);
-
-  const [isProfileIncomplete, setIsProfileIncomplete] = useState(false);
 
   const {
     connectionsCount,
@@ -73,8 +98,6 @@ const Dashboard = () => {
 
         if (!profileError && profile) {
           incomplete = !profile.speaks || !profile.learns;
-
-          setIsProfileIncomplete(incomplete);
         }
 
         // =========================
@@ -134,28 +157,6 @@ const Dashboard = () => {
       </DashboardLayout>
     );
   }
-
-  // =========================
-  // CONECTAR COM PARCEIRO
-  // =========================
-  const handleConnectClick = (partner) => {
-    if (isProfileIncomplete) {
-      Swal.fire({
-        title: "Acesso restrito",
-        text: "Você precisa preencher seus idiomas no perfil antes de ver os dados de contato de outros membros.",
-        icon: "warning",
-        confirmButtonText: "Completar Perfil",
-        showCancelButton: true,
-        cancelButtonText: "Agora não",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate("/profile");
-        }
-      });
-    } else {
-      setSelectedPartner(partner);
-    }
-  };
 
   return (
     <DashboardLayout>
@@ -259,7 +260,7 @@ const Dashboard = () => {
         <div className="parceiros-dashboard-preview">
           {/* HEADER */}
           <div className="section-header-dashboard">
-            <h3>Parceiros Sugeridos</h3>
+            <h3>Conexões Sugeridas</h3>
             <a href="/partners">Ver todos &gt;</a>
           </div>
           {/* MATCHES */}
@@ -285,22 +286,31 @@ const Dashboard = () => {
               matches
                 .slice(0, 4)
                 .map((partner) => (
-                  <PartnerCard
-                    key={partner.id}
-                    partner={partner}
-                    onConnect={() => handleConnectClick(partner)}
-                  />
+                  <PartnerCard key={partner.id} partner={partner} exploreOnly />
                 ))
             )}
           </div>
         </div>
-        {/* MODAL CONTATO */}
-        {selectedPartner && (
-          <PartnerModal
-            partner={selectedPartner}
-            onClose={() => setSelectedPartner(null)}
-          />
-        )}
+
+        <div className="parceiros-dashboard-preview">
+          {/* HEADER */}
+          <div className="section-header-dashboard">
+            <h3>Nossos Recursos</h3>
+            <a href="/resources">Ver recursos &gt;</a>
+          </div>
+          {/* PREVIEW (sem ações — só leva para /resources) */}
+          <div className="resources-grid dashboard-resources-grid">
+            {resourcePreview.map((item, index) => (
+              <div className={`resource-card ${item.themeClass}`} key={index}>
+                <div className="resource-icon-wrapper">
+                  {item.icon}
+                  <h3>{item.title}</h3>
+                </div>
+                <p>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </DashboardLayout>
   );

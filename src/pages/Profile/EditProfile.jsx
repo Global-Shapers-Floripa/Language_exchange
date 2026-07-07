@@ -460,12 +460,12 @@ const EditProfile = () => {
                   </p>
                 </div>
 
-                <div className="info-group full">
+                <div className="info-group">
                   <span className="info-label">Idiomas que você fala</span>
                   <div className="tags-container">
                     {formData.speaks.length > 0 ? (
                       formData.speaks.map((lang, idx) => (
-                        <span key={idx} className="view-tag">
+                        <span key={idx} className="view-tag view-tag--orange">
                           {lang}
                         </span>
                       ))
@@ -477,14 +477,14 @@ const EditProfile = () => {
                   </div>
                 </div>
 
-                <div className="info-group full">
+                <div className="info-group">
                   <span className="info-label">
                     Idiomas que deseja aprender
                   </span>
                   <div className="tags-container">
                     {formData.learns.length > 0 ? (
                       formData.learns.map((lang, idx) => (
-                        <span key={idx} className="view-tag">
+                        <span key={idx} className="view-tag view-tag--blue">
                           {lang}
                         </span>
                       ))
@@ -501,7 +501,7 @@ const EditProfile = () => {
                   <div className="tags-container">
                     {formData.interests.length > 0 ? (
                       formData.interests.map((interest, idx) => (
-                        <span key={idx} className="view-tag">
+                        <span key={idx} className="view-tag view-tag--purple">
                           {interest}
                         </span>
                       ))
@@ -592,7 +592,7 @@ const EditProfile = () => {
                     />
                   </div>
 
-                  <div className="form-group full">
+                  <div className="form-group">
                     <label>Idiomas que você fala</label>
                     <TagSelect
                       options={languageLabels}
@@ -613,7 +613,7 @@ const EditProfile = () => {
                     />
                   </div>
 
-                  <div className="form-group full">
+                  <div className="form-group">
                     <label>Idiomas que deseja aprender</label>
                     <TagSelect
                       options={languageLabels}

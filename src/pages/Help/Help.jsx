@@ -116,22 +116,16 @@ const Help = () => {
           </p>
 
           <div className="contact-info-card">
-            <Mail size={20} />
+            <div className="contact-icon-circle">
+              <Mail size={20} />
+            </div>
             <div>
               <span>E-mail de suporte</span>
               <strong>globalshapers@languageexchange.com.br</strong>
             </div>
           </div>
 
-          <a
-            href="https://wa.me/5548999999999"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-whatsapp-contact"
-          >
-            <MessageCircle size={18} />
-            Falar pelo WhatsApp
-          </a>
+         
         </section>
       </div>
     </DashboardLayout>

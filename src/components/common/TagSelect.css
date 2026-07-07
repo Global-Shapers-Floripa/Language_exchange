@@ -15,7 +15,7 @@
   align-items: center;
   gap: 8px;
 
-  background: #08b9ff;
+  background: var(--dark-navy, #0A3251);
   color: white;
 
   padding: 6px 12px;
@@ -42,8 +42,8 @@
 }
 
 .tag-input:focus {
-  border-color: #08b9ff;
-  box-shadow: 0 0 0 3px rgba(8, 185, 255, 0.15);
+  border-color: var(--brand-orange);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-orange) 15%, transparent);
 }
 
 .tag-dropdown {
@@ -58,7 +58,7 @@
 
   border-radius: 14px;
 
-  border: 1px solid #e5e5e5;
+  border: 1px solid var(--color-card-border, #FFC489);
 
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 
@@ -80,8 +80,8 @@
 }
 
 .tag-option:hover {
-  background: #f5faff;
-  color: #08b9ff;
+  background: #fff0e0;
+  color: var(--brand-orange);
 }
 
 .tag-empty {

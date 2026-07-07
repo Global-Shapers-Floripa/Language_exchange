@@ -10,7 +10,6 @@ import {
   Handshake,
   UserStar,
   HelpCircle,
-  Bell,
   ArrowUpRight,
 } from "lucide-react";
 import { supabase } from "../../services/supabaseClient";
@@ -225,9 +224,11 @@ const DashboardLayout = ({ children }) => {
             </h1>
 
             <div className="header-actions">
+              {/* Notificações: desativado por enquanto, sem funcionalidade ainda
               <button className="btn btn-ghost--icon notification-btn">
                 <Bell size={24} />
               </button>
+              */}
 
               <div
                 className="user-profile clickable-profile"

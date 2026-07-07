@@ -7,7 +7,9 @@ import "./partner-card.css";
 // viewOnly: usado por "Minhas Conexões" (Parceiros.jsx), que reaproveita este
 // card mas troca a ação do botão para abrir os dados da conexão já aceita
 // em vez de solicitar conexão.
-const PartnerCard = ({ partner, onConnect, sentRequest, isConnected, viewOnly }) => {
+// exploreOnly: usado no Dashboard, onde a solicitação de conexão não deve
+// acontecer — o botão só leva o usuário até a página de conexões.
+const PartnerCard = ({ partner, onConnect, sentRequest, isConnected, viewOnly, exploreOnly }) => {
   const isPerfectMatch = partner.compatibility === "Match Perfeito";
   const isPending = sentRequest?.status === "pendente";
 
@@ -126,35 +128,37 @@ const PartnerCard = ({ partner, onConnect, sentRequest, isConnected, viewOnly })
         </div>
       </div>
 
-      {/* Footer (Botão) */}
-      <div className="card-footer">
-        <button
-          className={`connect-btn ${!viewOnly && isConnected ? "connect-btn-connected" : !viewOnly && isPending ? "connect-btn-pending" : ""}`}
-          onClick={onConnect}
-        >
-          {viewOnly ? (
-            <>
-              <Eye size={18} />
-              Ver dados
-            </>
-          ) : isConnected ? (
-            <>
-              <UserCheck size={18} />
-              Conectado
-            </>
-          ) : isPending ? (
-            <>
-              <Clock size={18} />
-              Pendente
-            </>
-          ) : (
-            <>
-              <MessageSquare size={18} />
-              Conectar
-            </>
-          )}
-        </button>
-      </div>
+      {/* Footer (Botão) — não existe no modo exploreOnly (preview do Dashboard) */}
+      {!exploreOnly && (
+        <div className="card-footer">
+          <button
+            className={`connect-btn ${!viewOnly && isConnected ? "connect-btn-connected" : !viewOnly && isPending ? "connect-btn-pending" : ""}`}
+            onClick={onConnect}
+          >
+            {viewOnly ? (
+              <>
+                <Eye size={18} />
+                Ver dados
+              </>
+            ) : isConnected ? (
+              <>
+                <UserCheck size={18} />
+                Conectado
+              </>
+            ) : isPending ? (
+              <>
+                <Clock size={18} />
+                Pendente
+              </>
+            ) : (
+              <>
+                <MessageSquare size={18} />
+                Conectar
+              </>
+            )}
+          </button>
+        </div>
+      )}
     </div>
   );
 };

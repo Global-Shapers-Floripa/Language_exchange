@@ -60,11 +60,19 @@
 }
 
 /* =====================
-   CARD PADRÃO
+   CARD PADRÃO (identidade visual: fundo pontilhado + laranja/navy,
+   mesma receita usada em partner-card.css e nos balões de Recursos)
 ===================== */
 
 .help-card {
     margin-bottom: 24px;
+    background-color: #fff0e0;
+    background-image: radial-gradient(
+        color-mix(in srgb, var(--brand-orange) 30%, transparent) 1.5px,
+        transparent 1.5px
+    );
+    background-size: 14px 14px;
+    border-color: var(--color-card-border, #FFC489);
 }
 
 .section-title {
@@ -73,6 +81,10 @@
     gap: 12px;
     color: #0A3251;
     margin-bottom: 24px;
+}
+
+.section-title svg {
+    color: var(--brand-orange);
 }
 
 .section-title h3 {
@@ -91,14 +103,15 @@
 }
 
 .faq-item {
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--color-card-border, #FFC489);
     border-radius: 16px;
     overflow: hidden;
     transition: .2s;
+    background: white;
 }
 
 .faq-item.active {
-    border-color: #08b9ff;
+    border-color: var(--brand-orange);
 }
 
 .faq-question {
@@ -113,8 +126,13 @@
 
     cursor: pointer;
     font-weight: 600;
-    color: #1e293b;
+    color: #0A3251;
     text-align: left;
+}
+
+.faq-question svg {
+    color: var(--brand-orange);
+    flex-shrink: 0;
 }
 
 .faq-answer {
@@ -134,7 +152,17 @@
 .contact-section {
     text-align: center;
     /* Centraliza o título, parágrafo e o botão do WhatsApp */
-    padding: 24px 0;
+    padding: 32px 24px;
+    background-color: var(--bg-cream, #FBF1E7);
+    background-image: radial-gradient(
+        color-mix(in srgb, var(--brand-orange) 25%, transparent) 1.5px,
+        transparent 1.5px
+    );
+    background-size: 14px 14px;
+    border: 1px solid var(--color-card-border, #FFC489);
+    border-radius: 24px;
+
+    margin-bottom: 2rem;
 }
 
 .contact-section h3 {
@@ -153,18 +181,25 @@
     align-items: center;
     gap: 14px;
     background: white;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--color-card-border, #FFC489);
     border-radius: 16px;
     padding: 18px 20px;
-    margin: 0 auto 24px auto;
+    margin: 0 auto 1rem auto;
     /* Centraliza o card na tela e dá margem inferior */
     max-width: 500px;
     text-align: left;
     /* Garante que o texto DENTRO do card continue alinhado à esquerda */
 }
 
-.contact-info-card svg {
-    color: #08b9ff;
+.contact-icon-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--dark-navy, #0A3251);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
 }
 

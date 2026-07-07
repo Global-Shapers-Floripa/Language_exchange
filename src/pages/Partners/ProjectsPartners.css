@@ -1,168 +1,239 @@
-.project-page {
+.projects-page {
   width: 100%;
-  padding-bottom: 60px;
+  padding-bottom: 40px;
 }
-
 
 /* =========================
-SEÇÕES
+HEADER
 ========================= */
 
-.section-title-project {
-  font-size: 1.8rem;
-  color: #0f172a;
+.projects-header {
+  margin-bottom: 24px;
 }
 
-.section-title h2 {
+.projects-header h2 {
   font-size: 1.5rem;
-  color: #0f172a;
-  margin-top: 30px;
+  font-weight: 700;
+  color: #0A3251;
+  margin-bottom: 8px;
 }
 
-.section-title p {
+.projects-header p {
   color: #64748b;
-  font-size: 1rem;
   max-width: 650px;
   line-height: 1.6;
 }
 
 /* =========================
-ABOUT
+GRID
 ========================= */
 
-.about-grid {
-  margin-top: 30px;
+.projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit,
-      minmax(240px, 1fr));
-  gap: 24px;
-}
-
-.about-card {
-  background: white;
-  border-radius: 24px;
-  padding: 28px;
-  border: 1px solid #e2e8f0;
-  transition: 0.2s ease;
-}
-
-.about-card-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 18px;
-}
-
-.about-card:hover {
-  transform: translateY(-4px);
-}
-
-.about-card svg {
-  color: #08b9ff;
-  margin-bottom: 18px;
-}
-
-.about-card h3 {
-  margin-bottom: 12px;
-  color: #0f172a;
-}
-
-.about-card p {
-  color: #64748b;
-  line-height: 1.6;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
 }
 
 /* =========================
-TIMELINE
+CARD (mesma receita "balão" usada em Recursos: fundo pontilhado + temas
+laranja/navy/azul/pêssego da identidade visual da marca)
 ========================= */
 
-.timeline {
-  margin-top: 35px;
+.project-card {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-}
-
-.timeline-item {
-  display: flex;
-  gap: 18px;
-  align-items: flex-start;
-  background: white;
-  padding: 24px;
   border-radius: 24px;
-  border: 1px solid #e2e8f0;
+  padding: 28px;
+
+  background-image: radial-gradient(
+    color-mix(in srgb, currentColor 15%, transparent) 1.5px,
+    transparent 1.5px
+  );
+  background-size: 12px 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
 }
 
-.timeline-number {
-  min-width: 52px;
-  min-height: 52px;
-  border-radius: 50%;
-  background: #08b9ff;
-  color: white;
+.project-card:hover {
+  transform: translateY(-5px);
+}
+
+.project-card-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 800;
-  font-size: 18px;
+  margin-bottom: 16px;
 }
 
-.timeline-content h3 {
-  margin-bottom: 8px;
-  color: #0f172a;
+.project-card h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: inherit;
 }
 
-.timeline-content p {
-  color: #64748b;
-  line-height: 1.6;
+.project-card p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: inherit;
+  opacity: 0.9;
+  flex-grow: 1;
+  margin-bottom: 20px;
 }
 
+.project-card-link {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 10px 18px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  color: var(--dark-navy, #0A3251);
+  background-color: rgba(255, 255, 255, 0.85);
+  transition: background-color 0.2s;
+}
+
+.project-card-link:hover {
+  background-color: white;
+}
+
+/* Temas de cor (mesma paleta de recursos.css) */
+.card-orange {
+  background-color: #f36601;
+  color: #ffffff;
+}
+
+.card-navy {
+  background-color: var(--dark-navy, #0A3251);
+  color: #ffffff;
+}
+
+.card-blue {
+  background-color: #8fa3d4;
+  color: #0b1121;
+}
+
+.card-yellow {
+  background-color: var(--support-peach, #fae4c3);
+  color: #0b1121;
+}
 
 /* =========================
-CTA FINAL
+MODAL
 ========================= */
 
-.final-cta {
-  background-image: linear-gradient(135deg, rgba(11, 23, 32, 0.9) 0%, rgba(10, 50, 81, 0.4) 100%), url('../../assets/back-banner.webp');
-  background-size: cover;
-  background-position: 20% 30%;
-  margin-top: 80px;
-  border-radius: 32px;
+.project-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 50, 81, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
   padding: 20px;
-  text-align: center;
-  border: 1px solid #e2e8f0;
+  box-sizing: border-box;
+  animation: fadeIn 0.2s ease-in-out;
 }
 
-.final-cta h2 {
-  font-size: 2rem;
-  margin-bottom: 16px;
-  color: #ffffff;
+.project-modal-content {
+  position: relative;
+  background: white;
+  border-radius: 24px;
+  padding: 36px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.3s ease-out;
 }
 
-.final-cta p {
-  color: #dde5f0;
-  max-width: 600px;
-  margin: 0 auto;
-  line-height: 1.7;
-}
-
-.hero-button {
-  margin-top: 32px;
+.project-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #f1f5f9;
   border: none;
-  background: rgb(255, 123, 0);
-  color: #ffffff;
-  padding: 14px 22px;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #64748b;
+  transition: background 0.2s;
+}
+
+.project-modal-close:hover {
+  background: #e2e8f0;
+}
+
+.project-modal-icon {
+  width: 56px;
+  height: 56px;
   border-radius: 16px;
+  background: #fff0e0;
+  color: var(--brand-orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.project-modal-content h3 {
+  font-size: 1.3rem;
   font-weight: 700;
-  font-size: 15px;
+  color: #0A3251;
+  margin-bottom: 12px;
+}
+
+.project-modal-content p {
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.project-modal-link {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  cursor: pointer;
-  transition: 0.2s ease;
+  background-color: var(--dark-navy, #0A3251);
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 12px 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(255, 132, 0, 0.35);
+  transition: background-color 0.2s, transform 0.2s;
 }
 
-.hero-button:hover {
+.project-modal-link:hover {
+  background-color: #03243f;
   transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* =========================
@@ -170,60 +241,17 @@ RESPONSIVO
 ========================= */
 
 @media (max-width: 768px) {
-  .project-page {
-    padding-bottom: 20px;
-  }
-  .project-hero {
-    padding: 32px 24px;
-  }
-
-  .project-hero h1 {
-    font-size: 2.2rem;
-  }
-
-  .project-hero p {
-    font-size: 1rem;
-  }
-
-  .section-title-project {
+  .projects-header h2 {
     font-size: 1.2rem;
     text-align: center;
   }
 
-  .project-description {
+  .projects-header p {
     text-align: center;
     margin: 0 auto;
-    width: 90%;
-    font-size: .9rem;
   }
 
-  .section-title h2 {
-    font-size: 1.2rem;
-    text-align: center;
-    margin-bottom: -30px;
+  .project-modal-content {
+    padding: 28px 24px;
   }
-
-
-  .about-grid {
-    padding: 0 10px;
-  }
-
-
-  .final-cta {
-    padding: 36px 24px;
-  }
-
-  .final-cta h2 {
-    font-size: 1.7rem;
-  }
-
-  .timeline-item {
-    flex-direction: column;
-    margin: 0 10px;
-  }
-
-  .final-cta {
-    margin: 40px 10px;
-  }
-
 }
