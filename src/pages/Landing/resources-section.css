@@ -3,6 +3,11 @@
    ========================================= */
 .site-resources-wrapper {
   background-color: #FAE1CB;
+   background-image: radial-gradient(
+    #f7ba85 2px,
+    transparent 2px
+  );
+  background-size: 30px 30px;
   width: 100%;
 }
 

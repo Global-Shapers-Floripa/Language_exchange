@@ -98,23 +98,35 @@
   opacity: 0.9;
 }
 
-/* Cores e formatos orgânicos pros Mini-Blobs */
+/* Cores, formatos orgânicos e textura pontilhada pros Mini-Blobs
+   (mesma lógica de dot sutil sobre a cor de fundo já usada nos blobs
+   da seção Sobre e no lado escuro do Login/SignUp/ResetPassword) */
 .site-blob-orange {
   background-color: var(--brand-orange, #FF8400);
   color: #ffffff;
   border-radius: 60% 40% 50% 50% / 50% 50% 60% 50%;
+
+  background-image: radial-gradient(#f8aa69 1px, transparent 1px);
+  background-size: 10px 10px;
 }
 
 .site-blob-purple {
   background-color: var(--support-blue, #8FA0D8);
   color: var(--dark-navy, #0B0829);
   border-radius: 40% 60% 30% 70% / 60% 30% 70% 40%;
+
+  background-image: radial-gradient(#a7bdf3 1px, transparent 1px);
+  background-size: 10px 10px;
 }
 
-.site-blob-peach {
-  background-color: #f7deb5;
-  color: var(--dark-navy, #0B0829);
+.site-blob-navy {
+  background-color: var(--dark-navy, #0B0829);
+  color: #ffffff;
   border-radius: 50% 50% 60% 40% / 50% 60% 40% 50%;
+
+  /* Mesmo padrão pontilhado do lado escuro de Login/SignUp/ResetPassword */
+  background-image: radial-gradient(rgba(156, 175, 225, 0.295) 1px, transparent 1px);
+  background-size: 10px 10px;
 }
 
 /* =========================================

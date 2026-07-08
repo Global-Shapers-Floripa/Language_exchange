@@ -38,7 +38,7 @@ const PlataformaSection = () => {
               <p className="site-stat-txt">Pontos de conexão reais espalhados.</p>
             </div>
             
-            <div className="site-mini-blob site-blob-peach">
+            <div className="site-mini-blob site-blob-navy">
               <span className="site-stat-val">1</span>
               <span className="site-stat-lbl">COMUNIDADE</span>
               <p className="site-stat-txt">O mesmo propósito de colaboração.</p>
