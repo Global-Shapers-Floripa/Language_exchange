@@ -9,6 +9,7 @@ import {
   Clock,
   Globe,
   Trash2,
+  Search,
 } from "lucide-react";
 import { useSessions } from "../../hooks/useSessions";
 import { usePartners } from "../../hooks/usePartners";
@@ -23,6 +24,7 @@ const MySessions = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [sessionSearch, setSessionSearch] = useState("");
 
   // ADICIONE AQUI
   const [selectedSession, setSelectedSession] = useState(null);
@@ -52,6 +54,23 @@ const MySessions = () => {
     if (Array.isArray(langs)) return langs;
     return typeof langs === "string" ? langs.split(",") : [langs];
   };
+
+  // =========================
+  // FILTRO DE BUSCA
+  // =========================
+  // Busca em tempo real, case-insensitive e por correspondência parcial em
+  // parceiro, idioma, hub e país.
+  const filteredSessions = sessions.filter((session) => {
+    const searchStr = sessionSearch.trim().toLowerCase();
+    if (!searchStr) return true;
+
+    return (
+      (session.partner || "").toLowerCase().includes(searchStr) ||
+      (session.languages || "").toLowerCase().includes(searchStr) ||
+      (session.hub || "").toLowerCase().includes(searchStr) ||
+      (session.country || "").toLowerCase().includes(searchStr)
+    );
+  });
 
   return (
     <DashboardLayout>
@@ -83,6 +102,20 @@ const MySessions = () => {
         </div>
       )}
 
+      {/* BUSCA */}
+      {!loading && !error && sessions.length > 0 && (
+        <div className="sessions-search-wrapper">
+          <Search size={16} className="sessions-search-icon" />
+          <input
+            type="text"
+            className="input sessions-search-input"
+            placeholder="Buscar por nome, idioma, hub ou país..."
+            value={sessionSearch}
+            onChange={(e) => setSessionSearch(e.target.value)}
+          />
+        </div>
+      )}
+
       {/* VAZIO */}
       {!loading && !error && sessions.length === 0 && (
         <div className="empty-message">
@@ -93,10 +126,17 @@ const MySessions = () => {
         </div>
       )}
 
+      {/* SEM RESULTADOS NA BUSCA */}
+      {!loading && !error && sessions.length > 0 && filteredSessions.length === 0 && (
+        <div className="empty-message">
+          <p>Nenhuma sessão encontrada para essa busca.</p>
+        </div>
+      )}
+
       {/* TABELA */}
-      {!loading && !error && sessions.length > 0 && (
+      {!loading && !error && filteredSessions.length > 0 && (
         <div className="sessions-grid">
-          {sessions.map((session) => (
+          {filteredSessions.map((session) => (
             <div
               key={session.id}
               className="session-card"

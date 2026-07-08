@@ -6,7 +6,7 @@ import PersonAvatar from "../../components/common/PersonAvatar";
 import ConfirmModal from "../../components/common/ConfirmModal";
 import { COUNTRIES } from "../../constants/countries";
 import { LANGUAGES } from "../../constants/languages";
-import { Users, MapPin, Languages, GraduationCap, Trash2 } from "lucide-react";
+import { Users, MapPin, Languages, GraduationCap, Trash2, Monitor } from "lucide-react";
 import "./admin.css";
 
 // Função para buscar nome e bandeira do país
@@ -133,12 +133,32 @@ const Admin = () => {
         const speaksCount = {};
         const learnsCount = {};
 
+        // speaks/learns guardam múltiplos idiomas numa única string separada
+        // por vírgula (ex: "Português, Espanhol, Inglês") — precisa dar split
+        // e contar cada idioma individualmente, não a string inteira como
+        // se fosse uma categoria própria.
         sortedProfiles.forEach((u) => {
           if (u.hub) hubCount[u.hub] = (hubCount[u.hub] || 0) + 1;
-          if (u.speaks)
-            speaksCount[u.speaks] = (speaksCount[u.speaks] || 0) + 1;
-          if (u.learns)
-            learnsCount[u.learns] = (learnsCount[u.learns] || 0) + 1;
+
+          if (u.speaks) {
+            u.speaks
+              .split(",")
+              .map((lang) => lang.trim())
+              .filter(Boolean)
+              .forEach((lang) => {
+                speaksCount[lang] = (speaksCount[lang] || 0) + 1;
+              });
+          }
+
+          if (u.learns) {
+            u.learns
+              .split(",")
+              .map((lang) => lang.trim())
+              .filter(Boolean)
+              .forEach((lang) => {
+                learnsCount[lang] = (learnsCount[lang] || 0) + 1;
+              });
+          }
         });
 
         const topHubs = Object.entries(hubCount)
@@ -313,6 +333,14 @@ const Admin = () => {
 
   return (
     <DashboardLayout>
+      {/* MENSAGEM EXIBIDA NO MOBILE (o painel completo só faz sentido no desktop) */}
+      <div className="admin-mobile-lock dotted-texture">
+        <Monitor size={40} />
+        <h2>Acesse pelo computador</h2>
+        <p>Para acessar os dados de administração, abra a plataforma no computador.</p>
+      </div>
+
+      <div className="admin-desktop-view">
       <div className="admin-container">
         {loading ? (
           <div className="loading-message">
@@ -324,7 +352,7 @@ const Admin = () => {
             <div className="stats-grid">
               {/* Card 1: Total */}
               <div className="card card--stat total-card">
-                <div className="card-header">
+                <div className="admin-stats-row">
                   <div className="stat-column">
                     <div className="stat-label">
                       <Users size={20} />
@@ -438,7 +466,6 @@ const Admin = () => {
             <div className="admin-section">
               <div className="management-header">
                 <div>
-                  <span className="sub-heading">GESTÃO</span>
                   <h2 className="main-heading">Usuários da plataforma</h2>
                   <p className="results-count">
                     {filteredUsers.length} • RESULTADOS
@@ -524,7 +551,7 @@ const Admin = () => {
                             </div>
                           </td>
                           <td>
-                            <div className="languages-cell">
+                            <div className="admin-languages-cell">
                               {user.speaks && (
                                 <div className="lang-group">
                                   <span className="lang-label">DOMINA</span>
@@ -538,7 +565,7 @@ const Admin = () => {
                                 </div>
                               )}
                               {user.learns && (
-                                <div className="lang-group mt-1">
+                                <div className="lang-group">
                                   <span className="lang-label">APRENDE</span>
                                   <div className="lang-chips">
                                     {user.learns.split(",").map((lang) => (
@@ -576,7 +603,7 @@ const Admin = () => {
                                 className="btn btn-secondary btn-details"
                                 onClick={() => setSelectedUser(user)}
                               >
-                                Visualizar Detalhes ↗
+                                Visualizar
                               </button>
                               <button
                                 className="btn btn-danger btn-delete-user"
@@ -618,7 +645,7 @@ const Admin = () => {
             <p className="empty-sessions">Nenhuma sessão registrada.</p>
           ) : (
             sessions.map((session) => (
-              <div key={session.id} className="session-item">
+              <div key={session.id} className="session-item dotted-texture">
                 <div className="session-info">
                   <h4>
                     {session.host_name} ↔ {session.partner_name}
@@ -647,6 +674,7 @@ const Admin = () => {
             ))
           )}
         </div>
+      </div>
       </div>
 
       {/* MODAL MANTIDO COMO ESTAVA, APENAS ESTILOS ATUALIZADOS VIA CSS */}
@@ -678,18 +706,18 @@ const Admin = () => {
               </div>
             </div>
             <div className="modal-body">
-              <div className="info-group">
+              <div className="admin-info-group">
                 <label>Hub & País</label>
                 <p>
                   {selectedUser.hub || "N/A"} -{" "}
                   {getCountryInfo(selectedUser.country).name}
                 </p>
               </div>
-              <div className="info-group">
+              <div className="admin-info-group">
                 <label>Descrição</label>
                 <p>{selectedUser.description || "Sem descrição."}</p>
               </div>
-              <div className="info-group">
+              <div className="admin-info-group">
                 <label>Interesses</label>
                 <p>{selectedUser.interests || "Sem interesses."}</p>
               </div>

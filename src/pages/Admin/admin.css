@@ -10,6 +10,7 @@
   background-color: #fafaf9;
   /* Fundo levemente off-white */
   min-height: 100vh;
+  border-radius: 30px;
 }
 
 /* =========================
@@ -18,8 +19,17 @@
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: 24px;
   margin-bottom: 30px;
+}
+
+/* Cards "flutuantes" (fundo branco/borda/sombra) removidos na área de Admin —
+   conteúdo integrado direto ao fundo da página */
+.total-card,
+.stat-card {
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 .total-card {
@@ -27,12 +37,14 @@
   transition: all 0.3s ease;
 }
 
-.card-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+/* Nome próprio (não "card-header") para não colidir com a classe genérica
+   de mesmo nome usada em partner-card.css, que forçava flex-direction:
+   column e quebrava o layout em linha aqui */
+.admin-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
   margin-bottom: 16px;
-  justify-content: space-between;
 }
 
 .stat-column {
@@ -70,8 +82,8 @@
 
 
 .stat-card {
-  padding: 20px 10px;
-  border-radius: 8px;
+  padding: 0;
+  border-radius: 0;
   display: flex;
   flex-direction: column;
 }
@@ -120,10 +132,11 @@
 }
 
 .stat-card h3 {
-  font-size: 0.75rem;
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-size: 1rem;
   color: #78716c;
-  font-weight: 600;
-  letter-spacing: 1px;
+  font-weight: 400;
+  letter-spacing: var(--title-letter-spacing, 2px);
   text-transform: uppercase;
   margin: 0;
 }
@@ -241,15 +254,11 @@
   align-items: flex-end;
 }
 
-.sub-heading {
-  font-size: 0.75rem;
-  letter-spacing: 2px;
-  color: #78716c;
-  text-transform: uppercase;
-}
-
 .main-heading {
-  font-size: 2.2rem;
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-size: 2.4rem;
+  letter-spacing: var(--title-letter-spacing, 2px);
+  text-transform: uppercase;
   color: #1c1917;
   margin: 4px 0 16px 0;
   font-weight: 400;
@@ -296,6 +305,7 @@
 
 .admin-table {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   text-align: left;
 }
@@ -313,10 +323,40 @@
   letter-spacing: 1px;
 }
 
+/* Larguras fixas por coluna — evita que o nome do usuário empurre as
+   demais colunas (idiomas, localização) de forma inconsistente entre linhas */
+.admin-table th:nth-child(1),
+.admin-table td:nth-child(1) {
+  width: 22%;
+}
+
+.admin-table th:nth-child(2),
+.admin-table td:nth-child(2) {
+  width: 14%;
+}
+
+.admin-table th:nth-child(3),
+.admin-table td:nth-child(3) {
+  width: 34%;
+  text-align: center;
+}
+
+.admin-table th:nth-child(4),
+.admin-table td:nth-child(4) {
+  width: 10%;
+  text-align: center;
+}
+
+.admin-table th:nth-child(5),
+.admin-table td:nth-child(5) {
+  width: 20%;
+  text-align: right;
+}
+
 .admin-table td {
   padding: 16px 20px;
   border-bottom: 1px solid #f5f5f4;
-  vertical-align: middle;
+  vertical-align: top;
 }
 
 .admin-table tr:hover td {
@@ -337,24 +377,41 @@
   object-fit: cover;
 }
 
+.user-cell > div {
+  min-width: 0;
+}
+
 .user-name {
   font-weight: 600;
   color: #1c1917;
   font-size: 0.95rem;
   margin: 0 0 2px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .user-email {
   font-size: 0.8rem;
   color: #78716c;
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* Localização */
+/* Localização — bandeira compacta acima do texto, para não brigar com o
+   alinhamento das demais colunas */
 .location-cell {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.location-cell .flag-icon {
+  width: 18px;
+  height: 12px;
 }
 
 .flag-icon {
@@ -386,11 +443,27 @@
   margin: 0;
 }
 
-/* Idiomas */
+/* Idiomas — Domina e Aprende sempre lado a lado, centralizados na coluna,
+   independente da quantidade de idiomas de cada usuário. Nome próprio
+   (não "languages-cell") para não colidir com a classe genérica de mesmo
+   nome em sessoes.css, que tinha flex-wrap: wrap e quebrava a segunda
+   coluna pra baixo quando havia muitos chips — essa era a causa do
+   comportamento "às vezes lado a lado, às vezes empilhado". */
+.admin-languages-cell {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
 .lang-group {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 4px;
+}
+
+.lang-group .lang-chips {
+  justify-content: center;
 }
 
 .lang-label {
@@ -429,18 +502,19 @@
 .admin-status-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 12px;
+  gap: 4px;
+  padding: 2px 8px;
   border-radius: 20px;
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.5px;
   border: 1px solid transparent;
+  white-space: nowrap;
 }
 
 .dot {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
 }
 
@@ -560,11 +634,14 @@
   color: #78716c;
 }
 
-.info-group {
+/* Nome próprio (não "info-group") para não colidir com a classe de mesmo
+   nome em edit-profile.css — mesmo padrão já usado para .search-icon em
+   parceiros.css */
+.admin-info-group {
   margin-bottom: 16px;
 }
 
-.info-group label {
+.admin-info-group label {
   display: block;
   font-size: 0.7rem;
   text-transform: uppercase;
@@ -573,19 +650,72 @@
   margin-bottom: 4px;
 }
 
-.info-group p {
+.admin-info-group p {
   margin: 0;
   font-size: 0.95rem;
   color: #44403c;
+}
+
+/* =========================
+   BLOQUEIO NO MOBILE
+========================= */
+/* O painel de Admin tem informação demais para fazer sentido no mobile —
+   abaixo de 768px trocamos todo o conteúdo por um aviso simples, seguindo
+   a identidade visual do site (fundo azul escuro pontilhado). */
+.admin-mobile-lock {
+  display: none;
 }
 
 @media (max-width: 1024px) {
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .admin-stats-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 768px) {
+  .admin-desktop-view {
+    display: none;
+  }
+
+  .admin-mobile-lock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    min-height: 60vh;
+    margin: 20px;
+    padding: 40px 24px;
+    text-align: center;
+    background-color: var(--dark-navy, #0B0829);
+    border-radius: 24px;
+    color: #fff;
+  }
+
+  .admin-mobile-lock svg {
+    color: var(--brand-orange, #FF8400);
+  }
+
+  .admin-mobile-lock h2 {
+    font-family: var(--font-title, 'Bebas Neue', sans-serif);
+    font-size: 1.6rem;
+    letter-spacing: var(--title-letter-spacing, 2px);
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .admin-mobile-lock p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 320px;
+    opacity: 0.85;
+    margin: 0;
+  }
+
   .stats-grid {
     grid-template-columns: 1fr;
   }
@@ -605,17 +735,19 @@
 ========================= */
 
 .sessions-section {
-  background: #fff;
-  border: 1px solid #e7e5e4;
-  border-radius: 12px;
-  padding: 24px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin-top: 48px;
   margin-bottom: 32px;
 }
 
 .sessions-section h3 {
   margin: 0;
-  font-size: 0.9rem;
-  letter-spacing: 1px;
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-size: 1.1rem;
+  letter-spacing: var(--title-letter-spacing, 2px);
   color: #78716c;
 }
 

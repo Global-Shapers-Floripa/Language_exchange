@@ -13,6 +13,46 @@
 
 .btn-new-session {
   border-radius: 12px;
+  background-color: var(--dark-navy, #0B0829);
+}
+
+.btn-new-session:hover:not(:disabled) {
+  background-color: #150f3d;
+}
+
+/* =========================
+   BUSCA
+========================= */
+.sessions-search-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 24px;
+}
+
+.sessions-search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+.sessions-search-input {
+  padding-left: 36px;
+  border-radius: 6px;
+}
+
+.sessions-search-input:focus {
+  border-color: #a8a29e;
+  box-shadow: none;
+}
+
+@media (max-width: 768px) {
+  .sessions-search-wrapper {
+    max-width: 100%;
+  }
 }
 
 /* Etiquetas de Idiomas */

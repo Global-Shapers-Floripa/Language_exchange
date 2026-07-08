@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "../services/supabaseClient";
 
 import { LANGUAGES } from "../constants/languages";
+import { COUNTRIES } from "../constants/countries";
 
 export const useSessions = () => {
   const [sessions, setSessions] = useState([]);
@@ -42,7 +43,8 @@ export const useSessions = () => {
             session_photo_url,
             profiles!partner_id (
               full_name,
-              hub
+              hub,
+              country
             )
           `,
         )
@@ -75,12 +77,17 @@ export const useSessions = () => {
           })
           .join(", ");
 
+        const countryCode = session.profiles?.country?.trim().toUpperCase();
+        const countryInfo = COUNTRIES.find((c) => c.code === countryCode);
+
         return {
           id: session.id,
 
           partner: session.profiles?.full_name || "Desconhecido",
 
           hub: session.profiles?.hub || "N/A",
+
+          country: countryInfo ? countryInfo.name : session.profiles?.country || "",
 
           date: new Date(session.date).toLocaleDateString("pt-BR"),
 
