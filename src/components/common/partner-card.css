@@ -342,7 +342,8 @@
   }
 
   .flag-banner-container {
-    height: 42px;
+    height: 59px;
+    left: 30px; 
   }
 
   .perfect-match-badge {

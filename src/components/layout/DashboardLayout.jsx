@@ -170,7 +170,7 @@ const DashboardLayout = ({ children }) => {
               <div className="icon-wrapper">
                 <User size={20} />
               </div>
-              Meu Perfil
+              Perfil
             </NavLink>
 
             {userData.is_admin && (
