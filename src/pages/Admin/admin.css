@@ -300,11 +300,18 @@
   background: white;
   border-radius: 8px;
   border: 1px solid #e7e5e4;
-  overflow: hidden;
+  /* Em telas de tablet as colunas não cabem confortavelmente (nomes,
+     badges de idioma e os 3 botões de ação ficam espremidos) — rolagem
+     horizontal em vez de comprimir/sobrepor o conteúdo. */
+  overflow-x: auto;
 }
 
 .admin-table {
   width: 100%;
+  /* Garante que as colunas nunca voltem a comprimir abaixo desse ponto,
+     mesmo com o scroll ativo — testado como confortável a partir do
+     iPad Pro 11" (834px de viewport). */
+  min-width: 900px;
   table-layout: fixed;
   border-collapse: collapse;
   text-align: left;

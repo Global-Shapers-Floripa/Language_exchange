@@ -253,6 +253,17 @@
   gap: 10px;
 }
 
+/* Dois botões (Dados / + Sessão) lado a lado dividindo o espaço 50/50 */
+.card-footer--split {
+  flex-direction: row;
+}
+
+.connect-btn--half {
+  width: 100%;
+  flex: 1;
+  margin: 0;
+}
+
 .connect-btn {
   background: var(--blue-primary, #1A2747);
   color: white;

@@ -28,10 +28,16 @@
 
 }
 
-.secondary-title {
-  font-size: 1.05rem;
-  color: #475569;
-  font-weight: 600;
+/* Título padrão das 3 seções da tela (Minhas Conexões / Solicitações /
+   Explorar Rede). Antes, "Minhas Conexões" e "Explorar Rede" usavam a classe
+   genérica ".section-title" sem nenhuma regra própria neste arquivo — o
+   estilo real vinha de qual ".section-title" de outra página (Landing,
+   EditProfile, Help) o bundle carregasse por último, então na prática o
+   resultado era imprevisível. Classe própria da página evita essa colisão. */
+.partners-section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0c2752;
   margin-bottom: 16px;
 }
 
@@ -42,8 +48,8 @@
 
 .requests-column {
   flex: 1;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background-color: var(--dark-navy, #0B0829);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 16px;
   max-height: 260px;
@@ -52,9 +58,13 @@
 
 .requests-column h4 {
   font-size: 0.9rem;
-  color: #1e293b;
+  color: #ffffff;
   margin-bottom: 12px;
   font-weight: 600;
+}
+
+.requests-column .empty-requests {
+  color: #ffffff;
 }
 
 .empty-requests {

@@ -250,6 +250,10 @@ const EditProfile = () => {
       Swal.fire("Erro", "Digite seu email", "warning");
       return false;
     }
+    if (!formData.country) {
+      Swal.fire("Erro", "Selecione seu país", "warning");
+      return false;
+    }
     if (formData.speaks.length === 0) {
       Swal.fire(
         "Erro",

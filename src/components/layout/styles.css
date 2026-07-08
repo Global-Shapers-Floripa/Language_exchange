@@ -224,6 +224,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 10px;
+  margin-bottom: 20px;
 }
 
 .btn-footer {
@@ -339,6 +340,13 @@
   padding: 0 2rem;
 }
 
+/* Ajuda/Sair duplicados dentro de .sidebar-nav (ver DashboardLayout.jsx)
+   só pra aparecerem na barra horizontal mobile/tablet — no desktop ficam
+   escondidos, já que lá quem representa essas ações é o .sidebar-bottom. */
+.nav-item-mobile-extra {
+  display: none;
+}
+
 /* =========================
    RESPONSIVO (MOBILE)
 ========================= */
@@ -360,14 +368,18 @@
     left: 0;
     flex-direction: row;
     padding: 0;
-    background: #ffffff;
-    border-top: 1px solid #e2e8f0;
+    /* Fundo dark navy com pontinhos, mesma linguagem visual usada em outros
+       cards escuros do projeto (ex: cards de "Solicitações") */
+    background-color: var(--dark-navy, #0B0829);
+    background-image: radial-gradient(var(--dotted-texture-color, rgba(143, 160, 216, 0.35)) var(--dot-size, 1px), transparent var(--dot-size, 1px));
+    background-size: var(--dot-pattern-size, 15px) var(--dot-pattern-size, 15px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
     z-index: 1000;
     overflow-x: auto;
     overflow-y: hidden;
     justify-content: flex-start;
     -webkit-overflow-scrolling: touch;
-    box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 -4px 10px rgba(0,0,0,0.25);
   }
 
   .sidebar::-webkit-scrollbar {
@@ -383,7 +395,10 @@
     flex-direction: row;
     justify-content: flex-start;
     width: max-content;
-    margin: 0;
+    /* margin auto centraliza a barra quando ela cabe inteira na largura da
+       tela (tablet); quando não cabe, margin auto zera sozinho e ela volta
+       a ficar alinhada à esquerda com scroll, igual já era antes */
+    margin: 0 auto;
     padding: 0 10px;
     align-items: center;
     height: 100%;
@@ -397,10 +412,18 @@
     padding: 8px 16px;
     margin: 0;
     background: none !important;
-    color: #64748b;
+    color: #ffedd9;
     min-width: 75px;
     border-radius: 12px;
     box-shadow: none !important;
+  }
+
+  /* "Sair" é um <button>, não um <NavLink> — remove o chrome padrão de botão
+     pra ficar visualmente igual aos outros itens da barra */
+  button.nav-item {
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
   }
 
   .nav-item svg {
@@ -409,22 +432,39 @@
   }
 
   .nav-item.active {
-    color: #2563eb;
-    background-color: #eff6ff !important; /* Fundo azul claro no mobile ao invés de pílula escura */
+    color: var(--brand-orange, #FF8400);
   }
 
   .nav-item.active svg {
-    color: #2563eb;
+    color: var(--brand-orange, #FF8400);
+  }
+
+  /* Ajuda/Sair entram na mesma barra horizontal só no mobile/tablet */
+  .nav-item-mobile-extra {
+    display: flex;
   }
 
   .main-content {
     border-radius: 0;
-    padding: 24px 20px 100px 20px; /* Padding inferior para não sumir atrás da nav bar */
+    padding: 14px 20px 100px 20px; /* Padding inferior para não sumir atrás da nav bar */
     box-shadow: none;
   }
 
+  /* .page-body soma seu próprio padding lateral (2rem, base) ao de
+     .main-content (20px acima) — no mobile isso empilhava os dois e
+     desperdiçava ~52px de cada lado. Zerando aqui, main-content passa a
+     ser a única fonte da margem lateral nessa largura de tela. */
+  .page-body {
+    padding: 0;
+  }
+
+  /* Mesmo raciocínio do .page-body: .top-header tem seu próprio padding
+     lateral (30px, base) somando ao de .main-content — zera aqui pra
+     alinhar com o restante do conteúdo, só mantendo um respiro vertical
+     pequeno em vez do espaço excessivo de antes. */
   .top-header {
     margin-bottom: 24px;
+    padding: 8px 0;
   }
 
   .greeting-text {

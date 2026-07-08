@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import {
   PlusCircle,
@@ -12,24 +13,42 @@ import {
   Search,
 } from "lucide-react";
 import { useSessions } from "../../hooks/useSessions";
-import { usePartners } from "../../hooks/usePartners";
+import { useAcceptedConnections } from "../../hooks/useAcceptedConnections";
 import AddSessionModal from "../../components/common/AddSessionModal";
 import ConfirmModal from "../../components/common/ConfirmModal";
 
 import "./sessoes.css";
 
 const MySessions = () => {
-  const { sessions, loading, error, refetch, deleteSession } = useSessions();
-  const { partners } = usePartners();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { sessions, loading, error, refetch, deleteSession } = useSessions();
+  const { partners } = useAcceptedConnections();
+
+  // Rota /sessions é montada do zero a cada navegação (troca de rota do
+  // react-router), então ler location.state direto no estado inicial já
+  // basta — sem precisar de efeito pra sincronizar.
+  const [isModalOpen, setIsModalOpen] = useState(
+    () => Boolean(location.state?.preselectedPartnerId),
+  );
   const [selectedImage, setSelectedImage] = useState(null);
   const [sessionSearch, setSessionSearch] = useState("");
+  const [preselectedPartnerId, setPreselectedPartnerId] = useState(
+    () => location.state?.preselectedPartnerId || null,
+  );
 
   // ADICIONE AQUI
   const [selectedSession, setSelectedSession] = useState(null);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const [deleteErrorMessage, setDeleteErrorMessage] = useState(null);
+
+  // Limpa o state da navegação pra um refresh/voltar não reabrir o modal
+  useEffect(() => {
+    if (location.state?.preselectedPartnerId) {
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, [location, navigate]);
 
   const handleSessionAdded = () => {
     if (refetch) {
@@ -180,9 +199,14 @@ const MySessions = () => {
 
       {/* MODAL NOVA SESSÃO */}
       <AddSessionModal
+        key={preselectedPartnerId || "new-session"}
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={() => {
+          setIsModalOpen(false);
+          setPreselectedPartnerId(null);
+        }}
         partners={partners}
+        initialPartnerId={preselectedPartnerId}
         onSessionAdded={handleSessionAdded}
       />
 

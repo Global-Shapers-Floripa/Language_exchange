@@ -5,9 +5,12 @@ import SearchableSelect from './SearchableSelect';
 import { LANGUAGES, MAX_PHOTO_SIZE, ALLOWED_PHOTO_TYPES } from '../../constants/languages';
 import './AddSessionModal.css';
 
-const AddSessionModal = ({ isOpen, onClose, partners, onSessionAdded }) => {
+// initialPartnerId: vindo do botão "Registrar sessão" em Conexões — o
+// componente é remontado com uma `key` diferente pelo Sessoes.jsx sempre que
+// esse valor muda, então basta usá-lo no estado inicial do formulário.
+const AddSessionModal = ({ isOpen, onClose, partners, initialPartnerId, onSessionAdded }) => {
   const [formData, setFormData] = useState({
-    partner_id: '',
+    partner_id: initialPartnerId || '',
     date: new Date().toISOString().split('T')[0],
     duration: 60,
     languages: [],

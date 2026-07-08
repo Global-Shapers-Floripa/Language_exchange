@@ -259,7 +259,7 @@ const FindPartners = () => {
       
       {/* SEÇÃO PRINCIPAL: MINHAS CONEXÕES */}
       <div className="connections-panel">
-        <h2 className="section-title">Minhas Conexões</h2>
+        <h2 className="partners-section-title">Minhas Conexões</h2>
 
         {connections.length === 0 ? (
           <p className="empty-requests">
@@ -275,6 +275,11 @@ const FindPartners = () => {
                   <PartnerCard
                     partner={other || {}}
                     onConnect={() => setSelectedPartner(other)}
+                    onRegisterSession={() =>
+                      navigate("/sessions", {
+                        state: { preselectedPartnerId: other?.id },
+                      })
+                    }
                     viewOnly
                   />
                 </li>
@@ -285,11 +290,11 @@ const FindPartners = () => {
 
         {/* SEÇÃO SECUNDÁRIA: SOLICITAÇÕES PENDENTES */}
         <div className="requests-secondary">
-          <h3 className="secondary-title">Solicitações</h3>
+          <h3 className="partners-section-title">Solicitações</h3>
 
           <div className="requests-container">
             {/* Coluna 1: Enviadas */}
-            <div className="requests-column">
+            <div className="requests-column dotted-texture">
               <h4>Enviadas</h4>
               {sentRequests.length === 0 ? (
                 <p className="empty-requests">Nenhuma solicitação enviada.</p>
@@ -338,7 +343,7 @@ const FindPartners = () => {
             </div>
 
             {/* Coluna 2: Recebidas */}
-            <div className="requests-column">
+            <div className="requests-column dotted-texture">
               <h4>Recebidas</h4>
               {receivedRequests.length === 0 ? (
                 <p className="empty-requests">Nenhuma solicitação recebida.</p>
@@ -395,7 +400,7 @@ const FindPartners = () => {
 
       {/* SEÇÃO DE BUSCA E GRID (Já existia, só ajustei os títulos) */}
       <div className="partners-page-header">
-        <h2 className="section-title">Explorar Rede</h2>
+        <h2 className="partners-section-title">Explorar Rede</h2>
 
         <div className="search-container">
           <div className="search-input-wrapper">

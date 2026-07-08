@@ -186,6 +186,34 @@ const DashboardLayout = ({ children }) => {
                 Admin
               </NavLink>
             )}
+
+            {/* Duplicam Ajuda/Sair de .sidebar-bottom — só aparecem no
+                mobile/tablet (ver .nav-item-mobile-extra em styles.css),
+                já que ali o .sidebar-bottom fica escondido */}
+            <NavLink
+              to="/help"
+              className={({ isActive }) =>
+                isActive
+                  ? "nav-item nav-item-mobile-extra active"
+                  : "nav-item nav-item-mobile-extra"
+              }
+            >
+              <div className="icon-wrapper">
+                <HelpCircle size={20} />
+              </div>
+              Ajuda
+            </NavLink>
+
+            <button
+              type="button"
+              className="nav-item nav-item-mobile-extra"
+              onClick={handleLogout}
+            >
+              <div className="icon-wrapper">
+                <LogOut size={20} />
+              </div>
+              Sair
+            </button>
           </nav>
 
           {/* SIDEBAR BOTTOM (Banner + Links) */}

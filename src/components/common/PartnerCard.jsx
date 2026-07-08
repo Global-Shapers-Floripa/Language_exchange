@@ -1,5 +1,5 @@
 import React from "react";
-import { MessageSquare, MapPin, Globe, Clock, UserCheck, Eye } from "lucide-react";
+import { MessageSquare, MapPin, Globe, Clock, UserCheck, Eye, CalendarPlus } from "lucide-react";
 import { COUNTRIES } from "../../constants/countries";
 import PersonAvatar from "./PersonAvatar";
 import "./partner-card.css";
@@ -9,7 +9,7 @@ import "./partner-card.css";
 // em vez de solicitar conexão.
 // exploreOnly: usado no Dashboard, onde a solicitação de conexão não deve
 // acontecer — o botão só leva o usuário até a página de conexões.
-const PartnerCard = ({ partner, onConnect, sentRequest, isConnected, viewOnly, exploreOnly }) => {
+const PartnerCard = ({ partner, onConnect, onRegisterSession, sentRequest, isConnected, viewOnly, exploreOnly }) => {
   const isPerfectMatch = partner.compatibility === "Match Perfeito";
   const isPending = sentRequest?.status === "pendente";
 
@@ -130,15 +130,15 @@ const PartnerCard = ({ partner, onConnect, sentRequest, isConnected, viewOnly, e
 
       {/* Footer (Botão) — não existe no modo exploreOnly (preview do Dashboard) */}
       {!exploreOnly && (
-        <div className="card-footer">
+        <div className={`card-footer ${viewOnly && onRegisterSession ? "card-footer--split" : ""}`}>
           <button
-            className={`connect-btn ${!viewOnly && isConnected ? "connect-btn-connected" : !viewOnly && isPending ? "connect-btn-pending" : ""}`}
+            className={`connect-btn ${viewOnly && onRegisterSession ? "connect-btn--half" : ""} ${!viewOnly && isConnected ? "connect-btn-connected" : !viewOnly && isPending ? "connect-btn-pending" : ""}`}
             onClick={onConnect}
           >
             {viewOnly ? (
               <>
                 <Eye size={18} />
-                Ver dados
+                Dados
               </>
             ) : isConnected ? (
               <>
@@ -157,6 +157,13 @@ const PartnerCard = ({ partner, onConnect, sentRequest, isConnected, viewOnly, e
               </>
             )}
           </button>
+
+          {viewOnly && onRegisterSession && (
+            <button className="connect-btn connect-btn--half" onClick={onRegisterSession}>
+              <CalendarPlus size={18} />
+              Sessão
+            </button>
+          )}
         </div>
       )}
     </div>

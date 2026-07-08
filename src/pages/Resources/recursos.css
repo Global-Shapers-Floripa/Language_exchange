@@ -178,7 +178,10 @@
   }
 
   .resource-card {
-    margin: 0 auto;
+    /* O shorthand "margin: 0 auto" (sem 4º valor) zerava sem querer o
+       margin-bottom de 15px do card base — por isso os balões ficavam
+       encostados um no outro verticalmente */
+    margin: 0 auto 24px;
     width: 90%;
   }
 

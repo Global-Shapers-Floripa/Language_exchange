@@ -112,16 +112,40 @@ background: var(--brand-orange);
 }
 
 @media (max-width: 768px) {
+  /* Faixa fina no mobile: só título + botão (sem o parágrafo explicativo,
+     escondido logo abaixo), sem a folga lateral reservada pro megafone
+     decorativo em tamanho desktop. */
   .whatsapp-banner {
-    padding: 20px;
+    padding: 10px 14px;
+    padding-left: 14px;
+  }
+
+  .dashboard-whats-decor {
+    width: 44px;
+    opacity: 0.35;
   }
 
   .whatsapp-banner-content {
-    flex-direction: column;
-    text-align: center;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    text-align: left;
+  }
+
+  .whatsapp-banner-text p {
+    display: none;
+  }
+
+  .whatsapp-banner-text h2 {
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
   }
 
   .whatsapp-banner-cta {
-    width: 100%;
+    width: auto;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    margin-right: 4px;
   }
 }
