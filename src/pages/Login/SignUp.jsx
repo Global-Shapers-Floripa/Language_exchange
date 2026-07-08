@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { User, Mail, MapPin, Lock } from "lucide-react";
 import "./sign-up.css";
 import { supabase } from "../../services/supabaseClient";
@@ -16,6 +16,7 @@ import Megafone from "../../assets/megafone.png";
 import Boca from "../../assets/boca.png";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -422,10 +423,11 @@ const SignUp = () => {
           <div className="info-modal-box dotted-texture">
             <h3>Conta criada com sucesso 🎉</h3>
             <p>
-              Sua solicitação foi enviada para o Hub. Você poderá acessar a
-              plataforma assim que sua conta for aprovada.
+              Sua solicitação foi enviada para o Hub. Agora é só aguardar a
+              aprovação: você vai receber um e-mail avisando assim que sua
+              conta for aprovada e liberada para acesso à plataforma.
             </p>
-            <button onClick={() => setSuccessModalOpen(false)}>Entendi</button>
+            <button onClick={() => navigate("/")}>Entendi</button>
           </div>
         </div>
       )}

@@ -179,7 +179,7 @@
    --dotted-texture-color, o background-color fica por conta de quem usar
    a classe. */
 .dotted-texture {
-  background-image: radial-gradient(var(--dotted-texture-color, rgba(156, 176, 225, 0.15)) var(--dot-size, 1px), transparent var(--dot-size, 1px));
+  background-image: radial-gradient(var(--dotted-texture-color, rgba(143, 160, 216, 0.35)) var(--dot-size, 1px), transparent var(--dot-size, 1px));
   background-size: var(--dot-pattern-size, 15px) var(--dot-pattern-size, 15px);
 }
 

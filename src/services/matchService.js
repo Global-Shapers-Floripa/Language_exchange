@@ -110,10 +110,10 @@ export const getMatches = async (
       throw currentUserError;
     }
 
-    const {
-      data: profiles,
-      error: profilesError,
-    } = await supabase
+    // Contas de teste E2E (hub "E2E-TEST", ver E2E_TEST_DATA_SETUP.sql) não
+    // devem aparecer para usuários reais. Só pulamos esse filtro quando quem
+    // está logado é a própria conta de teste E2E.
+    let profilesQuery = supabase
       .from("profiles")
       .select("*")
       .eq("is_approved", true)
@@ -122,6 +122,15 @@ export const getMatches = async (
       .not("learns", "is", null)
       .neq("speaks", "")
       .neq("learns", "");
+
+    if (currentUser.hub !== "E2E-TEST") {
+      profilesQuery = profilesQuery.neq("hub", "E2E-TEST");
+    }
+
+    const {
+      data: profiles,
+      error: profilesError,
+    } = await profilesQuery;
 
     if (profilesError) {
       throw profilesError;

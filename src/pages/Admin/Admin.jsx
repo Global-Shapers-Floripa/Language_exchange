@@ -80,9 +80,17 @@ const Admin = () => {
           return;
         }
 
-        const { data: profilesData, error: profilesError } = await supabase
-          .from("profiles")
-          .select("*");
+        // Contas de teste E2E (hub "E2E-TEST") ficam ocultas do painel de
+        // Admin para qualquer admin exceto o e-mail dono do projeto — que
+        // continua vendo/gerenciando essas contas normalmente.
+        const isTestDataVisible = auth.user.email === "laysegabrielly13@gmail.com";
+
+        let profilesQuery = supabase.from("profiles").select("*");
+        if (!isTestDataVisible) {
+          profilesQuery = profilesQuery.neq("hub", "E2E-TEST");
+        }
+
+        const { data: profilesData, error: profilesError } = await profilesQuery;
 
         if (profilesError) throw profilesError;
 
@@ -115,9 +123,22 @@ const Admin = () => {
 
         if (sessionsError) throw sessionsError;
 
-        const totalSessions = sessionsData.length;
+        // Sessões registradas entre contas de teste (ambas as pontas viram
+        // "não encontrado" quando o perfil some da lista filtrada acima)
+        // não devem contar nas estatísticas nem aparecer na lista para quem
+        // não pode ver contas de teste.
+        const visibleProfileIds = new Set(profilesData.map((p) => p.id));
+        const visibleSessionsData = isTestDataVisible
+          ? sessionsData
+          : sessionsData.filter(
+              (s) =>
+                visibleProfileIds.has(s.user_id) &&
+                visibleProfileIds.has(s.partner_id),
+            );
 
-        const totalMinutes = sessionsData.reduce(
+        const totalSessions = visibleSessionsData.length;
+
+        const totalMinutes = visibleSessionsData.reduce(
           (acc, s) => acc + (s.duration || 0),
           0,
         );
@@ -194,7 +215,7 @@ const Admin = () => {
         });
         setUsers(sortedProfiles);
 
-        const mappedSessions = (sessionsData || []).map((session) => {
+        const mappedSessions = visibleSessionsData.map((session) => {
           const host = sortedProfiles.find((p) => p.id === session.user_id);
           const partner = sortedProfiles.find(
             (p) => p.id === session.partner_id,
