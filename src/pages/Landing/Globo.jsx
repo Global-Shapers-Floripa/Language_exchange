@@ -30,14 +30,14 @@ const HeroGlobe = () => {
   ];
 
   return (
-    <div className="connections-container">
-      <div className="connections-grid">
+    <div className="hero-connections-container">
+      <div className="hero-connections-grid">
         {connections.map((conn) => (
           <div key={conn.id} className={`chat-connection-card ${conn.themeClass}`}>
             
             {/* Mensagem da Pessoa A (Esquerda) */}
             <div className="chat-row left">
-              <div className="avatar-wrapper">
+              <div className="chat-avatar-wrapper">
                 <img src={conn.userA.avatar} alt={conn.userA.name} className="chat-avatar" />
                 <img src={`https://flagcdn.com/w40/${conn.userA.flag}.png`} alt="Flag" className="chat-flag" />
               </div>
@@ -53,7 +53,7 @@ const HeroGlobe = () => {
 
             {/* Mensagem da Pessoa B (Direita) */}
             <div className="chat-row right">
-              <div className="avatar-wrapper">
+              <div className="chat-avatar-wrapper">
                 <img src={conn.userB.avatar} alt={conn.userB.name} className="chat-avatar" />
                 <img src={`https://flagcdn.com/w40/${conn.userB.flag}.png`} alt="Flag" className="chat-flag" />
               </div>

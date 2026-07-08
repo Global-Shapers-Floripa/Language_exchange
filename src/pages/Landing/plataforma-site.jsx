@@ -1,6 +1,7 @@
 import React from "react";
 import "./plataforma-site.css";
-import imgMockup from "../../assets/logo-LanguageExchange.svg"; // Placeholder da foto
+import imgDashboard from "../../assets/dash-plataforma.jpg";
+import imgConexoes from "../../assets/conexoes-plataforma.jpg";
 
 const PlataformaSection = () => {
   return (
@@ -46,40 +47,43 @@ const PlataformaSection = () => {
 
         </div>
 
-        {/* COLUNA DIREITA: Foto estática e os 3 Cards menores */}
+        {/* COLUNA DIREITA: Cards com screenshots das telas */}
         <div className="site-plataforma-right">
-          
-          {/* Foto estática sem hover */}
-          <img 
-            src={imgMockup} 
-            alt="Preview da Plataforma" 
-            className="site-mockup-single" 
-          />
 
-          {/* Cards compactos com as 3 funcionalidades */}
+          {/* Cards compactos com as funcionalidades */}
           <div className="site-features-compact">
-            
+
             <div className="site-feature-card">
-              <div className="site-feat-num">1</div>
-              <div className="site-feat-content">
-                <h4>ACOMPANHE SEU IMPACTO</h4>
-                <p>Seu dashboard é o seu diário de bordo. Visualize horas de conversação e colecione os países que já alcançou.</p>
+              <div className="site-feat-header">
+                <div className="site-feat-num">1</div>
+                <div className="site-feat-content">
+                  <h4>ACOMPANHE SEU IMPACTO</h4>
+                  <p>Seu dashboard é o seu diário de bordo. Visualize horas de conversação e colecione os países que já alcançou.</p>
+                </div>
+              </div>
+              <div className="site-feat-media">
+                <img
+                  src={imgDashboard}
+                  alt="Screenshot do Dashboard da plataforma"
+                  className="site-feat-img"
+                />
               </div>
             </div>
 
             <div className="site-feature-card">
-              <div className="site-feat-num">2</div>
-              <div className="site-feat-content">
-                <h4>SUGESTÕES DE MATCH</h4>
-                <p>Nossa plataforma sugere os parceiros mais compatíveis com o seu perfil, facilitando o encontro perfeito.</p>
+              <div className="site-feat-header">
+                <div className="site-feat-num">2</div>
+                <div className="site-feat-content">
+                  <h4>SUGESTÕES DE MATCH</h4>
+                  <p>Nossa plataforma sugere os parceiros mais compatíveis com o seu perfil, facilitando o encontro perfeito.</p>
+                </div>
               </div>
-            </div>
-
-            <div className="site-feature-card">
-              <div className="site-feat-num">3</div>
-              <div className="site-feat-content">
-                <h4>CONTROLE TOTAL</h4>
-                <p>Gerencie convites de forma simples. Aceite solicitações com um clique e acesse materiais de apoio sempre que precisar.</p>
+              <div className="site-feat-media">
+                <img
+                  src={imgConexoes}
+                  alt="Screenshot da tela Explorar Rede da plataforma"
+                  className="site-feat-img"
+                />
               </div>
             </div>
 

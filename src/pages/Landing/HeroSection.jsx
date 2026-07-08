@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import "./hero.css";
 import BackIdiomas from "../../assets/BackIdiomas.png";
 import Boca from "../../assets/mouth-halftone-1.png";
-import Call from "../../assets/photo-call.jpg";
 import logoLanguageExchange from "../../assets/Logo-laranja.png";
 import { Link } from "react-router-dom";
 import HeroGlobe from "./Globo";

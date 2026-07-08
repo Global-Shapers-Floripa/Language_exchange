@@ -1,5 +1,5 @@
 /* Container que ocupa a direita do Hero */
-.connections-container {
+.hero-connections-container {
     width: 100%;
     height: auto;
     min-height: 550px;
@@ -12,17 +12,12 @@
 /* =========================================
    A MÁGICA DO ALINHAMENTO COM GAP (Grid)
    ========================================= */
-.connections-grid {
+.hero-connections-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
     /* O ESPAÇAMENTO PADRÃO ENTRE TODOS */
     align-items: start;
-}
-
-/* O card da direita desce um pouquinho para o efeito de degrau */
-.chat-connection-card:nth-child(even) {
-    transform: translateY(40px);
 }
 
 /* O "Card" base */
@@ -38,7 +33,20 @@
 
     border: 1px solid white;
 
+    /* Offset do efeito "escadinha" (sobrescrito na 2ª coluna e zerado no mobile) */
+    --stagger-offset: 0px;
+    transform: translateY(var(--stagger-offset));
+    transition: transform 0.2s ease;
+}
 
+/* O card da direita desce um pouquinho para o efeito de degrau */
+.chat-connection-card:nth-child(even) {
+    --stagger-offset: 40px;
+}
+
+/* Efeito de "levantar" no hover, mantendo o offset da escadinha */
+.chat-connection-card:hover {
+    transform: translateY(calc(var(--stagger-offset) - 6px));
 }
 
 
@@ -164,7 +172,7 @@
 }
 
 /* Alinhamento perfeito da foto com a bandeira */
-.avatar-wrapper {
+.chat-avatar-wrapper {
     position: relative;
     flex-shrink: 0;
     display: flex;
@@ -238,7 +246,7 @@
 }
 
 @media (max-width: 1150px) {
-    .connections-container {
+    .hero-connections-container {
         min-height: 400px;
     }
 
@@ -249,7 +257,7 @@
    RESPONSIVIDADE (Celular)
    ========================================= */
 @media (max-width: 768px) {
-    .connections-grid {
+    .hero-connections-grid {
         /* Alterado para manter 2 colunas no mobile (2x2) */
         grid-template-columns: 1fr 1fr;
 
@@ -257,19 +265,18 @@
         gap: 15px;
     }
 
-    .connections-container {
+    .hero-connections-container {
         min-height: fit-content;
     }
 
-    /* Tira o degrau no mobile para ficarem todos retos (opcional, pode remover 
-       essa regra se quiser manter o efeito de sobe/desce no celular também) */
+    /* Tira o degrau no mobile para ficarem todos retos */
     .chat-connection-card:nth-child(even) {
-        transform: translateY(0);
+        --stagger-offset: 0px;
     }
 
     .chat-connection-card {
         width: 100%;
-        /* Removemos o max-width para que o grid controle o tamanho 
+        /* Removemos o max-width para que o grid controle o tamanho
            e eles se adaptem perfeitamente aos 50% da tela */
         max-width: none;
     }
@@ -277,15 +284,15 @@
 
 @media (max-width: 550px) {
 
-    .connections-grid {
-        /* Alterado para manter 2 colunas no mobile (2x2) */
+    .hero-connections-grid {
+        /* Empilha em coluna única no celular */
         grid-template-columns: 1fr;
 
         /* Reduzindo um pouco o gap para os cards caberem melhor na tela estreita */
         gap: 15px;
     }
 
-    .connections-container {
+    .hero-connections-container {
         min-height: 400px;
 
         padding: 0;

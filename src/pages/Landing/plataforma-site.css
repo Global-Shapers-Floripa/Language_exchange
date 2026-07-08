@@ -46,6 +46,7 @@
 }
 
 .site-title-plataforma .site-highlight-orange {
+  font-family: inherit;
   color: var(--brand-orange, #FF8400);
 }
 
@@ -125,31 +126,41 @@
   gap: 20px; /* Mantém a foto e os cards próximos */
 }
 
-/* Foto estática sem frescuras */
-.site-mockup-single {
-  width: 100%;
-  height: 240px; /* Altura controlada para não empurrar a tela pra baixo */
-  object-fit: cover;
-  border-radius: 20px;
-  background-color: #ffffff;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-}
-
 /* Cards de Funcionalidade (Compactos em lista) */
 .site-features-compact {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 20px;
 }
 
 .site-feature-card {
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
   gap: 15px;
   background-color: #ffffff;
-  padding: 15px 20px;
+  padding: 20px;
   border-radius: 16px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+.site-feat-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+/* Screenshot da tela dentro do card */
+.site-feat-media {
+  width: 100%;
+}
+
+.site-feat-img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
 }
 
 .site-feat-num {
@@ -209,9 +220,5 @@
   .site-mini-blob {
     padding: 1.5rem;
     border-radius: 40px !important; /* Bordas mais suaves no mobile */
-  }
-
-  .site-mockup-single {
-    height: 200px;
   }
 }

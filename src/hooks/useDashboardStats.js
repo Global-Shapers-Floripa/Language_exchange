@@ -9,13 +9,13 @@ const formatPracticedTime = (totalMinutes) => {
   const hours = Math.floor(totalMinutes / 60);
   const minutes = totalMinutes % 60;
 
-  return `${hours}:${String(minutes).padStart(2, "0")}m`;
+  return `${hours}:${String(minutes).padStart(2, "0")}h`;
 };
 
 export const useDashboardStats = () => {
   const [connectionsCount, setConnectionsCount] = useState(0);
   const [sessionsCount, setSessionsCount] = useState(0);
-  const [practicedTimeLabel, setPracticedTimeLabel] = useState("0:00m");
+  const [practicedTimeLabel, setPracticedTimeLabel] = useState("0:00h");
   const [countries, setCountries] = useState([]);
 
   const [loading, setLoading] = useState(true);

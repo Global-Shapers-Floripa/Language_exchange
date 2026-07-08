@@ -49,6 +49,7 @@
 }
 
 .site-highlight-orange {
+  font-family: inherit;
   color: var(--brand-orange, #FF8400);
 }
 

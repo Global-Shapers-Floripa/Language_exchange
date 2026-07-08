@@ -34,6 +34,7 @@
 }
 
 .sobre-title {
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
   font-size: 4rem;
   line-height: 0.9;
   color: var(--dark-navy, #0B0829);
@@ -42,6 +43,7 @@
 }
 
 .sobre-title .highlight-orange {
+  font-family: inherit;
   color: var(--brand-orange, #FF8400);
 }
 
