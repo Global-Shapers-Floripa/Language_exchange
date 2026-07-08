@@ -6,13 +6,12 @@ const PendingApproval = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="pending-page">
+    <div className="pending-page dotted-texture">
       <div className="card card--pending pending-card">
-        <div className="pending-icon">
-          <Clock3 size={70} />
+        <div className="pending-title-row">
+          <Clock3 size={26} className="pending-icon" />
+          <h1>Solicitação em análise</h1>
         </div>
-
-        <h1>Solicitação em análise</h1>
 
         <p>
           Sua conta foi criada com sucesso e está aguardando aprovação

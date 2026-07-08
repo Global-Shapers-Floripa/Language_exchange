@@ -13,6 +13,7 @@ import {
 import { useSessions } from "../../hooks/useSessions";
 import { usePartners } from "../../hooks/usePartners";
 import AddSessionModal from "../../components/common/AddSessionModal";
+import ConfirmModal from "../../components/common/ConfirmModal";
 
 import "./sessoes.css";
 
@@ -25,6 +26,8 @@ const MySessions = () => {
 
   // ADICIONE AQUI
   const [selectedSession, setSelectedSession] = useState(null);
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
+  const [deleteErrorMessage, setDeleteErrorMessage] = useState(null);
 
   const handleSessionAdded = () => {
     if (refetch) {
@@ -32,21 +35,15 @@ const MySessions = () => {
     }
   };
 
-  const handleDeleteSession = async () => {
+  const confirmDeleteSession = async () => {
     if (!selectedSession) return;
-
-    const confirmed = window.confirm(
-      `Deseja realmente excluir a sessão com ${selectedSession.partner}?`,
-    );
-
-    if (!confirmed) return;
 
     const result = await deleteSession(selectedSession.id);
 
     if (result.success) {
       setSelectedSession(null);
     } else {
-      alert(result.error);
+      setDeleteErrorMessage(result.error);
     }
   };
 
@@ -229,13 +226,36 @@ const MySessions = () => {
               <div className="details-actions">
                 <button
                   className="btn btn-danger delete-session-btn"
-                  onClick={handleDeleteSession}
+                  onClick={() => setIsDeleteConfirmOpen(true)}
                 >
                   <Trash2 size={18} />
                   Excluir sessão
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {isDeleteConfirmOpen && (
+        <ConfirmModal
+          title="Excluir sessão?"
+          message={`Essa ação não pode ser desfeita. A sessão com ${selectedSession?.partner} será excluída permanentemente.`}
+          confirmText="Excluir"
+          cancelText="Cancelar"
+          onConfirm={confirmDeleteSession}
+          onClose={() => setIsDeleteConfirmOpen(false)}
+        />
+      )}
+
+      {deleteErrorMessage && (
+        <div className="info-modal-overlay">
+          <div className="info-modal-box dotted-texture">
+            <h3>Não foi possível excluir</h3>
+            <p>{deleteErrorMessage}</p>
+            <button onClick={() => setDeleteErrorMessage(null)}>
+              Entendi
+            </button>
           </div>
         </div>
       )}

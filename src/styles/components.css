@@ -174,12 +174,70 @@
 /* =========================
    TEXTURA PONTILHADA
 ========================= */
-/* Mesmo padrão de pontos do hero da Landing (hero.css) — a cor/opacidade do
-   ponto é customizável via --dotted-texture-color, o background-color fica
-   por conta de quem usar a classe */
+/* Padrão oficial do site (--dot-size / --dot-pattern-size, definidos em
+   index.css). A cor/opacidade do ponto é customizável via
+   --dotted-texture-color, o background-color fica por conta de quem usar
+   a classe. */
 .dotted-texture {
-  background-image: radial-gradient(var(--dotted-texture-color, rgba(156, 176, 225, 0.15)) 2px, transparent 2px);
-  background-size: 30px 30px;
+  background-image: radial-gradient(var(--dotted-texture-color, rgba(156, 176, 225, 0.15)) var(--dot-size, 1px), transparent var(--dot-size, 1px));
+  background-size: var(--dot-pattern-size, 15px) var(--dot-pattern-size, 15px);
+}
+
+/* =========================
+   MODAL DE INFORMAÇÃO
+========================= */
+/* Overlay + card usados em confirmações simples (ex: sucesso de cadastro,
+   link de recuperação de senha enviado). Combine .info-modal-box com
+   .dotted-texture para herdar o padrão pontilhado oficial do site. */
+.info-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 999;
+}
+
+.info-modal-box {
+  width: 100%;
+  max-width: 420px;
+  background-color: var(--dark-navy, #0B0829);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.info-modal-box h3 {
+  color: #fff;
+  letter-spacing: var(--title-letter-spacing, 2px);
+  margin-bottom: 10px;
+}
+
+.info-modal-box p {
+  color: #fff;
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 20px;
+}
+
+.info-modal-box button {
+  background: var(--brand-orange, #FF8400);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  color: var(--dark-navy, #0B0829);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.info-modal-box button:hover {
+  background: #fa811e;
 }
 
 /* =========================

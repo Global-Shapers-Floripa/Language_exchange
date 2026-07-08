@@ -117,9 +117,13 @@ const Dashboard = () => {
             title: "Bem-vindo(a)!",
             text: "Para ver seus matches e se conectar, precisamos saber quais idiomas você fala e quais quer aprender.",
             icon: "info",
+            iconColor: "var(--brand-orange, #FF8400)",
             confirmButtonText: "Configurar Perfil",
-            allowOutsideClick: false,
+            allowOutsideClick: true,
             allowEscapeKey: false,
+            customClass: {
+              title: "swal-title-brand",
+            },
           }).then((result) => {
             if (result.isConfirmed) {
               navigate("/profile");

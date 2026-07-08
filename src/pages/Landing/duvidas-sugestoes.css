@@ -139,6 +139,7 @@
   color: var(--dark-navy, #0B0829);
   margin-bottom: 5px;
   text-transform: uppercase;
+  letter-spacing: var(--title-letter-spacing, 2px);
 }
 
 .site-highlight-orange {

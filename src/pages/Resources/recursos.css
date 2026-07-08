@@ -302,7 +302,7 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background-color: #0A3251;
+  background-color: var(--dark-navy, #0B0829);
   color: white;
   text-decoration: none;
   font-weight: 700;

@@ -20,6 +20,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
+  const [resetEmailModalOpen, setResetEmailModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -111,9 +112,7 @@ const Login = () => {
 
       logSecurityEvent("password_reset_requested", { email });
       setErrorMsg(""); // Limpar erro anterior
-      alert(
-        "Link de recuperação enviado para seu e-mail! Verifique a caixa de entrada (ou spam).",
-      );
+      setResetEmailModalOpen(true);
     } catch (err) {
       logSecurityEvent("password_reset_failed", {
         email,
@@ -241,6 +240,21 @@ const Login = () => {
         </div>
       </div>
       </div>
+
+      {resetEmailModalOpen && (
+        <div className="info-modal-overlay">
+          <div className="info-modal-box dotted-texture">
+            <h3>E-mail enviado 📩</h3>
+            <p>
+              Link de recuperação enviado para seu e-mail! Verifique a caixa
+              de entrada (ou spam).
+            </p>
+            <button onClick={() => setResetEmailModalOpen(false)}>
+              Entendi
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

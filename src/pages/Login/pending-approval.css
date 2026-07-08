@@ -1,7 +1,7 @@
 .pending-page {
   width: 100%;
   min-height: 100vh;
-  background: linear-gradient(135deg, #08b9ff 0%, #0077b6 100%);
+  background-color: var(--dark-navy, #0B0829);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,24 +13,25 @@
   max-width: 520px;
 }
 
-.pending-icon {
-  width: 110px;
-  height: 110px;
-  margin: 0 auto 24px;
-  border-radius: 999px;
-  background: rgba(8, 185, 255, 0.1);
-
+.pending-title-row {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
 
-  color: #08b9ff;
+.pending-icon {
+  flex-shrink: 0;
+  color: var(--dark-navy, #0B0829);
 }
 
 .pending-card h1 {
+  min-width: 0;
   font-size: 32px;
-  margin-bottom: 16px;
-  color: #111827;
+  margin: 0;
+  color: var(--dark-navy, #0B0829);
+  letter-spacing: var(--title-letter-spacing, 2px);
 }
 
 .pending-card p {
@@ -48,4 +49,19 @@
   width: 100%;
   border-radius: 14px;
   font-size: 16px;
+  background-color: var(--dark-navy, #0B0829);
+}
+
+.pending-card .btn:hover {
+  background-color: #150f3d;
+}
+
+@media (max-width: 480px) {
+  .pending-card {
+    padding: 32px 24px;
+  }
+
+  .pending-card h1 {
+    font-size: 26px;
+  }
 }

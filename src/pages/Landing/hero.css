@@ -230,6 +230,7 @@
   /* Título Branco */
   margin: 0 0 1rem 0;
   text-transform: uppercase;
+  letter-spacing: var(--title-letter-spacing, 2px);
 }
 
 .site-hero-title .site-highlight-orange {

@@ -67,6 +67,7 @@
   color: #ffffff;
   margin: 0;
   text-transform: uppercase;
+  letter-spacing: var(--title-letter-spacing, 2px);
 }
 
 .como-title .highlight-orange {

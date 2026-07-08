@@ -12,6 +12,7 @@ const ResetPassword = () => {
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -34,9 +35,7 @@ const ResetPassword = () => {
 
       if (error) throw error;
 
-      alert("Senha alterada com sucesso!");
-
-      navigate("/login");
+      setSuccessModalOpen(true);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -106,6 +105,16 @@ const ResetPassword = () => {
           Lembrou a senha? <Link to="/login">Voltar para o login</Link>
         </p>
       </div>
+
+      {successModalOpen && (
+        <div className="info-modal-overlay">
+          <div className="info-modal-box dotted-texture">
+            <h3>Senha alterada 🔒</h3>
+            <p>Sua senha foi alterada com sucesso!</p>
+            <button onClick={() => navigate("/login")}>Entendi</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

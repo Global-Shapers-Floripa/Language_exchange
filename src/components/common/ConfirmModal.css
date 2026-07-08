@@ -1,7 +1,7 @@
 .confirm-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.6);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,6 +14,9 @@
   max-width: 400px;
   padding: 28px;
   animation: confirmModalFade 0.2s ease;
+  background-color: var(--dark-navy, #0B0829);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
 @keyframes confirmModalFade {
@@ -23,14 +26,18 @@
 
 .confirm-modal h2 {
   margin: 0 0 12px 0;
-  font-size: 1.2rem;
-  color: #1e293b;
+  font-family: var(--font-title, 'Bebas Neue', sans-serif);
+  font-size: 1.5rem;
+  letter-spacing: var(--title-letter-spacing, 2px);
+  text-transform: uppercase;
+  color: #fff;
   font-weight: 700;
 }
 
 .confirm-modal p {
   margin: 0 0 24px 0;
-  color: #475569;
+  color: #fff;
+  opacity: 0.85;
   font-size: 0.95rem;
   line-height: 1.5;
 }
@@ -43,6 +50,25 @@
 
 .confirm-modal-actions .btn {
   min-width: 100px;
+}
+
+/* Cancelar: contorno claro para contrastar com o fundo azul escuro
+   (um botão sólido azul escuro ficaria invisível sobre o próprio fundo) */
+.confirm-modal-actions .btn-secondary {
+  background-color: transparent;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.confirm-modal-actions .btn-secondary:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Confirmar: mantém o vermelho semântico de ação destrutiva (não laranja,
+   que no site é a cor de CTA positivo/principal) */
+.confirm-modal-actions .btn-danger:hover:not(:disabled) {
+  background-color: rgba(198, 72, 58, 0.15);
 }
 
 @media (max-width: 480px) {

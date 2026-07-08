@@ -6,6 +6,18 @@ CONTAINER
   max-width: 1300px;
   margin: 0 auto;
 }
+
+/* =========================
+POPUP "COMPLETE SEU PERFIL" (SweetAlert2)
+========================= */
+/* Aplicada via customClass.title no Swal.fire — SweetAlert2 anexa o popup
+   direto no <body>, fora da árvore do React, mas a classe CSS funciona
+   normalmente por não haver Shadow DOM. */
+.swal-title-brand {
+  font-family: var(--font-title, 'Bebas Neue', sans-serif) !important;
+  letter-spacing: var(--title-letter-spacing, 2px);
+  text-transform: uppercase;
+}
 /* =========================
 DASHBOARD (ESTATÍSTICAS)
 ========================= */

@@ -25,7 +25,10 @@ const ConfirmModal = ({
 
   return (
     <div className="confirm-modal-overlay" onClick={onClose}>
-      <div className="card confirm-modal" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="card confirm-modal dotted-texture"
+        onClick={(e) => e.stopPropagation()}
+      >
         <h2>{title}</h2>
         <p>{message}</p>
         <div className="confirm-modal-actions">

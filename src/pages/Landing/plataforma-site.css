@@ -43,6 +43,7 @@
   color: var(--dark-navy, #0B0829);
   margin: 0 0 15px 0;
   text-transform: uppercase;
+  letter-spacing: var(--title-letter-spacing, 2px);
 }
 
 .site-title-plataforma .site-highlight-orange {

@@ -418,8 +418,8 @@ const SignUp = () => {
       )}
 
       {successModalOpen && (
-        <div className="signup-modal-overlay">
-          <div className="modal-box">
+        <div className="info-modal-overlay">
+          <div className="info-modal-box dotted-texture">
             <h3>Conta criada com sucesso 🎉</h3>
             <p>
               Sua solicitação foi enviada para o Hub. Você poderá acessar a

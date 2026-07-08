@@ -516,43 +516,6 @@ MODAL TERMOS
   opacity: 0.92;
 }
 
-.signup-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-}
-
-.modal-box {
-  width: 100%;
-  max-width: 420px;
-  background: #0f172a;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  padding: 24px;
-  text-align: center;
-  color: #fff;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-}
-
-.modal-box h3 {
-  margin-bottom: 10px;
-}
-
-.modal-box p {
-  font-size: 14px;
-  opacity: 0.8;
-  margin-bottom: 20px;
-}
-
-.modal-box button {
-  background: #08b9ff;
-  border: none;
-  padding: 10px 14px;
-  border-radius: 10px;
-  color: #fff;
-  cursor: pointer;
-}
+/* O modal de sucesso do cadastro usa as classes globais .info-modal-overlay
+   e .info-modal-box (src/styles/components.css), reaproveitadas também no
+   modal de "link de recuperação enviado" do Login. */

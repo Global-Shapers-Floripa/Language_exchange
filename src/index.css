@@ -48,6 +48,11 @@
   /* Tipografia: Criamos duas variáveis separadas */
   --font-title: 'Bebas Neue', sans-serif;
   --font-body: 'Poppins', sans-serif;
+  --title-letter-spacing: 2px;
+
+  /* Padrão oficial do fundo pontilhado (dotted background) usado no site */
+  --dot-size: 1px;
+  --dot-pattern-size: 15px;
 }
 
 html {
@@ -70,7 +75,7 @@ html {
 
 /* 3. A parte que se move (o "polegar") */
 ::-webkit-scrollbar-thumb {
-  background: rgb(1, 145, 228); /* Usando sua variável de azul */
+  background: var(--dark-navy); /* Usando sua variável de azul */
   border-radius: 10px;
   border: 2px solid #f1f1f1; /* Cria um espaçamento sutil em volta */
 }
