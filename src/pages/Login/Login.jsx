@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Globe, Mail, Lock, Eye, EyeOff, AlertCircle } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, AlertCircle } from "lucide-react";
 import { supabase } from "../../services/supabaseClient";
 import { useNavigate } from "react-router-dom";
 import {
@@ -8,6 +8,10 @@ import {
   resetRateLimit,
   logSecurityEvent,
 } from "../../utils/securityUtils";
+import Brain from "../../assets/brain.png";
+import Lupa from "../../assets/lupa.png";
+import Megafone from "../../assets/megafone.png";
+import Boca from "../../assets/boca.png";
 import "./login.css";
 
 const Login = () => {
@@ -123,7 +127,33 @@ const Login = () => {
 
   return (
     <div className="login-page">
-      <div className="login-side-blue">
+      <div className="login-page-inner">
+      <div className="login-side-photo">
+        <img
+          src={Megafone}
+          alt=""
+          className="corner-decor corner-decor--top-left"
+          data-placeholder="foto-canto"
+        />
+        <img
+          src={Boca}
+          alt=""
+          className="corner-decor corner-decor--top-right"
+          data-placeholder="foto-canto"
+        />
+        <img
+          src={Brain}
+          alt=""
+          className="corner-decor corner-decor--bottom-left"
+          data-placeholder="foto-canto"
+        />
+        <img
+          src={Lupa}
+          alt=""
+          className="corner-decor corner-decor--bottom-right"
+          data-placeholder="foto-canto"
+        />
+
         <div className="brand-wrapper">
           <div className="logo-placeholder">
             <span className="logo-text">GLOBAL SHAPERS</span>
@@ -135,7 +165,6 @@ const Login = () => {
             <p>"From words to worlds"</p>
           </div>
         </div>
-        <Globe size={300} className="globe-icon-bg" />
       </div>
 
       <div className="login-side-form">
@@ -210,6 +239,7 @@ const Login = () => {
   Não tem conta? <Link to="/signup">Crie uma aqui</Link>
 </p>
         </div>
+      </div>
       </div>
     </div>
   );

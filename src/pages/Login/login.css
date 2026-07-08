@@ -1,28 +1,42 @@
 .login-page {
   display: flex;
+  width: 100vw;
   min-height: 100vh;
-  overflow-y: hidden;
+  background-color: var(--dark-navy, #0B0829);
   overflow-x: hidden;
 }
 
-/* Lado Azul */
-.login-side-blue {
-  flex: 1;
+/* Sem max-width/centralização: as duas colunas sempre preenchem 100% da
+   largura da tela. Grid com 1fr 1fr garante 50/50 exato entre elas, mesmo
+   que o conteúdo de uma delas seja mais largo - min-width:0 nas colunas
+   evita que o conteúdo force uma coluna a crescer além da outra. */
+.login-page-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+}
 
-  background: linear-gradient(rgba(7, 17, 26, 0.719)), url('../../assets/login-banner.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  
+/* Lado da Foto (laranja pontilhado) */
+.login-side-photo {
+  min-width: 0;
+  min-height: 100vh;
+
+  background-color: var(--brand-orange, #FF8400);
+  background-image: radial-gradient(
+    color-mix(in srgb, rgb(143, 53, 1) 30%, transparent) 1.5px,
+    transparent 1.5px
+  );
+  background-size: 20px 20px;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: white;
   position: relative;
+  overflow: hidden;
   padding: 40px 20px;
-  min-height: 100vh;
 }
+
 .brand-wrapper {
   z-index: 2;
   text-align: center;
@@ -34,58 +48,75 @@
 }
 
 .logo-text {
+  font-family: var(--font-body, 'Poppins', sans-serif);
   font-size: 1.2rem;
-  font-weight: bold;
+  font-weight: 800;
   letter-spacing: 2px;
+  color: var(--dark-navy, #0B0829);
 }
 
 .login-hero-text h1 {
+  font-family: var(--font-body, 'Poppins', sans-serif);
   font-size: 2.5rem;
+  font-weight: 800;
   margin-top: 20px;
   word-wrap: break-word;
+  color: var(--dark-navy, #0B0829);
 }
 
 .login-hero-text p {
   font-size: 1rem;
   margin-top: 10px;
-  color: #7ABFFF;
+  color: color-mix(in srgb, var(--dark-navy, #0B0829) 75%, transparent);
 }
 
 .login-hero-text span {
-  color: #7ABFFF; /* Aquele azul claro do highlight */
+  color: var(--dark-navy, #0B0829); /* Mesma cor do resto, diferenciado só pelo peso */
 }
 
-.globe-icon-bg {
-  position: absolute;
-  opacity: 0.1;
-  color: white;
-  bottom: -50px;
-  right: -50px;
-  width: 300px;
-  height: 300px;
+/* Placeholders das imagens de canto (a substituir por PNGs transparentes).
+   Offsets negativos propositais: a imagem "sangra" pra fora da coluna e é
+   cortada pelo overflow:hidden do .login-side-photo, em vez de aparecer
+   inteira e encolhida dentro da margem. */
+.corner-decor {
+  opacity: .6;
 }
 
-/* Lado do Formulário */
+
+
+
+/* Lado do Formulário (azul escuro pontilhado por trás do card).
+   overflow-x:hidden protege contra qualquer elemento interno que force
+   largura além da coluna (mesmo tipo de bug corrigido no SignUp). */
 .login-side-form {
-  flex: 1;
-  background-color: white;
+  min-width: 0;
+  min-height: 100vh;
+
+  background-color: var(--dark-navy, #0B0829);
+  background-image: radial-gradient(
+    rgba(156, 176, 225, 0.15) 2px,
+    transparent 2px
+  );
+  background-size: 30px 30px;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  padding: 0 20px;
-  padding-top: 20px;
+  overflow-x: hidden;
 
-  min-height: 100vh;
-  height: 100vh;
+  padding: 40px 20px;
 }
 
+/* Card do formulário */
 .form-container {
   width: 100%;
   max-width: 400px;
 
-  padding: 40px 0;
+  background: var(--bg-cream);
+  border-radius: 24px;
+  padding: 40px 32px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
 }
 
 .form-container h2 {
@@ -108,6 +139,7 @@
 .label-row {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .input-group label {
@@ -189,8 +221,13 @@
   color: #0A3251;
 }
 
-/* Botão de Esqueceu Senha */
+/* Botão de Esqueceu Senha.
+   display:inline (em vez do inline-block padrão de <button>) permite que o
+   texto quebre linha como um link normal, em vez de virar uma caixa
+   "atômica" que força a linha a estourar a largura da coluna em telas
+   estreitas (mesmo bug corrigido no botão de termos do SignUp). */
 .forgot-password-btn {
+  display: inline;
   background: none;
   border: none;
   color: #0A3251;
@@ -203,11 +240,11 @@
 
 /* Media Queries para Responsividade */
 @media (max-width: 1024px) {
-  .login-page {
-    flex-direction: column;
+  .login-page-inner {
+    grid-template-columns: 1fr;
   }
 
-  .login-side-blue {
+  .login-side-photo {
     min-height: auto;
     padding: 30px 20px;
   }
@@ -216,11 +253,9 @@
     font-size: 2rem;
   }
 
-  .globe-icon-bg {
-    width: 200px;
-    height: 200px;
-    bottom: -30px;
-    right: -30px;
+  .corner-decor {
+    width: 80px;
+    height: 80px;
   }
 
   .login-side-form {
@@ -234,11 +269,11 @@
 }
 
 @media (max-width: 768px) {
-  .login-page {
-    flex-direction: column;
+  .login-page-inner {
+    grid-template-columns: 1fr;
   }
 
-  .login-side-blue {
+  .login-side-photo {
     padding: 20px;
     min-height: 40vh;
   }
@@ -255,12 +290,29 @@
     font-size: 1rem;
   }
 
-  .globe-icon-bg {
-    width: 150px;
-    height: 150px;
-    bottom: -20px;
-    right: -20px;
-    opacity: 0.05;
+  .corner-decor {
+    width: 56px;
+    height: 56px;
+  }
+
+  .corner-decor--top-left {
+    top: -12px;
+    left: -12px;
+  }
+
+  .corner-decor--top-right {
+    top: -12px;
+    right: -12px;
+  }
+
+  .corner-decor--bottom-left {
+    bottom: -12px;
+    left: -12px;
+  }
+
+  .corner-decor--bottom-right {
+    bottom: -12px;
+    right: -12px;
   }
 
   .login-side-form {
@@ -311,11 +363,11 @@
 }
 
 @media (max-width: 480px) {
-  .login-page {
-    flex-direction: column;
+  .login-page-inner {
+    grid-template-columns: 1fr;
   }
 
-  .login-side-blue {
+  .login-side-photo {
     padding: 15px;
     min-height: 35vh;
   }
@@ -334,11 +386,29 @@
     letter-spacing: 1px;
   }
 
-  .globe-icon-bg {
-    width: 100px;
-    height: 100px;
-    bottom: -10px;
-    right: -10px;
+  .corner-decor {
+    width: 40px;
+    height: 40px;
+  }
+
+  .corner-decor--top-left {
+    top: -8px;
+    left: -8px;
+  }
+
+  .corner-decor--top-right {
+    top: -8px;
+    right: -8px;
+  }
+
+  .corner-decor--bottom-left {
+    bottom: -8px;
+    left: -8px;
+  }
+
+  .corner-decor--bottom-right {
+    bottom: -8px;
+    right: -8px;
   }
 
   .login-side-form {

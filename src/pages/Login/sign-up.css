@@ -1,61 +1,176 @@
 /* Reutilizando as variáveis e o estilo base */
+/* height (não min-height) + overflow:hidden aqui: a página inteira nunca
+   rola. Só a coluna do formulário rola por dentro (ver .login-side-form) -
+   a coluna da foto fica sempre travada em 100% da tela, sem se mover. */
 .signup-page {
   display: flex;
+  width: 100vw;
   height: 100vh;
   overflow: hidden;
+  background-color: var(--dark-navy, #0B0829);
 }
 
-/* Aproveita o estilo que já fizemos no Login para as metades */
-.login-side-blue {
-  flex: 1;
+/* Sem max-width/centralização: as duas colunas sempre preenchem 100% da
+   largura da tela. Grid com 1fr 1fr garante 50/50 exato entre elas, mesmo
+   que o conteúdo de uma delas seja mais largo - min-width:0 nas colunas
+   evita que o conteúdo force uma coluna a crescer além da outra. */
+.signup-page-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  height: 100%;
+}
 
-  background:
-    linear-gradient(rgba(7, 17, 26, 0.719)),
-    url('../../assets/login-banner.png');
+/* Aproveita o estilo que já fizemos no Login para as metades.
+   height:100% (não min-height) + overflow:hidden: essa coluna nunca rola,
+   fica sempre travada na altura exata da tela. */
+.login-side-photo {
+  min-width: 0;
+  height: 100%;
+  position: relative;
 
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-color: var(--dark-navy, #0B0829);
+  background-image: radial-gradient(
+    color-mix(in srgb, rgb(1, 98, 143) 30%, transparent) 1.5px,
+    transparent 1.5px
+  );
+  background-size: 20px 20px;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  color: white;
-
-  position: sticky;
-  top: 0;
-
-  height: 100vh;
+  overflow: hidden;
 
   padding: 40px 20px;
 }
 
-.login-side-blue h1 span {
-  color: #7ABFFF;
+.login-side-photo .brand-wrapper {
+  z-index: 2;
+  text-align: center;
+  max-width: 90%;
 }
 
-/* Lado do Formulário - Ajustado para rolagem se a tela for pequena */
+.login-side-photo .logo-placeholder {
+  margin-bottom: 20px;
+}
+
+.login-side-photo .logo-text {
+  font-family: var(--font-body, 'Poppins', sans-serif);
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: white;
+}
+
+.login-side-photo h1 {
+  font-family: var(--font-body, 'Poppins', sans-serif);
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-top: 20px;
+  word-wrap: break-word;
+  color: white;
+}
+
+.login-side-photo p {
+  font-size: 1rem;
+  margin-top: 10px;
+  color: color-mix(in srgb, white 75%, transparent);
+}
+
+.login-side-photo h1 span {
+  color: var(--brand-orange, #FF8400); /* Mesma cor do resto, diferenciado só pelo peso */
+}
+
+/* Placeholders das imagens de canto (a substituir por PNGs transparentes) */
+.corner-decor {
+  position: absolute;
+ 
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.corner-decor--top-left {
+  top: 24px;
+  left: -10px;
+   width: 200px;
+   height: 200px;
+   transform: rotate(65deg);
+}
+
+.corner-decor--top-right {
+  top: 24px;
+  right: 14px;
+  transform: rotate(-15deg);
+   width: 150px;
+  height: 150px;
+}
+
+.corner-decor--bottom-left {
+  bottom: -10px;
+  transform: scaleX(-1) rotate(-15deg);
+  left: 14px;
+   width: 170px;
+  height: 170px;
+
+}
+
+.corner-decor--bottom-right {
+  transform: scaleX(-1);
+  bottom: -20px;
+  right: -50px;
+   width: 230px;
+  height: 230px;
+}
+
+/* Lado do Formulário. min-height:100% (não height:100%) + overflow-y:auto:
+   só esta coluna rola quando o conteúdo é mais alto que a tela - a coluna
+   da foto ao lado permanece fixa. overflow-x:hidden protege contra
+   qualquer elemento interno que force largura além da coluna.
+
+   justify-content:flex-start é o fallback seguro (o card começa no topo,
+   com padding, nunca corta nada). "justify-content: safe center" acima
+   dele centraliza o card quando cabe na tela, mas cai de volta pro
+   comportamento "start" quando o conteúdo estoura o container - evitando
+   o bug clássico de flexbox em que o INÍCIO do conteúdo fica inacessível
+   ao rolar quando se centraliza algo maior que o container. */
 .login-side-form {
-  flex: 1;
-  background-color: white;
+  min-width: 0;
+  min-height: 100%;
+
+  background-color: var(--brand-orange);
+  background-image: radial-gradient(
+    rgb(252, 172, 98) 1.5px,
+    transparent 1.5px
+  );
+  background-size: 20px 20px;
 
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
-
-  padding: 60px 20px 40px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 
   overflow-y: auto;
+  overflow-x: hidden;
 
-  height: 100vh;
+  padding: 40px 20px;
+}
+
+@supports (justify-content: safe center) {
+  .login-side-form {
+    justify-content: safe center;
+  }
 }
 
 .form-container {
   width: 100%;
-  max-width: 450px;
+  max-width: 500px;
 
-  padding-bottom: 40px;
+  background: white;
+  border-radius: 24px;
+  padding: 40px 32px;
+  box-shadow: 0 5px 20px rgba(116, 43, 1, 0.35);
 }
 
 /* Títulos */
@@ -200,31 +315,69 @@
   font-weight: 600;
 }
 
-/* Responsividade do Sign Up */
+/* Responsividade do Sign Up: abaixo de 1024px as colunas empilham, então o
+   truque de "coluna da foto travada + só o formulário rola" não faz mais
+   sentido - a página volta a rolar inteira, como no Login. */
 @media (max-width: 1024px) {
   .signup-page {
-    flex-direction: column;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: visible;
   }
 
-  .login-side-blue {
-    min-height: auto;
+  .signup-page-inner {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  /* overflow permanece "hidden" (herdado da regra base) mesmo empilhada:
+     é o que faz as imagens de canto ficarem cortadas na borda da coluna
+     (efeito de sangria) em vez de vazar e alargar a página no mobile. */
+  .login-side-photo {
+    height: auto;
     padding: 30px 20px;
   }
 
+
   .login-side-form {
     min-height: auto;
+    overflow-y: visible;
     padding: 30px 20px;
   }
 }
 
 @media (max-width: 768px) {
-  .signup-page {
-    flex-direction: column;
+  .signup-page-inner {
+    grid-template-columns: 1fr;
   }
 
-  .login-side-blue {
+  .login-side-photo {
     padding: 20px;
     min-height: 40vh;
+  }
+
+  .corner-decor {
+    width: 80px;
+    height: 80px;
+  }
+
+  .corner-decor--top-left {
+    top: 12px;
+    left: -6px;
+  }
+
+  .corner-decor--top-right {
+    top: 12px;
+    right: 0px;
+  }
+
+  .corner-decor--bottom-left {
+    left: 8px;
+  }
+
+  .corner-decor--bottom-right {
+    right: -20px;
+    bottom: -5px;
   }
 
   .login-side-form {
@@ -242,30 +395,6 @@
 
   .languages-row {
     grid-template-columns: 1fr;
-  }
-}
-
-
-@media (max-width: 1024px) {
-  .signup-page {
-    flex-direction: column;
-    height: auto;
-    overflow: visible;
-  }
-
-  .login-side-blue {
-    position: relative;
-    height: auto;
-    min-height: 40vh;
-  }
-
-   .login-side-form {
-    height: auto;
-    overflow: visible;
-
-    padding-top: 40px;
-
-    align-items: center;
   }
 }
 
@@ -295,8 +424,18 @@ TERMOS
 
   width: 16px;
   height: 16px;
+  flex-shrink: 0;
 
   cursor: pointer;
+}
+
+/* .btn é inline-flex, uma caixa "atômica" que não quebra linha - com o
+   texto "termos e condições de privacidade" isso empurrava a largura da
+   coluna além de 100% e causava o scroll horizontal. display:inline faz
+   o botão se comportar como texto normal, quebrando linha como um link. */
+.terms-checkbox .btn-ghost {
+  display: inline;
+  text-decoration: underline;
 }
 
 /* =========================

@@ -10,6 +10,11 @@ import {
   logSecurityEvent,
 } from "../../utils/securityUtils";
 
+import Brain from "../../assets/brain.png";
+import Lupa from "../../assets/lupa.png";
+import Megafone from "../../assets/megafone.png";
+import Boca from "../../assets/boca.png";
+
 const SignUp = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -147,8 +152,37 @@ const SignUp = () => {
 
   return (
     <div className="signup-page">
-      <div className="login-side-blue">
+      <div className="signup-page-inner">
+      <div className="login-side-photo">
+        <img
+          src={Megafone}
+          alt=""
+          className="corner-decor corner-decor--top-left"
+          data-placeholder="foto-canto"
+        />
+        <img
+          src={Boca}
+          alt=""
+          className="corner-decor corner-decor--top-right"
+          data-placeholder="foto-canto"
+        />
+        <img
+          src={Brain}
+          alt=""
+          className="corner-decor corner-decor--bottom-left"
+          data-placeholder="foto-canto"
+        />
+        <img
+          src={Lupa}
+          alt=""
+          className="corner-decor corner-decor--bottom-right"
+          data-placeholder="foto-canto"
+        />
+
         <div className="brand-wrapper">
+          <div className="logo-placeholder">
+            <span className="logo-text">GLOBAL SHAPERS</span>
+          </div>
           <h1>
             Language <span>Exchange</span>
           </h1>
@@ -313,6 +347,7 @@ const SignUp = () => {
             Já tem conta? <Link to="/login">Fazer Login</Link>
           </p>
         </div>
+      </div>
       </div>
 
       {isTermsOpen && (
