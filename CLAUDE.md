@@ -12,8 +12,7 @@ Language Exchange — a web platform (in Portuguese) connecting people who want 
 - `npm run build` — production build
 - `npm run preview` — preview the production build
 - `npm run lint` — run ESLint (flat config, `eslint.config.js`)
-
-No test suite is configured in this repo.
+- `npm run test:e2e` — run Playwright E2E tests (`tests/e2e/`); requires `.env.test` (copy from `.env.test.example`) with credentials for a dedicated, pre-approved Supabase test user — never a real user account
 
 Supabase Edge Functions live under `supabase/functions/` (Deno runtime) and are deployed independently via the Supabase CLI — they are not built/bundled by Vite.
 
@@ -64,3 +63,8 @@ Supabase Edge Functions live under `supabase/functions/` (Deno runtime) and are 
   Fazer ajustes de estilo direto no código, sem verificação visual automatizada.
 - Se precisar confirmar algo visualmente, perguntar antes em vez de instalar 
   ferramentas de screenshot/automação de navegador.
+- Exceção: Playwright É PERMITIDO e é a ferramenta oficial do projeto para testes
+  automatizados E2E (end-to-end) de fluxos funcionais (login, cadastro, recuperação
+  de senha, etc.), configurados em uma suíte de testes própria. Essa exceção não
+  reabilita o uso de Playwright para tirar screenshots ou verificar CSS/visual —
+  só para simular ações de usuário e validar comportamento funcional.
