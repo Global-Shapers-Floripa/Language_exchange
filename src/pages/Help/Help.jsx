@@ -22,7 +22,7 @@ const Help = () => {
 
   const faqs = [
     {
-      question: "Como encontrar um parceiro compatível?",
+      question: "Como encontrar uma conexão compatível?",
       answer:
         "O sistema utiliza os idiomas que você fala, os idiomas que deseja aprender e seus interesses para sugerir pessoas com maior compatibilidade.",
     },
@@ -34,7 +34,7 @@ const Help = () => {
     {
       question: "Posso praticar mais de um idioma?",
       answer:
-        "Sim. Você pode adicionar múltiplos idiomas ao seu perfil e encontrar parceiros para cada um deles.",
+        "Sim. Você pode adicionar múltiplos idiomas ao seu perfil e encontrar conexões para cada um deles.",
     },
     {
       question: "Como alterar minhas informações?",
