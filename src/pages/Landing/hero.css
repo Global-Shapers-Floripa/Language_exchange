@@ -224,7 +224,7 @@
 
 .site-hero-title {
   font-family: var(--font-title, 'Bebas Neue', sans-serif);
-  font-size: 5.5rem;
+  font-size: 3.7rem;
   line-height: 0.9;
   color: #ffffff;
   /* Título Branco */
@@ -241,7 +241,7 @@
 .site-description {
   font-family: var(--font-body, 'Poppins', sans-serif);
   max-width: 600px;
-  font-size: 1rem;
+  font-size: .9rem;
   line-height: 1.6;
   color: var(--bg-cream, #FBF1E7);
   /* Bege claro para leitura confortável */

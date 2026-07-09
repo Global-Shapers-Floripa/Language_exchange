@@ -114,9 +114,9 @@ const HeroSection = () => {
             </div>
 
             <h1 className="site-hero-title">
-              FROM <span className="site-highlight-orange">WORDS</span>
+              A <span className="site-highlight-orange">GOOD CONVERSATION</span>
               <br />
-              TO WORLDS.
+              IS THE BEST WAY TO LEARN
             </h1>
 
             <p className="site-description">
