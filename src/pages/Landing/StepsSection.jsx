@@ -6,7 +6,11 @@ const steps = [
   {
     number: "01",
     title: "CRIE SEU PERFIL (COM SEGURANÇA)",
-    description: "Faça seu cadastro e aguarde nossa rápida aprovação manual. Isso garante um ambiente exclusivo e seguro para a rede Global Shapers. Depois, é só preencher seus interesses e os idiomas que quer praticar.",
+    description: (
+      <>
+        Faça seu cadastro e aguarde a <strong>verificação</strong> do seu perfil e a aprovação manual. Isso garante um ambiente exclusivo e seguro para a rede Global Shapers. Depois, <strong>você receberá uma confirmação por e-mail</strong> e é só preencher seus interesses e os idiomas que quer praticar.
+      </>
+    ),
     colorClass: "blob-step-orange"
   },
   {

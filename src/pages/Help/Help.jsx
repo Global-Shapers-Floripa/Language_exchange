@@ -121,7 +121,7 @@ const Help = () => {
             </div>
             <div>
               <span>E-mail de suporte</span>
-              <strong>globalshapers@languageexchange.com.br</strong>
+              <strong>Globalshapersflorianopolis@gmail.com</strong>
             </div>
           </div>
 

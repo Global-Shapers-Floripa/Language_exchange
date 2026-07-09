@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { supabase } from "../../services/supabaseClient";
 import PersonAvatar from "../common/PersonAvatar";
-import logoLE from "../../assets/Logo-laranja.png";
+import logoLE from "../../assets/logo-azul-claro.png";
 import BannerSidebar from "../../assets/banner-sidebar.png";
 import "./styles.css";
 

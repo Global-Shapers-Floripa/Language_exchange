@@ -6,7 +6,7 @@ const HeroGlobe = () => {
     {
       id: 1,
       themeClass: "theme-orange",
-      userA: { name: "Maria", hub: "Floripa", flag: "br", avatar: "https://i.pravatar.cc/150?img=47", text: "Você tem disponibilidade para uma call amanhã?" },
+      userA: { name: "Maria", hub: "Florianópolis", flag: "br", avatar: "https://i.pravatar.cc/150?img=47", text: "Você tem disponibilidade para uma call amanhã?" },
       userB: { name: "James", hub: "New York", flag: "us", avatar: "https://i.pravatar.cc/150?img=11", text: "Yes! Is 6 PM a good time for you?" }
     },
     {

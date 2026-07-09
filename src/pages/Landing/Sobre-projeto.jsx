@@ -47,7 +47,7 @@ const ConhecaProjeto = () => {
           <div className="blob-card blob-orange">
             <h3 className="blob-title">HUBS QUE SE FALAM</h3>
             <p className="blob-text">
-              Conexão direta com Shapers de mais de 40 hubs em outros continentes — 
+              Conexão direta com Shapers do mundo todo,
               sem intermediário, sem agência.
             </p>
           </div>
@@ -56,7 +56,7 @@ const ConhecaProjeto = () => {
           <div className="blob-card blob-navy">
             <h3 className="blob-title blob-title-light">AMBIENTE SEGURO</h3>
             <p className="blob-text blob-text-light">
-              Comunidade vetada pela rede Global Shapers, com guia de boas práticas e 
+              Comunidade exclusiva para rede Global Shapers, com guia de boas práticas e 
               moderação dos organizadores.
             </p>
           </div>
@@ -74,7 +74,7 @@ const ConhecaProjeto = () => {
           <div className="blob-card blob-peach">
             <h3 className="blob-title">REDE QUE FORTALECE</h3>
             <p className="blob-text">
-              Quanto mais Shapers conversam, mais forte fica a rede global — e os 
+              Quanto mais Shapers conversam, mais forte fica a rede global e os 
               projetos que a gente faz acontecer.
             </p>
           </div>

@@ -137,7 +137,7 @@
 /* Textos dentro do balão */
 .step-label {
   font-family: var(--font-title, 'Bebas Neue', sans-serif);
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 700;
   letter-spacing: 1px;
   margin-bottom: -5px; /* Aproxima o PASSO do NÚMERO */
@@ -145,7 +145,7 @@
 
 .step-number-card {
   font-family: var(--font-title, 'Bebas Neue', sans-serif);
-  font-size: 4rem;
+  font-size: 3rem;
   font-weight: 700;
   line-height: 1;
 }
@@ -178,17 +178,17 @@
 /* TEXTOS INFERIORES */
 .step-title {
   font-family: var(--font-title, 'Bebas Neue', sans-serif);
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+  letter-spacing: 1.5px;
   color: #ffffff;
-  margin-bottom: 12px;
-  letter-spacing: 0.5px;
+  margin-bottom: 5px;
 }
 
 .step-description {
   font-family: var(--font-body, 'Poppins', sans-serif);
   font-size: 0.9rem;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.75); /* Texto claro para leitura no fundo escuro */
+  color: rgba(255, 255, 255, 0.911); /* Texto claro para leitura no fundo escuro */
 }
 
 /* =========================================

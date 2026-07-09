@@ -13,7 +13,7 @@ const WhatsAppIcon = (props) => (
 
 const STORAGE_KEY = "whatsappBannerClosed";
 // TODO: substituir pelo link real do grupo antes de publicar
-const WHATSAPP_GROUP_LINK = "COLOQUE_O_LINK_DO_GRUPO_AQUI";
+const WHATSAPP_GROUP_LINK = "https://chat.whatsapp.com/DGQ5zgjWrPa4R6oJ8DndYO";
 
 const WhatsAppBanner = () => {
   const [closed, setClosed] = useState(
