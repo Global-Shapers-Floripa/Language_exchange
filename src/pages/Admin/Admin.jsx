@@ -6,6 +6,7 @@ import PersonAvatar from "../../components/common/PersonAvatar";
 import ConfirmModal from "../../components/common/ConfirmModal";
 import { COUNTRIES } from "../../constants/countries";
 import { LANGUAGES } from "../../constants/languages";
+import { parseLanguageString, formatLanguageLabel } from "../../utils/languageLevel";
 import { Users, MapPin, Languages, GraduationCap, Trash2, Monitor, Check, Eye } from "lucide-react";
 import "./admin.css";
 
@@ -204,31 +205,19 @@ const Admin = () => {
         const learnsCount = {};
 
         // speaks/learns guardam múltiplos idiomas numa única string separada
-        // por vírgula (ex: "Português, Espanhol, Inglês") — precisa dar split
-        // e contar cada idioma individualmente, não a string inteira como
-        // se fosse uma categoria própria.
+        // por vírgula, cada um com nível CEFR opcional (ex:
+        // "Português, Espanhol:B1, Inglês:C1") — a contagem de idiomas mais
+        // falados/aprendidos é só por nome, o nível não entra na estatística.
         sortedProfiles.forEach((u) => {
           if (u.hub) hubCount[u.hub] = (hubCount[u.hub] || 0) + 1;
 
-          if (u.speaks) {
-            u.speaks
-              .split(",")
-              .map((lang) => lang.trim())
-              .filter(Boolean)
-              .forEach((lang) => {
-                speaksCount[lang] = (speaksCount[lang] || 0) + 1;
-              });
-          }
+          parseLanguageString(u.speaks).forEach(({ name }) => {
+            speaksCount[name] = (speaksCount[name] || 0) + 1;
+          });
 
-          if (u.learns) {
-            u.learns
-              .split(",")
-              .map((lang) => lang.trim())
-              .filter(Boolean)
-              .forEach((lang) => {
-                learnsCount[lang] = (learnsCount[lang] || 0) + 1;
-              });
-          }
+          parseLanguageString(u.learns).forEach(({ name }) => {
+            learnsCount[name] = (learnsCount[name] || 0) + 1;
+          });
         });
 
         const topHubs = Object.entries(hubCount)
@@ -635,9 +624,9 @@ const Admin = () => {
                                 <div className="lang-group">
                                   <span className="lang-label">DOMINA</span>
                                   <div className="lang-chips">
-                                    {user.speaks.split(",").map((lang) => (
-                                      <span key={lang} className="chip outline">
-                                        {lang.trim()}
+                                    {parseLanguageString(user.speaks).map((lang) => (
+                                      <span key={lang.name} className="chip outline">
+                                        {formatLanguageLabel(lang)}
                                       </span>
                                     ))}
                                   </div>
@@ -647,9 +636,9 @@ const Admin = () => {
                                 <div className="lang-group">
                                   <span className="lang-label">APRENDE</span>
                                   <div className="lang-chips">
-                                    {user.learns.split(",").map((lang) => (
-                                      <span key={lang} className="chip orange">
-                                        {lang.trim()}
+                                    {parseLanguageString(user.learns).map((lang) => (
+                                      <span key={lang.name} className="chip orange">
+                                        {formatLanguageLabel(lang)}
                                       </span>
                                     ))}
                                   </div>

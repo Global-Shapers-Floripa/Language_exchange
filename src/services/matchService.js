@@ -1,14 +1,14 @@
 import { supabase } from "./supabaseClient";
+import { parseLanguageString } from "../utils/languageLevel";
 
 // =========================
 // NORMALIZAR STRING
 // =========================
+// Só o nome do idioma entra na comparação de match — o nível (CEFR) nunca
+// influencia a % de compatibilidade.
 const normalizeList = (text) => {
-  if (!text) return [];
-
-  return text
-    .split(",")
-    .map((item) => item.trim().toLowerCase())
+  return parseLanguageString(text)
+    .map(({ name }) => name.toLowerCase())
     .filter(Boolean);
 };
 
@@ -147,21 +147,9 @@ export const getMatches = async (
         return {
           ...profile,
 
-          speaksArray: profile.speaks
-            ? profile.speaks
-                .split(",")
-                .map((item) =>
-                  item.trim(),
-                )
-            : [],
+          speaksArray: parseLanguageString(profile.speaks),
 
-          learnsArray: profile.learns
-            ? profile.learns
-                .split(",")
-                .map((item) =>
-                  item.trim(),
-                )
-            : [],
+          learnsArray: parseLanguageString(profile.learns),
 
           ...match,
         };

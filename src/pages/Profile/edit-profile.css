@@ -282,6 +282,49 @@
   resize: vertical;
 }
 
+/* MINI SELETOR DE NÍVEL CEFR (clique numa tag de idioma) */
+.level-picker {
+  margin-top: 8px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: #fff0e0;
+  border: 1px solid var(--color-card-border, #FFC489);
+}
+
+.level-picker-title {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.level-picker-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.level-picker-option {
+  border: 1px solid var(--color-card-border, #FFC489);
+  background: white;
+  color: var(--dark-navy, #0A3251);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.level-picker-option:hover {
+  background: var(--brand-orange);
+  border-color: var(--brand-orange);
+  color: white;
+}
+
 .form-actions {
   display: flex;
   justify-content: flex-end;

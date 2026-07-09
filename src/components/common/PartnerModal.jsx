@@ -5,6 +5,7 @@ import { supabase } from "../../services/supabaseClient"; // Adicionado para bus
 import PersonAvatar from "./PersonAvatar";
 import CopyButton from "./CopyButton";
 import Swal from "sweetalert2";
+import { parseLanguageString, formatLanguageLabel } from "../../utils/languageLevel";
 import "./PartnerModal.css";
 
 // mode="connect" (padrão): fluxo de solicitar/cancelar conexão ao navegar pela rede.
@@ -399,8 +400,8 @@ const PartnerModal = ({
     ? `https://flagcdn.com/w640/${partner.country.toLowerCase()}.png`
     : "";
 
-  const speaksList = partner.speaksArray || (partner.speaks ? partner.speaks.split(',').map(s => s.trim()) : []);
-  const learnsList = partner.learnsArray || (partner.learns ? partner.learns.split(',').map(l => l.trim()) : []);
+  const speaksList = partner.speaksArray || parseLanguageString(partner.speaks);
+  const learnsList = partner.learnsArray || parseLanguageString(partner.learns);
   const interestsList = partner.interestsArray || (partner.interests ? partner.interests.split(',').map(i => i.trim()) : []);
 
   // Variável para facilitar a checagem se o contato deve ser mostrado
@@ -461,7 +462,7 @@ const PartnerModal = ({
               <div className="tags-container">
                 {speaksList.length > 0 ? (
                   speaksList.map((lang) => (
-                    <span key={lang} className="tag tag-orange">{lang}</span>
+                    <span key={lang.name} className="tag tag-orange">{formatLanguageLabel(lang)}</span>
                   ))
                 ) : (
                   <span className="empty-info">Não informado</span>
@@ -474,7 +475,7 @@ const PartnerModal = ({
               <div className="tags-container">
                 {learnsList.length > 0 ? (
                   learnsList.map((lang) => (
-                    <span key={lang} className="tag tag-green">{lang}</span>
+                    <span key={lang.name} className="tag tag-green">{formatLanguageLabel(lang)}</span>
                   ))
                 ) : (
                   <span className="empty-info">Não informado</span>

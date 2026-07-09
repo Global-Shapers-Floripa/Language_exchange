@@ -13,6 +13,8 @@ const TagSelect = ({
   onSelect,
   onRemove,
   placeholder = "Selecionar...",
+  renderLabel,
+  onTagClick,
 }) => {
   const [search, setSearch] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -87,7 +89,14 @@ const TagSelect = ({
             key={item}
             className="tag-item"
           >
-            <span>{item}</span>
+            {/* onTagClick é opcional — usado por EditProfile pra abrir o
+               mini seletor de nível CEFR sem interferir no botão de remover */}
+            <span
+              className={onTagClick ? "tag-item-label tag-item-label--clickable" : "tag-item-label"}
+              onClick={onTagClick ? () => onTagClick(item) : undefined}
+            >
+              {renderLabel ? renderLabel(item) : item}
+            </span>
 
             <button
               type="button"

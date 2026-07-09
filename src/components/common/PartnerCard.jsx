@@ -2,6 +2,7 @@ import React from "react";
 import { MessageSquare, MapPin, Globe, Clock, UserCheck, Eye, CalendarPlus, Star } from "lucide-react";
 import { COUNTRIES } from "../../constants/countries";
 import PersonAvatar from "./PersonAvatar";
+import { parseLanguageString, formatLanguageLabel } from "../../utils/languageLevel";
 import "./partner-card.css";
 
 // viewOnly: usado por "Minhas Conexões" (Parceiros.jsx), que reaproveita este
@@ -17,12 +18,8 @@ const PartnerCard = ({ partner, onConnect, onRegisterSession, sentRequest, isCon
 
   // Conexões vêm da tabela com speaks/learns em string; parceiros da busca já
   // chegam com os arrays prontos (ver usePartners) — aceitamos os dois casos.
-  const speaksArray =
-    partner.speaksArray ||
-    (partner.speaks ? partner.speaks.split(",").map((s) => s.trim()).filter(Boolean) : []);
-  const learnsArray =
-    partner.learnsArray ||
-    (partner.learns ? partner.learns.split(",").map((l) => l.trim()).filter(Boolean) : []);
+  const speaksArray = partner.speaksArray || parseLanguageString(partner.speaks);
+  const learnsArray = partner.learnsArray || parseLanguageString(partner.learns);
 
   // Busca o nome do país baseado no código (ex: "BR" -> "Brasil")
   const countryObj = COUNTRIES.find((c) => c.code === partner.country);
@@ -118,8 +115,8 @@ const PartnerCard = ({ partner, onConnect, onRegisterSession, sentRequest, isCon
           <div className="tags-card">
             {speaksArray.length > 0 ? (
               speaksArray.map((lang) => (
-                <span key={lang} className="tag-card orange">
-                  {lang}
+                <span key={lang.name} className="tag-card orange">
+                  {formatLanguageLabel(lang)}
                 </span>
               ))
             ) : (
@@ -133,8 +130,8 @@ const PartnerCard = ({ partner, onConnect, onRegisterSession, sentRequest, isCon
           <div className="tags-card">
             {learnsArray.length > 0 ? (
               learnsArray.map((lang) => (
-                <span key={lang} className="tag-card blue">
-                  {lang}
+                <span key={lang.name} className="tag-card blue">
+                  {formatLanguageLabel(lang)}
                 </span>
               ))
             ) : (

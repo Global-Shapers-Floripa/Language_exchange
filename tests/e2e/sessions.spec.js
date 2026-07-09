@@ -21,7 +21,7 @@ test.describe("Sessões", () => {
     await expect(modal).toBeVisible();
 
     // Parceiro (SearchableSelect)
-    await modal.getByText("Buscar parceiro por nome ou hub...").click();
+    await modal.getByText("Buscar conexão por nome ou hub...").click();
     await page.getByRole("button", { name: TEST_PARTNER_LABEL }).click();
 
     // Data: mantém o valor padrão (hoje) já preenchido pelo form.
@@ -64,7 +64,7 @@ test.describe("Sessões", () => {
     await page.getByRole("button", { name: "Registrar Sessão" }).click();
 
     await expect(
-      modal.getByText("Por favor, selecione um parceiro"),
+      modal.getByText("Por favor, selecione uma conexão"),
     ).toBeVisible();
     await expect(modal).toBeVisible();
   });

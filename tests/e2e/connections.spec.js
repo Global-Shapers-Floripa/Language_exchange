@@ -15,16 +15,23 @@ test.describe("Conexões", () => {
     page,
   }) => {
     await expect(page.locator(".card--partner").first()).toBeVisible();
+    // Escopado à grade "Explorar Rede" (.partners-grid): o mesmo parceiro
+    // também pode aparecer em "Minhas Conexões" quando já existe uma conexão
+    // aceita entre as contas de teste (ver E2E_TEST_DATA_SETUP.sql) — sem o
+    // escopo, o locator vira ambíguo (2 matches) e viola o strict mode.
     await expect(
-      page.locator(".partner-name", { hasText: TEST_PARTNER_NAME }),
+      page.locator(".partners-grid .partner-name", { hasText: TEST_PARTNER_NAME }),
     ).toBeVisible();
   });
 
   test("enviar solicitação de conexão para o parceiro de teste muda o status para Pendente", async ({
     page,
   }) => {
+    // Mesmo escopo do teste anterior — o parceiro de teste pode aparecer
+    // duplicado (Explorar Rede + Minhas Conexões) quando já existe conexão
+    // aceita entre as contas de teste.
     const testPartnerCard = page
-      .locator(".card--partner")
+      .locator(".partners-grid .card--partner")
       .filter({ hasText: TEST_PARTNER_NAME });
     await expect(testPartnerCard).toBeVisible();
 
@@ -39,7 +46,10 @@ test.describe("Conexões", () => {
 
     const requestBtn = modal.getByRole("button", { name: "Solicitar Conexão" });
     const pendingText = modal.getByText("Solicitação Pendente");
-    const acceptedText = modal.getByText("Contato");
+    // getByRole (não getByText) — "Contato" por texto simples também dá
+    // match parcial e case-insensitive em "Carregando contato...", que pode
+    // estar visível ao mesmo tempo enquanto o contato ainda carrega.
+    const acceptedText = modal.getByRole("heading", { name: "Contato" });
 
     // Idempotente: se uma execução anterior já deixou a solicitação pendente
     // (ou aceita), não tentamos enviar de novo — só confirmamos o estado.

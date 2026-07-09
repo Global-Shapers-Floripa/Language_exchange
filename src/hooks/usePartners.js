@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { calculateMatch } from "../services/matchService";
 import { supabase } from "../services/supabaseClient";
+import { parseLanguageString } from "../utils/languageLevel";
 
 export const usePartners = () => {
   const [partners, setPartners] = useState([]);
@@ -71,19 +72,9 @@ export const usePartners = () => {
         // FORMATAR + CALCULAR MATCH
         // =========================
         const formattedPartners = data.map((profile) => {
-          const speaksArray = profile.speaks
-            ? profile.speaks
-                .split(",")
-                .map((item) => item.trim())
-                .filter(Boolean)
-            : [];
+          const speaksArray = parseLanguageString(profile.speaks);
 
-          const learnsArray = profile.learns
-            ? profile.learns
-                .split(",")
-                .map((item) => item.trim())
-                .filter(Boolean)
-            : [];
+          const learnsArray = parseLanguageString(profile.learns);
 
           const match = calculateMatch(
             currentUser,

@@ -11,6 +11,12 @@ import PersonAvatar from "../../components/common/PersonAvatar";
 import { LANGUAGES } from "../../constants/languages";
 import { INTERESTS } from "../../constants/interests";
 import { COUNTRIES } from "../../constants/countries";
+import {
+  CEFR_LEVELS,
+  parseLanguageString,
+  formatLanguageString,
+  formatLanguageLabel,
+} from "../../utils/languageLevel";
 
 import { supabase } from "../../services/supabaseClient";
 
@@ -51,6 +57,13 @@ const EditProfile = () => {
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [imageSrc, setImageSrc] = useState(null);
   const [showCropModal, setShowCropModal] = useState(false);
+
+  // =========================
+  // NÍVEL CEFR (mini seletor por tag)
+  // =========================
+  // { field: "speaks" | "learns", name: string } do idioma cujo mini
+  // seletor de nível está aberto no momento, ou null se nenhum.
+  const [levelPickerFor, setLevelPickerFor] = useState(null);
 
   // =========================
   // CARREGAR PERFIL
@@ -101,12 +114,8 @@ const EditProfile = () => {
             country: profile.country || "",
             phone: contact?.phone || "",
             description: profile.description || "",
-            speaks: profile.speaks
-              ? profile.speaks.split(",").map((item) => item.trim())
-              : [],
-            learns: profile.learns
-              ? profile.learns.split(",").map((item) => item.trim())
-              : [],
+            speaks: parseLanguageString(profile.speaks),
+            learns: parseLanguageString(profile.learns),
             interests: profile.interests
               ? profile.interests.split(",").map((item) => item.trim())
               : [],
@@ -137,6 +146,47 @@ const EditProfile = () => {
       ...prev,
       [name]: value,
     }));
+  };
+
+  // =========================
+  // IDIOMAS (speaks/learns) + NÍVEL CEFR
+  // =========================
+  // Adiciona idioma sempre sem nível (level: null) — o usuário define o
+  // nível depois, clicando na tag.
+  const handleAddLanguage = (field, name) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: [...prev[field], { name, level: null }],
+    }));
+  };
+
+  const handleRemoveLanguage = (field, name) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: prev[field].filter((item) => item.name !== name),
+    }));
+
+    setLevelPickerFor((prev) =>
+      prev && prev.field === field && prev.name === name ? null : prev,
+    );
+  };
+
+  const handleTagClick = (field, name) => {
+    setLevelPickerFor((prev) =>
+      prev && prev.field === field && prev.name === name
+        ? null
+        : { field, name },
+    );
+  };
+
+  const handleSetLevel = (field, name, level) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: prev[field].map((item) =>
+        item.name === name ? { ...item, level } : item,
+      ),
+    }));
+    setLevelPickerFor(null);
   };
 
   // =========================
@@ -290,8 +340,8 @@ const EditProfile = () => {
           full_name: formData.full_name,
           country: formData.country,
           description: formData.description,
-          speaks: formData.speaks.join(", "),
-          learns: formData.learns.join(", "),
+          speaks: formatLanguageString(formData.speaks),
+          learns: formatLanguageString(formData.learns),
           interests: formData.interests.join(", "),
           photo_url: formData.photo_url,
           updated_at: new Date().toISOString(),
@@ -468,9 +518,9 @@ const EditProfile = () => {
                   <span className="info-label">Idiomas que você fala</span>
                   <div className="tags-container">
                     {formData.speaks.length > 0 ? (
-                      formData.speaks.map((lang, idx) => (
-                        <span key={idx} className="view-tag view-tag--orange">
-                          {lang}
+                      formData.speaks.map((lang) => (
+                        <span key={lang.name} className="view-tag view-tag--orange">
+                          {formatLanguageLabel(lang)}
                         </span>
                       ))
                     ) : (
@@ -487,9 +537,9 @@ const EditProfile = () => {
                   </span>
                   <div className="tags-container">
                     {formData.learns.length > 0 ? (
-                      formData.learns.map((lang, idx) => (
-                        <span key={idx} className="view-tag view-tag--blue">
-                          {lang}
+                      formData.learns.map((lang) => (
+                        <span key={lang.name} className="view-tag view-tag--blue">
+                          {formatLanguageLabel(lang)}
                         </span>
                       ))
                     ) : (
@@ -600,42 +650,100 @@ const EditProfile = () => {
                     <label>Idiomas que você fala</label>
                     <TagSelect
                       options={languageLabels}
-                      selectedItems={formData.speaks}
-                      onSelect={(item) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          speaks: [...prev.speaks, item],
-                        }))
+                      selectedItems={formData.speaks.map((item) => item.name)}
+                      onSelect={(name) => handleAddLanguage("speaks", name)}
+                      onRemove={(name) => handleRemoveLanguage("speaks", name)}
+                      renderLabel={(name) =>
+                        formatLanguageLabel(
+                          formData.speaks.find((item) => item.name === name) || {
+                            name,
+                            level: null,
+                          },
+                        )
                       }
-                      onRemove={(item) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          speaks: prev.speaks.filter((lang) => lang !== item),
-                        }))
-                      }
+                      onTagClick={(name) => handleTagClick("speaks", name)}
                       placeholder="Selecione idiomas..."
                     />
+                    {levelPickerFor?.field === "speaks" && (
+                      <div className="level-picker">
+                        <span className="level-picker-title">
+                          Nível de {levelPickerFor.name}
+                        </span>
+                        <div className="level-picker-options">
+                          <button
+                            type="button"
+                            className="level-picker-option"
+                            onClick={() =>
+                              handleSetLevel("speaks", levelPickerFor.name, null)
+                            }
+                          >
+                            Não informado
+                          </button>
+                          {CEFR_LEVELS.map((level) => (
+                            <button
+                              key={level}
+                              type="button"
+                              className="level-picker-option"
+                              onClick={() =>
+                                handleSetLevel("speaks", levelPickerFor.name, level)
+                              }
+                            >
+                              {level}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div className="form-group">
                     <label>Idiomas que deseja aprender</label>
                     <TagSelect
                       options={languageLabels}
-                      selectedItems={formData.learns}
-                      onSelect={(item) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          learns: [...prev.learns, item],
-                        }))
+                      selectedItems={formData.learns.map((item) => item.name)}
+                      onSelect={(name) => handleAddLanguage("learns", name)}
+                      onRemove={(name) => handleRemoveLanguage("learns", name)}
+                      renderLabel={(name) =>
+                        formatLanguageLabel(
+                          formData.learns.find((item) => item.name === name) || {
+                            name,
+                            level: null,
+                          },
+                        )
                       }
-                      onRemove={(item) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          learns: prev.learns.filter((lang) => lang !== item),
-                        }))
-                      }
+                      onTagClick={(name) => handleTagClick("learns", name)}
                       placeholder="Selecione idiomas..."
                     />
+                    {levelPickerFor?.field === "learns" && (
+                      <div className="level-picker">
+                        <span className="level-picker-title">
+                          Nível de {levelPickerFor.name}
+                        </span>
+                        <div className="level-picker-options">
+                          <button
+                            type="button"
+                            className="level-picker-option"
+                            onClick={() =>
+                              handleSetLevel("learns", levelPickerFor.name, null)
+                            }
+                          >
+                            Não informado
+                          </button>
+                          {CEFR_LEVELS.map((level) => (
+                            <button
+                              key={level}
+                              type="button"
+                              className="level-picker-option"
+                              onClick={() =>
+                                handleSetLevel("learns", levelPickerFor.name, level)
+                              }
+                            >
+                              {level}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div className="form-group full">
@@ -666,7 +774,10 @@ const EditProfile = () => {
                   <button
                     type="button"
                     className="btn btn-secondary"
-                    onClick={() => setIsEditing(false)}
+                    onClick={() => {
+                      setIsEditing(false);
+                      setLevelPickerFor(null);
+                    }}
                   >
                     Cancelar
                   </button>
