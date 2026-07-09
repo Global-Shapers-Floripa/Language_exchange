@@ -86,14 +86,25 @@ const Admin = () => {
         // continua vendo/gerenciando essas contas normalmente.
         const isTestDataVisible = auth.user.email === "laysegabrielly13@gmail.com";
 
-        let profilesQuery = supabase.from("profiles").select("*");
-        if (!isTestDataVisible) {
-          profilesQuery = profilesQuery.neq("hub", "E2E-TEST");
-        }
-
-        const { data: profilesData, error: profilesError } = await profilesQuery;
+        const { data: allProfilesData, error: profilesError } = await supabase
+          .from("profiles")
+          .select("*");
 
         if (profilesError) throw profilesError;
+
+        // IDs de contas de teste E2E — calculado sobre a lista completa
+        // (não a já filtrada abaixo) para servir de critério confiável na
+        // hora de esconder sessões dessas contas, mesmo do e-mail dono do
+        // projeto (ver filtro de visibleSessionsData mais abaixo).
+        const testHubProfileIds = new Set(
+          allProfilesData
+            .filter((p) => p.hub === "E2E-TEST")
+            .map((p) => p.id),
+        );
+
+        const profilesData = isTestDataVisible
+          ? allProfilesData
+          : allProfilesData.filter((p) => p.hub !== "E2E-TEST");
 
         // Email/telefone vivem em profile_contacts (RLS restrita) — a policy
         // de admin libera ver o contato de todo mundo aqui
@@ -124,18 +135,16 @@ const Admin = () => {
 
         if (sessionsError) throw sessionsError;
 
-        // Sessões registradas entre contas de teste (ambas as pontas viram
-        // "não encontrado" quando o perfil some da lista filtrada acima)
-        // não devem contar nas estatísticas nem aparecer na lista para quem
-        // não pode ver contas de teste.
+        // Sessões envolvendo contas de teste E2E nunca aparecem na lista/
+        // contagem de sessões do Admin — diferente da tabela de Usuários,
+        // aqui não existe exceção para o e-mail dono do projeto, pois essas
+        // sessões são apenas ruído de automação, sem valor de gestão.
         const visibleProfileIds = new Set(profilesData.map((p) => p.id));
-        const visibleSessionsData = isTestDataVisible
-          ? sessionsData
-          : sessionsData.filter(
-              (s) =>
-                visibleProfileIds.has(s.user_id) &&
-                visibleProfileIds.has(s.partner_id),
-            );
+        const visibleSessionsData = sessionsData.filter(
+          (s) =>
+            !testHubProfileIds.has(s.user_id) &&
+            !testHubProfileIds.has(s.partner_id),
+        );
 
         const totalSessions = visibleSessionsData.length;
 
