@@ -149,7 +149,7 @@
    CONTATO
 ===================== */
 
-.contact-section {
+.help-contact-section {
     text-align: center;
     /* Centraliza o título, parágrafo e o botão do WhatsApp */
     padding: 32px 24px;
@@ -165,13 +165,13 @@
     margin-bottom: 2rem;
 }
 
-.contact-section h3 {
+.help-contact-section h3 {
     color: #0A3251;
     font-size: 1.2rem;
     margin-bottom: 8px;
 }
 
-.contact-section p {
+.help-contact-section p {
     color: #64748b;
     margin-bottom: 24px;
 }

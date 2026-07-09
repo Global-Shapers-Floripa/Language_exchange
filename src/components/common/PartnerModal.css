@@ -196,19 +196,19 @@
   font-style: italic;
 }
 
-.contact-section {
+.partner-modal-contact-section {
   background: #f1f5f9;
   padding: 16px;
   border-radius: 16px;
   margin-bottom: 0;
 }
 
-.contact-section p {
+.partner-modal-contact-section p {
   display: flex;
   width: 100%;
   align-items: center;
   justify-content: center;
- 
+
 }
 
 .contact-info-list {
@@ -242,9 +242,15 @@
   .partner-modal {
     padding: 0; /* Remove padding externo pois o scrollable content já tem */
   }
-  
+
+  /* Cabeçalho (nome, localização) tem 24px de padding lateral no desktop
+     (base, inalterado) — reduzido só aqui pro mobile não ficar apertado */
+  .partner-modal-header {
+    padding: 0 16px;
+  }
+
   .modal-scrollable-content {
-    padding: 20px 16px;
+    padding: 16px 12px;
   }
 
   .close-modal-btn {
@@ -379,6 +385,12 @@
 }
 
 .session-instructions-box p {
+  /* .partner-modal-contact-section p (mais acima) vaza display:flex/
+     justify-content pra cá, já que este box também fica dentro de
+     .partner-modal-contact-section — isso tratava o texto solto e o
+     <strong>Sessões</strong> como itens flex separados, deslocando a
+     palavra pro lado. Volta ao fluxo normal de parágrafo. */
+  display: block;
   margin: 0;
   color: #334155;
   font-size: 0.85rem;

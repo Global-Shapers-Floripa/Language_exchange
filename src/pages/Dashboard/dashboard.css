@@ -414,22 +414,18 @@ RESPONSIVO
     font-size: 0.85rem;
   }
 
+  /* .partners-grid é compartilhado entre a prévia "Conexões Sugeridas" do
+     Dashboard e o grid completo "Explorar Rede" em Parceiros.jsx — 1 coluna
+     no mobile vale pros dois, então o ajuste fica na origem (aqui). */
   .partners-grid {
-    grid-template-columns: repeat(2, 1fr);
-    /* Força exatas 2 colunas */
+    grid-template-columns: 1fr;
     gap: 5px;
     /* Reduz o espaçamento entre os cards para caber melhor */
     padding: 10px 0;
   }
 
-  /* .partners-grid é reaproveitado também em Parceiros.jsx (grid completo de
-     "Explorar Rede") — escopando por .parceiros-dashboard-preview, só a
-     prévia "Conexões Sugeridas" do Dashboard vira 1 coluna e mostra no
-     máximo 2 cards (ela é só uma prévia, tem link "Ver todos" ao lado). */
-  .parceiros-dashboard-preview .partners-grid {
-    grid-template-columns: 1fr;
-  }
-
+  /* Só a prévia do Dashboard (que tem link "Ver todos" ao lado) limita a
+     exibição a 2 cards — Parceiros.jsx deve continuar mostrando todos. */
   .parceiros-dashboard-preview .partners-grid > *:nth-child(n + 3) {
     display: none;
   }

@@ -107,7 +107,7 @@ const Help = () => {
 
 
         {/* CONTATO */}
-        <section className="contact-section">
+        <section className="help-contact-section">
           <h3>Precisa de mais ajuda?</h3>
 
           <p>

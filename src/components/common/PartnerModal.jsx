@@ -467,7 +467,7 @@ const PartnerModal = ({
           )}
 
           {!effectiveLoadingConnection && mode !== "review" && (
-            <div className={`partner-modal-section connection-action-wrapper ${showContactInfo ? 'contact-section' : ''}`}>
+            <div className={`partner-modal-section connection-action-wrapper ${showContactInfo ? 'partner-modal-contact-section' : ''}`}>
 
               {/* CASO 1: NÃO HÁ CONEXÃO AINDA */}
               {!connectionData && (
