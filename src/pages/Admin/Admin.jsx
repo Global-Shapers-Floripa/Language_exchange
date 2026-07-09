@@ -6,7 +6,7 @@ import PersonAvatar from "../../components/common/PersonAvatar";
 import ConfirmModal from "../../components/common/ConfirmModal";
 import { COUNTRIES } from "../../constants/countries";
 import { LANGUAGES } from "../../constants/languages";
-import { Users, MapPin, Languages, GraduationCap, Trash2, Monitor } from "lucide-react";
+import { Users, MapPin, Languages, GraduationCap, Trash2, Monitor, Check, Eye } from "lucide-react";
 import "./admin.css";
 
 // Função para buscar nome e bandeira do país
@@ -552,23 +552,23 @@ const Admin = () => {
                           </td>
                           <td>
                             <div className="location-cell">
-                              {countryInfo.flag ? (
-                                <img
-                                  src={countryInfo.flag}
-                                  alt="Flag"
-                                  className="flag-icon"
-                                />
-                              ) : (
-                                <span className="flag-placeholder">FLAG</span>
-                              )}
-                              <div>
-                                <p className="table-text fw-medium">
-                                  {user.hub || "N/A"}
-                                </p>
+                              <div className="location-cell-top">
+                                {countryInfo.flag ? (
+                                  <img
+                                    src={countryInfo.flag}
+                                    alt="Flag"
+                                    className="flag-icon"
+                                  />
+                                ) : (
+                                  <span className="flag-placeholder">FLAG</span>
+                                )}
                                 <p className="table-text-small">
                                   {countryInfo.name}
                                 </p>
                               </div>
+                              <p className="table-text fw-medium">
+                                {user.hub || "N/A"}
+                              </p>
                             </div>
                           </td>
                           <td>
@@ -614,24 +614,27 @@ const Admin = () => {
                             <div className="actions-cell">
                               {!user.is_approved && (
                                 <button
-                                  className="btn btn-ghost"
+                                  className="btn btn-ghost btn-approve-text"
                                   onClick={(e) => approveUser(user, e)}
+                                  aria-label={`Aprovar ${user.full_name || "usuário"}`}
                                 >
+                                  <Check size={14} />
                                   Aprovar
                                 </button>
                               )}
                               <button
                                 className="btn btn-secondary btn-details"
                                 onClick={() => setSelectedUser(user)}
+                                aria-label={`Visualizar ${user.full_name || "usuário"}`}
                               >
-                                Visualizar
+                                <Eye size={14} />
                               </button>
                               <button
                                 className="btn btn-danger btn-delete-user"
                                 onClick={(e) => requestDeleteUser(user, e)}
                                 aria-label={`Excluir ${user.full_name || "usuário"}`}
                               >
-                                <Trash2 size={16} />
+                                <Trash2 size={14} />
                               </button>
                             </div>
                           </td>

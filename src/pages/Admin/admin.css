@@ -407,13 +407,19 @@
   white-space: nowrap;
 }
 
-/* Localização — bandeira compacta acima do texto, para não brigar com o
-   alinhamento das demais colunas */
+/* Localização — 2 linhas: bandeira + país lado a lado, hub embaixo (em vez
+   de 3 linhas empilhadas) pra ocupar menos altura na linha da tabela */
 .location-cell {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 4px;
+  gap: 2px;
+}
+
+.location-cell-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .location-cell .flag-icon {
@@ -450,27 +456,23 @@
   margin: 0;
 }
 
-/* Idiomas — Domina e Aprende sempre lado a lado, centralizados na coluna,
-   independente da quantidade de idiomas de cada usuário. Nome próprio
-   (não "languages-cell") para não colidir com a classe genérica de mesmo
-   nome em sessoes.css, que tinha flex-wrap: wrap e quebrava a segunda
-   coluna pra baixo quando havia muitos chips — essa era a causa do
-   comportamento "às vezes lado a lado, às vezes empilhado". */
+/* Idiomas — Domina em cima, Aprende embaixo (não lado a lado), tudo
+   alinhado à esquerda; os chips de cada grupo ficam lado a lado na mesma
+   linha, só quebrando pra próxima se não couberem na largura da coluna.
+   Nome próprio (não "languages-cell") para não colidir com a classe
+   genérica de mesmo nome em sessoes.css. */
 .admin-languages-cell {
   display: flex;
-  justify-content: center;
-  gap: 24px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
 }
 
 .lang-group {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 4px;
-}
-
-.lang-group .lang-chips {
-  justify-content: center;
 }
 
 .lang-label {
@@ -545,20 +547,19 @@
   background: var(--color-pending);
 }
 
-/* Botões */
+/* Botões — tela só usada em desktop, então compacta (sem preocupação com
+   área de toque de mobile) */
 .actions-cell {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 6px;
   justify-content: flex-end;
 }
 
 .btn-details {
   border-color: #e7e5e4;
-  padding: 6px 12px;
+  padding: 5px;
   border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: 500;
   color: #44403c;
 }
 
@@ -569,11 +570,14 @@
 
 .btn-approve-text {
   color: var(--color-success);
-  font-size: 0.8rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  gap: 3px;
+  padding: 4px 8px;
 }
 
 .btn-delete-user {
-  padding: 6px;
+  padding: 5px;
   border-radius: 6px;
 }
 
