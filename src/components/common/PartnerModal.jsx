@@ -3,6 +3,7 @@ import { MapPin, Globe, Mail, Phone, Lock, UserPlus, Clock, Check, X, Info } fro
 import { COUNTRIES } from "../../constants/countries"; // Ajuste o caminho se necessário
 import { supabase } from "../../services/supabaseClient"; // Adicionado para buscar/inserir a conexão
 import PersonAvatar from "./PersonAvatar";
+import CopyButton from "./CopyButton";
 import Swal from "sweetalert2";
 import "./PartnerModal.css";
 
@@ -527,12 +528,20 @@ const PartnerModal = ({
                       <>
                         <p>
                           <Mail size={16} />
-                          <strong>Email:</strong> {contactInfo?.email || "Não informado"}
+                          <strong>Email:</strong>{" "}
+                          <span className="contact-value">
+                            {contactInfo?.email || "Não informado"}
+                          </span>
+                          {contactInfo?.email && (
+                            <CopyButton value={contactInfo.email} label="e-mail" />
+                          )}
                         </p>
                         {contactInfo?.phone && contactInfo.phone.trim() !== "" && (
                           <p>
                             <Phone size={16} />
-                            <strong>Telefone:</strong> {contactInfo.phone}
+                            <strong>Telefone:</strong>{" "}
+                            <span className="contact-value">{contactInfo.phone}</span>
+                            <CopyButton value={contactInfo.phone} label="telefone" />
                           </p>
                         )}
                       </>

@@ -6,7 +6,8 @@
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  padding: 20px; /* Margem de segurança para não colar na tela inteira */
+  padding: 20px;
+  /* Margem de segurança para não colar na tela inteira */
 }
 
 .partner-modal {
@@ -18,7 +19,8 @@
   border-radius: 24px;
   position: relative;
   animation: modalFade 0.2s ease;
-  overflow: hidden; /* Corta o banner arredondado no topo */
+  overflow: hidden;
+  /* Corta o banner arredondado no topo */
   display: flex;
   flex-direction: column;
 
@@ -31,8 +33,15 @@
 }
 
 @keyframes modalFade {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .close-modal-btn {
@@ -80,9 +89,11 @@
   align-items: center;
   text-align: center;
   padding: 0 24px;
-  margin-top: -50px; /* Puxa o avatar pra cima do banner */
+  margin-top: -70px;
+  /* Puxa o avatar pra cima do banner */
   position: relative;
   flex-shrink: 0;
+  margin-bottom: 15px;
 }
 
 .partner-modal-avatar {
@@ -92,8 +103,8 @@
   object-fit: cover;
   border: 4px solid var(--color-tag-orange-text);
   background: white;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  margin-bottom: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 5px;
 }
 
 .partner-modal-header h2 {
@@ -106,9 +117,9 @@
 .modal-location-info {
   display: flex;
   gap: 12px;
-  margin-top: 6px;
   justify-content: center;
   align-items: center;
+
 }
 
 .modal-location-info span {
@@ -123,7 +134,8 @@
 /* Área de rolagem interna do modal */
 .modal-scrollable-content {
   padding: 24px;
-  overflow-y: auto; /* Adiciona scroll se necessário */
+  overflow-y: auto;
+  /* Adiciona scroll se necessário */
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -137,6 +149,7 @@
 .modal-scrollable-content::-webkit-scrollbar {
   width: 6px;
 }
+
 .modal-scrollable-content::-webkit-scrollbar-thumb {
   background-color: #cbd5e1;
   border-radius: 10px;
@@ -186,9 +199,20 @@
 /* .tag-green é usada na tag "Idiomas que aprende" (ver PartnerModal.jsx) — o
    nome da classe ficou desatualizado depois que a cor de referência do Figma
    passou de verde para azul; mantido para não mexer no JSX fora de escopo. */
-.tag-orange { background: var(--color-tag-orange-bg); color: var(--color-tag-orange-text); }
-.tag-green { background: var(--color-tag-blue-bg); color: var(--color-tag-blue-text); }
-.tag-purple { background: var(--color-tag-purple-bg); color: var(--color-tag-purple-text); }
+.tag-orange {
+  background: var(--color-tag-orange-bg);
+  color: var(--color-tag-orange-text);
+}
+
+.tag-green {
+  background: var(--color-tag-blue-bg);
+  color: var(--color-tag-blue-text);
+}
+
+.tag-purple {
+  background: var(--color-tag-purple-bg);
+  color: var(--color-tag-purple-text);
+}
 
 .empty-info {
   font-size: 0.85rem;
@@ -224,23 +248,64 @@
   color: #334155;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
   font-size: 0.95rem;
 }
 
 .contact-info-list svg {
   color: #64748b;
+  flex-shrink: 0;
+}
+
+/* E-mail/telefone são um "texto" só, sem espaços, então o navegador não
+   tem onde quebrar por padrão e o texto estoura a borda do card em vez de
+   ir pra linha seguinte. min-width:0 libera o item flex pra encolher
+   (senão o padrão é não encolher além do próprio conteúdo) e o
+   overflow-wrap permite quebrar no meio da palavra quando precisar. */
+.contact-value {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.contact-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: #64748b;
+  cursor: pointer;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.contact-copy-btn:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+  color: var(--blue-primary, #1A2747);
+}
+
+.contact-copy-btn.copied {
+  color: var(--color-success, #3F9D6B);
 }
 
 /* Responsividade */
 @media (max-width: 480px) {
   .modal-grid-sections {
-    grid-template-columns: 1fr; /* Empilha os idiomas no celular */
+    grid-template-columns: 1fr;
+    /* Empilha os idiomas no celular */
     gap: 20px;
   }
-  
+
   .partner-modal {
-    padding: 0; /* Remove padding externo pois o scrollable content já tem */
+    padding: 0;
+    /* Remove padding externo pois o scrollable content já tem */
   }
 
   /* Cabeçalho (nome, localização) tem 24px de padding lateral no desktop
@@ -259,6 +324,11 @@
     width: 28px;
     height: 28px;
     font-size: 14px;
+  }
+
+  .contact-value {
+    font-size: .8rem;
+    margin-bottom: 1rem;
   }
 }
 
