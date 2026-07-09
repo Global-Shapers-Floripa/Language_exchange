@@ -1,5 +1,5 @@
 import React from "react";
-import { MessageSquare, MapPin, Globe, Clock, UserCheck, Eye, CalendarPlus } from "lucide-react";
+import { MessageSquare, MapPin, Globe, Clock, UserCheck, Eye, CalendarPlus, Star } from "lucide-react";
 import { COUNTRIES } from "../../constants/countries";
 import PersonAvatar from "./PersonAvatar";
 import "./partner-card.css";
@@ -9,7 +9,9 @@ import "./partner-card.css";
 // em vez de solicitar conexão.
 // exploreOnly: usado no Dashboard, onde a solicitação de conexão não deve
 // acontecer — o botão só leva o usuário até a página de conexões.
-const PartnerCard = ({ partner, onConnect, onRegisterSession, sentRequest, isConnected, viewOnly, exploreOnly }) => {
+// onToggleFavorite/isFavorited: só usados em "Minhas Conexões" — quando
+// presente, exibe a estrela de favoritar no canto do card.
+const PartnerCard = ({ partner, onConnect, onRegisterSession, sentRequest, isConnected, viewOnly, exploreOnly, isFavorited, onToggleFavorite }) => {
   const isPerfectMatch = partner.compatibility === "Match Perfeito";
   const isPending = sentRequest?.status === "pendente";
 
@@ -37,6 +39,20 @@ const PartnerCard = ({ partner, onConnect, onRegisterSession, sentRequest, isCon
     >
       {isPerfectMatch && (
         <div className="perfect-match-badge">Match Perfeito</div>
+      )}
+
+      {onToggleFavorite && (
+        <button
+          type="button"
+          className="favorite-star-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleFavorite();
+          }}
+          title={isFavorited ? "Remover dos favoritos" : "Favoritar conexão"}
+        >
+          <Star size={18} color="#F97316" fill={isFavorited ? "#F97316" : "none"} />
+        </button>
       )}
 
       {/* Topo do Card */}

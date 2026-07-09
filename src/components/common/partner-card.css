@@ -48,6 +48,33 @@
   z-index: 10;
 }
 
+/* Estrela de favoritar (só aparece em "Minhas Conexões") */
+.favorite-star-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 5;
+
+  width: 32px;
+  height: 32px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255, 255, 255, 0.85);
+  border: none;
+  border-radius: 50%;
+
+  cursor: pointer;
+  transition: transform .2s ease;
+}
+
+.favorite-star-btn:hover {
+  transform: scale(1.1);
+}
+
 /* Estrutura do Topo (Header) */
 .card-header {
   display: flex;

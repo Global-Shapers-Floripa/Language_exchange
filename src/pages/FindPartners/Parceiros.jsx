@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import DashboardLayout from "../../components/layout/DashboardLayout";
@@ -110,6 +110,59 @@ const FindPartners = () => {
       );
     });
   }, [partners, searchTerm]);
+
+  // =========================
+  // FAVORITAR CONEXÃO
+  // =========================
+  // A coluna que guarda o favorito depende do lado do usuário logado na
+  // linha de connection_requests (sender ou receiver).
+  const isFavoritedByMe = useCallback(
+    (conn) => {
+      if (!currentUser) return false;
+      return conn.sender_id === currentUser.id
+        ? !!conn.favorited_by_sender
+        : !!conn.favorited_by_receiver;
+    },
+    [currentUser],
+  );
+
+  const sortedConnections = useMemo(() => {
+    return [...connections].sort(
+      (a, b) => (isFavoritedByMe(b) ? 1 : 0) - (isFavoritedByMe(a) ? 1 : 0),
+    );
+  }, [connections, isFavoritedByMe]);
+
+  const handleToggleFavorite = async (conn) => {
+    if (!currentUser) return;
+
+    const isSender = conn.sender_id === currentUser.id;
+    const column = isSender ? "favorited_by_sender" : "favorited_by_receiver";
+    const newValue = !isFavoritedByMe(conn);
+
+    try {
+      // Mesmo padrão das outras mutações de connection_requests: reconsulta
+      // via .select() e só considera sucesso se a linha voltou (RLS pode
+      // bloquear o update silenciosamente, sem gerar "error").
+      const { data: updated, error } = await supabase
+        .from("connection_requests")
+        .update({ [column]: newValue })
+        .eq("id", conn.id)
+        .select();
+
+      if (error) throw error;
+
+      if (!updated || updated.length === 0) {
+        throw new Error("Não foi possível favoritar (permissão negada).");
+      }
+
+      setConnections((prev) =>
+        prev.map((c) => (c.id === conn.id ? { ...c, [column]: newValue } : c)),
+      );
+    } catch (err) {
+      console.error("Erro ao favoritar conexão:", err);
+      Swal.fire("Erro", "Não foi possível favoritar a conexão.", "error");
+    }
+  };
 
   // =========================
   // CANCELAR SOLICITAÇÃO ENVIADA
@@ -267,7 +320,7 @@ const FindPartners = () => {
           </p>
         ) : (
           <ul className="connections-grid">
-            {connections.map((conn) => {
+            {sortedConnections.map((conn) => {
               const other = conn.otherProfile;
 
               return (
@@ -281,6 +334,8 @@ const FindPartners = () => {
                       })
                     }
                     viewOnly
+                    isFavorited={isFavoritedByMe(conn)}
+                    onToggleFavorite={() => handleToggleFavorite(conn)}
                   />
                 </li>
               );

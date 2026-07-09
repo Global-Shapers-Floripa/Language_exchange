@@ -22,6 +22,7 @@ const PartnerModal = ({
   const [isRequesting, setIsRequesting] = useState(false);
   const [isCancelling, setIsCancelling] = useState(false);
   const [isReviewing, setIsReviewing] = useState(false);
+  const [isUndoing, setIsUndoing] = useState(false);
 
   // =========================
   // BUSCAR STATUS DA CONEXÃO
@@ -330,6 +331,65 @@ const PartnerModal = ({
     }
   };
 
+  // =========================
+  // DESFAZER CONEXÃO ACEITA
+  // =========================
+  // Ação deliberadamente discreta: só existe aqui dentro do modal de
+  // detalhes (não no card), pra evitar clique acidental na listagem.
+  const handleUndoConnection = async () => {
+    if (!connectionData) return;
+
+    const confirmResult = await Swal.fire({
+      title: "Desfazer conexão?",
+      text: `Tem certeza que deseja desfazer a conexão com ${partner.full_name}? Isso removerá a conexão para os dois lados.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sim, desfazer",
+      cancelButtonText: "Cancelar",
+      confirmButtonColor: "#d33",
+    });
+
+    if (!confirmResult.isConfirmed) return;
+
+    setIsUndoing(true);
+    try {
+      // Mesma blindagem usada nas outras mutações: reconsulta via .select()
+      // e só considera sucesso se a linha realmente veio apagada — RLS pode
+      // bloquear silenciosamente sem gerar "error".
+      const { data: deleted, error } = await supabase
+        .from("connection_requests")
+        .delete()
+        .eq("id", connectionData.id)
+        .select();
+
+      if (error) throw error;
+
+      if (!deleted || deleted.length === 0) {
+        throw new Error(
+          "Não foi possível desfazer a conexão (permissão negada).",
+        );
+      }
+
+      const removedId = connectionData.id;
+      setConnectionData(null);
+      onConnectionChange?.({ id: removedId, _removed: true });
+
+      Swal.fire({
+        title: "Conexão desfeita",
+        text: `A conexão com ${partner.full_name} foi removida.`,
+        icon: "success",
+        confirmButtonColor: "#0A3251",
+      });
+
+      onClose();
+    } catch (error) {
+      console.error(error);
+      Swal.fire("Erro", "Não foi possível desfazer a conexão.", "error");
+    } finally {
+      setIsUndoing(false);
+    }
+  };
+
   if (!partner) return null;
 
   const isPerfectMatch = partner.compatibility === "Match Perfeito";
@@ -558,6 +618,20 @@ const PartnerModal = ({
                       a sessão de prática. Depois, volte na plataforma para
                       registrar essa sessão na tela de <strong>Sessões</strong>.
                     </p>
+                  </div>
+
+                  {/* ========================= */}
+                  {/* DESFAZER CONEXÃO (discreto, de propósito) */}
+                  {/* ========================= */}
+                  <div className="undo-connection-wrapper">
+                    <button
+                      type="button"
+                      className="undo-connection-btn"
+                      onClick={handleUndoConnection}
+                      disabled={isUndoing}
+                    >
+                      {isUndoing ? "Desfazendo..." : "Desfazer conexão"}
+                    </button>
                   </div>
                 </>
               )}

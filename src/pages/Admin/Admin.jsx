@@ -34,6 +34,25 @@ const formatLanguages = (languages) => {
     .join(", ");
 };
 
+// Nome de arquivo legível pro download do comprovante (em vez do hash
+// aleatório gerado no upload, ver uploadSessionPhoto em useAddSession.js).
+const slugify = (text) =>
+  (text || "")
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-zA-Z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .toLowerCase();
+
+const getSessionPhotoFilename = (session) => {
+  const dateStr = new Date(session.date).toISOString().slice(0, 10);
+  const names = slugify(`${session.host_name}-${session.partner_name}`) || "sessao";
+  const extMatch = session.session_photo_url.match(/\.(\w+)(?:\?|$)/);
+  const ext = extMatch ? extMatch[1] : "jpg";
+
+  return `comprovante-${names}-${dateStr}.${ext}`;
+};
+
 const Admin = () => {
   const navigate = useNavigate();
 
@@ -730,7 +749,7 @@ const Admin = () => {
                     src={session.session_photo_url}
                     alt="Comprovante"
                     className="session-proof"
-                    onClick={() => setSelectedImage(session.session_photo_url)}
+                    onClick={() => setSelectedImage(session)}
                   />
                 )}
               </div>
@@ -803,16 +822,18 @@ const Admin = () => {
             </button>
 
             <img
-              src={selectedImage}
+              src={selectedImage.session_photo_url}
               alt="Comprovante"
               className="modal-session-image"
             />
 
+            {/* O atributo `download` do <a> é ignorado pelo navegador em
+                links cross-origin (URL do Supabase Storage é outro domínio)
+                — por isso o download real depende do parâmetro `?download`,
+                que faz o Storage responder com Content-Disposition: attachment. */}
             <a
-              href={selectedImage}
-              download
-              target="_blank"
-              rel="noopener noreferrer"
+              href={`${selectedImage.session_photo_url}?download=${encodeURIComponent(getSessionPhotoFilename(selectedImage))}`}
+              download={getSessionPhotoFilename(selectedImage)}
               className="download-btn"
             >
               Baixar imagem

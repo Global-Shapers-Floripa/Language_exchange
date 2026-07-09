@@ -22,7 +22,7 @@ const AddSessionModal = ({ isOpen, onClose, partners, initialPartnerId, onSessio
   const [submitError, setSubmitError] = useState('');
   const [photoPreview, setPhotoPreview] = useState(null);
 
-  // Converter lista de parceiros para formato esperado pelo SearchableSelect
+  // Converter lista de Conexões para formato esperado pelo SearchableSelect
   const partnerOptions = partners.map(p => ({
     name: `${p.full_name} (${p.hub})`,
     code: p.id,
@@ -110,7 +110,7 @@ const AddSessionModal = ({ isOpen, onClose, partners, initialPartnerId, onSessio
     setSubmitError('');
 
     if (!formData.partner_id) {
-      setSubmitError('Por favor, selecione um parceiro');
+      setSubmitError('Por favor, selecione uma conexão');
       return;
     }
 
@@ -165,12 +165,12 @@ const AddSessionModal = ({ isOpen, onClose, partners, initialPartnerId, onSessio
         <form onSubmit={handleSubmit} className="modal-form">
           {/* Parceiro com Busca - COM A NOVA CLASSE */}
           <div className="form-group force-vertical-dropdown">
-            <label>Parceiro *</label>
+            <label>Conexão *</label>
             <SearchableSelect
               options={partnerOptions}
               value={formData.partner_id}
               onChange={handlePartnerChange}
-              placeholder="Buscar parceiro por nome ou hub..."
+              placeholder="Buscar conexão por nome ou hub..."
               displayKey="name"
               valueKey="code"
             />

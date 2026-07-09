@@ -454,6 +454,37 @@
   margin-top: 2px;
 }
 
+/* ================================= */
+/* DESFAZER CONEXÃO (ação discreta)  */
+/* ================================= */
+.undo-connection-wrapper {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px dashed #e2e8f0;
+  text-align: center;
+}
+
+.undo-connection-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  color: #94a3b8;
+  font-size: 0.8rem;
+  font-weight: 500;
+  font-family: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.undo-connection-btn:hover:not(:disabled) {
+  color: var(--color-error);
+}
+
+.undo-connection-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .session-instructions-box p {
   /* .partner-modal-contact-section p (mais acima) vaza display:flex/
      justify-content pra cá, já que este box também fica dentro de
