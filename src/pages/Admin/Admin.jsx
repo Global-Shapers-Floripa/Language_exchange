@@ -44,6 +44,7 @@ const Admin = () => {
     total: 0,
     approved: 0,
     pending: 0,
+    totalConnections: 0,
     topHubs: [],
     topSpeaks: [],
     topLearns: [],
@@ -138,6 +139,26 @@ const Admin = () => {
 
         const totalSessions = visibleSessionsData.length;
 
+        // Conexões mútuas confirmadas: 1 linha em connection_requests com
+        // status "aceito" por conexão (ver Parceiros.jsx/handleConnectionChange)
+        const { data: connectionsData, error: connectionsError } =
+          await supabase
+            .from("connection_requests")
+            .select("sender_id, receiver_id")
+            .eq("status", "aceito");
+
+        if (connectionsError) throw connectionsError;
+
+        const visibleConnectionsData = isTestDataVisible
+          ? connectionsData
+          : connectionsData.filter(
+              (c) =>
+                visibleProfileIds.has(c.sender_id) &&
+                visibleProfileIds.has(c.receiver_id),
+            );
+
+        const totalConnections = visibleConnectionsData.length;
+
         const totalMinutes = visibleSessionsData.reduce(
           (acc, s) => acc + (s.duration || 0),
           0,
@@ -201,6 +222,7 @@ const Admin = () => {
           total,
           approved,
           pending,
+          totalConnections,
 
           totalSessions,
           totalMinutes,
@@ -400,6 +422,14 @@ const Admin = () => {
 
                     <div className="stat-number sessions">
                       {sessions.length}
+                    </div>
+                  </div>
+
+                  <div className="stat-column">
+                    <span className="stat-label">Conexões</span>
+
+                    <div className="stat-number connections">
+                      {stats.totalConnections}
                     </div>
                   </div>
                 </div>

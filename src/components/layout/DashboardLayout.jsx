@@ -218,15 +218,18 @@ const DashboardLayout = ({ children }) => {
 
           {/* SIDEBAR BOTTOM (Banner + Links) */}
           <div className="sidebar-bottom">
-            <div
+            <a
+              href="https://www.globalshapersflorianopolis.com.br/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="sidebar-banner"
               style={{ "--banner-img": `url(${BannerSidebar})` }} // Passando a imagem para a variável CSS
             >
-              <button className="btn btn-ghost--icon banner-btn">
+              <span className="btn btn-ghost--icon banner-btn">
                 <ArrowUpRight size={18} />
-              </button>
+              </span>
               <p>Saiba mais sobre o HUB idealizador do projeto</p>
-            </div>
+            </a>
 
             <div className="sidebar-footer-links">
               <button
