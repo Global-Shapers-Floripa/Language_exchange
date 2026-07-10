@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import "./hero.css";
 import BackIdiomas from "../../assets/BackIdiomas.png";
 import Boca from "../../assets/mouth-halftone-1.png";
 import logoLanguageExchange from "../../assets/Logo-laranja.png";
 import { Link } from "react-router-dom";
 import HeroGlobe from "./Globo";
+import LanguageSwitcher from "../../components/common/LanguageSwitcher";
 
 const HeroSection = () => {
+  const { t } = useTranslation("landing");
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null); // Ref para o menu
 
@@ -46,7 +49,7 @@ const HeroSection = () => {
           >
             <img
               src={logoLanguageExchange}
-              alt="Language Exchange Icon"
+              alt={t("hero.logoAlt")}
               className="logo-icon"
             />
             <span className="logo-text-header">
@@ -56,22 +59,22 @@ const HeroSection = () => {
 
           <nav className={`site-nav-links ${menuOpen ? "active" : ""}`}>
             <a href="#sobre" onClick={closeMenu}>
-              Sobre
+              {t("nav.about")}
             </a>
             <a href="#como-funciona" onClick={closeMenu}>
-              Como funciona
+              {t("nav.howItWorks")}
             </a>
             <a href="#plataforma" onClick={closeMenu}>
-              Plataforma
+              {t("nav.platform")}
             </a>
             <a href="#recursos" onClick={closeMenu}>
-              Recursos
+              {t("nav.resources")}
             </a>
             <a href="#faq" onClick={closeMenu}>
-              FAQ
+              {t("nav.faq")}
             </a>
             <a href="#contato" onClick={closeMenu}>
-              Contato
+              {t("nav.contact")}
             </a>
 
             <Link
@@ -79,19 +82,21 @@ const HeroSection = () => {
               className="site-mobile-cta"
               onClick={closeMenu}
             >
-              <button className="site-cta-header">Faça Parte</button>
+              <button className="site-cta-header">{t("nav.cta")}</button>
             </Link>
           </nav>
 
           <div className="site-navbar-right-actions">
+            <LanguageSwitcher />
+
             <Link to="/dashboard" className="site-desktop-cta">
-              <button className="site-cta-header">Faça Parte</button>
+              <button className="site-cta-header">{t("nav.cta")}</button>
             </Link>
 
             <button
               className="site-hamburger"
               onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Abrir menu"
+              aria-label={t("nav.openMenu")}
             >
               <span />
               <span />
@@ -109,47 +114,46 @@ const HeroSection = () => {
             <div className="site-subtitle-badge">
               <span className="site-badge-dot"></span>
               <span className="site-subtitle-text">
-                HUB FLORIANÓPOLIS • DESDE JUL/2025
+                {t("hero.badge")}
               </span>
             </div>
 
             <h1 className="site-hero-title">
-              A <span className="site-highlight-orange">GOOD CONVERSATION</span>
+              {t("hero.titlePrefix")}{" "}
+              <span className="site-highlight-orange">{t("hero.titleHighlight")}</span>
               <br />
-              IS THE BEST WAY TO LEARN
+              {t("hero.titleSuffix")}
             </h1>
 
             <p className="site-description">
-              Um projeto do Hub Florianópolis que conecta Global Shapers do
-              mundo inteiro para praticar idiomas, trocar cultura e construir
-              uma rede que atravessa fronteiras — uma conversa de cada vez.
+              {t("hero.description")}
             </p>
 
             <div className="site-hero-buttons">
               <Link to="/login">
                 <button className="site-cta-banner-1">
-                  Comece a conversar
+                  {t("hero.primaryCta")}
                 </button>
               </Link>
               <a href="#como-funciona" className="site-cta-banner-2">
-                Como funciona?
+                {t("hero.secondaryCta")}
               </a>
             </div>
 
             <div className="site-hero-stats">
               <div className="site-stat-item">
                 <h3>+40</h3>
-                <p>hubs alcançados</p>
+                <p>{t("hero.stats.hubs")}</p>
               </div>
               <div className="site-stat-divider"></div>
               <div className="site-stat-item">
                 <h3>7</h3>
-                <p>idiomas ativos</p>
+                <p>{t("hero.stats.languages")}</p>
               </div>
               <div className="site-stat-divider last-divider"></div>
               <div className="site-stat-item">
                 <h3>100%</h3>
-                <p>feito por Shapers</p>
+                <p>{t("hero.stats.shapers")}</p>
               </div>
             </div>
           </div>

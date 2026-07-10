@@ -1,17 +1,19 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import "./Cta.css";
 
 const CtaSection = () => {
+  const { t } = useTranslation("landing");
+
   return (
     <section className="site-cta-wrapper">
       <div className="site-cta-container">
         {/* Textos Centralizados */}
         <div className="site-cta-text-content">
-          <h2 className="site-cta-title">O QUE VOCÊ ESTÁ ESPERANDO?</h2>
+          <h2 className="site-cta-title">{t("cta.title")}</h2>
           <p className="site-cta-subtitle">
-            É simples: a melhor maneira de aprender ou praticar um idioma é
-            conversando!
+            {t("cta.subtitle")}
           </p>
         </div>
 
@@ -35,7 +37,7 @@ const CtaSection = () => {
             {/* Chinês - NOVO */}
             {/* Botão Principal */}
             <Link to="/dashboard" className="site-cta-btn-main">
-              Comece agora
+              {t("cta.button")}
             </Link>
             <div className="site-cta-btn-ghost">Join us</div> {/* Inglês */}
             <div className="site-cta-btn-ghost">Rejoignez-nous</div>{" "}

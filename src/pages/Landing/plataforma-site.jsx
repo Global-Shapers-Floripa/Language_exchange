@@ -1,47 +1,48 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import "./plataforma-site.css";
 import imgDashboard from "../../assets/dash-plataforma.jpg";
 import imgConexoes from "../../assets/conexoes-plataforma.jpg";
 
 const PlataformaSection = () => {
+  const { t } = useTranslation("landing");
+
   return (
     <section className="site-plataforma-wrapper" id="plataforma">
       <div className="site-plataforma-container">
 
         {/* COLUNA ESQUERDA: Título, Introdução e Números */}
         <div className="site-plataforma-left">
-          
+
           {/* Cabeçalho no padrão "Como Funciona" */}
-          <span className="site-tag-plataforma">// PLATAFORMA</span>
+          <span className="site-tag-plataforma">{t("platform.tag")}</span>
           <h2 className="site-title-plataforma">
-            POR DENTRO DA COMUNIDADE.<br />
-            <span className="site-highlight-orange">SEU NOVO PASSAPORTE.</span>
+            {t("platform.titleLine1")}<br />
+            <span className="site-highlight-orange">{t("platform.titleHighlight")}</span>
           </h2>
-          
+
           <p className="site-intro-plataforma">
-            Nós acreditamos que a tecnologia deve ser uma ponte, não uma barreira. Por isso, 
-            desenvolvemos um ambiente limpo, intuitivo e livre de distrações, focado no que 
-            realmente importa: conectar você com o mundo.
+            {t("platform.intro")}
           </p>
 
           {/* Mini-Blobs de Estatísticas (Pequenos e discretos) */}
           <div className="site-stats-compact">
             <div className="site-mini-blob site-blob-orange">
               <span className="site-stat-val">150+</span>
-              <span className="site-stat-lbl">PAÍSES</span>
-              <p className="site-stat-txt">Diversidade cultural à sua disposição.</p>
+              <span className="site-stat-lbl">{t("platform.stats.countries.label")}</span>
+              <p className="site-stat-txt">{t("platform.stats.countries.text")}</p>
             </div>
-            
+
             <div className="site-mini-blob site-blob-purple">
               <span className="site-stat-val">500+</span>
-              <span className="site-stat-lbl">HUBS</span>
-              <p className="site-stat-txt">Pontos de conexão reais espalhados.</p>
+              <span className="site-stat-lbl">{t("platform.stats.hubs.label")}</span>
+              <p className="site-stat-txt">{t("platform.stats.hubs.text")}</p>
             </div>
-            
+
             <div className="site-mini-blob site-blob-navy">
               <span className="site-stat-val">1</span>
-              <span className="site-stat-lbl">COMUNIDADE</span>
-              <p className="site-stat-txt">O mesmo propósito de colaboração.</p>
+              <span className="site-stat-lbl">{t("platform.stats.community.label")}</span>
+              <p className="site-stat-txt">{t("platform.stats.community.text")}</p>
             </div>
           </div>
 
@@ -57,14 +58,14 @@ const PlataformaSection = () => {
               <div className="site-feat-header">
                 <div className="site-feat-num">1</div>
                 <div className="site-feat-content">
-                  <h4>ACOMPANHE SEU IMPACTO</h4>
-                  <p>Seu dashboard é o seu diário de bordo. Visualize horas de conversação e colecione os países que já alcançou.</p>
+                  <h4>{t("platform.features.impact.title")}</h4>
+                  <p>{t("platform.features.impact.text")}</p>
                 </div>
               </div>
               <div className="site-feat-media">
                 <img
                   src={imgDashboard}
-                  alt="Screenshot do Dashboard da plataforma"
+                  alt={t("platform.features.impact.imgAlt")}
                   className="site-feat-img"
                 />
               </div>
@@ -74,14 +75,14 @@ const PlataformaSection = () => {
               <div className="site-feat-header">
                 <div className="site-feat-num">2</div>
                 <div className="site-feat-content">
-                  <h4>SUGESTÕES DE MATCH</h4>
-                  <p>Nossa plataforma sugere os parceiros mais compatíveis com o seu perfil, facilitando o encontro perfeito.</p>
+                  <h4>{t("platform.features.match.title")}</h4>
+                  <p>{t("platform.features.match.text")}</p>
                 </div>
               </div>
               <div className="site-feat-media">
                 <img
                   src={imgConexoes}
-                  alt="Screenshot da tela Explorar Rede da plataforma"
+                  alt={t("platform.features.match.imgAlt")}
                   className="site-feat-img"
                 />
               </div>

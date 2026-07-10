@@ -1,20 +1,23 @@
-// Validação de força de senha
+// Validação de força de senha.
+// `errors` retorna códigos (não texto em PT) — quem exibe a mensagem pro
+// usuário é responsável por traduzir cada código (ver auth.json,
+// chave "passwordRequirements").
 export const validatePasswordStrength = (password) => {
   const errors = [];
 
   // mínimo 8 caracteres
   if (password.length < 8) {
-    errors.push("Mínimo de 8 caracteres");
+    errors.push("minLength");
   }
 
   // pelo menos uma letra (maiúscula ou minúscula)
   if (!/[a-zA-Z]/.test(password)) {
-    errors.push("Pelo menos uma letra");
+    errors.push("hasLetter");
   }
 
   // pelo menos um número
   if (!/[0-9]/.test(password)) {
-    errors.push("Pelo menos um número");
+    errors.push("hasNumber");
   }
 
   return {

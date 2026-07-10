@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { supabase } from "../../services/supabaseClient";
 import PersonAvatar from "../common/PersonAvatar";
+import LanguageSwitcher from "../common/LanguageSwitcher";
 import logoLE from "../../assets/logo-azul-claro.png";
 import BannerSidebar from "../../assets/banner-sidebar.png";
 import "./styles.css";
@@ -273,6 +274,8 @@ const DashboardLayout = ({ children }) => {
                 <Bell size={24} />
               </button>
               */}
+
+              <LanguageSwitcher />
 
               <div
                 className="user-profile clickable-profile"

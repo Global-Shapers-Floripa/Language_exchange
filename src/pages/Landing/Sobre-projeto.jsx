@@ -1,40 +1,38 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import "./sobre-projeto.css";
-import BocaFoto from "../../assets/mouth-halftone-2.png"; 
+import BocaFoto from "../../assets/mouth-halftone-2.png";
 
 const ConhecaProjeto = () => {
+  const { t } = useTranslation("landing");
+
   return (
     <section id="sobre" className="sobre-container">
       <div className="sobre-content">
-        
+
         {/* COLUNA ESQUERDA - TEXTOS */}
         <div className="sobre-left">
-          <div className="sobre-tag">// SOBRE</div>
-          
+          <div className="sobre-tag">{t("about.tag")}</div>
+
           <h2 className="sobre-title">
-            A GENTE ACREDITA QUE <br />
-            <span className="highlight-orange">CONVERSA</span> <br />
-            MUDA O MUNDO.
+            {t("about.titleLine1")} <br />
+            <span className="highlight-orange">{t("about.titleHighlight")}</span> <br />
+            {t("about.titleLine2")}
           </h2>
-          
+
           <p className="sobre-text">
-            O Language Exchange nasceu em julho de 2025 no Hub Global Shapers
-            Florianópolis como uma resposta simples: e se a gente usasse a
-            própria rede pra praticar idiomas com quem entende o nosso jeito de
-            mudar o mundo?
+            {t("about.paragraph1")}
           </p>
-          
+
           <p className="sobre-text">
-            Não é app, não é EdTech. É Shaper falando com Shaper — sobre
-            projeto, cidade, comida ruim, política, riso. <strong>Expanda seus horizontes
-            através da conexão cultural.</strong>
+            {t("about.paragraph2Text")} <strong>{t("about.paragraph2Highlight")}</strong>
           </p>
 
           {/* Imagem decorativa (Placeholder) */}
           <div className="sobre-decoration">
-            <img 
-              src={BocaFoto} 
-              alt="Decoração" 
+            <img
+              src={BocaFoto}
+              alt={t("about.decorationAlt")}
               className="decor-img"
             />
           </div>
@@ -42,40 +40,36 @@ const ConhecaProjeto = () => {
 
         {/* COLUNA DIREITA - BALÕES (BLOBS) */}
         <div className="sobre-right-grid">
-          
+
           {/* Balão Laranja */}
           <div className="blob-card blob-orange">
-            <h3 className="blob-title">HUBS QUE SE FALAM</h3>
+            <h3 className="blob-title">{t("about.blobs.hubs.title")}</h3>
             <p className="blob-text">
-              Conexão direta com Shapers do mundo todo,
-              sem intermediário, sem agência.
+              {t("about.blobs.hubs.text")}
             </p>
           </div>
 
           {/* Balão Azul Escuro */}
           <div className="blob-card blob-navy">
-            <h3 className="blob-title blob-title-light">AMBIENTE SEGURO</h3>
+            <h3 className="blob-title blob-title-light">{t("about.blobs.safe.title")}</h3>
             <p className="blob-text blob-text-light">
-              Comunidade exclusiva para rede Global Shapers, com guia de boas práticas e 
-              moderação dos organizadores.
+              {t("about.blobs.safe.text")}
             </p>
           </div>
 
           {/* Balão Roxo */}
           <div className="blob-card blob-purple">
-            <h3 className="blob-title">COMPETÊNCIA GLOBAL</h3>
+            <h3 className="blob-title">{t("about.blobs.competence.title")}</h3>
             <p className="blob-text">
-              Desenvolva fluência, repertório cultural e soft skills que não cabem 
-              em um curso de idioma.
+              {t("about.blobs.competence.text")}
             </p>
           </div>
 
           {/* Balão Creme Claro */}
           <div className="blob-card blob-peach">
-            <h3 className="blob-title">REDE QUE FORTALECE</h3>
+            <h3 className="blob-title">{t("about.blobs.network.title")}</h3>
             <p className="blob-text">
-              Quanto mais Shapers conversam, mais forte fica a rede global e os 
-              projetos que a gente faz acontecer.
+              {t("about.blobs.network.text")}
             </p>
           </div>
 

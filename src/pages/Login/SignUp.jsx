@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { User, Mail, MapPin, Lock } from "lucide-react";
 import "./sign-up.css";
 import { supabase } from "../../services/supabaseClient";
@@ -14,8 +15,10 @@ import Brain from "../../assets/brain.png";
 import Lupa from "../../assets/lupa.png";
 import Megafone from "../../assets/megafone.png";
 import Boca from "../../assets/boca.png";
+import PrivacyPolicyContent from "../../legal/PrivacyPolicyContent";
 
 const SignUp = () => {
+  const { t } = useTranslation("auth");
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -58,22 +61,25 @@ const SignUp = () => {
     setError("");
 
     if (formData.password !== formData.confirmPassword) {
-      setError("As senhas não coincidem!");
+      setError(t("signup.errors.passwordMismatch"));
       logSecurityEvent("signup_password_mismatch", { email: formData.email });
       return;
     }
 
     const passwordValidation = validatePasswordStrength(formData.password);
     if (!passwordValidation.isValid) {
+      const requirements = passwordValidation.errors
+        .map((code) => t(`passwordRequirements.${code}`))
+        .join(", ");
       setError(
-        `Senha fraca. Requisitos: ${passwordValidation.errors.join(", ")}`,
+        t("signup.errors.weakPassword", { requirements }),
       );
       logSecurityEvent("signup_weak_password", { email: formData.email });
       return;
     }
 
     if (!validateEmail(formData.email)) {
-      setError("E-mail inválido. Verifique e tente novamente.");
+      setError(t("signup.errors.invalidEmail"));
       logSecurityEvent("signup_invalid_email", { email: formData.email });
       return;
     }
@@ -143,7 +149,7 @@ const SignUp = () => {
         setSuccessModalOpen(true);
       }
     } catch (err) {
-      setError(err.message || "Ocorreu um erro ao criar a conta.");
+      setError(err.message || t("signup.errors.signupFailed"));
       logSecurityEvent("signup_error", {
         email: sanitizedData.email,
         error: err.message,
@@ -193,16 +199,16 @@ const SignUp = () => {
 
       <div className="login-side-form">
         <div className="form-container">
-          <h2>Criar Conta</h2>
+          <h2>{t("signup.title")}</h2>
           <p className="form-subtitle">
-            Preencha os dados para solicitar acesso.
+            {t("signup.subtitle")}
           </p>
 
           {error && <p className="error-message">{error}</p>}
 
           <form onSubmit={handleSubmit}>
             <div className="input-group">
-              <label>Nome Completo</label>
+              <label>{t("signup.fullNameLabel")}</label>
               <div className="input-wrapper">
                 <User size={18} />
                 <input
@@ -217,7 +223,7 @@ const SignUp = () => {
             </div>
 
             <div className="input-group">
-              <label>E-mail Acadêmico / Profissional</label>
+              <label>{t("signup.emailLabel")}</label>
               <div className="input-wrapper">
                 <Mail size={18} />
                 <input
@@ -232,7 +238,7 @@ const SignUp = () => {
             </div>
 
             <div className="input-group">
-              <label>Seu Hub (Cidade)</label>
+              <label>{t("signup.hubLabel")}</label>
               <div className="input-wrapper">
                 <MapPin size={18} />
                 <input
@@ -247,7 +253,7 @@ const SignUp = () => {
             </div>
 
             <div className="input-group">
-              <label>Senha</label>
+              <label>{t("fields.password")}</label>
               <div className="input-wrapper">
                 <Lock size={18} />
                 <input
@@ -261,34 +267,34 @@ const SignUp = () => {
               </div>
               {passwordErrors.length > 0 && (
                 <div className="password-requirements">
-                  <p className="requirement-title">Requisitos de senha:</p>
+                  <p className="requirement-title">{t("signup.passwordRequirementsTitle")}</p>
                   <ul>
                     <li
                       className={
-                        !passwordErrors.includes("Mínimo de 8 caracteres")
+                        !passwordErrors.includes("minLength")
                           ? "met"
                           : ""
                       }
                     >
-                      ✓ Mínimo de 8 caracteres
+                      ✓ {t("passwordRequirements.minLength")}
                     </li>
                     <li
                       className={
-                        !passwordErrors.includes("Pelo menos uma letra")
+                        !passwordErrors.includes("hasLetter")
                           ? "met"
                           : ""
                       }
                     >
-                      ✓ Pelo menos uma letra
+                      ✓ {t("passwordRequirements.hasLetter")}
                     </li>
                     <li
                       className={
-                        !passwordErrors.includes("Pelo menos um número")
+                        !passwordErrors.includes("hasNumber")
                           ? "met"
                           : ""
                       }
                     >
-                      ✓ Pelo menos um número
+                      ✓ {t("passwordRequirements.hasNumber")}
                     </li>
                   </ul>
                 </div>
@@ -296,7 +302,7 @@ const SignUp = () => {
             </div>
 
             <div className="input-group">
-              <label>Confirmar Senha</label>
+              <label>{t("fields.confirmPassword")}</label>
               <div className="input-wrapper">
                 <Lock size={18} />
                 <input
@@ -318,13 +324,13 @@ const SignUp = () => {
                   onChange={(e) => setAcceptedTerms(e.target.checked)}
                 />
                 <span>
-                  Aceito os{" "}
+                  {t("signup.acceptTermsPrefix")}{" "}
                   <button
                     type="button"
                     className="btn btn-ghost"
                     onClick={() => setIsTermsOpen(true)}
                   >
-                    termos e condições de privacidade
+                    {t("signup.termsLinkText")}
                   </button>
                 </span>
               </label>
@@ -332,7 +338,7 @@ const SignUp = () => {
 
             {!acceptedTerms && (
               <p className="terms-warning">
-                Aceite os termos e condições para continuar.
+                {t("signup.termsRequired")}
               </p>
             )}
 
@@ -341,11 +347,11 @@ const SignUp = () => {
               className="btn btn-primary"
               disabled={!acceptedTerms}
             >
-              Solicitar Acesso
+              {t("signup.submit")}
             </button>
           </form>
           <p className="signup-prompt">
-            Já tem conta? <Link to="/login">Fazer Login</Link>
+            {t("signup.hasAccountPrefix")} <Link to="/login">{t("signup.loginLink")}</Link>
           </p>
         </div>
       </div>
@@ -354,8 +360,11 @@ const SignUp = () => {
       {isTermsOpen && (
         <div className="terms-modal-overlay">
           <div className="terms-modal">
-            <h3>Termos e Condições de Privacidade</h3>
+            <h3>{t("signup.termsModal.title")}</h3>
 
+            {/* Termos de Uso: ainda hardcoded em PT — texto legal final
+                dessa parte não foi entregue nesta fase (só a Política de
+                Privacidade), fica pra uma fase futura. */}
             <div className="terms-content">
               <h4>TERMOS DE USO DA PLATAFORMA</h4>
               <p><strong>Versão 1.0 | Maio de 2026</strong></p>
@@ -382,37 +391,18 @@ const SignUp = () => {
 
               <hr style={{ margin: "20px 0", borderTop: "1px solid #ddd" }} />
 
-              <h4>POLÍTICA DE PRIVACIDADE E TRATAMENTO DE DADOS PESSOAIS</h4>
-              <p><strong>Versão 1.0 | Maio de 2026</strong></p>
-
-              <h5>PREÂMBULO</h5>
-              <p>
-                Esta Política de Privacidade e Tratamento de Dados Pessoais descreve como o Global Shapers Florianópolis (Hub Florianópolis), responsável pelo Projeto Language Exchange, coleta, utiliza, armazena, compartilha e protege os dados pessoais dos usuários da Plataforma. O Hub Florianópolis atua como Controlador dos Dados Pessoais nos termos da Lei Geral de Proteção de Dados Pessoais (LGPD - Lei no 13.709/2018).
-              </p>
-
-              <h5>DADOS PESSOAIS COLETADOS</h5>
-              <p>O Hub Florianópolis coleta as seguintes categorias de dados pessoais:</p>
-              <ul>
-                <li><strong>Dados para fins de Identificação e Cadastro:</strong> Nome completo; Endereço de e-mail; País e cidade de residência; Foto de perfil; Data de nascimento (para verificação de elegibilidade etária); Informações de perfil relacionadas à comunidade Global Shapers (Hub do qual participa).</li>
-                <li><strong>Dados para fins Linguísticos e Educacionais:</strong> Idiomas falados (nativos ou fluentes) e respectivos níveis de proficiência; Idiomas que o Usuário deseja aprender; Disponibilidade de horários; Histórico de sessões realizadas (datas, duração, Par Linguístico).</li>
-              </ul>
-
-              <h5>COMPARTILHAMENTO DE DADOS</h5>
-              <p>
-                O Hub Florianópolis poderá compartilhar dados pessoais dos usuários nas seguintes hipóteses: Com outros usuários (Para fins de formação de pares linguísticos); Com Prestadores de Serviço (Operadores); Com a Rede Global Shapers/Fórum Econômico Mundial; e Por Determinação Legal ou Judicial.
-              </p>
-
-              <h5>DIREITOS DOS TITULARES DE DADOS</h5>
-              <p>
-                O Usuário poderá exercer seus direitos gratuitamente, a qualquer momento, por meio do e-mail globalshapersflorianopolis@gmail.com. Dúvidas, solicitações ou denúncias poderão ser encaminhadas à equipe administradora da Plataforma pelos canais oficiais do projeto.
-              </p>
+              {/* Política de Privacidade: texto legal final (LGPD), carregado
+                  de src/legal/privacy-policy.{lang}.md conforme o idioma
+                  atual — ver PrivacyPolicyContent.jsx. Não é mais um resumo
+                  hardcoded aqui. */}
+              <PrivacyPolicyContent />
             </div>
 
             <button
               className="close-terms-btn"
               onClick={() => setIsTermsOpen(false)}
             >
-              Fechar
+              {t("signup.termsModal.close")}
             </button>
           </div>
         </div>
@@ -421,13 +411,11 @@ const SignUp = () => {
       {successModalOpen && (
         <div className="info-modal-overlay">
           <div className="info-modal-box dotted-texture">
-            <h3>Conta criada com sucesso 🎉</h3>
+            <h3>{t("signup.successModal.title")}</h3>
             <p>
-              Sua solicitação foi enviada para o Hub. Agora é só aguardar a
-              aprovação: você vai receber um e-mail avisando assim que sua
-              conta for aprovada e liberada para acesso à plataforma.
+              {t("signup.successModal.text")}
             </p>
-            <button onClick={() => navigate("/")}>Entendi</button>
+            <button onClick={() => navigate("/")}>{t("common.gotIt")}</button>
           </div>
         </div>
       )}

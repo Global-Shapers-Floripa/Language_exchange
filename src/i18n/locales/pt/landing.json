@@ -1,0 +1,192 @@
+{
+  "meta": {
+    "title": "Language Exchange | From Words to Worlds",
+    "description": "Um projeto que conecta Global Shapers do mundo inteiro para praticar idiomas, trocar cultura e construir uma rede sem fronteiras."
+  },
+  "nav": {
+    "about": "Sobre",
+    "howItWorks": "Como funciona",
+    "platform": "Plataforma",
+    "resources": "Recursos",
+    "faq": "FAQ",
+    "contact": "Contato",
+    "hub": "Hub Floripa",
+    "cta": "Faça Parte",
+    "openMenu": "Abrir menu"
+  },
+  "hero": {
+    "logoAlt": "Ícone Language Exchange",
+    "badge": "HUB FLORIANÓPOLIS, BRASIL • DESDE JUL/2025",
+    "titlePrefix": "A",
+    "titleHighlight": "GOOD CONVERSATION",
+    "titleSuffix": "IS THE BEST WAY TO LEARN",
+    "description": "Um projeto do Hub Florianópolis que conecta Global Shapers do mundo inteiro para praticar idiomas, trocar cultura e construir uma rede que atravessa fronteiras — uma conversa de cada vez.",
+    "primaryCta": "Comece a conversar",
+    "secondaryCta": "Como funciona?",
+    "stats": {
+      "hubs": "hubs alcançados",
+      "languages": "idiomas ativos",
+      "shapers": "feito por Shapers"
+    }
+  },
+  "about": {
+    "tag": "// SOBRE",
+    "titleLine1": "A GENTE ACREDITA QUE",
+    "titleHighlight": "CONVERSA",
+    "titleLine2": "MUDA O MUNDO.",
+    "paragraph1": "O Language Exchange nasceu em julho de 2025 no Hub Global Shapers Florianópolis como uma resposta simples: e se a gente usasse a própria rede pra praticar idiomas com quem entende o nosso jeito de mudar o mundo?",
+    "paragraph2Text": "Não é app, não é EdTech. É Shaper falando com Shaper — sobre projeto, cidade, comida ruim, política, riso.",
+    "paragraph2Highlight": "Expanda seus horizontes através da conexão cultural.",
+    "decorationAlt": "Decoração",
+    "blobs": {
+      "hubs": {
+        "title": "HUBS QUE SE FALAM",
+        "text": "Conexão direta com Shapers do mundo todo, sem intermediário, sem agência."
+      },
+      "safe": {
+        "title": "AMBIENTE SEGURO",
+        "text": "Comunidade exclusiva para rede Global Shapers, com guia de boas práticas e moderação dos organizadores."
+      },
+      "competence": {
+        "title": "COMPETÊNCIA GLOBAL",
+        "text": "Desenvolva fluência, repertório cultural e soft skills que não cabem em um curso de idioma."
+      },
+      "network": {
+        "title": "REDE QUE FORTALECE",
+        "text": "Quanto mais Shapers conversam, mais forte fica a rede global e os projetos que a gente faz acontecer."
+      }
+    }
+  },
+  "steps": {
+    "tag": "// COMO FUNCIONA",
+    "titleLine1": "QUATRO PASSOS.",
+    "titleHighlight": "ZERO BUROCRACIA.",
+    "decorationAlt": "Decoração",
+    "stepLabel": "PASSO",
+    "items": {
+      "0": {
+        "title": "CRIE SEU PERFIL (COM SEGURANÇA)",
+        "description": "Faça seu cadastro e aguarde a <0>verificação</0> do seu perfil e a aprovação manual. Isso garante um ambiente exclusivo e seguro para a rede Global Shapers. Depois, <1>você receberá uma confirmação por e-mail</1> e é só preencher seus interesses e os idiomas que quer praticar."
+      },
+      "1": {
+        "title": "ENCONTRE O SEU MATCH",
+        "description": "Explore a plataforma e envie uma solicitação de conexão para quem tem os mesmos objetivos que você. Assim que a pessoa aceitar, os dados de contato (como WhatsApp ou e-mail) são liberados para ambos."
+      },
+      "2": {
+        "title": "AGENDE E PRATIQUE",
+        "description": "Com os contatos destravados, chame seu parceiro de idioma no canal escolhido. Combinem o melhor dia e horário que funcione para os dois e aproveitem a imersão cultural na prática."
+      },
+      "3": {
+        "title": "REGISTRE SUA JORNADA",
+        "description": "A conversa foi incrível? Volte à plataforma para registrar a sessão! Adicione uma foto, conte como foi a experiência e construa um histórico visual de todos os países com os quais você já se conectou."
+      }
+    }
+  },
+  "platform": {
+    "tag": "// PLATAFORMA",
+    "titleLine1": "POR DENTRO DA COMUNIDADE.",
+    "titleHighlight": "SEU NOVO PASSAPORTE.",
+    "intro": "Nós acreditamos que a tecnologia deve ser uma ponte, não uma barreira. Por isso, desenvolvemos um ambiente limpo, intuitivo e livre de distrações, focado no que realmente importa: conectar você com o mundo.",
+    "stats": {
+      "countries": { "label": "PAÍSES", "text": "Diversidade cultural à sua disposição." },
+      "hubs": { "label": "HUBS", "text": "Pontos de conexão reais espalhados." },
+      "community": { "label": "COMUNIDADE", "text": "O mesmo propósito de colaboração." }
+    },
+    "features": {
+      "impact": {
+        "title": "ACOMPANHE SEU IMPACTO",
+        "text": "Seu dashboard é o seu diário de bordo. Visualize horas de conversação e colecione os países que já alcançou.",
+        "imgAlt": "Screenshot do Dashboard da plataforma"
+      },
+      "match": {
+        "title": "SUGESTÕES DE MATCH",
+        "text": "Nossa plataforma sugere os parceiros mais compatíveis com o seu perfil, facilitando o encontro perfeito.",
+        "imgAlt": "Screenshot da tela Explorar Rede da plataforma"
+      }
+    }
+  },
+  "resourcesSection": {
+    "tag": "// RECURSOS",
+    "titleLine1": "PRA VOCÊ NÃO",
+    "titleLine2": "COMEÇAR DO ZERO.",
+    "description": "Tudo o que aprendemos rodando o programa virou material aberto pra comunidade. Pegue, use, melhore.",
+    "items": {
+      "guide": {
+        "tag": "// GUIA",
+        "title": "GUIA DE BOAS PRÁTICAS",
+        "description": "Dicas de etiqueta e como preparar sua primeira sessão com um parceiro desconhecido."
+      },
+      "icebreakers": {
+        "tag": "// ICE BREAKERS",
+        "title": "ICE BREAKERS",
+        "description": "Uma lista de perguntas e tópicos para \"quebrar o gelo\" e manter o papo fluindo."
+      },
+      "useful": {
+        "tag": "// ÚTIL",
+        "title": "INFORMAÇÕES ÚTEIS",
+        "description": "Links úteis para ferramentas de videoconferência e tradução recomendadas."
+      }
+    }
+  },
+  "contact": {
+    "tag": "// CONTATO",
+    "title": "ENTRE EM CONTATO",
+    "description": "Tem alguma dúvida sobre o Language Exchange ou quer saber mais sobre o Global Shapers? Mande uma mensagem!",
+    "email": { "label": "E-MAIL" },
+    "instagram": { "label": "INSTAGRAM" },
+    "linkedin": { "label": "LINKEDIN" },
+    "youtube": { "label": "YOUTUBE" },
+    "hubCard": {
+      "titlePrefix": "CONHEÇA O",
+      "titleHighlight": "HUB IDEALIZADOR",
+      "titleSuffix": "DO PROJETO",
+      "text": "Mais do que uma plataforma de idiomas, somos um movimento. O Language Exchange nasceu da vontade do Global Shapers Florianópolis de conectar culturas e democratizar oportunidades. Somos uma rede de jovens líderes trabalhando voluntariamente para criar impacto real. Venha conhecer os rostos por trás dessa iniciativa e nossos outros projetos!",
+      "cta": "Conheça o Hub Floripa",
+      "imgAlt": "Equipe Hub Florianópolis"
+    }
+  },
+  "faq": {
+    "tag": "// FAQ",
+    "titleLine1": "PERGUNTAS",
+    "titleLine2": "QUE",
+    "titleHighlight": "A GENTE OUVE.",
+    "description": "Não achou a sua? Mande uma mensagem nos nossos contatos. Respondemos pessoalmente.",
+    "items": {
+      "0": {
+        "question": "Quem pode participar do Language Exchange?",
+        "answer": "O programa é exclusivo para membros Shapers da rede Global Shapers Community. Se você faz parte de um Hub, está convidado a se registrar."
+      },
+      "1": {
+        "question": "Como funciona o sistema de Match?",
+        "answer": "Nosso sistema analisa os idiomas que você domina e os que deseja aprender, cruzando com a base de dados para encontrar parceiros com interesses complementares aos seus."
+      },
+      "2": {
+        "question": "Qual a duração recomendada das sessões?",
+        "answer": "Sugerimos sessões de 45 a 60 minutos, dividindo o tempo igualmente entre os dois idiomas para que ambos os parceiros pratiquem."
+      },
+      "3": {
+        "question": "As sessões são presenciais ou online?",
+        "answer": "A maioria das sessões ocorre de forma online via Google Meet ou Zoom, permitindo a conexão entre Shapers de diferentes Hubs ao redor do mundo."
+      }
+    }
+  },
+  "cta": {
+    "title": "O QUE VOCÊ ESTÁ ESPERANDO?",
+    "subtitle": "É simples: a melhor maneira de aprender ou praticar um idioma é conversando!",
+    "button": "Comece agora"
+  },
+  "footer": {
+    "logoAlt": "Language Exchange",
+    "description": "Uma iniciativa do Global Shapers Florianópolis para conectar culturas através da conversa real.",
+    "social": {
+      "emailAria": "E-mail",
+      "instagramAria": "Instagram",
+      "linkedinAria": "LinkedIn",
+      "youtubeAria": "YouTube"
+    },
+    "navTitle": "NAVEGAÇÃO",
+    "contactTitle": "FALE COM A GENTE",
+    "copyright": "Todos os direitos reservados. Global Shapers Florianópolis 2026.",
+    "credits": "Feito com ❤️ por <0>Global Shapers Florianópolis</0>"
+  }
+}

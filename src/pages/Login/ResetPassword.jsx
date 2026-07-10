@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Lock, Eye, EyeOff, AlertCircle } from "lucide-react";
 import { supabase } from "../../services/supabaseClient";
 
 import "./reset-password.css";
 
 const ResetPassword = () => {
+  const { t } = useTranslation("auth");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -22,7 +24,7 @@ const ResetPassword = () => {
     setError("");
 
     if (password !== confirmPassword) {
-      setError("As senhas não coincidem");
+      setError(t("resetPassword.errors.mismatch"));
       return;
     }
 
@@ -46,9 +48,9 @@ const ResetPassword = () => {
   return (
     <div className="reset-page">
       <div className="form-container">
-        <h2>Nova senha</h2>
+        <h2>{t("resetPassword.title")}</h2>
         <p className="form-subtitle">
-          Escolha uma nova senha para acessar sua conta.
+          {t("resetPassword.subtitle")}
         </p>
 
         {error && (
@@ -60,13 +62,13 @@ const ResetPassword = () => {
 
         <form onSubmit={handleResetPassword}>
           <div className="input-group">
-            <label>Nova senha</label>
+            <label>{t("resetPassword.newPasswordLabel")}</label>
             <div className="input-wrapper">
               <Lock size={18} />
               <input
                 className="input"
                 type={showPassword ? "text" : "password"}
-                placeholder="••••••••"
+                placeholder={t("fields.passwordPlaceholder")}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -82,13 +84,13 @@ const ResetPassword = () => {
           </div>
 
           <div className="input-group">
-            <label>Confirmar senha</label>
+            <label>{t("resetPassword.confirmPasswordLabel")}</label>
             <div className="input-wrapper">
               <Lock size={18} />
               <input
                 className="input"
                 type={showPassword ? "text" : "password"}
-                placeholder="••••••••"
+                placeholder={t("fields.passwordPlaceholder")}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
@@ -97,21 +99,21 @@ const ResetPassword = () => {
           </div>
 
           <button type="submit" className="btn btn-primary" disabled={loading}>
-            {loading ? "Alterando..." : "Salvar nova senha"}
+            {loading ? t("resetPassword.submitting") : t("resetPassword.submit")}
           </button>
         </form>
 
         <p className="back-to-login">
-          Lembrou a senha? <Link to="/login">Voltar para o login</Link>
+          {t("resetPassword.rememberedPrefix")} <Link to="/login">{t("resetPassword.backToLoginLink")}</Link>
         </p>
       </div>
 
       {successModalOpen && (
         <div className="info-modal-overlay">
           <div className="info-modal-box dotted-texture">
-            <h3>Senha alterada 🔒</h3>
-            <p>Sua senha foi alterada com sucesso!</p>
-            <button onClick={() => navigate("/login")}>Entendi</button>
+            <h3>{t("resetPassword.successModal.title")}</h3>
+            <p>{t("resetPassword.successModal.text")}</p>
+            <button onClick={() => navigate("/login")}>{t("common.gotIt")}</button>
           </div>
         </div>
       )}
