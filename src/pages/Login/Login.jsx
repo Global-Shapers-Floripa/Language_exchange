@@ -77,7 +77,7 @@ const Login = () => {
 
         logSecurityEvent("login_pending_approval", { email });
 
-        navigate("/pending-approval");
+        navigate("/pending-approval", { replace: true });
         return;
       }
 
@@ -86,7 +86,7 @@ const Login = () => {
       logSecurityEvent("login_success", { email });
 
       // Se passou por tudo, vai pro Dashboard
-      navigate("/dashboard");
+      navigate("/dashboard", { replace: true });
     } catch (err) {
       setErrorMsg(err.message);
       logSecurityEvent("login_error", {

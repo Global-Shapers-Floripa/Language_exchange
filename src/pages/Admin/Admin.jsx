@@ -86,7 +86,7 @@ const Admin = () => {
 
         const { data: auth } = await supabase.auth.getUser();
         if (!auth?.user) {
-          navigate("/login");
+          navigate("/login", { replace: true });
           return;
         }
 
@@ -97,7 +97,7 @@ const Admin = () => {
           .single();
 
         if (!currentUser?.is_admin) {
-          navigate("/");
+          navigate("/", { replace: true });
           return;
         }
 

@@ -42,7 +42,7 @@ const DashboardLayout = ({ children }) => {
         } = await supabase.auth.getUser();
 
         if (!user) {
-          navigate("/login");
+          navigate("/login", { replace: true });
           return;
         }
 

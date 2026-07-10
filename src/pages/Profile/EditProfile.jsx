@@ -92,7 +92,7 @@ const EditProfile = () => {
         } = await supabase.auth.getUser();
 
         if (!user) {
-          navigate("/login");
+          navigate("/login", { replace: true });
           return;
         }
 
