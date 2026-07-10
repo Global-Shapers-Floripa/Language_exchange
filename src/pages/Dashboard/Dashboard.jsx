@@ -325,7 +325,7 @@ const Dashboard = () => {
           {/* HEADER */}
           <div className="section-header-dashboard">
             <h3>Mapa de Bandeiras</h3>
-            <a href="/profile?scrollTo=mapa-bandeiras">Ver todos &gt;</a>
+            <a href="/profile?scrollTo=mapa-bandeiras">Ver todas &gt;</a>
           </div>
           {/* PRÉVIA (só decorativa — detalhe completo e clique ficam no Perfil) */}
           <div className="country-flags-preview-row">

@@ -198,7 +198,7 @@ DASHBOARD (ESTATÍSTICAS)
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 40px;
 }
 
 .section-header-dashboard h3 {
@@ -231,7 +231,6 @@ GRID
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 10px;
   width: 100%;
-  padding: 20px 0;
 }
 
 /* =========================
