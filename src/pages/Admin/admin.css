@@ -251,17 +251,20 @@
   margin-bottom: 24px;
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
 }
 
 .main-heading {
-  font-family: var(--font-title, 'Bebas Neue', sans-serif);
-  font-size: 2.4rem;
-  letter-spacing: var(--title-letter-spacing, 2px);
-  text-transform: uppercase;
-  color: #1c1917;
-  margin: 4px 0 16px 0;
-  font-weight: 400;
+  font-size: 1.5rem;
+  color: #0A3251;
+  font-weight: 700;
+  margin: 0;
+}
+
+.management-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .results-count {
@@ -269,6 +272,7 @@
   color: #78716c;
   letter-spacing: 1px;
   margin: 0;
+  white-space: nowrap;
 }
 
 .search-wrapper {
@@ -285,7 +289,7 @@
 
 .search-input {
   padding-left: 36px;
-  border-radius: 6px;
+  border-radius: 50px;
 }
 
 .search-input:focus {
@@ -739,6 +743,13 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
+  }
+
+  .management-header-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 10px;
   }
 
   .search-wrapper {

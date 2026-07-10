@@ -97,7 +97,12 @@ const renderEmailShell = ({
 // =========================
 // TEMPLATES
 // =========================
-type Template = "approval" | "connection_request" | "user_deleted";
+type Template =
+  | "approval"
+  | "connection_request"
+  | "user_deleted"
+  | "session_public_request"
+  | "session_public_decision";
 
 const TEMPLATES: Record<
   Template,
@@ -148,6 +153,49 @@ const TEMPLATES: Record<
       `,
     }),
   }),
+
+  session_public_request: (data) => {
+    const recipientName = escapeHtml(data.recipientName || "");
+    const senderName = escapeHtml(data.senderName || "");
+    const appUrl = data.appUrl || "";
+    return {
+      subject: "Pedido para tornar uma sessão pública",
+      html: renderEmailShell({
+        bodyHtml: `
+          <p>Oi, ${recipientName}! ${senderName} quer tornar uma sessão de prática de vocês dois pública no Language Exchange, para aparecer no feed da comunidade.</p>
+          <p>Acesse a plataforma para ver os detalhes e decidir se aprova ou recusa o pedido.</p>
+        `,
+        ctaText: "Ver pedido",
+        ctaUrl: appUrl,
+      }),
+    };
+  },
+
+  session_public_decision: (data) => {
+    const recipientName = escapeHtml(data.recipientName || "");
+    const partnerName = escapeHtml(data.partnerName || "");
+    const appUrl = data.appUrl || "";
+    const approved = data.decision === "aprovada";
+
+    return {
+      subject: approved
+        ? "Sua sessão foi aprovada e já está pública"
+        : "Seu pedido de sessão pública foi recusado",
+      html: renderEmailShell({
+        bodyHtml: approved
+          ? `
+          <p>Oi, ${recipientName}! ${partnerName} aprovou o pedido para tornar pública a sessão de prática de vocês dois.</p>
+          <p>Ela já está visível no feed da Comunidade do Language Exchange.</p>
+        `
+          : `
+          <p>Oi, ${recipientName}! ${partnerName} optou por manter privada a sessão de prática de vocês dois.</p>
+          <p>Ela continua registrada normalmente na sua lista de sessões, só não vai aparecer no feed da Comunidade.</p>
+        `,
+        ctaText: "Ver minhas sessões",
+        ctaUrl: appUrl,
+      }),
+    };
+  },
 };
 
 Deno.serve(async (req: Request) => {

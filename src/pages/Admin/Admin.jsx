@@ -533,34 +533,36 @@ const Admin = () => {
             {/* HEADER DA TABELA */}
             <div className="admin-section">
               <div className="management-header">
-                <div>
-                  <h2 className="main-heading">Usuários da plataforma</h2>
+                <h2 className="main-heading">Usuários da plataforma</h2>
+
+                <div className="management-header-actions">
                   <p className="results-count">
                     {filteredUsers.length} • RESULTADOS
                   </p>
-                </div>
-                <div className="search-wrapper">
-                  <svg
-                    className="search-icon"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#94a3b8"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <circle cx="11" cy="11" r="8" />
-                    <path d="m21 21-4.3-4.3" />
-                  </svg>
-                  <input
-                    type="text"
-                    className="input search-input"
-                    placeholder="Buscar por nome, e-mail ou local..."
-                    value={userSearch}
-                    onChange={(e) => setUserSearch(e.target.value)}
-                  />
+
+                  <div className="search-wrapper">
+                    <svg
+                      className="search-icon"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#94a3b8"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <circle cx="11" cy="11" r="8" />
+                      <path d="m21 21-4.3-4.3" />
+                    </svg>
+                    <input
+                      type="text"
+                      className="input search-input"
+                      placeholder="Buscar por nome, e-mail ou local..."
+                      value={userSearch}
+                      onChange={(e) => setUserSearch(e.target.value)}
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -783,6 +785,42 @@ const Admin = () => {
                   {selectedUser.hub || "N/A"} -{" "}
                   {getCountryInfo(selectedUser.country).name}
                 </p>
+              </div>
+              <div className="admin-info-group">
+                <label>Membro desde</label>
+                <p>
+                  {selectedUser.created_at
+                    ? new Date(selectedUser.created_at).toLocaleDateString("pt-BR")
+                    : "N/A"}
+                </p>
+              </div>
+              <div className="admin-info-group">
+                <label>Idiomas que fala</label>
+                {selectedUser.speaks ? (
+                  <div className="lang-chips">
+                    {parseLanguageString(selectedUser.speaks).map((lang) => (
+                      <span key={lang.name} className="chip outline">
+                        {formatLanguageLabel(lang)}
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <p>Nenhum idioma informado.</p>
+                )}
+              </div>
+              <div className="admin-info-group">
+                <label>Idiomas que aprende</label>
+                {selectedUser.learns ? (
+                  <div className="lang-chips">
+                    {parseLanguageString(selectedUser.learns).map((lang) => (
+                      <span key={lang.name} className="chip orange">
+                        {formatLanguageLabel(lang)}
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <p>Nenhum idioma informado.</p>
+                )}
               </div>
               <div className="admin-info-group">
                 <label>Descrição</label>

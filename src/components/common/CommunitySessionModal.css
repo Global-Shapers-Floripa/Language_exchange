@@ -1,0 +1,132 @@
+.community-session-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.75);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+  z-index: 9999;
+}
+
+.community-session-modal {
+  background: white;
+  border-radius: 24px;
+  overflow: hidden;
+
+  width: 100%;
+  max-width: 600px;
+
+  position: relative;
+
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.community-session-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255, 115, 0, 0.685);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  z-index: 1;
+}
+
+.community-session-modal-close:hover {
+  background: rgba(255, 115, 0, 0.85);
+}
+
+.community-session-modal-image {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  display: block;
+  cursor: pointer;
+}
+
+/* Visualizador em tela cheia da foto — precisa ficar acima de
+   .community-session-modal-overlay (também 9999), já que é aberto a
+   partir de dentro deste modal. */
+.csm-image-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 20px;
+}
+
+.csm-image-modal {
+  position: relative;
+  max-width: 900px;
+  width: 100%;
+}
+
+.csm-image-modal img {
+  width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 20px;
+  background: white;
+  display: block;
+}
+
+.csm-image-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255, 115, 0, 0.685);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.csm-image-modal-close:hover {
+  background: rgba(255, 115, 0, 0.85);
+}
+
+.community-session-modal-content {
+  padding: 24px;
+}
+
+.csm-detail-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  color: #334155;
+}
+
+.csm-languages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.csm-lang-badge {
+  background-color: #ffedd5;
+  color: #ea580c;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.csm-notes-box {
+  margin-top: 8px;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 12px;
+}
+
+.csm-notes-box h4 {
+  margin-bottom: 8px;
+  color: #0A3251;
+}
+
+.csm-notes-box p {
+  color: #334155;
+  white-space: pre-wrap;
+}

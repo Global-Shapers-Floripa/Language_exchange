@@ -1,0 +1,189 @@
+.session-card-v2 {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.session-card-v2-photo {
+  position: relative;
+  height: 110px;
+}
+
+.session-card-v2-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.session-card-v2-photo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  color: #94a3b8;
+}
+
+.session-card-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.session-card-badge--pending {
+  background-color: #fef3c7;
+  color: #b45309;
+}
+
+.session-card-badge--public {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+
+.session-card-badge--private {
+  background-color: #e2e8f0;
+  color: #475569;
+}
+
+.session-card-v2-people {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 14px 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.session-card-person {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1px;
+}
+
+.session-card-person-avatar {
+  border: 2px solid #f1f5f9;
+  margin-bottom: 4px;
+}
+
+.session-card-person-name {
+  font-weight: 700;
+  color: #0A3251;
+  font-size: 0.85rem;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.session-card-person-hub {
+  color: #64748b;
+  font-size: 0.75rem;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.session-card-person-flag {
+  width: 24px;
+  height: 17px;
+  object-fit: cover;
+  border-radius: 2px;
+  margin-top: 3px;
+}
+
+.session-card-v2-swap-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #ffedd5;
+  color: var(--brand-orange, #FF8400);
+}
+
+/* Variante "lg" — usada só dentro dos modais de detalhe (Sessoes.jsx e
+   CommunitySessionModal), pra dar mais destaque ao bloco de participantes
+   em relação à faixa de informações gerais logo abaixo. O card da lista/
+   grade continua usando o tamanho padrão (sem essas classes). */
+.session-card-v2-people--lg {
+  padding: 24px 12px;
+  gap: 16px;
+}
+
+.session-card-person--lg {
+  gap: 4px;
+}
+
+.session-card-person--lg .session-card-person-name {
+  font-size: 1.2rem;
+}
+
+.session-card-person--lg .session-card-person-hub {
+  font-size: 0.9rem;
+}
+
+.session-card-person--lg .session-card-person-flag {
+  width: 34px;
+  height: 24px;
+}
+
+.session-card-v2-swap-icon--lg {
+  width: 46px;
+  height: 46px;
+}
+
+.session-card-v2-info {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  color: #64748b;
+  font-size: 0.75rem;
+}
+
+.session-card-v2-info > span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.session-card-v2-languages {
+  flex-wrap: wrap;
+}
+
+.session-card-v2-languages .lang-badge {
+  background-color: #ffedd5;
+  color: #ea580c;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+@media (max-width: 480px) {
+  .session-card-v2-people {
+    padding: 16px 10px;
+  }
+
+  .session-card-person-name {
+    font-size: 0.78rem;
+  }
+}

@@ -11,6 +11,7 @@ import {
   UserStar,
   HelpCircle,
   ArrowUpRight,
+  Globe2,
 } from "lucide-react";
 import { supabase } from "../../services/supabaseClient";
 import PersonAvatar from "../common/PersonAvatar";
@@ -135,6 +136,18 @@ const DashboardLayout = ({ children }) => {
                 <Calendar size={20} />
               </div>
               Sessões
+            </NavLink>
+
+            <NavLink
+              to="/comunidade"
+              className={({ isActive }) =>
+                isActive ? "nav-item active" : "nav-item"
+              }
+            >
+              <div className="icon-wrapper">
+                <Globe2 size={20} />
+              </div>
+              Comunidade
             </NavLink>
 
             <NavLink

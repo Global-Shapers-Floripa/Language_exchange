@@ -4,18 +4,22 @@ import DashboardLayout from "../../components/layout/DashboardLayout";
 import {
   PlusCircle,
   X,
-  Eye,
-  MapPin,
   Calendar,
   Clock,
-  Globe,
   Trash2,
   Search,
+  Globe2,
+  Languages,
+  Lock,
 } from "lucide-react";
+import Swal from "sweetalert2";
 import { useSessions } from "../../hooks/useSessions";
+import { usePendingApprovals } from "../../hooks/usePendingApprovals";
 import { useAcceptedConnections } from "../../hooks/useAcceptedConnections";
 import AddSessionModal from "../../components/common/AddSessionModal";
 import ConfirmModal from "../../components/common/ConfirmModal";
+import PendingApprovalModal from "../../components/common/PendingApprovalModal";
+import SessionCard, { SessionCardPeople } from "../../components/common/SessionCard";
 
 import "./sessoes.css";
 
@@ -23,8 +27,15 @@ const MySessions = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { sessions, loading, error, refetch, deleteSession } = useSessions();
+  const { sessions, loading, error, refetch, deleteSession, requestPublicApproval } =
+    useSessions();
   const { partners } = useAcceptedConnections();
+  const {
+    pendingApprovals,
+    loading: pendingLoading,
+    approve,
+    reject,
+  } = usePendingApprovals();
 
   // Rota /sessions é montada do zero a cada navegação (troca de rota do
   // react-router), então ler location.state direto no estado inicial já
@@ -40,6 +51,7 @@ const MySessions = () => {
 
   // ADICIONE AQUI
   const [selectedSession, setSelectedSession] = useState(null);
+  const [selectedApproval, setSelectedApproval] = useState(null);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const [deleteErrorMessage, setDeleteErrorMessage] = useState(null);
 
@@ -68,10 +80,86 @@ const MySessions = () => {
     }
   };
 
+  const handleMakePublic = async (session) => {
+    const confirmResult = await Swal.fire({
+      title: "Tornar sessão pública?",
+      html: `${session.partner} vai receber um e-mail avisando do pedido e poderá aprovar ou recusar. A nota e a foto desta sessão ficarão visíveis para ele revisar antes de decidir.`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Pedir aprovação",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (!confirmResult.isConfirmed) return;
+
+    const result = await requestPublicApproval(session);
+
+    if (result.success) {
+      setSelectedSession(null);
+      Swal.fire({
+        title: "Pedido enviado!",
+        text: `${session.partner} foi avisado por e-mail e precisa aprovar antes da sessão aparecer no feed da comunidade.`,
+        icon: "success",
+      });
+    } else {
+      Swal.fire("Erro", result.error || "Não foi possível pedir aprovação.", "error");
+    }
+  };
+
+  const handleApprove = async (sessionId) => {
+    const result = await approve(sessionId);
+    if (result.success) {
+      // Sessão virou pública: passa a aparecer também na lista de "Minhas
+      // Sessões" de quem só participou como parceiro.
+      refetch();
+    } else {
+      Swal.fire("Erro", result.error || "Não foi possível aprovar.", "error");
+    }
+    return result;
+  };
+
+  const handleReject = async (sessionId) => {
+    const result = await reject(sessionId);
+    if (!result.success) {
+      Swal.fire("Erro", result.error || "Não foi possível recusar.", "error");
+    }
+    return result;
+  };
+
   const formatLanguages = (langs) => {
     if (!langs) return [];
     if (Array.isArray(langs)) return langs;
     return typeof langs === "string" ? langs.split(",") : [langs];
+  };
+
+  const renderVisibilityBadge = (status) => {
+    if (status === "pendente_aprovacao") {
+      return (
+        <span className="session-visibility-badge session-visibility-badge--pending">
+          Aguardando aprovação do parceiro
+        </span>
+      );
+    }
+
+    if (status === "publica") {
+      return (
+        <span className="session-visibility-badge session-visibility-badge--public">
+          <Globe2 size={14} />
+          Pública
+        </span>
+      );
+    }
+
+    if (status === "privada") {
+      return (
+        <span className="session-visibility-badge session-visibility-badge--private">
+          <Lock size={14} />
+          Privada
+        </span>
+      );
+    }
+
+    return null;
   };
 
   // =========================
@@ -96,16 +184,79 @@ const MySessions = () => {
       <div className="sessions-header">
         <h2>Minhas Sessões</h2>
 
-        <div className="container-new-session-btn">
-          <button
-            className="btn btn-primary btn-new-session"
-            onClick={() => setIsModalOpen(true)}
-          >
-            <PlusCircle size={20} />
-            Novo Registro
-          </button>
+        <div className="sessions-header-actions">
+          {!loading && !error && sessions.length > 0 && (
+            <div className="sessions-search-wrapper">
+              <Search size={16} className="sessions-search-icon" />
+              <input
+                type="text"
+                className="input sessions-search-input"
+                placeholder="Buscar por nome, idioma, hub ou país..."
+                value={sessionSearch}
+                onChange={(e) => setSessionSearch(e.target.value)}
+              />
+            </div>
+          )}
+
+          <div className="container-new-session-btn">
+            <button
+              className="btn btn-primary btn-new-session"
+              onClick={() => setIsModalOpen(true)}
+            >
+              <PlusCircle size={20} />
+              Nova Sessão
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* PEDIDOS DE SESSÃO PÚBLICA (eu como parceiro) */}
+      {!pendingLoading && pendingApprovals.length > 0 && (
+        <div className="pending-approvals-section">
+          <h3>Pedidos de sessão pública</h3>
+
+          <div className="pending-approvals-list">
+            {pendingApprovals.map((item) => (
+              <div key={item.id} className="pending-approval-card">
+                <div className="pending-approval-thumb">
+                  {item.session_photo_url ? (
+                    <img src={item.session_photo_url} alt={item.requester} />
+                  ) : (
+                    <div className="pending-approval-thumb-placeholder">
+                      Sem foto
+                    </div>
+                  )}
+                </div>
+
+                <div className="pending-approval-body">
+                  <p className="pending-approval-title">
+                    <strong>{item.requester}</strong> ({item.hub}) quer
+                    tornar esta sessão pública
+                  </p>
+
+                  <div className="pending-approval-meta">
+                    <span>
+                      <Calendar size={16} />
+                      {item.date}
+                    </span>
+                    <span>
+                      <Languages size={16} />
+                      {item.languages}
+                    </span>
+                  </div>
+                </div>
+
+                <button
+                  className="btn btn-secondary pending-approval-review-btn"
+                  onClick={() => setSelectedApproval(item)}
+                >
+                  Revisar
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* LOADING */}
       {loading && (
@@ -118,20 +269,6 @@ const MySessions = () => {
       {error && (
         <div className="error-message">
           <p>Erro ao carregar sessões: {error}</p>
-        </div>
-      )}
-
-      {/* BUSCA */}
-      {!loading && !error && sessions.length > 0 && (
-        <div className="sessions-search-wrapper">
-          <Search size={16} className="sessions-search-icon" />
-          <input
-            type="text"
-            className="input sessions-search-input"
-            placeholder="Buscar por nome, idioma, hub ou país..."
-            value={sessionSearch}
-            onChange={(e) => setSessionSearch(e.target.value)}
-          />
         </div>
       )}
 
@@ -156,43 +293,23 @@ const MySessions = () => {
       {!loading && !error && filteredSessions.length > 0 && (
         <div className="sessions-grid">
           {filteredSessions.map((session) => (
-            <div
+            <SessionCard
               key={session.id}
-              className="session-card"
+              photoUrl={session.session_photo_url}
+              personA={session.selfPerson}
+              personB={session.otherPerson}
+              date={session.date}
+              duration={session.duration}
+              languages={session.languages}
+              statusBadge={
+                session.status === "pendente_aprovacao"
+                  ? "pending"
+                  : session.status === "publica"
+                    ? "public"
+                    : "private"
+              }
               onClick={() => setSelectedSession(session)}
-            >
-              <div className="session-card-image">
-                {session.session_photo_url ? (
-                  <img src={session.session_photo_url} alt={session.partner} />
-                ) : (
-                  <div className="session-placeholder">Sem foto</div>
-                )}
-              </div>
-
-              <div className="session-card-body">
-                <h3>{session.partner}</h3>
-
-                <p className="session-hub">
-                  <MapPin size={16} />
-                  {session.hub}
-                </p>
-
-                <div className="languages-preview">
-                  {formatLanguages(session.languages).map((lang, index) => (
-                    <span key={index} className="lang-badge">
-                      {lang.trim()}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <button
-                className="btn btn-ghost--icon view-session-btn"
-                onClick={() => setSelectedSession(session)}
-              >
-                <Eye size={18} />
-              </button>
-            </div>
+            />
           ))}
         </div>
       )}
@@ -242,20 +359,30 @@ const MySessions = () => {
             </button>
 
             {selectedSession.session_photo_url && (
-              <img
-                src={selectedSession.session_photo_url}
-                alt={selectedSession.partner}
-                className="details-image"
-              />
+              <div className="details-image-wrapper">
+                <img
+                  src={selectedSession.session_photo_url}
+                  alt={selectedSession.partner}
+                  className="details-image"
+                  onClick={() =>
+                    setSelectedImage(selectedSession.session_photo_url)
+                  }
+                />
+                <div className="details-image-badge">
+                  {renderVisibilityBadge(selectedSession.status)}
+                </div>
+              </div>
             )}
 
-            <div className="details-content">
-              <h2>{selectedSession.partner}</h2>
+            <SessionCardPeople
+              personA={selectedSession.selfPerson}
+              personB={selectedSession.otherPerson}
+              size="lg"
+            />
 
-              <div className="detail-row">
-                <MapPin size={18} />
-                <span>{selectedSession.hub}</span>
-              </div>
+            <div className="details-content">
+              {!selectedSession.session_photo_url &&
+                renderVisibilityBadge(selectedSession.status)}
 
               <div className="detail-row">
                 <Calendar size={18} />
@@ -268,7 +395,7 @@ const MySessions = () => {
               </div>
 
               <div className="detail-row">
-                <Globe size={18} />
+                <Languages size={18} />
                 <div className="languages-cell">
                   {formatLanguages(selectedSession.languages).map(
                     (lang, index) => (
@@ -287,15 +414,27 @@ const MySessions = () => {
                 </div>
               )}
 
-              <div className="details-actions">
-                <button
-                  className="btn btn-danger delete-session-btn"
-                  onClick={() => setIsDeleteConfirmOpen(true)}
-                >
-                  <Trash2 size={18} />
-                  Excluir sessão
-                </button>
-              </div>
+              {selectedSession.isOwner && (
+                <div className="details-actions">
+                  {selectedSession.status === "privada" && (
+                    <button
+                      className="btn btn-primary make-public-btn"
+                      onClick={() => handleMakePublic(selectedSession)}
+                    >
+                      <Globe2 size={18} />
+                      Tornar pública
+                    </button>
+                  )}
+
+                  <button
+                    className="btn btn-danger delete-session-btn"
+                    onClick={() => setIsDeleteConfirmOpen(true)}
+                  >
+                    <Trash2 size={18} />
+                    Excluir sessão
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -323,6 +462,13 @@ const MySessions = () => {
           </div>
         </div>
       )}
+
+      <PendingApprovalModal
+        approval={selectedApproval}
+        onClose={() => setSelectedApproval(null)}
+        onApprove={handleApprove}
+        onReject={handleReject}
+      />
     </DashboardLayout>
   );
 };

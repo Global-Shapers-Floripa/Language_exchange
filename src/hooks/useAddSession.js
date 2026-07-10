@@ -59,6 +59,11 @@ export const useAddSession = () => {
         ? sessionData.languages.join(', ')
         : sessionData.languages;
 
+      // Se "Tornar esta sessão pública" foi marcado, a sessão já nasce
+      // aguardando aprovação do parceiro em vez de privada (default da
+      // coluna, ver SESSIONS_PUBLIC_VISIBILITY.sql).
+      const status = sessionData.makePublic ? 'pendente_aprovacao' : 'privada';
+
       // Insere a nova sessão
       const { error: insertError } = await supabase
         .from('sessions')
@@ -71,11 +76,43 @@ export const useAddSession = () => {
             languages: languagesString,
             notes: sessionData.notes,
             session_photo_url: photoUrl,
+            status,
           },
         ])
         .select();
 
       if (insertError) throw insertError;
+
+      // E-mail de pedido de aprovação é best-effort: a sessão já foi criada
+      // com sucesso, então uma falha aqui não deve virar erro pro usuário —
+      // mesmo padrão de requestPublicApproval em useSessions.js, usado
+      // quando o pedido é feito depois em vez de na criação.
+      if (sessionData.makePublic) {
+        const [{ data: ownProfile }, { data: partnerProfile }, { data: partnerContact }] =
+          await Promise.all([
+            supabase.from('profiles').select('full_name').eq('id', user.id).single(),
+            supabase.from('profiles').select('full_name').eq('id', sessionData.partner_id).single(),
+            supabase.from('profile_contacts').select('email').eq('user_id', sessionData.partner_id).single(),
+          ]);
+
+        if (partnerContact?.email) {
+          const { error: emailError } = await supabase.functions.invoke('send-email', {
+            body: {
+              template: 'session_public_request',
+              to: partnerContact.email,
+              data: {
+                recipientName: partnerProfile?.full_name || '',
+                senderName: ownProfile?.full_name || '',
+                appUrl: `${window.location.origin}/sessions`,
+              },
+            },
+          });
+
+          if (emailError) {
+            console.error('Erro ao enviar e-mail de pedido de sessão pública:', emailError);
+          }
+        }
+      }
 
       setLoading(false);
       return { success: true };

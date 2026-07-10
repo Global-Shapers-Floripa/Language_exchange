@@ -15,6 +15,7 @@ import Recursos from './pages/Resources/Recursos';
 import Profile from './pages/Profile/EditProfile';
 import ProjectPartners from './pages/Partners/ProjectsPartners';
 import Help from './pages/Help/Help';
+import Comunidade from './pages/Community/Comunidade';
 import './App.css';
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/partners" element={<Partner />} />
         <Route path="/sessions" element={<Sessoes />} />
+        <Route path="/comunidade" element={<Comunidade />} />
         <Route path="/resources" element={<Recursos />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/project-partners" element={<ProjectPartners />} />

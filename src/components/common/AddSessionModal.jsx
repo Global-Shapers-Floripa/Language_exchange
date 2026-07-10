@@ -16,6 +16,7 @@ const AddSessionModal = ({ isOpen, onClose, partners, initialPartnerId, onSessio
     languages: [],
     notes: '',
     sessionPhoto: null,
+    makePublic: false,
   });
 
   const { addSession, loading, error } = useAddSession();
@@ -47,6 +48,13 @@ const AddSessionModal = ({ isOpen, onClose, partners, initialPartnerId, onSessio
     setFormData(prev => ({
       ...prev,
       partner_id: partnerId,
+    }));
+  };
+
+  const handleMakePublicChange = (e) => {
+    setFormData(prev => ({
+      ...prev,
+      makePublic: e.target.checked,
     }));
   };
 
@@ -130,6 +138,7 @@ const AddSessionModal = ({ isOpen, onClose, partners, initialPartnerId, onSessio
         languages: [],
         notes: '',
         sessionPhoto: null,
+        makePublic: false,
       });
       setPhotoPreview(null);
       
@@ -166,14 +175,21 @@ const AddSessionModal = ({ isOpen, onClose, partners, initialPartnerId, onSessio
           {/* Parceiro com Busca - COM A NOVA CLASSE */}
           <div className="form-group force-vertical-dropdown">
             <label>Conexão *</label>
-            <SearchableSelect
-              options={partnerOptions}
-              value={formData.partner_id}
-              onChange={handlePartnerChange}
-              placeholder="Buscar conexão por nome ou hub..."
-              displayKey="name"
-              valueKey="code"
-            />
+            {partners.length === 0 ? (
+              <p className="no-partners-message">
+                Você ainda não tem conexões aceitas. Conecte-se com alguém na
+                aba Conexões para poder registrar uma sessão.
+              </p>
+            ) : (
+              <SearchableSelect
+                options={partnerOptions}
+                value={formData.partner_id}
+                onChange={handlePartnerChange}
+                placeholder="Buscar conexão por nome ou hub..."
+                displayKey="name"
+                valueKey="code"
+              />
+            )}
           </div>
 
           {/* Data */}
@@ -234,6 +250,22 @@ const AddSessionModal = ({ isOpen, onClose, partners, initialPartnerId, onSessio
             />
           </div>
 
+          {/* Tornar Pública */}
+          <div className="form-group">
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                checked={formData.makePublic}
+                onChange={handleMakePublicChange}
+              />
+              Tornar esta sessão pública
+            </label>
+            <small>
+              O parceiro vai receber um e-mail para aprovar antes dela
+              aparecer no feed da Comunidade.
+            </small>
+          </div>
+
           {/* Upload de Foto */}
           <div className="form-group">
             <label>Foto/Print da Sessão (Opcional)</label>
@@ -243,10 +275,11 @@ const AddSessionModal = ({ isOpen, onClose, partners, initialPartnerId, onSessio
                   <img src={photoPreview} alt="Preview da sessão" />
                   <button
                     type="button"
-                    className="btn btn-danger"
+                    className="photo-remove-btn"
                     onClick={removePhoto}
+                    aria-label="Remover foto"
                   >
-                    Remover
+                    <X size={16} />
                   </button>
                 </div>
               ) : (
