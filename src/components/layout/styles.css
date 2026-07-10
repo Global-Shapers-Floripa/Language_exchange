@@ -46,7 +46,6 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-bottom: 20px;
   padding-left: 15px;
   flex-shrink: 0;
 }
@@ -109,7 +108,7 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 5px 10px;
+  padding: 4px 10px;
   color: #ffedd9;
   text-decoration: none;
   border-radius: 99px;
@@ -129,8 +128,8 @@
 
 /* A div que cria o círculo (o arredondamento fica SÓ aqui) */
 .icon-wrapper {
-  width: 32px; /* Tamanho total da bolinha */
-  height: 32px;
+  width: 26px; /* Tamanho total da bolinha */
+  height: 26px;
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.05); /* Fundo inativo */
   display: flex;
@@ -338,6 +337,7 @@
 .page-body {
   flex: 1;
   padding: 0 2rem;
+  padding-bottom: 2rem;
 }
 
 /* Ajuda/Sair duplicados dentro de .sidebar-nav (ver DashboardLayout.jsx)

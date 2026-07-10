@@ -8,6 +8,7 @@ import PartnerCard from "../../components/common/PartnerCard";
 import WhatsAppBanner from "../../components/common/WhatsAppBanner";
 import { useDashboardStats } from "../../hooks/useDashboardStats";
 import { getFlagUrl } from "../../utils/countryFlag";
+import { COUNTRIES } from "../../constants/countries";
 import { Share2, ImageUp, Clock, Globe, Book, MessageCircle, Calendar } from "lucide-react";
 import Camera from "../../assets/camera.png";
 
@@ -58,8 +59,32 @@ const Dashboard = () => {
     sessionsCount,
     practicedTimeLabel,
     countries,
+    countryProgress,
     loading: loadingStats,
   } = useDashboardStats();
+
+  // =========================
+  // PRÉVIA DO MAPA DE BANDEIRAS
+  // =========================
+  // Mesma ordenação da versão completa (Perfil): desbloqueados primeiro
+  // (mais conexões -> menos), depois bloqueados — mas só uma amostra, sem
+  // precisar mostrar os ~67 países aqui.
+  const countryProgressMap = new Map(
+    (countryProgress || []).map((country) => [country.code, country]),
+  );
+
+  const unlockedPreview = COUNTRIES.filter((country) =>
+    countryProgressMap.has(country.code),
+  ).sort(
+    (a, b) =>
+      countryProgressMap.get(b.code).count - countryProgressMap.get(a.code).count,
+  );
+
+  const lockedPreview = COUNTRIES.filter(
+    (country) => !countryProgressMap.has(country.code),
+  );
+
+  const flagsPreview = [...unlockedPreview, ...lockedPreview].slice(0, 12);
 
   // =========================
   // REGISTRAR SESSÃO
@@ -292,6 +317,39 @@ const Dashboard = () => {
                 .map((partner) => (
                   <PartnerCard key={partner.id} partner={partner} exploreOnly />
                 ))
+            )}
+          </div>
+        </div>
+
+        <div className="parceiros-dashboard-preview">
+          {/* HEADER */}
+          <div className="section-header-dashboard">
+            <h3>Mapa de Bandeiras</h3>
+            <a href="/profile?scrollTo=mapa-bandeiras">Ver todos &gt;</a>
+          </div>
+          {/* PRÉVIA (só decorativa — detalhe completo e clique ficam no Perfil) */}
+          <div className="country-flags-preview-row">
+            {loadingStats ? (
+              <p style={{ color: "#666" }}>Carregando países...</p>
+            ) : flagsPreview.length === 0 ? (
+              <p style={{ color: "#666" }}>
+                Nenhum país cadastrado na plataforma ainda.
+              </p>
+            ) : (
+              flagsPreview.map((country) => {
+                const unlocked = countryProgressMap.has(country.code);
+                const flagUrl = getFlagUrl(country.code);
+
+                return flagUrl ? (
+                  <img
+                    key={country.code}
+                    src={flagUrl}
+                    alt={country.name}
+                    title={country.name}
+                    className={`country-flags-preview-flag ${unlocked ? "unlocked" : "locked"}`}
+                  />
+                ) : null;
+              })
             )}
           </div>
         </div>

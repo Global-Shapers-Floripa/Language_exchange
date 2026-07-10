@@ -101,6 +101,27 @@ DASHBOARD (ESTATÍSTICAS)
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
+/* === PRÉVIA DO MAPA DE BANDEIRAS === */
+.country-flags-preview-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.country-flags-preview-flag {
+  width: 44px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.country-flags-preview-flag.locked {
+  filter: grayscale(100%);
+  opacity: 0.4;
+}
+
 /* === CARD CTA === */
 .dashboard-cta-card {
   background: var(--brand-orange);

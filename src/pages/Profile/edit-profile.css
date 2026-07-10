@@ -1,6 +1,4 @@
-.edit-profile-container {
-  padding: 0 20px;
-}
+
 
 .edit-profile-header {
   display: flex;
@@ -146,6 +144,34 @@
 .section-title {
   margin-bottom: 16px;
   font-size: 1.2rem;
+}
+
+/* HEADER CLICÁVEL DO BLOCO "INFORMAÇÕES PESSOAIS" — recolhido por padrão */
+.section-title-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-bottom: 16px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.section-title-toggle .section-title {
+  margin-bottom: 0;
+}
+
+.section-title-toggle svg {
+  color: #94a3b8;
+  flex-shrink: 0;
+  transition: color 0.2s;
+}
+
+.section-title-toggle:hover svg {
+  color: var(--brand-orange);
 }
 
 /* ESTILOS DO MODO VISUALIZAÇÃO */
@@ -429,6 +455,174 @@
 
 
 
+}
+
+/* =========================
+   MAPA DE BANDEIRAS
+========================= */
+.country-map-card {
+  padding: 26px 28px;
+}
+
+.country-map-subtitle {
+  color: #64748b;
+  font-size: 14px;
+  margin: -8px 0 20px 0;
+}
+
+.country-flags-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+  gap: 14px;
+}
+
+.country-flag-item {
+  position: relative;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+}
+
+.country-flag-item.locked {
+  cursor: default;
+}
+
+.country-flag-img {
+  width: 48px;
+  height: 32px;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  transition: transform 0.15s;
+}
+
+.country-flag-item.unlocked:hover .country-flag-img {
+  transform: scale(1.08);
+}
+
+.country-flag-item.locked .country-flag-img {
+  filter: grayscale(100%);
+  opacity: 0.4;
+}
+
+.country-flag-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--brand-orange);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  border: 2px solid white;
+}
+
+/* MODAL: PESSOAS CONECTADAS DO PAÍS */
+.country-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.country-modal {
+  width: 100%;
+  max-width: 400px;
+  max-height: 80vh;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.country-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.country-modal-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #0A3251;
+}
+
+.country-modal-flag {
+  width: 40px;
+  height: 28px;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.country-modal-people-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.country-modal-people-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.country-modal-people-list li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.country-modal-person-name {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.country-modal-person-hub {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--brand-orange);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.country-modal .btn {
+  align-self: flex-end;
+}
+
+@media (max-width: 768px) {
+  .country-flags-grid {
+    grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+    gap: 10px;
+  }
+
+  .country-flag-img {
+    width: 38px;
+    height: 26px;
+  }
 }
 
 /* =========================

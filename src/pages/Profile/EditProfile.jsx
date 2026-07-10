@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 
 import Cropper from "react-easy-crop";
-import { useNavigate } from "react-router-dom";
-import { SquarePen } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { SquarePen, Eye, EyeOff } from "lucide-react";
 
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import TagSelect from "../../components/common/TagSelect";
@@ -17,6 +17,8 @@ import {
   formatLanguageString,
   formatLanguageLabel,
 } from "../../utils/languageLevel";
+import { getFlagUrl } from "../../utils/countryFlag";
+import { useCountryProgress } from "../../hooks/useCountryProgress";
 
 import { supabase } from "../../services/supabaseClient";
 
@@ -26,10 +28,15 @@ import "./edit-profile.css";
 
 const EditProfile = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+
+  // Bloco "Informações pessoais" recolhido por padrão — só o cabeçalho
+  // compacto (avatar, nome, hub) fica sempre visível
+  const [detailsExpanded, setDetailsExpanded] = useState(false);
 
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -64,6 +71,15 @@ const EditProfile = () => {
   // { field: "speaks" | "learns", name: string } do idioma cujo mini
   // seletor de nível está aberto no momento, ou null se nenhum.
   const [levelPickerFor, setLevelPickerFor] = useState(null);
+
+  // =========================
+  // MAPA DE BANDEIRAS
+  // =========================
+  const { countries: countryProgress, loading: loadingCountryProgress } =
+    useCountryProgress();
+
+  // País selecionado (bandeira desbloqueada clicada) para exibir no modal
+  const [selectedCountry, setSelectedCountry] = useState(null);
 
   // =========================
   // CARREGAR PERFIL
@@ -136,6 +152,22 @@ const EditProfile = () => {
 
     loadUserProfile();
   }, [navigate]);
+
+  // =========================
+  // ROLAGEM AUTOMÁTICA (vindo do "Ver todos" do Dashboard, ex:
+  // /profile?scrollTo=mapa-bandeiras)
+  // =========================
+  useEffect(() => {
+    if (loading) return;
+
+    const scrollTo = new URLSearchParams(location.search).get("scrollTo");
+    if (!scrollTo) return;
+
+    const target = document.getElementById(scrollTo);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [loading, location.search]);
 
   // =========================
   // INPUTS
@@ -398,6 +430,35 @@ const EditProfile = () => {
   const languageLabels = LANGUAGES.map((lang) => lang.name || lang.label);
   const countryName = COUNTRIES.find((c) => c.code === formData.country)?.name;
 
+  // =========================
+  // MAPA DE BANDEIRAS: ORDENAÇÃO
+  // =========================
+  // Desbloqueados primeiro (mais conexões -> menos), depois bloqueados
+  // em ordem alfabética (já é a ordem de COUNTRIES)
+  const countryProgressMap = new Map(
+    countryProgress.map((country) => [country.code, country]),
+  );
+
+  const unlockedCountries = COUNTRIES.filter((country) =>
+    countryProgressMap.has(country.code),
+  ).sort(
+    (a, b) =>
+      countryProgressMap.get(b.code).count - countryProgressMap.get(a.code).count,
+  );
+
+  const lockedCountries = COUNTRIES.filter(
+    (country) => !countryProgressMap.has(country.code),
+  );
+
+  const sortedCountries = [...unlockedCountries, ...lockedCountries];
+
+  const handleFlagClick = (country) => {
+    const progress = countryProgressMap.get(country.code);
+    if (!progress) return;
+
+    setSelectedCountry({ ...country, ...progress });
+  };
+
   return (
     <DashboardLayout>
       <div className="edit-profile-container">
@@ -452,7 +513,11 @@ const EditProfile = () => {
           {!isEditing && (
             <button
               className="btn btn-ghost--icon btn-edit-inside-card"
-              onClick={() => setIsEditing(true)}
+              onClick={() => {
+                // Editar não faz sentido com o bloco escondido — expande junto
+                setIsEditing(true);
+                setDetailsExpanded(true);
+              }}
               aria-label="Editar perfil"
             >
               <SquarePen size={18} />
@@ -465,9 +530,19 @@ const EditProfile = () => {
           {/* SEÇÃO INFERIOR (VISUALIZAÇÃO VS EDIÇÃO) */}
           {!isEditing ? (
             <div className="profile-bottom-section view-mode">
-              <h2 className="section-title">Informações pessoais</h2>
+              <button
+                type="button"
+                className="section-title-toggle"
+                onClick={() => setDetailsExpanded((prev) => !prev)}
+                aria-expanded={detailsExpanded}
+                aria-controls="profile-details-panel"
+              >
+                <h2 className="section-title">Informações pessoais</h2>
+                {detailsExpanded ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
 
-              <div className="info-grid">
+              {detailsExpanded && (
+              <div id="profile-details-panel" className="info-grid">
                 <div className="info-group">
                   <span className="info-label">Nome completo</span>
                   <span
@@ -567,6 +642,7 @@ const EditProfile = () => {
                   </div>
                 </div>
               </div>
+              )}
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="edit-profile-form">
@@ -790,6 +866,103 @@ const EditProfile = () => {
             </form>
           )}
         </div>
+
+        {/* MAPA DE BANDEIRAS — visível apenas no modo visualização */}
+        {!isEditing && (
+          <div id="mapa-bandeiras" className="card card--profile country-map-card">
+            <h2 className="section-title">Mapa de Bandeiras</h2>
+            <p className="country-map-subtitle">
+              Países com quem você já praticou aparecem coloridos. Clique numa
+              bandeira desbloqueada para ver com quem você já teve sessão.
+            </p>
+
+            {loadingCountryProgress ? (
+              <p className="empty-text">Carregando mapa de países...</p>
+            ) : (
+              <div className="country-flags-grid">
+                {sortedCountries.map((country) => {
+                  const progress = countryProgressMap.get(country.code);
+                  const unlocked = Boolean(progress);
+                  const flagUrl = getFlagUrl(country.code);
+
+                  if (!flagUrl) return null;
+
+                  return (
+                    <button
+                      type="button"
+                      key={country.code}
+                      className={`country-flag-item ${unlocked ? "unlocked" : "locked"}`}
+                      onClick={() => handleFlagClick(country)}
+                      disabled={!unlocked}
+                      title={country.name}
+                      aria-label={
+                        unlocked
+                          ? `${country.name}: ${progress.count} conexão(ões), ver detalhes`
+                          : `${country.name}: ainda sem sessões`
+                      }
+                    >
+                      <img
+                        src={flagUrl}
+                        alt={country.name}
+                        className="country-flag-img"
+                      />
+                      {unlocked && (
+                        <span className="country-flag-badge">
+                          {progress.count}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* MODAL: PESSOAS CONECTADAS DO PAÍS SELECIONADO */}
+        {selectedCountry && (
+          <div
+            className="country-modal-overlay"
+            onClick={() => setSelectedCountry(null)}
+          >
+            <div
+              className="card country-modal"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="country-modal-header">
+                <img
+                  src={getFlagUrl(selectedCountry.code)}
+                  alt={selectedCountry.name}
+                  className="country-modal-flag"
+                />
+                <h2>{selectedCountry.name}</h2>
+              </div>
+
+              <ul className="country-modal-people-list">
+                {selectedCountry.people.map((person, index) => (
+                  <li key={index}>
+                    <span className="country-modal-person-name">
+                      {person.name}
+                    </span>
+                    {person.hub && (
+                      <span className="country-modal-person-hub">
+                        {person.hub}
+                      </span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setSelectedCountry(null)}
+              >
+                Fechar
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* MODAL CROPPER */}
         {showCropModal && (

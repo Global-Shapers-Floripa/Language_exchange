@@ -109,7 +109,7 @@ const DashboardLayout = ({ children }) => {
               }
             >
               <div className="icon-wrapper">
-                <Home size={20} />
+                <Home size={18} />
               </div>
               Início
             </NavLink>
@@ -121,7 +121,7 @@ const DashboardLayout = ({ children }) => {
               }
             >
               <div className="icon-wrapper">
-                <Users size={20} />
+                <Users size={18} />
               </div>
               Conexões
             </NavLink>
@@ -133,7 +133,7 @@ const DashboardLayout = ({ children }) => {
               }
             >
               <div className="icon-wrapper">
-                <Calendar size={20} />
+                <Calendar size={18} />
               </div>
               Sessões
             </NavLink>
@@ -145,7 +145,7 @@ const DashboardLayout = ({ children }) => {
               }
             >
               <div className="icon-wrapper">
-                <Globe2 size={20} />
+                <Globe2 size={18} />
               </div>
               Comunidade
             </NavLink>
@@ -157,7 +157,7 @@ const DashboardLayout = ({ children }) => {
               }
             >
               <div className="icon-wrapper">
-                <BookOpen size={20} />
+                <BookOpen size={18} />
               </div>
               Recursos
             </NavLink>
@@ -169,7 +169,7 @@ const DashboardLayout = ({ children }) => {
               }
             >
               <div className="icon-wrapper">
-                <Handshake size={20} />
+                <Handshake size={18} />
               </div>
               Parceiros
             </NavLink>
@@ -181,7 +181,7 @@ const DashboardLayout = ({ children }) => {
               }
             >
               <div className="icon-wrapper">
-                <User size={20} />
+                <User size={18} />
               </div>
               Perfil
             </NavLink>
@@ -194,7 +194,7 @@ const DashboardLayout = ({ children }) => {
                 }
               >
                 <div className="icon-wrapper">
-                  <UserStar size={20} />
+                  <UserStar size={18} />
                 </div>
                 Admin
               </NavLink>

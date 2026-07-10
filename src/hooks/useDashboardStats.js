@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { supabase } from "../services/supabaseClient";
+import { useCountryProgress } from "./useCountryProgress";
 
 // =========================
 // FORMATAR TEMPO PRATICADO
@@ -14,15 +15,22 @@ const formatPracticedTime = (totalMinutes) => {
 
 export const useDashboardStats = () => {
   const [connectionsCount, setConnectionsCount] = useState(0);
-  const [sessionsCount, setSessionsCount] = useState(0);
-  const [practicedTimeLabel, setPracticedTimeLabel] = useState("0:00h");
-  const [countries, setCountries] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Sessões/duração/países vêm do hook compartilhado — evita duplicar a
+  // mesma query "sessions -> profiles!partner_id" usada pelo Mapa de Bandeiras
+  const {
+    countries: countryProgress,
+    sessionsCount,
+    totalMinutes,
+    loading: loadingCountryProgress,
+    error: countryProgressError,
+  } = useCountryProgress();
+
   useEffect(() => {
-    const fetchStats = async () => {
+    const fetchConnectionsCount = async () => {
       try {
         setLoading(true);
 
@@ -56,35 +64,9 @@ export const useDashboardStats = () => {
 
         if (receivedError) throw receivedError;
 
-        // =========================
-        // SESSÕES E PAÍSES DOS PARCEIROS
-        // =========================
-        const { data: sessions, error: sessionsError } = await supabase
-          .from("sessions")
-          .select("duration, profiles!partner_id(country)")
-          .eq("user_id", user.id);
-
-        if (sessionsError) throw sessionsError;
-
-        const totalMinutes = (sessions || []).reduce(
-          (sum, session) => sum + (session.duration || 0),
-          0,
-        );
-
-        const distinctCountries = [
-          ...new Set(
-            (sessions || [])
-              .map((session) => session.profiles?.country)
-              .filter(Boolean),
-          ),
-        ];
-
         setConnectionsCount(
           (sentAccepted?.length || 0) + (receivedAccepted?.length || 0),
         );
-        setSessionsCount(sessions?.length || 0);
-        setPracticedTimeLabel(formatPracticedTime(totalMinutes));
-        setCountries(distinctCountries);
 
         setError(null);
       } catch (err) {
@@ -96,15 +78,18 @@ export const useDashboardStats = () => {
       }
     };
 
-    fetchStats();
+    fetchConnectionsCount();
   }, []);
 
   return {
     connectionsCount,
     sessionsCount,
-    practicedTimeLabel,
-    countries,
-    loading,
-    error,
+    practicedTimeLabel: formatPracticedTime(totalMinutes),
+    countries: countryProgress.map((country) => country.code),
+    // Detalhe completo (code, count, people) — reaproveitado pela prévia do
+    // Mapa de Bandeiras no Dashboard, sem repetir a query de sessions
+    countryProgress,
+    loading: loading || loadingCountryProgress,
+    error: error || countryProgressError,
   };
 };
