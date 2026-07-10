@@ -48,12 +48,17 @@ const DashboardLayout = ({ children }) => {
 
         const { data, error } = await supabase
           .from("profiles")
-          .select("full_name, hub, photo_url, is_admin")
+          .select("full_name, hub, photo_url, is_admin, is_approved")
           .eq("id", user.id)
           .single();
 
         if (error) {
           console.error(error);
+          return;
+        }
+
+        if (data && data.is_approved !== true) {
+          navigate("/pending-approval", { replace: true });
           return;
         }
 

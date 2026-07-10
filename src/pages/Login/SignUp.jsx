@@ -145,6 +145,10 @@ const SignUp = () => {
           throw contactError;
         }
 
+        // Garante que o cadastro recém-criado não fique navegando com sessão
+        // ativa antes da aprovação — só a tela de Login checa is_approved.
+        await supabase.auth.signOut();
+
         logSecurityEvent("signup_success", { email: sanitizedData.email });
         setSuccessModalOpen(true);
       }
