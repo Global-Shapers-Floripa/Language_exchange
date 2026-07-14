@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { X, Calendar, Clock, Languages, Check } from "lucide-react";
 import "./PendingApprovalModal.css";
 
@@ -7,6 +8,7 @@ import "./PendingApprovalModal.css";
 // Sessoes.jsx; chama a mesma RPC approve_public_session usada antes, só que
 // agora com foto/nota completas e um único ponto de decisão.
 const PendingApprovalModal = ({ approval, onClose, onApprove, onReject }) => {
+  const { t } = useTranslation("dashboard");
   const [deciding, setDeciding] = useState(false);
 
   if (!approval) return null;
@@ -53,7 +55,7 @@ const PendingApprovalModal = ({ approval, onClose, onApprove, onReject }) => {
         <div className="pending-approval-modal-content">
           <h2>{approval.requester}</h2>
           <p className="pending-approval-modal-subtitle">
-            HUB {approval.hub} · quer tornar esta sessão pública
+            {t("sessions.pendingApprovals.subtitle", { hub: approval.hub })}
           </p>
 
           <div className="pam-detail-row">
@@ -63,7 +65,7 @@ const PendingApprovalModal = ({ approval, onClose, onApprove, onReject }) => {
 
           <div className="pam-detail-row">
             <Clock size={18} />
-            <span>{approval.duration} minutos</span>
+            <span>{t("sessions.durationMinutes", { count: approval.duration })}</span>
           </div>
 
           <div className="pam-detail-row">
@@ -79,7 +81,7 @@ const PendingApprovalModal = ({ approval, onClose, onApprove, onReject }) => {
 
           {approval.notes && (
             <div className="pam-notes-box">
-              <h4>Nota</h4>
+              <h4>{t("sessions.notes.label")}</h4>
               <p>{approval.notes}</p>
             </div>
           )}
@@ -91,7 +93,7 @@ const PendingApprovalModal = ({ approval, onClose, onApprove, onReject }) => {
               onClick={() => handleDecision("privada")}
               disabled={deciding}
             >
-              Rejeitar
+              {t("sessions.pendingApprovals.reject")}
             </button>
             <button
               type="button"
@@ -100,7 +102,7 @@ const PendingApprovalModal = ({ approval, onClose, onApprove, onReject }) => {
               disabled={deciding}
             >
               <Check size={18} />
-              {deciding ? "Processando..." : "Aceitar"}
+              {deciding ? t("sessions.pendingApprovals.processing") : t("sessions.pendingApprovals.accept")}
             </button>
           </div>
         </div>

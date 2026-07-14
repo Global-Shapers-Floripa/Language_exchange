@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import {
   PlusCircle,
@@ -26,6 +27,7 @@ import "./sessoes.css";
 const MySessions = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation("dashboard");
 
   const { sessions, loading, error, refetch, deleteSession, requestPublicApproval } =
     useSessions();
@@ -82,12 +84,12 @@ const MySessions = () => {
 
   const handleMakePublic = async (session) => {
     const confirmResult = await Swal.fire({
-      title: "Tornar sessão pública?",
-      html: `${session.partner} vai receber um e-mail avisando do pedido e poderá aprovar ou recusar. A nota e a foto desta sessão ficarão visíveis para ele revisar antes de decidir.`,
+      title: t("sessions.makePublicSwal.title"),
+      html: t("sessions.makePublicSwal.html", { partner: session.partner }),
       icon: "question",
       showCancelButton: true,
-      confirmButtonText: "Pedir aprovação",
-      cancelButtonText: "Cancelar",
+      confirmButtonText: t("sessions.makePublicSwal.confirmText"),
+      cancelButtonText: t("confirmModal.cancel"),
     });
 
     if (!confirmResult.isConfirmed) return;
@@ -97,12 +99,12 @@ const MySessions = () => {
     if (result.success) {
       setSelectedSession(null);
       Swal.fire({
-        title: "Pedido enviado!",
-        text: `${session.partner} foi avisado por e-mail e precisa aprovar antes da sessão aparecer no feed da comunidade.`,
+        title: t("sessions.makePublicSwal.successTitle"),
+        text: t("sessions.makePublicSwal.successText", { partner: session.partner }),
         icon: "success",
       });
     } else {
-      Swal.fire("Erro", result.error || "Não foi possível pedir aprovação.", "error");
+      Swal.fire(t("sessions.swalErrorTitle"), result.error || t("sessions.makePublicError"), "error");
     }
   };
 
@@ -113,7 +115,7 @@ const MySessions = () => {
       // Sessões" de quem só participou como parceiro.
       refetch();
     } else {
-      Swal.fire("Erro", result.error || "Não foi possível aprovar.", "error");
+      Swal.fire(t("sessions.swalErrorTitle"), result.error || t("sessions.approveError"), "error");
     }
     return result;
   };
@@ -121,7 +123,7 @@ const MySessions = () => {
   const handleReject = async (sessionId) => {
     const result = await reject(sessionId);
     if (!result.success) {
-      Swal.fire("Erro", result.error || "Não foi possível recusar.", "error");
+      Swal.fire(t("sessions.swalErrorTitle"), result.error || t("sessions.rejectError"), "error");
     }
     return result;
   };
@@ -136,7 +138,7 @@ const MySessions = () => {
     if (status === "pendente_aprovacao") {
       return (
         <span className="session-visibility-badge session-visibility-badge--pending">
-          Aguardando aprovação do parceiro
+          {t("sessions.visibility.pendingApproval")}
         </span>
       );
     }
@@ -145,7 +147,7 @@ const MySessions = () => {
       return (
         <span className="session-visibility-badge session-visibility-badge--public">
           <Globe2 size={14} />
-          Pública
+          {t("sessions.visibility.public")}
         </span>
       );
     }
@@ -154,7 +156,7 @@ const MySessions = () => {
       return (
         <span className="session-visibility-badge session-visibility-badge--private">
           <Lock size={14} />
-          Privada
+          {t("sessions.visibility.private")}
         </span>
       );
     }
@@ -182,7 +184,7 @@ const MySessions = () => {
   return (
     <DashboardLayout>
       <div className="sessions-header">
-        <h2>Minhas Sessões</h2>
+        <h2>{t("sessions.title")}</h2>
 
         <div className="sessions-header-actions">
           {!loading && !error && sessions.length > 0 && (
@@ -191,7 +193,7 @@ const MySessions = () => {
               <input
                 type="text"
                 className="input sessions-search-input"
-                placeholder="Buscar por nome, idioma, hub ou país..."
+                placeholder={t("sessions.searchPlaceholder")}
                 value={sessionSearch}
                 onChange={(e) => setSessionSearch(e.target.value)}
               />
@@ -204,7 +206,7 @@ const MySessions = () => {
               onClick={() => setIsModalOpen(true)}
             >
               <PlusCircle size={20} />
-              Nova Sessão
+              {t("sessions.newSession")}
             </button>
           </div>
         </div>
@@ -213,7 +215,7 @@ const MySessions = () => {
       {/* PEDIDOS DE SESSÃO PÚBLICA (eu como parceiro) */}
       {!pendingLoading && pendingApprovals.length > 0 && (
         <div className="pending-approvals-section">
-          <h3>Pedidos de sessão pública</h3>
+          <h3>{t("sessions.pendingApprovals.sectionTitle")}</h3>
 
           <div className="pending-approvals-list">
             {pendingApprovals.map((item) => (
@@ -223,15 +225,15 @@ const MySessions = () => {
                     <img src={item.session_photo_url} alt={item.requester} />
                   ) : (
                     <div className="pending-approval-thumb-placeholder">
-                      Sem foto
+                      {t("sessions.noPhoto")}
                     </div>
                   )}
                 </div>
 
                 <div className="pending-approval-body">
                   <p className="pending-approval-title">
-                    <strong>{item.requester}</strong> ({item.hub}) quer
-                    tornar esta sessão pública
+                    <strong>{item.requester}</strong>{" "}
+                    {t("sessions.pendingApprovals.itemTitle", { hub: item.hub })}
                   </p>
 
                   <div className="pending-approval-meta">
@@ -250,7 +252,7 @@ const MySessions = () => {
                   className="btn btn-secondary pending-approval-review-btn"
                   onClick={() => setSelectedApproval(item)}
                 >
-                  Revisar
+                  {t("sessions.pendingApprovals.review")}
                 </button>
               </div>
             ))}
@@ -261,14 +263,14 @@ const MySessions = () => {
       {/* LOADING */}
       {loading && (
         <div className="loading-message">
-          <p>Carregando sessões...</p>
+          <p>{t("sessions.loading")}</p>
         </div>
       )}
 
       {/* ERRO */}
       {error && (
         <div className="error-message">
-          <p>Erro ao carregar sessões: {error}</p>
+          <p>{t("sessions.loadError", { error })}</p>
         </div>
       )}
 
@@ -276,8 +278,7 @@ const MySessions = () => {
       {!loading && !error && sessions.length === 0 && (
         <div className="empty-message">
           <p>
-            Nenhuma sessão registrada. Comece a registrar suas primeiras
-            sessões!
+            {t("sessions.empty")}
           </p>
         </div>
       )}
@@ -285,7 +286,7 @@ const MySessions = () => {
       {/* SEM RESULTADOS NA BUSCA */}
       {!loading && !error && sessions.length > 0 && filteredSessions.length === 0 && (
         <div className="empty-message">
-          <p>Nenhuma sessão encontrada para essa busca.</p>
+          <p>{t("sessions.emptySearch")}</p>
         </div>
       )}
 
@@ -340,7 +341,7 @@ const MySessions = () => {
             >
               <X size={22} />
             </button>
-            <img src={selectedImage} alt="Sessão ampliada" />
+            <img src={selectedImage} alt={t("sessions.sessionExpandedAlt")} />
           </div>
         </div>
       )}
@@ -391,7 +392,7 @@ const MySessions = () => {
 
               <div className="detail-row">
                 <Clock size={18} />
-                <span>{selectedSession.duration} minutos</span>
+                <span>{t("sessions.durationMinutes", { count: selectedSession.duration })}</span>
               </div>
 
               <div className="detail-row">
@@ -409,7 +410,7 @@ const MySessions = () => {
 
               {selectedSession.notes && (
                 <div className="session-description">
-                  <h4>Descrição</h4>
+                  <h4>{t("sessions.notes.label")}</h4>
                   <p>{selectedSession.notes}</p>
                 </div>
               )}
@@ -422,7 +423,7 @@ const MySessions = () => {
                       onClick={() => handleMakePublic(selectedSession)}
                     >
                       <Globe2 size={18} />
-                      Tornar pública
+                      {t("sessions.makePublicButton")}
                     </button>
                   )}
 
@@ -431,7 +432,7 @@ const MySessions = () => {
                     onClick={() => setIsDeleteConfirmOpen(true)}
                   >
                     <Trash2 size={18} />
-                    Excluir sessão
+                    {t("sessions.deleteButton")}
                   </button>
                 </div>
               )}
@@ -442,10 +443,9 @@ const MySessions = () => {
 
       {isDeleteConfirmOpen && (
         <ConfirmModal
-          title="Excluir sessão?"
-          message={`Essa ação não pode ser desfeita. A sessão com ${selectedSession?.partner} será excluída permanentemente.`}
-          confirmText="Excluir"
-          cancelText="Cancelar"
+          title={t("sessions.deleteConfirm.title")}
+          message={t("sessions.deleteConfirm.message", { partner: selectedSession?.partner })}
+          confirmText={t("sessions.deleteConfirm.confirmText")}
           onConfirm={confirmDeleteSession}
           onClose={() => setIsDeleteConfirmOpen(false)}
         />
@@ -454,10 +454,10 @@ const MySessions = () => {
       {deleteErrorMessage && (
         <div className="info-modal-overlay">
           <div className="info-modal-box dotted-texture">
-            <h3>Não foi possível excluir</h3>
+            <h3>{t("sessions.deleteError.title")}</h3>
             <p>{deleteErrorMessage}</p>
             <button onClick={() => setDeleteErrorMessage(null)}>
-              Entendi
+              {t("sessions.deleteError.gotIt")}
             </button>
           </div>
         </div>

@@ -38,5 +38,84 @@
   },
   "personAvatar": {
     "defaultAlt": "Profile photo"
+  },
+  "sessions": {
+    "title": "My Sessions",
+    "searchPlaceholder": "Search by name, language, hub or country...",
+    "newSession": "New Session",
+    "noPhoto": "No photo",
+    "sessionCardPhotoAlt": "Session photo",
+    "sessionExpandedAlt": "Expanded session",
+    "durationMinutes": "{{count}} minutes",
+    "notes": {
+      "label": "Note",
+      "placeholder": "Add notes about the session (optional)"
+    },
+    "visibility": {
+      "pendingApproval": "Awaiting partner's approval",
+      "pendingShort": "Awaiting approval",
+      "public": "Public",
+      "private": "Private"
+    },
+    "pendingApprovals": {
+      "sectionTitle": "Public session requests",
+      "itemTitle": "({{hub}}) wants to make this session public",
+      "review": "Review",
+      "subtitle": "HUB {{hub}} · wants to make this session public",
+      "reject": "Reject",
+      "accept": "Accept",
+      "processing": "Processing..."
+    },
+    "loading": "Loading sessions...",
+    "loadError": "Error loading sessions: {{error}}",
+    "empty": "No sessions logged yet. Start logging your first sessions!",
+    "emptySearch": "No sessions found for this search.",
+    "makePublicSwal": {
+      "title": "Make session public?",
+      "html": "{{partner}} will get an email about the request and will be able to approve or decline it. This session's note and photo will be visible for them to review before deciding.",
+      "confirmText": "Request approval",
+      "successTitle": "Request sent!",
+      "successText": "{{partner}} was notified by email and needs to approve it before the session appears in the community feed."
+    },
+    "swalErrorTitle": "Error",
+    "makePublicError": "Could not request approval.",
+    "approveError": "Could not approve.",
+    "rejectError": "Could not decline.",
+    "makePublicButton": "Make public",
+    "deleteButton": "Delete session",
+    "deleteConfirm": {
+      "title": "Delete session?",
+      "message": "This action cannot be undone. The session with {{partner}} will be permanently deleted.",
+      "confirmText": "Delete"
+    },
+    "deleteError": {
+      "title": "Could not delete",
+      "gotIt": "Got it"
+    },
+    "addModal": {
+      "title": "Log New Session",
+      "connectionLabel": "Connection *",
+      "noPartners": "You don't have any accepted connections yet. Connect with someone in the Connections tab to log a session.",
+      "partnerSearchPlaceholder": "Search connection by name or hub...",
+      "dateLabel": "Date *",
+      "durationLabel": "Duration (minutes) *",
+      "languagesLabel": "Languages Practiced *",
+      "languagesPlaceholder": "Select languages...",
+      "makePublicCheckbox": "Make this session public",
+      "makePublicHint": "The partner will get an email to approve it before it appears in the Community feed.",
+      "photoLabel": "Session Photo/Screenshot (Optional)",
+      "removePhoto": "Remove photo",
+      "photoPreviewAlt": "Session preview",
+      "uploadPrompt": "Click to select or drag an image",
+      "uploadHint": "PNG, JPEG, GIF or WebP up to 5MB",
+      "saving": "Saving...",
+      "submit": "Log Session",
+      "errors": {
+        "fileType": "File type not allowed. Use PNG, JPEG, GIF or WebP.",
+        "fileSize": "File too large. Maximum of {{mb}}MB.",
+        "partnerRequired": "Please select a connection",
+        "languageRequired": "Please select at least one language"
+      }
+    }
   }
 }

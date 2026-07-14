@@ -38,5 +38,84 @@
   },
   "personAvatar": {
     "defaultAlt": "Foto de perfil"
+  },
+  "sessions": {
+    "title": "Minhas Sessões",
+    "searchPlaceholder": "Buscar por nome, idioma, hub ou país...",
+    "newSession": "Nova Sessão",
+    "noPhoto": "Sem foto",
+    "sessionCardPhotoAlt": "Foto da sessão",
+    "sessionExpandedAlt": "Sessão ampliada",
+    "durationMinutes": "{{count}} minutos",
+    "notes": {
+      "label": "Nota",
+      "placeholder": "Adicione observações sobre a sessão (opcional)"
+    },
+    "visibility": {
+      "pendingApproval": "Aguardando aprovação do parceiro",
+      "pendingShort": "Aguardando aprovação",
+      "public": "Pública",
+      "private": "Privada"
+    },
+    "pendingApprovals": {
+      "sectionTitle": "Pedidos de sessão pública",
+      "itemTitle": "({{hub}}) quer tornar esta sessão pública",
+      "review": "Revisar",
+      "subtitle": "HUB {{hub}} · quer tornar esta sessão pública",
+      "reject": "Rejeitar",
+      "accept": "Aceitar",
+      "processing": "Processando..."
+    },
+    "loading": "Carregando sessões...",
+    "loadError": "Erro ao carregar sessões: {{error}}",
+    "empty": "Nenhuma sessão registrada. Comece a registrar suas primeiras sessões!",
+    "emptySearch": "Nenhuma sessão encontrada para essa busca.",
+    "makePublicSwal": {
+      "title": "Tornar sessão pública?",
+      "html": "{{partner}} vai receber um e-mail avisando do pedido e poderá aprovar ou recusar. A nota e a foto desta sessão ficarão visíveis para ele revisar antes de decidir.",
+      "confirmText": "Pedir aprovação",
+      "successTitle": "Pedido enviado!",
+      "successText": "{{partner}} foi avisado por e-mail e precisa aprovar antes da sessão aparecer no feed da comunidade."
+    },
+    "swalErrorTitle": "Erro",
+    "makePublicError": "Não foi possível pedir aprovação.",
+    "approveError": "Não foi possível aprovar.",
+    "rejectError": "Não foi possível recusar.",
+    "makePublicButton": "Tornar pública",
+    "deleteButton": "Excluir sessão",
+    "deleteConfirm": {
+      "title": "Excluir sessão?",
+      "message": "Essa ação não pode ser desfeita. A sessão com {{partner}} será excluída permanentemente.",
+      "confirmText": "Excluir"
+    },
+    "deleteError": {
+      "title": "Não foi possível excluir",
+      "gotIt": "Entendi"
+    },
+    "addModal": {
+      "title": "Registrar Nova Sessão",
+      "connectionLabel": "Conexão *",
+      "noPartners": "Você ainda não tem conexões aceitas. Conecte-se com alguém na aba Conexões para poder registrar uma sessão.",
+      "partnerSearchPlaceholder": "Buscar conexão por nome ou hub...",
+      "dateLabel": "Data *",
+      "durationLabel": "Duração (minutos) *",
+      "languagesLabel": "Idiomas Praticados *",
+      "languagesPlaceholder": "Selecione os idiomas...",
+      "makePublicCheckbox": "Tornar esta sessão pública",
+      "makePublicHint": "O parceiro vai receber um e-mail para aprovar antes dela aparecer no feed da Comunidade.",
+      "photoLabel": "Foto/Print da Sessão (Opcional)",
+      "removePhoto": "Remover foto",
+      "photoPreviewAlt": "Preview da sessão",
+      "uploadPrompt": "Clique para selecionar ou arraste uma imagem",
+      "uploadHint": "PNG, JPEG, GIF ou WebP até 5MB",
+      "saving": "Salvando...",
+      "submit": "Registrar Sessão",
+      "errors": {
+        "fileType": "Tipo de arquivo não permitido. Use PNG, JPEG, GIF ou WebP.",
+        "fileSize": "Arquivo muito grande. Máximo de {{mb}}MB.",
+        "partnerRequired": "Por favor, selecione uma conexão",
+        "languageRequired": "Por favor, selecione pelo menos um idioma"
+      }
+    }
   }
 }

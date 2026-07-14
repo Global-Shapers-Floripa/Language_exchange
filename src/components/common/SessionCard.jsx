@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { ArrowLeftRight, Calendar, Clock, Languages, Globe2, Lock } from "lucide-react";
 import PersonAvatar from "./PersonAvatar";
 import { getFlagUrl } from "../../utils/countryFlag";
@@ -59,22 +60,24 @@ export const SessionCardPeople = ({ personA, personB, size = "md" }) => (
   </div>
 );
 
-const STATUS_BADGES = {
+// Recebe `t` (useTranslation "dashboard") porque é definida fora do
+// componente, sem acesso direto ao hook.
+const getStatusBadges = (t) => ({
   pending: {
-    label: "Aguardando aprovação",
+    label: t("sessions.visibility.pendingShort"),
     className: "session-card-badge--pending",
   },
   public: {
-    label: "Pública",
+    label: t("sessions.visibility.public"),
     className: "session-card-badge--public",
     icon: Globe2,
   },
   private: {
-    label: "Privada",
+    label: t("sessions.visibility.private"),
     className: "session-card-badge--private",
     icon: Lock,
   },
-};
+});
 
 const SessionCard = ({
   photoUrl,
@@ -86,12 +89,13 @@ const SessionCard = ({
   statusBadge,
   onClick,
 }) => {
+  const { t } = useTranslation("dashboard");
   const languageList = (languages || "")
     .split(",")
     .map((lang) => lang.trim())
     .filter(Boolean);
 
-  const badge = statusBadge ? STATUS_BADGES[statusBadge] : null;
+  const badge = statusBadge ? getStatusBadges(t)[statusBadge] : null;
   const BadgeIcon = badge?.icon;
 
   return (
@@ -101,9 +105,9 @@ const SessionCard = ({
     >
       <div className="session-card-v2-photo">
         {photoUrl ? (
-          <img src={photoUrl} alt="Foto da sessão" />
+          <img src={photoUrl} alt={t("sessions.sessionCardPhotoAlt")} />
         ) : (
-          <div className="session-card-v2-photo-placeholder">Sem foto</div>
+          <div className="session-card-v2-photo-placeholder">{t("sessions.noPhoto")}</div>
         )}
 
         {badge && (

@@ -11,6 +11,7 @@ import './AddSessionModal.css';
 // esse valor muda, então basta usá-lo no estado inicial do formulário.
 const AddSessionModal = ({ isOpen, onClose, partners, initialPartnerId, onSessionAdded }) => {
   const { t } = useTranslation("constants");
+  const { t: td } = useTranslation("dashboard");
   const [formData, setFormData] = useState({
     partner_id: initialPartnerId || '',
     date: new Date().toISOString().split('T')[0],
@@ -78,13 +79,13 @@ const AddSessionModal = ({ isOpen, onClose, partners, initialPartnerId, onSessio
 
     // Validar tipo
     if (!ALLOWED_PHOTO_TYPES.includes(file.type)) {
-      setSubmitError('Tipo de arquivo não permitido. Use PNG, JPEG, GIF ou WebP.');
+      setSubmitError(td('sessions.addModal.errors.fileType'));
       return;
     }
 
     // Validar tamanho
     if (file.size > MAX_PHOTO_SIZE) {
-      setSubmitError(`Arquivo muito grande. Máximo de ${Math.round(MAX_PHOTO_SIZE / 1024 / 1024)}MB.`);
+      setSubmitError(td('sessions.addModal.errors.fileSize', { mb: Math.round(MAX_PHOTO_SIZE / 1024 / 1024) }));
       return;
     }
 
@@ -128,12 +129,12 @@ const AddSessionModal = ({ isOpen, onClose, partners, initialPartnerId, onSessio
     setSubmitError('');
 
     if (!formData.partner_id) {
-      setSubmitError('Por favor, selecione uma conexão');
+      setSubmitError(td('sessions.addModal.errors.partnerRequired'));
       return;
     }
 
     if (!formData.languages || formData.languages.length === 0) {
-      setSubmitError('Por favor, selecione pelo menos um idioma');
+      setSubmitError(td('sessions.addModal.errors.languageRequired'));
       return;
     }
 
@@ -174,7 +175,7 @@ const AddSessionModal = ({ isOpen, onClose, partners, initialPartnerId, onSessio
         <div className="session-modal-header">
           <div className="header-title-group">
             <FilePlus size={24} className="header-title-icon" />
-            <h2>Registrar Nova Sessão</h2>
+            <h2>{td('sessions.addModal.title')}</h2>
           </div>
           <button type="button" className="session-modal-close" onClick={onClose}>
             <X size={24} />
@@ -184,18 +185,17 @@ const AddSessionModal = ({ isOpen, onClose, partners, initialPartnerId, onSessio
         <form onSubmit={handleSubmit} className="modal-form">
           {/* Parceiro com Busca - COM A NOVA CLASSE */}
           <div className="form-group force-vertical-dropdown">
-            <label>Conexão *</label>
+            <label>{td('sessions.addModal.connectionLabel')}</label>
             {partners.length === 0 ? (
               <p className="no-partners-message">
-                Você ainda não tem conexões aceitas. Conecte-se com alguém na
-                aba Conexões para poder registrar uma sessão.
+                {td('sessions.addModal.noPartners')}
               </p>
             ) : (
               <SearchableSelect
                 options={partnerOptions}
                 value={formData.partner_id}
                 onChange={handlePartnerChange}
-                placeholder="Buscar conexão por nome ou hub..."
+                placeholder={td('sessions.addModal.partnerSearchPlaceholder')}
                 displayKey="name"
                 valueKey="code"
               />
@@ -204,7 +204,7 @@ const AddSessionModal = ({ isOpen, onClose, partners, initialPartnerId, onSessio
 
           {/* Data */}
           <div className="form-group">
-            <label htmlFor="date">Data *</label>
+            <label htmlFor="date">{td('sessions.addModal.dateLabel')}</label>
             <input
               className="input"
               id="date"
@@ -218,7 +218,7 @@ const AddSessionModal = ({ isOpen, onClose, partners, initialPartnerId, onSessio
 
           {/* Duração */}
           <div className="form-group">
-            <label htmlFor="duration">Duração (minutos) *</label>
+            <label htmlFor="duration">{td('sessions.addModal.durationLabel')}</label>
             <input
               className="input"
               id="duration"
@@ -234,12 +234,12 @@ const AddSessionModal = ({ isOpen, onClose, partners, initialPartnerId, onSessio
 
           {/* Idiomas com Seletor Pré-definido - COM A NOVA CLASSE */}
           <div className="form-group force-vertical-dropdown">
-            <label>Idiomas Praticados *</label>
+            <label>{td('sessions.addModal.languagesLabel')}</label>
             <SearchableSelect
               options={languageOptions}
               value={formData.languages}
               onChange={handleLanguageChange}
-              placeholder="Selecione os idiomas..."
+              placeholder={td('sessions.addModal.languagesPlaceholder')}
               displayKey="name"
               valueKey="code"
               multi={true}
@@ -248,12 +248,12 @@ const AddSessionModal = ({ isOpen, onClose, partners, initialPartnerId, onSessio
 
           {/* Notas */}
           <div className="form-group">
-            <label htmlFor="notes">Notas</label>
+            <label htmlFor="notes">{td('sessions.notes.label')}</label>
             <textarea
               className="input"
               id="notes"
               name="notes"
-              placeholder="Adicione observações sobre a sessão (opcional)"
+              placeholder={td('sessions.notes.placeholder')}
               value={formData.notes}
               onChange={handleChange}
               rows="3"
@@ -268,39 +268,38 @@ const AddSessionModal = ({ isOpen, onClose, partners, initialPartnerId, onSessio
                 checked={formData.makePublic}
                 onChange={handleMakePublicChange}
               />
-              Tornar esta sessão pública
+              {td('sessions.addModal.makePublicCheckbox')}
             </label>
             <small>
-              O parceiro vai receber um e-mail para aprovar antes dela
-              aparecer no feed da Comunidade.
+              {td('sessions.addModal.makePublicHint')}
             </small>
           </div>
 
           {/* Upload de Foto */}
           <div className="form-group">
-            <label>Foto/Print da Sessão (Opcional)</label>
+            <label>{td('sessions.addModal.photoLabel')}</label>
             <div className="photo-upload-container">
               {photoPreview ? (
                 <div className="photo-preview">
-                  <img src={photoPreview} alt="Preview da sessão" />
+                  <img src={photoPreview} alt={td('sessions.addModal.photoPreviewAlt')} />
                   <button
                     type="button"
                     className="photo-remove-btn"
                     onClick={removePhoto}
-                    aria-label="Remover foto"
+                    aria-label={td('sessions.addModal.removePhoto')}
                   >
                     <X size={16} />
                   </button>
                 </div>
               ) : (
-                <label 
+                <label
                   className="photo-upload-label"
                   onDragOver={handleDragOver}
                   onDrop={handleDrop}
                 >
                   <Upload size={24} />
-                  <span>Clique para selecionar ou arraste uma imagem</span>
-                  <small>PNG, JPEG, GIF ou WebP até 5MB</small>
+                  <span>{td('sessions.addModal.uploadPrompt')}</span>
+                  <small>{td('sessions.addModal.uploadHint')}</small>
                   <input
                     type="file"
                     accept={ALLOWED_PHOTO_TYPES.join(',')}
@@ -322,10 +321,10 @@ const AddSessionModal = ({ isOpen, onClose, partners, initialPartnerId, onSessio
           {/* Botões */}
           <div className="session-modal-footer">
             <button type="button" className="btn btn-secondary" onClick={onClose}>
-              Cancelar
+              {td('confirmModal.cancel')}
             </button>
             <button type="submit" className="btn btn-primary" disabled={loading}>
-              {loading ? 'Salvando...' : 'Registrar Sessão'}
+              {loading ? td('sessions.addModal.saving') : td('sessions.addModal.submit')}
             </button>
           </div>
         </form>

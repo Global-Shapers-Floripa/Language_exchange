@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { X, Calendar, Clock, Languages } from "lucide-react";
 import { SessionCardPeople } from "./SessionCard";
 import "./CommunitySessionModal.css";
@@ -7,6 +8,7 @@ import "./CommunitySessionModal.css";
 // leitura, sem ações (a sessão já é pública e o usuário aqui é espectador,
 // diferente do PendingApprovalModal que decide aprovar/rejeitar).
 const CommunitySessionModal = ({ session, onClose }) => {
+  const { t } = useTranslation("dashboard");
   const [isImageExpanded, setIsImageExpanded] = useState(false);
 
   if (!session) return null;
@@ -53,7 +55,7 @@ const CommunitySessionModal = ({ session, onClose }) => {
 
             <div className="csm-detail-row">
               <Clock size={18} />
-              <span>{session.duration} minutos</span>
+              <span>{t("sessions.durationMinutes", { count: session.duration })}</span>
             </div>
 
             <div className="csm-detail-row">
@@ -69,7 +71,7 @@ const CommunitySessionModal = ({ session, onClose }) => {
 
             {session.notes && (
               <div className="csm-notes-box">
-                <h4>Nota</h4>
+                <h4>{t("sessions.notes.label")}</h4>
                 <p>{session.notes}</p>
               </div>
             )}
@@ -90,7 +92,7 @@ const CommunitySessionModal = ({ session, onClose }) => {
             >
               <X size={22} />
             </button>
-            <img src={session.session_photo_url} alt="Sessão ampliada" />
+            <img src={session.session_photo_url} alt={t("sessions.sessionExpandedAlt")} />
           </div>
         </div>
       )}
