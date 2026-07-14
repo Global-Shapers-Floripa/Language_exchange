@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import { usePublicSessions } from "../../hooks/usePublicSessions";
 import CommunitySessionModal from "../../components/common/CommunitySessionModal";
@@ -7,33 +8,34 @@ import SessionCard from "../../components/common/SessionCard";
 import "./comunidade.css";
 
 const Comunidade = () => {
+  const { t } = useTranslation("dashboard");
   const { publicSessions, loading, error } = usePublicSessions();
   const [selectedSession, setSelectedSession] = useState(null);
 
   return (
     <DashboardLayout>
       <div className="community-header">
-        <h2>Comunidade</h2>
+        <h2>{t("sidebar.community")}</h2>
         <p className="community-subtitle">
-          Sessões de prática que a comunidade tornou públicas.
+          {t("communityPage.subtitle")}
         </p>
       </div>
 
       {loading && (
         <div className="loading-message">
-          <p>Carregando feed...</p>
+          <p>{t("communityPage.loading")}</p>
         </div>
       )}
 
       {error && (
         <div className="error-message">
-          <p>Erro ao carregar o feed: {error}</p>
+          <p>{t("communityPage.loadError", { error })}</p>
         </div>
       )}
 
       {!loading && !error && publicSessions.length === 0 && (
         <div className="empty-message">
-          <p>Nenhuma sessão pública ainda. Quando alguém tornar uma sessão pública, ela aparece aqui.</p>
+          <p>{t("communityPage.empty")}</p>
         </div>
       )}
 

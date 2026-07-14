@@ -176,5 +176,11 @@
         }
       }
     }
+  },
+  "communityPage": {
+    "subtitle": "Practice sessions the community has made public.",
+    "loading": "Loading feed...",
+    "loadError": "Error loading the feed: {{error}}",
+    "empty": "No public sessions yet. When someone makes a session public, it shows up here."
   }
 }

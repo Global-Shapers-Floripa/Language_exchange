@@ -176,5 +176,11 @@
         }
       }
     }
+  },
+  "communityPage": {
+    "subtitle": "Sesiones de práctica que la comunidad hizo públicas.",
+    "loading": "Cargando feed...",
+    "loadError": "Error al cargar el feed: {{error}}",
+    "empty": "Todavía no hay sesiones públicas. Cuando alguien haga una sesión pública, aparecerá aquí."
   }
 }
