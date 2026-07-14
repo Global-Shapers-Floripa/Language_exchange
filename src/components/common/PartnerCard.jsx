@@ -1,6 +1,8 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { MessageSquare, MapPin, Globe, Clock, UserCheck, Eye, CalendarPlus, Star } from "lucide-react";
 import { COUNTRIES } from "../../constants/countries";
+import { getLanguageCodeByName } from "../../constants/languages";
 import PersonAvatar from "./PersonAvatar";
 import { parseLanguageString, formatLanguageLabel } from "../../utils/languageLevel";
 import "./partner-card.css";
@@ -13,6 +15,7 @@ import "./partner-card.css";
 // onToggleFavorite/isFavorited: só usados em "Minhas Conexões" — quando
 // presente, exibe a estrela de favoritar no canto do card.
 const PartnerCard = ({ partner, onConnect, onRegisterSession, sentRequest, isConnected, viewOnly, exploreOnly, isFavorited, onToggleFavorite }) => {
+  const { t } = useTranslation("constants");
   const isPerfectMatch = partner.compatibility === "Match Perfeito";
   const isPending = sentRequest?.status === "pendente";
 
@@ -21,9 +24,19 @@ const PartnerCard = ({ partner, onConnect, onRegisterSession, sentRequest, isCon
   const speaksArray = partner.speaksArray || parseLanguageString(partner.speaks);
   const learnsArray = partner.learnsArray || parseLanguageString(partner.learns);
 
+  // profiles.speaks/learns armazenam o NOME em português (não o code) — ver
+  // CLAUDE.md. Acha o code a partir do nome já salvo, pra traduzir só a
+  // exibição sem tocar no valor armazenado.
+  const translatedLanguageLabel = (item) => {
+    const code = getLanguageCodeByName(item.name);
+    return formatLanguageLabel(
+      code ? { ...item, name: t(`languages.${code}`) } : item,
+    );
+  };
+
   // Busca o nome do país baseado no código (ex: "BR" -> "Brasil")
   const countryObj = COUNTRIES.find((c) => c.code === partner.country);
-  const countryName = countryObj ? countryObj.name : "";
+  const countryName = countryObj ? t(`countries.${countryObj.code}`) : "";
 
   // Usa formato SVG para garantir máxima qualidade independente do tamanho
   const flagUrl = partner.country
@@ -116,7 +129,7 @@ const PartnerCard = ({ partner, onConnect, onRegisterSession, sentRequest, isCon
             {speaksArray.length > 0 ? (
               speaksArray.map((lang) => (
                 <span key={lang.name} className="tag-card orange">
-                  {formatLanguageLabel(lang)}
+                  {translatedLanguageLabel(lang)}
                 </span>
               ))
             ) : (
@@ -131,7 +144,7 @@ const PartnerCard = ({ partner, onConnect, onRegisterSession, sentRequest, isCon
             {learnsArray.length > 0 ? (
               learnsArray.map((lang) => (
                 <span key={lang.name} className="tag-card blue">
-                  {formatLanguageLabel(lang)}
+                  {translatedLanguageLabel(lang)}
                 </span>
               ))
             ) : (

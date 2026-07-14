@@ -89,3 +89,10 @@ export const LANGUAGES = [
 
 export const MAX_PHOTO_SIZE = 5 * 1024 * 1024; // 5MB
 export const ALLOWED_PHOTO_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+
+// profiles.speaks/profiles.learns armazenam o NOME em português (não o
+// code) — ver CLAUDE.md. Esse helper acha o code a partir do nome já salvo,
+// pra poder traduzir a exibição sem tocar no valor armazenado/comparado
+// pelo matchService.
+export const getLanguageCodeByName = (name) =>
+  LANGUAGES.find((lang) => lang.name === name)?.code;

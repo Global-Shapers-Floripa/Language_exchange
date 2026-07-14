@@ -2,14 +2,15 @@ import React, { useEffect, useState, useCallback } from "react";
 
 import Cropper from "react-easy-crop";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { SquarePen, Eye, EyeOff } from "lucide-react";
 
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import TagSelect from "../../components/common/TagSelect";
 import PersonAvatar from "../../components/common/PersonAvatar";
 
-import { LANGUAGES } from "../../constants/languages";
-import { INTERESTS } from "../../constants/interests";
+import { LANGUAGES, getLanguageCodeByName } from "../../constants/languages";
+import { INTERESTS, getInterestCodeByName } from "../../constants/interests";
 import { COUNTRIES } from "../../constants/countries";
 import {
   CEFR_LEVELS,
@@ -29,6 +30,27 @@ import "./edit-profile.css";
 const EditProfile = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation("constants");
+
+  // =========================
+  // TRADUÇÃO DE LANGUAGES/INTERESTS
+  // =========================
+  // profiles.speaks/learns/interests armazenam o NOME em português (não o
+  // code) — ver CLAUDE.md. Essas funções acham o code a partir do nome já
+  // salvo/selecionado, pra traduzir só a exibição sem tocar no valor
+  // armazenado nem na lógica de matchService.
+  const translateLanguageName = (name) => {
+    const code = getLanguageCodeByName(name);
+    return code ? t(`languages.${code}`) : name;
+  };
+
+  const translatedLanguageLabel = (item) =>
+    formatLanguageLabel({ ...item, name: translateLanguageName(item.name) });
+
+  const translateInterestName = (name) => {
+    const code = getInterestCodeByName(name);
+    return code ? t(`interests.${code}`) : name;
+  };
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -428,7 +450,9 @@ const EditProfile = () => {
   }
 
   const languageLabels = LANGUAGES.map((lang) => lang.name || lang.label);
-  const countryName = COUNTRIES.find((c) => c.code === formData.country)?.name;
+  const countryName = COUNTRIES.find((c) => c.code === formData.country)
+    ? t(`countries.${formData.country}`)
+    : undefined;
 
   // =========================
   // MAPA DE BANDEIRAS: ORDENAÇÃO
@@ -595,7 +619,7 @@ const EditProfile = () => {
                     {formData.speaks.length > 0 ? (
                       formData.speaks.map((lang) => (
                         <span key={lang.name} className="view-tag view-tag--orange">
-                          {formatLanguageLabel(lang)}
+                          {translatedLanguageLabel(lang)}
                         </span>
                       ))
                     ) : (
@@ -614,7 +638,7 @@ const EditProfile = () => {
                     {formData.learns.length > 0 ? (
                       formData.learns.map((lang) => (
                         <span key={lang.name} className="view-tag view-tag--blue">
-                          {formatLanguageLabel(lang)}
+                          {translatedLanguageLabel(lang)}
                         </span>
                       ))
                     ) : (
@@ -631,7 +655,7 @@ const EditProfile = () => {
                     {formData.interests.length > 0 ? (
                       formData.interests.map((interest, idx) => (
                         <span key={idx} className="view-tag view-tag--purple">
-                          {interest}
+                          {translateInterestName(interest)}
                         </span>
                       ))
                     ) : (
@@ -705,7 +729,7 @@ const EditProfile = () => {
                       <option value="">Selecione um país</option>
                       {COUNTRIES.map((country) => (
                         <option key={country.code} value={country.code}>
-                          {country.name}
+                          {t(`countries.${country.code}`)}
                         </option>
                       ))}
                     </select>
@@ -730,7 +754,7 @@ const EditProfile = () => {
                       onSelect={(name) => handleAddLanguage("speaks", name)}
                       onRemove={(name) => handleRemoveLanguage("speaks", name)}
                       renderLabel={(name) =>
-                        formatLanguageLabel(
+                        translatedLanguageLabel(
                           formData.speaks.find((item) => item.name === name) || {
                             name,
                             level: null,
@@ -743,7 +767,7 @@ const EditProfile = () => {
                     {levelPickerFor?.field === "speaks" && (
                       <div className="level-picker">
                         <span className="level-picker-title">
-                          Nível de {levelPickerFor.name}
+                          Nível de {translateLanguageName(levelPickerFor.name)}
                         </span>
                         <div className="level-picker-options">
                           <button
@@ -780,7 +804,7 @@ const EditProfile = () => {
                       onSelect={(name) => handleAddLanguage("learns", name)}
                       onRemove={(name) => handleRemoveLanguage("learns", name)}
                       renderLabel={(name) =>
-                        formatLanguageLabel(
+                        translatedLanguageLabel(
                           formData.learns.find((item) => item.name === name) || {
                             name,
                             level: null,
@@ -793,7 +817,7 @@ const EditProfile = () => {
                     {levelPickerFor?.field === "learns" && (
                       <div className="level-picker">
                         <span className="level-picker-title">
-                          Nível de {levelPickerFor.name}
+                          Nível de {translateLanguageName(levelPickerFor.name)}
                         </span>
                         <div className="level-picker-options">
                           <button
@@ -825,7 +849,7 @@ const EditProfile = () => {
                   <div className="form-group full">
                     <label>Interesses</label>
                     <TagSelect
-                      options={INTERESTS}
+                      options={INTERESTS.map((interest) => interest.name)}
                       selectedItems={formData.interests}
                       onSelect={(item) =>
                         setFormData((prev) => ({
@@ -841,6 +865,7 @@ const EditProfile = () => {
                           ),
                         }))
                       }
+                      renderLabel={translateInterestName}
                       placeholder="Selecione interesses..."
                     />
                   </div>
@@ -894,16 +919,16 @@ const EditProfile = () => {
                       className={`country-flag-item ${unlocked ? "unlocked" : "locked"}`}
                       onClick={() => handleFlagClick(country)}
                       disabled={!unlocked}
-                      title={country.name}
+                      title={t(`countries.${country.code}`)}
                       aria-label={
                         unlocked
-                          ? `${country.name}: ${progress.count} conexão(ões), ver detalhes`
-                          : `${country.name}: ainda sem sessões`
+                          ? `${t(`countries.${country.code}`)}: ${progress.count} conexão(ões), ver detalhes`
+                          : `${t(`countries.${country.code}`)}: ainda sem sessões`
                       }
                     >
                       <img
                         src={flagUrl}
-                        alt={country.name}
+                        alt={t(`countries.${country.code}`)}
                         className="country-flag-img"
                       />
                       {unlocked && (
@@ -932,10 +957,10 @@ const EditProfile = () => {
               <div className="country-modal-header">
                 <img
                   src={getFlagUrl(selectedCountry.code)}
-                  alt={selectedCountry.name}
+                  alt={t(`countries.${selectedCountry.code}`)}
                   className="country-modal-flag"
                 />
-                <h2>{selectedCountry.name}</h2>
+                <h2>{t(`countries.${selectedCountry.code}`)}</h2>
               </div>
 
               <ul className="country-modal-people-list">

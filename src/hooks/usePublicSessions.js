@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import { supabase } from "../services/supabaseClient";
 
@@ -7,6 +8,7 @@ import { LANGUAGES } from "../constants/languages";
 // Feed público: sessões com status = 'publica', visíveis para qualquer
 // usuário aprovado — não filtra por user_id/partner_id como useSessions.js.
 export const usePublicSessions = () => {
+  const { t } = useTranslation("constants");
   const [publicSessions, setPublicSessions] = useState([]);
 
   const [loading, setLoading] = useState(true);
@@ -63,7 +65,7 @@ export const usePublicSessions = () => {
           .map((lang) => {
             const found = LANGUAGES.find((item) => item.code === lang.trim());
 
-            return found ? found.name : lang;
+            return found ? t(`languages.${found.code}`) : lang;
           })
           .join(", ");
 

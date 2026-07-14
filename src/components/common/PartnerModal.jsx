@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { MapPin, Globe, Mail, Phone, Lock, UserPlus, Clock, Check, X, Info } from "lucide-react";
 import { COUNTRIES } from "../../constants/countries"; // Ajuste o caminho se necessário
+import { getLanguageCodeByName } from "../../constants/languages";
+import { getInterestCodeByName } from "../../constants/interests";
 import { supabase } from "../../services/supabaseClient"; // Adicionado para buscar/inserir a conexão
 import PersonAvatar from "./PersonAvatar";
 import CopyButton from "./CopyButton";
@@ -18,6 +21,7 @@ const PartnerModal = ({
   mode = "connect",
   request,
 }) => {
+  const { t } = useTranslation("constants");
   const [connectionData, setConnectionData] = useState(null);
   const [loadingConnection, setLoadingConnection] = useState(true);
   const [isRequesting, setIsRequesting] = useState(false);
@@ -395,7 +399,7 @@ const PartnerModal = ({
 
   const isPerfectMatch = partner.compatibility === "Match Perfeito";
   const countryObj = COUNTRIES?.find((c) => c.code === partner.country);
-  const countryName = countryObj ? countryObj.name : "";
+  const countryName = countryObj ? t(`countries.${countryObj.code}`) : "";
   const flagUrl = partner.country
     ? `https://flagcdn.com/w640/${partner.country.toLowerCase()}.png`
     : "";
@@ -403,6 +407,21 @@ const PartnerModal = ({
   const speaksList = partner.speaksArray || parseLanguageString(partner.speaks);
   const learnsList = partner.learnsArray || parseLanguageString(partner.learns);
   const interestsList = partner.interestsArray || (partner.interests ? partner.interests.split(',').map(i => i.trim()) : []);
+
+  // profiles.speaks/learns/interests armazenam o NOME em português (não o
+  // code) — ver CLAUDE.md. Essas funções acham o code a partir do nome já
+  // salvo, pra traduzir só a exibição sem tocar no valor armazenado.
+  const translatedLanguageLabel = (item) => {
+    const code = getLanguageCodeByName(item.name);
+    return formatLanguageLabel(
+      code ? { ...item, name: t(`languages.${code}`) } : item,
+    );
+  };
+
+  const translateInterestName = (name) => {
+    const code = getInterestCodeByName(name);
+    return code ? t(`interests.${code}`) : name;
+  };
 
   // Variável para facilitar a checagem se o contato deve ser mostrado
   const showContactInfo = effectiveConnectionData?.status === "aceito";
@@ -462,7 +481,7 @@ const PartnerModal = ({
               <div className="tags-container">
                 {speaksList.length > 0 ? (
                   speaksList.map((lang) => (
-                    <span key={lang.name} className="tag tag-orange">{formatLanguageLabel(lang)}</span>
+                    <span key={lang.name} className="tag tag-orange">{translatedLanguageLabel(lang)}</span>
                   ))
                 ) : (
                   <span className="empty-info">Não informado</span>
@@ -475,7 +494,7 @@ const PartnerModal = ({
               <div className="tags-container">
                 {learnsList.length > 0 ? (
                   learnsList.map((lang) => (
-                    <span key={lang.name} className="tag tag-green">{formatLanguageLabel(lang)}</span>
+                    <span key={lang.name} className="tag tag-green">{translatedLanguageLabel(lang)}</span>
                   ))
                 ) : (
                   <span className="empty-info">Não informado</span>
@@ -489,7 +508,7 @@ const PartnerModal = ({
               <h3>Interesses</h3>
               <div className="tags-container">
                 {interestsList.map((interest) => (
-                  <span key={interest} className="tag tag-purple">{interest}</span>
+                  <span key={interest} className="tag tag-purple">{translateInterestName(interest)}</span>
                 ))}
               </div>
             </div>

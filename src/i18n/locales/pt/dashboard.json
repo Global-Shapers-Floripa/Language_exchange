@@ -1,1 +1,20 @@
-{}
+{
+  "sidebar": {
+    "home": "Início",
+    "connections": "Conexões",
+    "sessions": "Sessões",
+    "community": "Comunidade",
+    "resources": "Recursos",
+    "projectPartners": "Parceiros",
+    "profile": "Perfil",
+    "admin": "Admin",
+    "help": "Ajuda",
+    "logout": "Sair",
+    "banner": "Saiba mais sobre o HUB idealizador do projeto"
+  },
+  "header": {
+    "greetingPrefix": "Olá,",
+    "editPhoto": "Editar"
+  },
+  "defaultUserName": "Usuário"
+}

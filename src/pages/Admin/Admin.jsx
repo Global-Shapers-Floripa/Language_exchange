@@ -1,28 +1,32 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../../services/supabaseClient";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import PersonAvatar from "../../components/common/PersonAvatar";
 import ConfirmModal from "../../components/common/ConfirmModal";
 import { COUNTRIES } from "../../constants/countries";
-import { LANGUAGES } from "../../constants/languages";
+import { LANGUAGES, getLanguageCodeByName } from "../../constants/languages";
 import { parseLanguageString, formatLanguageLabel } from "../../utils/languageLevel";
 import { Users, MapPin, Languages, GraduationCap, Trash2, Monitor, Check, Eye } from "lucide-react";
 import "./admin.css";
 
-// Função para buscar nome e bandeira do país
-const getCountryInfo = (code) => {
+// Função para buscar nome e bandeira do país — recebe `t` (useTranslation
+// "constants") porque é uma function de módulo, fora do componente.
+const getCountryInfo = (code, t) => {
   if (!code) return { name: "Não informado", flag: "" };
   const upperCode = code.toUpperCase().trim();
   const countryObj = COUNTRIES.find((c) => c.code === upperCode);
 
   return {
-    name: countryObj ? countryObj.name : code,
+    name: countryObj ? t(`countries.${countryObj.code}`) : code,
     flag: `https://flagcdn.com/w20/${upperCode.toLowerCase()}.png`,
   };
 };
 
-const formatLanguages = (languages) => {
+// sessions.languages guarda CODE (não nome, diferente de profiles.speaks/
+// learns) — ver useSessions.js.
+const formatLanguages = (languages, t) => {
   if (!languages) return "";
 
   return languages
@@ -30,10 +34,21 @@ const formatLanguages = (languages) => {
     .map((code) => {
       const language = LANGUAGES.find((lang) => lang.code === code.trim());
 
-      return language ? language.name : code;
+      return language ? t(`languages.${language.code}`) : code;
     })
     .join(", ");
 };
+
+// profiles.speaks/learns armazenam o NOME em português (não o code) — ver
+// CLAUDE.md. Acha o code a partir do nome já salvo, pra traduzir só a
+// exibição sem tocar no valor armazenado.
+const translateLanguageName = (name, t) => {
+  const code = getLanguageCodeByName(name);
+  return code ? t(`languages.${code}`) : name;
+};
+
+const translatedLanguageLabel = (item, t) =>
+  formatLanguageLabel({ ...item, name: translateLanguageName(item.name, t) });
 
 // Nome de arquivo legível pro download do comprovante (em vez do hash
 // aleatório gerado no upload, ver uploadSessionPhoto em useAddSession.js).
@@ -56,6 +71,7 @@ const getSessionPhotoFilename = (session) => {
 
 const Admin = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation("constants");
 
   const [users, setUsers] = useState([]);
   const [sessions, setSessions] = useState([]);
@@ -489,7 +505,9 @@ const Admin = () => {
                   {stats.topSpeaks.map(([lang, count]) => (
                     <li key={lang}>
                       <div className="list-item-content">
-                        <span className="item-name">{lang}</span>
+                        <span className="item-name">
+                          {translateLanguageName(lang, t)}
+                        </span>
                         <span className="item-count">{count} pessoas</span>
                       </div>
                       <div className="list-bar">
@@ -515,7 +533,9 @@ const Admin = () => {
                   {stats.topLearns.map(([lang, count]) => (
                     <li key={lang}>
                       <div className="list-item-content">
-                        <span className="item-name">{lang}</span>
+                        <span className="item-name">
+                          {translateLanguageName(lang, t)}
+                        </span>
                         <span className="item-count">{count} interessados</span>
                       </div>
                       <div className="list-bar">
@@ -582,7 +602,7 @@ const Admin = () => {
                   </thead>
                   <tbody>
                     {filteredUsers.map((user) => {
-                      const countryInfo = getCountryInfo(user.country);
+                      const countryInfo = getCountryInfo(user.country, t);
                       return (
                         <tr key={user.id}>
                           <td>
@@ -630,7 +650,7 @@ const Admin = () => {
                                   <div className="lang-chips">
                                     {parseLanguageString(user.speaks).map((lang) => (
                                       <span key={lang.name} className="chip outline">
-                                        {formatLanguageLabel(lang)}
+                                        {translatedLanguageLabel(lang, t)}
                                       </span>
                                     ))}
                                   </div>
@@ -642,7 +662,7 @@ const Admin = () => {
                                   <div className="lang-chips">
                                     {parseLanguageString(user.learns).map((lang) => (
                                       <span key={lang.name} className="chip orange">
-                                        {formatLanguageLabel(lang)}
+                                        {translatedLanguageLabel(lang, t)}
                                       </span>
                                     ))}
                                   </div>
@@ -731,7 +751,7 @@ const Admin = () => {
                   <p>⏱️ {session.duration} minutos</p>
 
                   {session.languages && (
-                    <p>🌎 {formatLanguages(session.languages)}</p>
+                    <p>🌎 {formatLanguages(session.languages, t)}</p>
                   )}
 
                   {session.notes && <p>📝 {session.notes}</p>}
@@ -769,9 +789,9 @@ const Admin = () => {
               <div>
                 <h2 className="modal-title">
                   {selectedUser.full_name}
-                  {getCountryInfo(selectedUser.country).flag && (
+                  {getCountryInfo(selectedUser.country, t).flag && (
                     <img
-                      src={getCountryInfo(selectedUser.country).flag}
+                      src={getCountryInfo(selectedUser.country, t).flag}
                       alt="Bandeira"
                       className="flag-icon ml-2"
                     />
@@ -785,7 +805,7 @@ const Admin = () => {
                 <label>Hub & País</label>
                 <p>
                   {selectedUser.hub || "N/A"} -{" "}
-                  {getCountryInfo(selectedUser.country).name}
+                  {getCountryInfo(selectedUser.country, t).name}
                 </p>
               </div>
               <div className="admin-info-group">
@@ -802,7 +822,7 @@ const Admin = () => {
                   <div className="lang-chips">
                     {parseLanguageString(selectedUser.speaks).map((lang) => (
                       <span key={lang.name} className="chip outline">
-                        {formatLanguageLabel(lang)}
+                        {translatedLanguageLabel(lang, t)}
                       </span>
                     ))}
                   </div>
@@ -816,7 +836,7 @@ const Admin = () => {
                   <div className="lang-chips">
                     {parseLanguageString(selectedUser.learns).map((lang) => (
                       <span key={lang.name} className="chip orange">
-                        {formatLanguageLabel(lang)}
+                        {translatedLanguageLabel(lang, t)}
                       </span>
                     ))}
                   </div>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   Home,
   Users,
@@ -22,6 +23,7 @@ import "./styles.css";
 
 const DashboardLayout = ({ children }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation("dashboard");
 
   const [userData, setUserData] = useState({
     id: null,
@@ -65,7 +67,7 @@ const DashboardLayout = ({ children }) => {
         if (data) {
           setUserData({
             id: user.id,
-            name: data.full_name || "Usuário",
+            name: data.full_name || t("defaultUserName"),
             hub: data.hub || "SHAPER",
             photo_url: data.photo_url || "",
             is_admin: data.is_admin === true,
@@ -77,7 +79,7 @@ const DashboardLayout = ({ children }) => {
     };
 
     getUserProfile();
-  }, [navigate]);
+  }, [navigate, t]);
 
   // =========================
   // LOGOUT
@@ -115,7 +117,9 @@ const DashboardLayout = ({ children }) => {
   // FOTO & NOME
   // =========================
   const firstName =
-    userData.name !== "Carregando..." ? userData.name.split(" ")[0] : "Usuário";
+    userData.name !== "Carregando..."
+      ? userData.name.split(" ")[0]
+      : t("defaultUserName");
 
   return (
     <div className="dashboard-root">
@@ -141,7 +145,7 @@ const DashboardLayout = ({ children }) => {
               <div className="icon-wrapper">
                 <Home size={18} />
               </div>
-              Início
+              {t("sidebar.home")}
             </NavLink>
 
             <NavLink
@@ -153,7 +157,7 @@ const DashboardLayout = ({ children }) => {
               <div className="icon-wrapper">
                 <Users size={18} />
               </div>
-              Conexões
+              {t("sidebar.connections")}
             </NavLink>
 
             <NavLink
@@ -165,7 +169,7 @@ const DashboardLayout = ({ children }) => {
               <div className="icon-wrapper">
                 <Calendar size={18} />
               </div>
-              Sessões
+              {t("sidebar.sessions")}
             </NavLink>
 
             <NavLink
@@ -177,7 +181,7 @@ const DashboardLayout = ({ children }) => {
               <div className="icon-wrapper">
                 <Globe2 size={18} />
               </div>
-              Comunidade
+              {t("sidebar.community")}
             </NavLink>
 
             <NavLink
@@ -189,7 +193,7 @@ const DashboardLayout = ({ children }) => {
               <div className="icon-wrapper">
                 <BookOpen size={18} />
               </div>
-              Recursos
+              {t("sidebar.resources")}
             </NavLink>
 
             <NavLink
@@ -201,7 +205,7 @@ const DashboardLayout = ({ children }) => {
               <div className="icon-wrapper">
                 <Handshake size={18} />
               </div>
-              Parceiros
+              {t("sidebar.projectPartners")}
             </NavLink>
 
             <NavLink
@@ -213,7 +217,7 @@ const DashboardLayout = ({ children }) => {
               <div className="icon-wrapper">
                 <User size={18} />
               </div>
-              Perfil
+              {t("sidebar.profile")}
             </NavLink>
 
             {userData.is_admin && (
@@ -226,7 +230,7 @@ const DashboardLayout = ({ children }) => {
                 <div className="icon-wrapper">
                   <UserStar size={18} />
                 </div>
-                Admin
+                {t("sidebar.admin")}
               </NavLink>
             )}
 
@@ -244,7 +248,7 @@ const DashboardLayout = ({ children }) => {
               <div className="icon-wrapper">
                 <HelpCircle size={20} />
               </div>
-              Ajuda
+              {t("sidebar.help")}
             </NavLink>
 
             <button
@@ -255,7 +259,7 @@ const DashboardLayout = ({ children }) => {
               <div className="icon-wrapper">
                 <LogOut size={20} />
               </div>
-              Sair
+              {t("sidebar.logout")}
             </button>
           </nav>
 
@@ -271,7 +275,7 @@ const DashboardLayout = ({ children }) => {
               <span className="btn btn-ghost--icon banner-btn">
                 <ArrowUpRight size={18} />
               </span>
-              <p>Saiba mais sobre o HUB idealizador do projeto</p>
+              <p>{t("sidebar.banner")}</p>
             </a>
 
             <div className="sidebar-footer-links">
@@ -280,11 +284,11 @@ const DashboardLayout = ({ children }) => {
                 onClick={handleLogout}
               >
                 <LogOut size={18} />
-                Sair
+                {t("sidebar.logout")}
               </button>
               <NavLink to="/help" className="btn btn-ghost btn-footer">
                 <HelpCircle size={18} />
-                Ajuda
+                {t("sidebar.help")}
               </NavLink>
             </div>
           </div>
@@ -294,7 +298,7 @@ const DashboardLayout = ({ children }) => {
         <main className="main-content">
           <header className="top-header">
             <h1 className="greeting-text">
-              <span>Olá,</span> {firstName}!
+              <span>{t("header.greetingPrefix")}</span> {firstName}!
             </h1>
 
             <div className="header-actions">
@@ -332,7 +336,7 @@ const DashboardLayout = ({ children }) => {
                         d="M16.862 4.487a2.25 2.25 0 113.182 3.182L7.5 20.213 3 21l.787-4.5 13.075-12.013z"
                       />
                     </svg>
-                    <span>Editar</span>
+                    <span>{t("header.editPhoto")}</span>
                   </div>
                 </div>
               </div>

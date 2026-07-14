@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import { supabase } from "../services/supabaseClient";
 
@@ -6,6 +7,7 @@ import { LANGUAGES } from "../constants/languages";
 import { COUNTRIES } from "../constants/countries";
 
 export const useSessions = () => {
+  const { t } = useTranslation("constants");
   const [sessions, setSessions] = useState([]);
 
   const [loading, setLoading] = useState(true);
@@ -120,7 +122,7 @@ export const useSessions = () => {
           .map((lang) => {
             const found = LANGUAGES.find((item) => item.code === lang.trim());
 
-            return found ? found.name : lang;
+            return found ? t(`languages.${found.code}`) : lang;
           })
           .join(", ");
 
@@ -148,7 +150,9 @@ export const useSessions = () => {
 
           hub: displayProfile?.hub || "N/A",
 
-          country: countryInfo ? countryInfo.name : displayProfile?.country || "",
+          country: countryInfo
+            ? t(`countries.${countryInfo.code}`)
+            : displayProfile?.country || "",
 
           date: new Date(session.date).toLocaleDateString("pt-BR"),
 

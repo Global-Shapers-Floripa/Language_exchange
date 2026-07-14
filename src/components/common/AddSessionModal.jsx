@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { X, Upload, FilePlus } from 'lucide-react';
 import { useAddSession } from '../../hooks/useAddSession';
 import SearchableSelect from './SearchableSelect';
@@ -9,6 +10,7 @@ import './AddSessionModal.css';
 // componente é remontado com uma `key` diferente pelo Sessoes.jsx sempre que
 // esse valor muda, então basta usá-lo no estado inicial do formulário.
 const AddSessionModal = ({ isOpen, onClose, partners, initialPartnerId, onSessionAdded }) => {
+  const { t } = useTranslation("constants");
   const [formData, setFormData] = useState({
     partner_id: initialPartnerId || '',
     date: new Date().toISOString().split('T')[0],
@@ -27,6 +29,14 @@ const AddSessionModal = ({ isOpen, onClose, partners, initialPartnerId, onSessio
   const partnerOptions = partners.map(p => ({
     name: `${p.full_name} (${p.hub})`,
     code: p.id,
+  }));
+
+  // sessions.languages guarda CODE (não nome) — só o texto exibido no
+  // SearchableSelect precisa ser traduzido, o valor selecionado continua
+  // sendo o code de LANGUAGES.
+  const languageOptions = LANGUAGES.map((lang) => ({
+    ...lang,
+    name: t(`languages.${lang.code}`),
   }));
 
   const handleChange = (e) => {
@@ -226,7 +236,7 @@ const AddSessionModal = ({ isOpen, onClose, partners, initialPartnerId, onSessio
           <div className="form-group force-vertical-dropdown">
             <label>Idiomas Praticados *</label>
             <SearchableSelect
-              options={LANGUAGES}
+              options={languageOptions}
               value={formData.languages}
               onChange={handleLanguageChange}
               placeholder="Selecione os idiomas..."

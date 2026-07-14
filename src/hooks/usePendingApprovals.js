@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import { supabase } from "../services/supabaseClient";
 
@@ -8,6 +9,7 @@ import { LANGUAGES } from "../constants/languages";
 // aguardando a decisão dele para virar pública ou voltar a ser privada.
 // Diferente de useSessions.js, que só busca sessões onde user_id = auth.uid().
 export const usePendingApprovals = () => {
+  const { t } = useTranslation("constants");
   const [pendingApprovals, setPendingApprovals] = useState([]);
 
   const [loading, setLoading] = useState(true);
@@ -68,7 +70,7 @@ export const usePendingApprovals = () => {
           .map((lang) => {
             const found = LANGUAGES.find((item) => item.code === lang.trim());
 
-            return found ? found.name : lang;
+            return found ? t(`languages.${found.code}`) : lang;
           })
           .join(", ");
 

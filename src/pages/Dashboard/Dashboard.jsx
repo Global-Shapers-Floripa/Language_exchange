@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import { supabase } from "../../services/supabaseClient";
 import { getMatches } from "../../services/matchService";
@@ -47,6 +48,7 @@ const resourcePreview = [
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation("constants");
 
   const [matches, setMatches] = useState([]);
   const [loadingMatches, setLoadingMatches] = useState(true);
@@ -344,8 +346,8 @@ const Dashboard = () => {
                   <img
                     key={country.code}
                     src={flagUrl}
-                    alt={country.name}
-                    title={country.name}
+                    alt={t(`countries.${country.code}`)}
+                    title={t(`countries.${country.code}`)}
                     className={`country-flags-preview-flag ${unlocked ? "unlocked" : "locked"}`}
                   />
                 ) : null;
