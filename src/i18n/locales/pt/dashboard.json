@@ -117,5 +117,64 @@
         "languageRequired": "Por favor, selecione pelo menos um idioma"
       }
     }
+  },
+  "partnerFallbackName": "Parceiro",
+  "whatsAppBanner": {
+    "close": "Fechar",
+    "title": "Toda a comunidade em um só lugar",
+    "text": "Receba avisos, troque dicas e converse com quem também tá praticando idioma. Entra no grupo oficial do Language Exchange no WhatsApp.",
+    "cta": "Entrar no grupo"
+  },
+  "dashboardPage": {
+    "loading": "Carregando dashboard...",
+    "welcomeSwal": {
+      "title": "Bem-vindo(a)!",
+      "text": "Para ver seus matches e se conectar, precisamos saber quais idiomas você fala e quais quer aprender.",
+      "confirmText": "Configurar Perfil"
+    },
+    "stats": {
+      "title": "Dashboard",
+      "connections": "Conexões",
+      "sessionsLogged": "Sessões registradas",
+      "hoursPracticed": "Horas praticadas",
+      "countriesReached": "Países alcançados"
+    },
+    "cta": {
+      "text": "Realizou uma sessão recentemente?",
+      "button": "Registrar"
+    },
+    "suggestedConnections": {
+      "title": "Conexões Sugeridas",
+      "viewAll": "Ver todos >",
+      "noneFound": "Nenhum parceiro encontrado."
+    },
+    "flagMap": {
+      "title": "Mapa de Bandeiras",
+      "viewAll": "Ver todas >",
+      "loading": "Carregando países...",
+      "empty": "Nenhum país cadastrado na plataforma ainda."
+    },
+    "resourcesPreview": {
+      "title": "Nossos Recursos",
+      "viewAll": "Ver recursos >",
+      "items": {
+        "feedback": {
+          "title": "Feedback e Práticas",
+          "desc": "Como se comportar na primeira sessão e garantir um match saudável."
+        },
+        "icebreakers": {
+          "title": "Quebra-gelos",
+          "desc": "Mais de 50 perguntas para nunca deixar o assunto morrer."
+        },
+        "translationToolkit": {
+          "title": "Toolkit de Tradução",
+          "desc": "Ferramentas recomendadas para usar durante a conversa."
+        },
+        "scheduling": {
+          "title": "Agendamento Eficaz",
+          "desc": "Como lidar com diferentes fusos horários globalmente."
+        }
+      }
+    }
   }
 }

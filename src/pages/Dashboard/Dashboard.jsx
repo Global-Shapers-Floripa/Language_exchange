@@ -19,28 +19,30 @@ import "../Resources/recursos.css";
 // Preview dos 4 recursos "balão" da página /resources — mantido em sincronia
 // manual com resourceList em Recursos.jsx (mesma lógica de duplicação já
 // usada em matchService/usePartners neste projeto).
-const resourcePreview = [
+// Recebe `td` (useTranslation "dashboard") porque é definida fora do
+// componente, sem acesso direto ao hook.
+const getResourcePreview = (td) => [
   {
-    title: "Feedback e Práticas",
-    desc: "Como se comportar na primeira sessão e garantir um match saudável.",
+    title: td("dashboardPage.resourcesPreview.items.feedback.title"),
+    desc: td("dashboardPage.resourcesPreview.items.feedback.desc"),
     icon: <Book size={24} className="icon-blue" />,
     themeClass: "card-orange",
   },
   {
-    title: "Quebra-gelos",
-    desc: "Mais de 50 perguntas para nunca deixar o assunto morrer.",
+    title: td("dashboardPage.resourcesPreview.items.icebreakers.title"),
+    desc: td("dashboardPage.resourcesPreview.items.icebreakers.desc"),
     icon: <MessageCircle size={24} className="icon-purple" />,
     themeClass: "card-navy",
   },
   {
-    title: "Toolkit de Tradução",
-    desc: "Ferramentas recomendadas para usar durante a conversa.",
+    title: td("dashboardPage.resourcesPreview.items.translationToolkit.title"),
+    desc: td("dashboardPage.resourcesPreview.items.translationToolkit.desc"),
     icon: <Globe size={24} className="icon-green" />,
     themeClass: "card-blue",
   },
   {
-    title: "Agendamento Eficaz",
-    desc: "Como lidar com diferentes fusos horários globalmente.",
+    title: td("dashboardPage.resourcesPreview.items.scheduling.title"),
+    desc: td("dashboardPage.resourcesPreview.items.scheduling.desc"),
     icon: <Calendar size={24} className="icon-orange" />,
     themeClass: "card-yellow",
   },
@@ -49,6 +51,7 @@ const resourcePreview = [
 const Dashboard = () => {
   const navigate = useNavigate();
   const { t } = useTranslation("constants");
+  const { t: td } = useTranslation("dashboard");
 
   const [matches, setMatches] = useState([]);
   const [loadingMatches, setLoadingMatches] = useState(true);
@@ -141,11 +144,11 @@ const Dashboard = () => {
         // =========================
         if (incomplete) {
           Swal.fire({
-            title: "Bem-vindo(a)!",
-            text: "Para ver seus matches e se conectar, precisamos saber quais idiomas você fala e quais quer aprender.",
+            title: td("dashboardPage.welcomeSwal.title"),
+            text: td("dashboardPage.welcomeSwal.text"),
             icon: "info",
             iconColor: "var(--brand-orange, #FF8400)",
-            confirmButtonText: "Configurar Perfil",
+            confirmButtonText: td("dashboardPage.welcomeSwal.confirmText"),
             allowOutsideClick: true,
             allowEscapeKey: false,
             customClass: {
@@ -165,7 +168,7 @@ const Dashboard = () => {
     };
 
     loadDashboardData();
-  }, [navigate]);
+  }, [navigate, td]);
 
   // =========================
   // BLOQUEAR RENDERIZAÇÃO
@@ -183,7 +186,7 @@ const Dashboard = () => {
             fontSize: "16px",
           }}
         >
-          Carregando dashboard...
+          {td("dashboardPage.loading")}
         </div>
       </DashboardLayout>
     );
@@ -197,13 +200,13 @@ const Dashboard = () => {
 
         {/* SEÇÃO DASHBOARD (ESTATÍSTICAS) */}
         <div className="dashboard-stats-section">
-          <h3 className="dashboard-stats-title">Dashboard</h3>
+          <h3 className="dashboard-stats-title">{td("dashboardPage.stats.title")}</h3>
 
           <div className="dashboard-stats-grid">
             {/* Card 1: Conexões */}
             <div className="card card--stat dashboard-stat-card">
               <div className="dashboard-stat-header">
-                <span className="dashboard-stat-label">Conexões</span>
+                <span className="dashboard-stat-label">{td("dashboardPage.stats.connections")}</span>
                 <Share2 size={20} className="dashboard-stat-icon" />
               </div>
               <div className="dashboard-stat-content">
@@ -217,7 +220,7 @@ const Dashboard = () => {
             <div className="card card--stat dashboard-stat-card">
               <div className="dashboard-stat-header">
                 <span className="dashboard-stat-label">
-                  Sessões registradas
+                  {td("dashboardPage.stats.sessionsLogged")}
                 </span>
                 <ImageUp size={20} className="dashboard-stat-icon" />
               </div>
@@ -231,7 +234,7 @@ const Dashboard = () => {
             {/* Card 3: Horas praticadas */}
             <div className="card card--stat dashboard-stat-card">
               <div className="dashboard-stat-header">
-                <span className="dashboard-stat-label">Horas praticadas</span>
+                <span className="dashboard-stat-label">{td("dashboardPage.stats.hoursPracticed")}</span>
                 <Clock size={20} className="dashboard-stat-icon" />
               </div>
               <div className="dashboard-stat-content">
@@ -244,7 +247,7 @@ const Dashboard = () => {
             {/* Card 4: Países alcançados */}
             <div className="card card--stat dashboard-stat-card">
               <div className="dashboard-stat-header">
-                <span className="dashboard-stat-label">Países alcançados</span>
+                <span className="dashboard-stat-label">{td("dashboardPage.stats.countriesReached")}</span>
                 <Globe size={20} className="dashboard-stat-icon" />
               </div>
               <div className="dashboard-stat-content">
@@ -275,14 +278,14 @@ const Dashboard = () => {
               <img src={Camera} alt="" className="dashboard-cta-decor" />
 
               <div className="dashboard-cta-text">
-                <p>Realizou uma sessão recentemente?</p>
+                <p>{td("dashboardPage.cta.text")}</p>
               </div>
 
               <button
                 className="btn dashboard-cta-btn"
                 onClick={handleRegisterSession}
               >
-                Registrar
+                {td("dashboardPage.cta.button")}
               </button>
             </div>
           </div>
@@ -291,8 +294,8 @@ const Dashboard = () => {
         <div className="parceiros-dashboard-preview">
           {/* HEADER */}
           <div className="section-header-dashboard">
-            <h3>Conexões Sugeridas</h3>
-            <a href="/partners">Ver todos &gt;</a>
+            <h3>{td("dashboardPage.suggestedConnections.title")}</h3>
+            <a href="/partners">{td("dashboardPage.suggestedConnections.viewAll")}</a>
           </div>
           {/* MATCHES */}
           <div className="partners-grid">
@@ -312,7 +315,7 @@ const Dashboard = () => {
                 ))}
               </>
             ) : matches.length === 0 ? (
-              <p style={{ color: "#666" }}>Nenhum parceiro encontrado.</p>
+              <p style={{ color: "#666" }}>{td("dashboardPage.suggestedConnections.noneFound")}</p>
             ) : (
               matches
                 .slice(0, 4)
@@ -326,16 +329,16 @@ const Dashboard = () => {
         <div className="parceiros-dashboard-preview">
           {/* HEADER */}
           <div className="section-header-dashboard">
-            <h3>Mapa de Bandeiras</h3>
-            <a href="/profile?scrollTo=mapa-bandeiras">Ver todas &gt;</a>
+            <h3>{td("dashboardPage.flagMap.title")}</h3>
+            <a href="/profile?scrollTo=mapa-bandeiras">{td("dashboardPage.flagMap.viewAll")}</a>
           </div>
           {/* PRÉVIA (só decorativa — detalhe completo e clique ficam no Perfil) */}
           <div className="country-flags-preview-row">
             {loadingStats ? (
-              <p style={{ color: "#666" }}>Carregando países...</p>
+              <p style={{ color: "#666" }}>{td("dashboardPage.flagMap.loading")}</p>
             ) : flagsPreview.length === 0 ? (
               <p style={{ color: "#666" }}>
-                Nenhum país cadastrado na plataforma ainda.
+                {td("dashboardPage.flagMap.empty")}
               </p>
             ) : (
               flagsPreview.map((country) => {
@@ -359,12 +362,12 @@ const Dashboard = () => {
         <div className="parceiros-dashboard-preview">
           {/* HEADER */}
           <div className="section-header-dashboard">
-            <h3>Nossos Recursos</h3>
-            <a href="/resources">Ver recursos &gt;</a>
+            <h3>{td("dashboardPage.resourcesPreview.title")}</h3>
+            <a href="/resources">{td("dashboardPage.resourcesPreview.viewAll")}</a>
           </div>
           {/* PREVIEW (sem ações — só leva para /resources) */}
           <div className="resources-grid dashboard-resources-grid">
-            {resourcePreview.map((item, index) => (
+            {getResourcePreview(td).map((item, index) => (
               <div className={`resource-card ${item.themeClass}`} key={index}>
                 <div className="resource-icon-wrapper">
                   {item.icon}

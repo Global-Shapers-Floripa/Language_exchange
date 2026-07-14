@@ -117,5 +117,64 @@
         "languageRequired": "Por favor, selecciona al menos un idioma"
       }
     }
+  },
+  "partnerFallbackName": "Compañero",
+  "whatsAppBanner": {
+    "close": "Cerrar",
+    "title": "Toda la comunidad en un solo lugar",
+    "text": "Recibe avisos, comparte consejos y conversa con quienes también están practicando un idioma. Únete al grupo oficial de Language Exchange en WhatsApp.",
+    "cta": "Unirme al grupo"
+  },
+  "dashboardPage": {
+    "loading": "Cargando dashboard...",
+    "welcomeSwal": {
+      "title": "¡Bienvenido(a)!",
+      "text": "Para ver tus matches y conectarte, necesitamos saber qué idiomas hablas y cuáles quieres aprender.",
+      "confirmText": "Configurar Perfil"
+    },
+    "stats": {
+      "title": "Dashboard",
+      "connections": "Conexiones",
+      "sessionsLogged": "Sesiones registradas",
+      "hoursPracticed": "Horas practicadas",
+      "countriesReached": "Países alcanzados"
+    },
+    "cta": {
+      "text": "¿Tuviste una sesión recientemente?",
+      "button": "Registrar"
+    },
+    "suggestedConnections": {
+      "title": "Conexiones Sugeridas",
+      "viewAll": "Ver todas >",
+      "noneFound": "Ningún compañero encontrado."
+    },
+    "flagMap": {
+      "title": "Mapa de Banderas",
+      "viewAll": "Ver todas >",
+      "loading": "Cargando países...",
+      "empty": "Todavía no hay ningún país registrado en la plataforma."
+    },
+    "resourcesPreview": {
+      "title": "Nuestros Recursos",
+      "viewAll": "Ver recursos >",
+      "items": {
+        "feedback": {
+          "title": "Comentarios y Prácticas",
+          "desc": "Cómo comportarte en la primera sesión y asegurar un buen match."
+        },
+        "icebreakers": {
+          "title": "Rompehielos",
+          "desc": "Más de 50 preguntas para que la conversación nunca decaiga."
+        },
+        "translationToolkit": {
+          "title": "Kit de Traducción",
+          "desc": "Herramientas recomendadas para usar durante la conversación."
+        },
+        "scheduling": {
+          "title": "Agenda Eficaz",
+          "desc": "Cómo lidiar con diferentes zonas horarias a nivel mundial."
+        }
+      }
+    }
   }
 }

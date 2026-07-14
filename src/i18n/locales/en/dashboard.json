@@ -117,5 +117,64 @@
         "languageRequired": "Please select at least one language"
       }
     }
+  },
+  "partnerFallbackName": "Partner",
+  "whatsAppBanner": {
+    "close": "Close",
+    "title": "The whole community in one place",
+    "text": "Get updates, share tips and chat with others who are also practicing a language. Join the official Language Exchange WhatsApp group.",
+    "cta": "Join the group"
+  },
+  "dashboardPage": {
+    "loading": "Loading dashboard...",
+    "welcomeSwal": {
+      "title": "Welcome!",
+      "text": "To see your matches and connect, we need to know which languages you speak and which you want to learn.",
+      "confirmText": "Set Up Profile"
+    },
+    "stats": {
+      "title": "Dashboard",
+      "connections": "Connections",
+      "sessionsLogged": "Sessions logged",
+      "hoursPracticed": "Hours practiced",
+      "countriesReached": "Countries reached"
+    },
+    "cta": {
+      "text": "Had a session recently?",
+      "button": "Log session"
+    },
+    "suggestedConnections": {
+      "title": "Suggested Connections",
+      "viewAll": "View all >",
+      "noneFound": "No partner found."
+    },
+    "flagMap": {
+      "title": "Flag Map",
+      "viewAll": "View all >",
+      "loading": "Loading countries...",
+      "empty": "No country registered on the platform yet."
+    },
+    "resourcesPreview": {
+      "title": "Our Resources",
+      "viewAll": "View resources >",
+      "items": {
+        "feedback": {
+          "title": "Feedback and Practices",
+          "desc": "How to behave in the first session and ensure a healthy match."
+        },
+        "icebreakers": {
+          "title": "Icebreakers",
+          "desc": "50+ questions to keep the conversation going."
+        },
+        "translationToolkit": {
+          "title": "Translation Toolkit",
+          "desc": "Recommended tools to use during the conversation."
+        },
+        "scheduling": {
+          "title": "Effective Scheduling",
+          "desc": "How to deal with different time zones globally."
+        }
+      }
+    }
   }
 }

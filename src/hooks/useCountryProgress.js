@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import { supabase } from "../services/supabaseClient";
 
@@ -10,6 +11,7 @@ import { supabase } from "../services/supabaseClient";
 // quanto pelo Mapa de Bandeiras (precisa do detalhe: quantas sessões e
 // com quem, por país).
 export const useCountryProgress = () => {
+  const { t } = useTranslation("dashboard");
   const [countries, setCountries] = useState([]); // [{ code, count, people: [{ name, hub }] }]
   const [sessionsCount, setSessionsCount] = useState(0);
   const [totalMinutes, setTotalMinutes] = useState(0);
@@ -57,7 +59,7 @@ export const useCountryProgress = () => {
 
           grouped[code].count += 1;
           grouped[code].people.push({
-            name: partner.full_name || "Parceiro",
+            name: partner.full_name || t("partnerFallbackName"),
             hub: partner.hub || "",
           });
         });
@@ -77,7 +79,7 @@ export const useCountryProgress = () => {
     };
 
     fetchCountryProgress();
-  }, []);
+  }, [t]);
 
   return {
     countries,
