@@ -1,1 +1,75 @@
-{}
+{
+  "title": "Mi Perfil",
+  "subtitleEditing": "Actualiza tu información personal.",
+  "subtitleViewing": "Visualiza tu información personal.",
+  "changePhoto": "Cambiar foto",
+  "namePending": "Nombre pendiente",
+  "hubPrefix": "HUB",
+  "hubNotSetCaps": "NO DEFINIDO",
+  "editProfileAria": "Editar perfil",
+  "sectionTitles": {
+    "personalInfo": "Información personal",
+    "editInfo": "Editar información",
+    "flagMap": "Mapa de Banderas"
+  },
+  "fields": {
+    "fullName": "Nombre completo",
+    "fullNameNotInformed": "Nombre no informado",
+    "email": "Email",
+    "emailNotInformed": "Email no informado",
+    "phone": "Teléfono",
+    "phonePending": "Teléfono pendiente de completar",
+    "country": "País",
+    "countryPending": "País pendiente de completar",
+    "selectCountry": "Selecciona un país",
+    "about": "Sobre ti",
+    "aboutPlaceholder": "Cuéntanos un poco sobre ti...",
+    "aboutPending": "Descripción pendiente de completar. Agrega una breve descripción sobre quién eres.",
+    "speaks": "Idiomas que hablas",
+    "speaksEmpty": "Ningún idioma hablado seleccionado",
+    "learns": "Idiomas que deseas aprender",
+    "learnsEmpty": "Ningún idioma de interés seleccionado",
+    "interests": "Intereses",
+    "interestsEmpty": "Ningún interés seleccionado",
+    "hub": "Hub",
+    "hubNotSet": "No definido",
+    "hubHint": "Hub definido en la aprobación de la cuenta, no se puede cambiar."
+  },
+  "languageSelect": {
+    "placeholder": "Selecciona idiomas...",
+    "levelOf": "Nivel de {{name}}",
+    "noLevel": "No informado"
+  },
+  "interestSelect": {
+    "placeholder": "Selecciona intereses..."
+  },
+  "actions": {
+    "cancel": "Cancelar",
+    "save": "Guardar cambios",
+    "saving": "Guardando...",
+    "savePhoto": "Guardar foto",
+    "close": "Cerrar"
+  },
+  "flagMap": {
+    "subtitle": "Los países con quienes ya practicaste aparecen coloreados. Haz clic en una bandera desbloqueada para ver con quién ya tuviste una sesión.",
+    "loading": "Cargando mapa de países...",
+    "unlockedAria": "{{country}}: {{count}} conexión(es), ver detalles",
+    "lockedAria": "{{country}}: aún sin sesiones"
+  },
+  "loading": "Cargando perfil...",
+  "errors": {
+    "genericTitle": "Error",
+    "loadProfile": "Error al cargar el perfil",
+    "savePhoto": "Error al guardar la imagen",
+    "saveProfile": "No se pudo guardar",
+    "nameRequired": "Escribe tu nombre",
+    "emailRequired": "Escribe tu email",
+    "countryRequired": "Selecciona tu país",
+    "speaksRequired": "Selecciona al menos un idioma que hablas",
+    "learnsRequired": "Selecciona al menos un idioma que deseas aprender"
+  },
+  "success": {
+    "photoAdded": "¡Foto agregada!",
+    "profileUpdated": "Perfil actualizado"
+  }
+}

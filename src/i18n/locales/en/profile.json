@@ -1,1 +1,75 @@
-{}
+{
+  "title": "My Profile",
+  "subtitleEditing": "Update your personal information.",
+  "subtitleViewing": "View your personal information.",
+  "changePhoto": "Change photo",
+  "namePending": "Name pending",
+  "hubPrefix": "HUB",
+  "hubNotSetCaps": "NOT SET",
+  "editProfileAria": "Edit profile",
+  "sectionTitles": {
+    "personalInfo": "Personal information",
+    "editInfo": "Edit Information",
+    "flagMap": "Flag Map"
+  },
+  "fields": {
+    "fullName": "Full name",
+    "fullNameNotInformed": "Name not informed",
+    "email": "Email",
+    "emailNotInformed": "Email not informed",
+    "phone": "Phone",
+    "phonePending": "Phone pending",
+    "country": "Country",
+    "countryPending": "Country pending",
+    "selectCountry": "Select a country",
+    "about": "About you",
+    "aboutPlaceholder": "Tell us a bit about yourself...",
+    "aboutPending": "Description pending. Add a short description about who you are.",
+    "speaks": "Languages you speak",
+    "speaksEmpty": "No spoken language selected",
+    "learns": "Languages you want to learn",
+    "learnsEmpty": "No language of interest selected",
+    "interests": "Interests",
+    "interestsEmpty": "No interest selected",
+    "hub": "Hub",
+    "hubNotSet": "Not set",
+    "hubHint": "Hub set upon account approval, cannot be changed."
+  },
+  "languageSelect": {
+    "placeholder": "Select languages...",
+    "levelOf": "Level for {{name}}",
+    "noLevel": "Not informed"
+  },
+  "interestSelect": {
+    "placeholder": "Select interests..."
+  },
+  "actions": {
+    "cancel": "Cancel",
+    "save": "Save changes",
+    "saving": "Saving...",
+    "savePhoto": "Save photo",
+    "close": "Close"
+  },
+  "flagMap": {
+    "subtitle": "Countries with people you've practiced with appear colored. Click an unlocked flag to see who you've had a session with.",
+    "loading": "Loading country map...",
+    "unlockedAria": "{{country}}: {{count}} connection(s), view details",
+    "lockedAria": "{{country}}: no sessions yet"
+  },
+  "loading": "Loading profile...",
+  "errors": {
+    "genericTitle": "Error",
+    "loadProfile": "Error loading profile",
+    "savePhoto": "Error saving image",
+    "saveProfile": "Could not save",
+    "nameRequired": "Enter your name",
+    "emailRequired": "Enter your email",
+    "countryRequired": "Select your country",
+    "speaksRequired": "Select at least one language you speak",
+    "learnsRequired": "Select at least one language you want to learn"
+  },
+  "success": {
+    "photoAdded": "Photo added!",
+    "profileUpdated": "Profile updated"
+  }
+}

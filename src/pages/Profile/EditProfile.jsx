@@ -31,6 +31,7 @@ const EditProfile = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation("constants");
+  const { t: tp } = useTranslation("profile");
 
   // =========================
   // TRADUÇÃO DE LANGUAGES/INTERESTS
@@ -164,8 +165,8 @@ const EditProfile = () => {
         console.error(error);
         Swal.fire({
           icon: "error",
-          title: "Erro",
-          text: "Erro ao carregar perfil",
+          title: tp("errors.genericTitle"),
+          text: tp("errors.loadProfile"),
         });
       } finally {
         setLoading(false);
@@ -173,7 +174,7 @@ const EditProfile = () => {
     };
 
     loadUserProfile();
-  }, [navigate]);
+  }, [navigate, tp]);
 
   // =========================
   // ROLAGEM AUTOMÁTICA (vindo do "Ver todos" do Dashboard, ex:
@@ -328,7 +329,7 @@ const EditProfile = () => {
 
       Swal.fire({
         icon: "success",
-        title: "Foto Adicionada!",
+        title: tp("success.photoAdded"),
         timer: 1500,
         showConfirmButton: false,
       });
@@ -336,8 +337,8 @@ const EditProfile = () => {
       console.error(error);
       Swal.fire({
         icon: "error",
-        title: "Erro",
-        text: "Erro ao salvar imagem",
+        title: tp("errors.genericTitle"),
+        text: tp("errors.savePhoto"),
       });
     }
   };
@@ -347,29 +348,29 @@ const EditProfile = () => {
   // =========================
   const validateForm = () => {
     if (!formData.full_name.trim()) {
-      Swal.fire("Erro", "Digite seu nome", "warning");
+      Swal.fire(tp("errors.genericTitle"), tp("errors.nameRequired"), "warning");
       return false;
     }
     if (!formData.email.trim()) {
-      Swal.fire("Erro", "Digite seu email", "warning");
+      Swal.fire(tp("errors.genericTitle"), tp("errors.emailRequired"), "warning");
       return false;
     }
     if (!formData.country) {
-      Swal.fire("Erro", "Selecione seu país", "warning");
+      Swal.fire(tp("errors.genericTitle"), tp("errors.countryRequired"), "warning");
       return false;
     }
     if (formData.speaks.length === 0) {
       Swal.fire(
-        "Erro",
-        "Selecione pelo menos um idioma que você fala",
+        tp("errors.genericTitle"),
+        tp("errors.speaksRequired"),
         "warning",
       );
       return false;
     }
     if (formData.learns.length === 0) {
       Swal.fire(
-        "Erro",
-        "Selecione pelo menos um idioma que deseja aprender",
+        tp("errors.genericTitle"),
+        tp("errors.learnsRequired"),
         "warning",
       );
       return false;
@@ -417,7 +418,7 @@ const EditProfile = () => {
 
       Swal.fire({
         icon: "success",
-        title: "Perfil atualizado",
+        title: tp("success.profileUpdated"),
         timer: 1500,
         showConfirmButton: false,
       });
@@ -427,8 +428,8 @@ const EditProfile = () => {
       console.error(error);
       Swal.fire({
         icon: "error",
-        title: "Erro",
-        text: "Não foi possível salvar",
+        title: tp("errors.genericTitle"),
+        text: tp("errors.saveProfile"),
       });
     } finally {
       setSaving(false);
@@ -443,7 +444,7 @@ const EditProfile = () => {
       <DashboardLayout>
         <div className="loading-container">
           <div className="spinner"></div>
-          <p>Carregando perfil...</p>
+          <p>{tp("loading")}</p>
         </div>
       </DashboardLayout>
     );
@@ -488,11 +489,11 @@ const EditProfile = () => {
       <div className="edit-profile-container">
         <div className="edit-profile-header">
           <div>
-            <h1>Meu Perfil</h1>
+            <h1>{tp("title")}</h1>
             <p>
               {isEditing
-                ? "Atualize suas informações pessoais."
-                : "Visualize suas informações pessoais."}
+                ? tp("subtitleEditing")
+                : tp("subtitleViewing")}
             </p>
           </div>
         </div>
@@ -513,7 +514,7 @@ const EditProfile = () => {
 
               {isEditing && (
                 <label className="upload-btn">
-                  Alterar foto
+                  {tp("changePhoto")}
                   <input
                     type="file"
                     accept="image/*"
@@ -526,10 +527,10 @@ const EditProfile = () => {
 
             <div className="profile-main-info">
               <h2 className="profile-name">
-                {formData.full_name || "Nome pendente"}
+                {formData.full_name || tp("namePending")}
               </h2>
               <span className="profile-hub">
-                HUB {formData.hub || "NÃO DEFINIDO"}
+                {tp("hubPrefix")} {formData.hub || tp("hubNotSetCaps")}
               </span>
             </div>
           </div>
@@ -542,7 +543,7 @@ const EditProfile = () => {
                 setIsEditing(true);
                 setDetailsExpanded(true);
               }}
-              aria-label="Editar perfil"
+              aria-label={tp("editProfileAria")}
             >
               <SquarePen size={18} />
             </button>
@@ -561,60 +562,59 @@ const EditProfile = () => {
                 aria-expanded={detailsExpanded}
                 aria-controls="profile-details-panel"
               >
-                <h2 className="section-title">Informações pessoais</h2>
+                <h2 className="section-title">{tp("sectionTitles.personalInfo")}</h2>
                 {detailsExpanded ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
 
               {detailsExpanded && (
               <div id="profile-details-panel" className="info-grid">
                 <div className="info-group">
-                  <span className="info-label">Nome completo</span>
+                  <span className="info-label">{tp("fields.fullName")}</span>
                   <span
                     className={`info-value ${!formData.full_name ? "empty-text" : ""}`}
                   >
-                    {formData.full_name || "Nome não informado"}
+                    {formData.full_name || tp("fields.fullNameNotInformed")}
                   </span>
                 </div>
 
                 <div className="info-group">
-                  <span className="info-label">Email</span>
+                  <span className="info-label">{tp("fields.email")}</span>
                   <span
                     className={`info-value ${!formData.email ? "empty-text" : ""}`}
                   >
-                    {formData.email || "Email não informado"}
+                    {formData.email || tp("fields.emailNotInformed")}
                   </span>
                 </div>
 
                 <div className="info-group">
-                  <span className="info-label">Telefone</span>
+                  <span className="info-label">{tp("fields.phone")}</span>
                   <span
                     className={`info-value ${!formData.phone ? "empty-text" : ""}`}
                   >
-                    {formData.phone || "Telefone pendente de preencher"}
+                    {formData.phone || tp("fields.phonePending")}
                   </span>
                 </div>
 
                 <div className="info-group">
-                  <span className="info-label">País</span>
+                  <span className="info-label">{tp("fields.country")}</span>
                   <span
                     className={`info-value ${!countryName ? "empty-text" : ""}`}
                   >
-                    {countryName || "País pendente de preencher"}
+                    {countryName || tp("fields.countryPending")}
                   </span>
                 </div>
 
                 <div className="info-group full">
-                  <span className="info-label">Sobre você</span>
+                  <span className="info-label">{tp("fields.about")}</span>
                   <p
                     className={`info-value description-text ${!formData.description ? "empty-text" : ""}`}
                   >
-                    {formData.description ||
-                      "Descrição pendente de preencher. Adicione uma breve descrição sobre quem você é."}
+                    {formData.description || tp("fields.aboutPending")}
                   </p>
                 </div>
 
                 <div className="info-group">
-                  <span className="info-label">Idiomas que você fala</span>
+                  <span className="info-label">{tp("fields.speaks")}</span>
                   <div className="tags-container">
                     {formData.speaks.length > 0 ? (
                       formData.speaks.map((lang) => (
@@ -624,7 +624,7 @@ const EditProfile = () => {
                       ))
                     ) : (
                       <span className="empty-text">
-                        Nenhum idioma de fala selecionado
+                        {tp("fields.speaksEmpty")}
                       </span>
                     )}
                   </div>
@@ -632,7 +632,7 @@ const EditProfile = () => {
 
                 <div className="info-group">
                   <span className="info-label">
-                    Idiomas que deseja aprender
+                    {tp("fields.learns")}
                   </span>
                   <div className="tags-container">
                     {formData.learns.length > 0 ? (
@@ -643,14 +643,14 @@ const EditProfile = () => {
                       ))
                     ) : (
                       <span className="empty-text">
-                        Nenhum idioma de interesse selecionado
+                        {tp("fields.learnsEmpty")}
                       </span>
                     )}
                   </div>
                 </div>
 
                 <div className="info-group full">
-                  <span className="info-label">Interesses</span>
+                  <span className="info-label">{tp("fields.interests")}</span>
                   <div className="tags-container">
                     {formData.interests.length > 0 ? (
                       formData.interests.map((interest, idx) => (
@@ -660,7 +660,7 @@ const EditProfile = () => {
                       ))
                     ) : (
                       <span className="empty-text">
-                        Nenhum interesse selecionado
+                        {tp("fields.interestsEmpty")}
                       </span>
                     )}
                   </div>
@@ -671,11 +671,11 @@ const EditProfile = () => {
           ) : (
             <form onSubmit={handleSubmit} className="edit-profile-form">
               <div className="profile-bottom-section">
-                <h2 className="section-title">Editar Informações</h2>
+                <h2 className="section-title">{tp("sectionTitles.editInfo")}</h2>
 
                 <div className="form-grid">
                   <div className="form-group">
-                    <label>Nome completo</label>
+                    <label>{tp("fields.fullName")}</label>
                     <input
                       type="text"
                       name="full_name"
@@ -686,7 +686,7 @@ const EditProfile = () => {
                   </div>
 
                   <div className="form-group">
-                    <label>Email</label>
+                    <label>{tp("fields.email")}</label>
                     <input
                       type="email"
                       name="email"
@@ -697,7 +697,7 @@ const EditProfile = () => {
                   </div>
 
                   <div className="form-group">
-                    <label>Telefone</label>
+                    <label>{tp("fields.phone")}</label>
                     <input
                       type="text"
                       name="phone"
@@ -708,25 +708,24 @@ const EditProfile = () => {
                   </div>
 
                   <div className="form-group">
-                    <label>Hub</label>
+                    <label>{tp("fields.hub")}</label>
                     <p className="info-value">
-                      {formData.hub || "Não definido"}
+                      {formData.hub || tp("fields.hubNotSet")}
                     </p>
                     <span className="form-hint">
-                      Hub definido na aprovação da conta, não pode ser
-                      alterado.
+                      {tp("fields.hubHint")}
                     </span>
                   </div>
 
                   <div className="form-group">
-                    <label>País</label>
+                    <label>{tp("fields.country")}</label>
                     <select
                       name="country"
                       value={formData.country}
                       onChange={handleInputChange}
                       className="form-input"
                     >
-                      <option value="">Selecione um país</option>
+                      <option value="">{tp("fields.selectCountry")}</option>
                       {COUNTRIES.map((country) => (
                         <option key={country.code} value={country.code}>
                           {t(`countries.${country.code}`)}
@@ -736,18 +735,18 @@ const EditProfile = () => {
                   </div>
 
                   <div className="form-group full">
-                    <label>Sobre você</label>
+                    <label>{tp("fields.about")}</label>
                     <textarea
                       name="description"
                       value={formData.description}
                       onChange={handleInputChange}
                       className="form-textarea"
-                      placeholder="Conte um pouco sobre você..."
+                      placeholder={tp("fields.aboutPlaceholder")}
                     />
                   </div>
 
                   <div className="form-group">
-                    <label>Idiomas que você fala</label>
+                    <label>{tp("fields.speaks")}</label>
                     <TagSelect
                       options={languageLabels}
                       selectedItems={formData.speaks.map((item) => item.name)}
@@ -762,12 +761,12 @@ const EditProfile = () => {
                         )
                       }
                       onTagClick={(name) => handleTagClick("speaks", name)}
-                      placeholder="Selecione idiomas..."
+                      placeholder={tp("languageSelect.placeholder")}
                     />
                     {levelPickerFor?.field === "speaks" && (
                       <div className="level-picker">
                         <span className="level-picker-title">
-                          Nível de {translateLanguageName(levelPickerFor.name)}
+                          {tp("languageSelect.levelOf", { name: translateLanguageName(levelPickerFor.name) })}
                         </span>
                         <div className="level-picker-options">
                           <button
@@ -777,7 +776,7 @@ const EditProfile = () => {
                               handleSetLevel("speaks", levelPickerFor.name, null)
                             }
                           >
-                            Não informado
+                            {tp("languageSelect.noLevel")}
                           </button>
                           {CEFR_LEVELS.map((level) => (
                             <button
@@ -797,7 +796,7 @@ const EditProfile = () => {
                   </div>
 
                   <div className="form-group">
-                    <label>Idiomas que deseja aprender</label>
+                    <label>{tp("fields.learns")}</label>
                     <TagSelect
                       options={languageLabels}
                       selectedItems={formData.learns.map((item) => item.name)}
@@ -812,12 +811,12 @@ const EditProfile = () => {
                         )
                       }
                       onTagClick={(name) => handleTagClick("learns", name)}
-                      placeholder="Selecione idiomas..."
+                      placeholder={tp("languageSelect.placeholder")}
                     />
                     {levelPickerFor?.field === "learns" && (
                       <div className="level-picker">
                         <span className="level-picker-title">
-                          Nível de {translateLanguageName(levelPickerFor.name)}
+                          {tp("languageSelect.levelOf", { name: translateLanguageName(levelPickerFor.name) })}
                         </span>
                         <div className="level-picker-options">
                           <button
@@ -827,7 +826,7 @@ const EditProfile = () => {
                               handleSetLevel("learns", levelPickerFor.name, null)
                             }
                           >
-                            Não informado
+                            {tp("languageSelect.noLevel")}
                           </button>
                           {CEFR_LEVELS.map((level) => (
                             <button
@@ -847,7 +846,7 @@ const EditProfile = () => {
                   </div>
 
                   <div className="form-group full">
-                    <label>Interesses</label>
+                    <label>{tp("fields.interests")}</label>
                     <TagSelect
                       options={INTERESTS.map((interest) => interest.name)}
                       selectedItems={formData.interests}
@@ -866,7 +865,7 @@ const EditProfile = () => {
                         }))
                       }
                       renderLabel={translateInterestName}
-                      placeholder="Selecione interesses..."
+                      placeholder={tp("interestSelect.placeholder")}
                     />
                   </div>
                 </div>
@@ -880,11 +879,11 @@ const EditProfile = () => {
                       setLevelPickerFor(null);
                     }}
                   >
-                    Cancelar
+                    {tp("actions.cancel")}
                   </button>
 
                   <button type="submit" className="btn btn-primary" disabled={saving}>
-                    {saving ? "Salvando..." : "Salvar alterações"}
+                    {saving ? tp("actions.saving") : tp("actions.save")}
                   </button>
                 </div>
               </div>
@@ -895,14 +894,13 @@ const EditProfile = () => {
         {/* MAPA DE BANDEIRAS — visível apenas no modo visualização */}
         {!isEditing && (
           <div id="mapa-bandeiras" className="card card--profile country-map-card">
-            <h2 className="section-title">Mapa de Bandeiras</h2>
+            <h2 className="section-title">{tp("sectionTitles.flagMap")}</h2>
             <p className="country-map-subtitle">
-              Países com quem você já praticou aparecem coloridos. Clique numa
-              bandeira desbloqueada para ver com quem você já teve sessão.
+              {tp("flagMap.subtitle")}
             </p>
 
             {loadingCountryProgress ? (
-              <p className="empty-text">Carregando mapa de países...</p>
+              <p className="empty-text">{tp("flagMap.loading")}</p>
             ) : (
               <div className="country-flags-grid">
                 {sortedCountries.map((country) => {
@@ -922,8 +920,13 @@ const EditProfile = () => {
                       title={t(`countries.${country.code}`)}
                       aria-label={
                         unlocked
-                          ? `${t(`countries.${country.code}`)}: ${progress.count} conexão(ões), ver detalhes`
-                          : `${t(`countries.${country.code}`)}: ainda sem sessões`
+                          ? tp("flagMap.unlockedAria", {
+                              country: t(`countries.${country.code}`),
+                              count: progress.count,
+                            })
+                          : tp("flagMap.lockedAria", {
+                              country: t(`countries.${country.code}`),
+                            })
                       }
                     >
                       <img
@@ -983,7 +986,7 @@ const EditProfile = () => {
                 className="btn btn-secondary"
                 onClick={() => setSelectedCountry(null)}
               >
-                Fechar
+                {tp("actions.close")}
               </button>
             </div>
           </div>
@@ -1023,7 +1026,7 @@ const EditProfile = () => {
                     className="btn btn-secondary"
                     onClick={() => setShowCropModal(false)}
                   >
-                    Cancelar
+                    {tp("actions.cancel")}
                   </button>
 
                   <button
@@ -1031,7 +1034,7 @@ const EditProfile = () => {
                     className="btn btn-primary"
                     onClick={handleSaveCroppedPhoto}
                   >
-                    Salvar foto
+                    {tp("actions.savePhoto")}
                   </button>
                 </div>
               </div>
