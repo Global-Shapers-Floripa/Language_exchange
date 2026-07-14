@@ -79,7 +79,8 @@ Deno.serve(async (req: Request) => {
     }
 
     // Nomes vêm de 'profiles', que tem leitura pública — não precisa de
-    // service role aqui.
+    // service role aqui. preferred_language do receiver decide o idioma do
+    // e-mail (send-email cai em 'en' se vier ausente/inválido).
     const [{ data: senderProfile }, { data: receiverProfile }] =
       await Promise.all([
         callerClient
@@ -89,7 +90,7 @@ Deno.serve(async (req: Request) => {
           .single(),
         callerClient
           .from("profiles")
-          .select("full_name")
+          .select("full_name, preferred_language")
           .eq("id", request.receiver_id)
           .single(),
       ]);
@@ -126,6 +127,7 @@ Deno.serve(async (req: Request) => {
         body: JSON.stringify({
           template: "connection_request",
           to: receiverContact.email,
+          lang: receiverProfile?.preferred_language,
           data: {
             recipientName: receiverProfile?.full_name || "",
             senderName: senderProfile?.full_name || "",

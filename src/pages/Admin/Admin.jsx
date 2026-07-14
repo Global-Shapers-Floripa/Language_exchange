@@ -286,15 +286,17 @@ const Admin = () => {
 
       if (error) throw error;
 
-      // userToApprove.email já vem de profile_contacts (join feito no
-      // carregamento da lista via checkAccessAndFetchData) — a RLS de admin
-      // já libera essa leitura, não precisa buscar de novo aqui.
+      // userToApprove.email e userToApprove.preferred_language já vêm do
+      // carregamento da lista via checkAccessAndFetchData (join com
+      // profile_contacts + select("*") em profiles) — a RLS de admin já
+      // libera essa leitura, não precisa buscar de novo aqui.
       const { error: emailError } = await supabase.functions.invoke(
         "send-email",
         {
           body: {
             template: "approval",
             to: userToApprove.email,
+            lang: userToApprove.preferred_language,
             data: {
               recipientName: userToApprove.full_name,
               appUrl: window.location.origin,

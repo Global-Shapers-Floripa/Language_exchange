@@ -85,13 +85,22 @@ Deno.serve(async (req: Request) => {
 
     // E-mail de aviso é best-effort e PRECISA ser buscado/disparado antes do
     // delete: depois que o profile (e, em cascata, o profile_contacts) for
-    // apagado, o e-mail não existe mais no banco. Falha aqui só é logada —
-    // nunca bloqueia a exclusão em si, que é a ação prioritária.
-    const { data: contactToNotify } = await adminClient
-      .from("profile_contacts")
-      .select("email")
-      .eq("user_id", targetId)
-      .single();
+    // apagado, nem o e-mail nem o preferred_language existem mais no banco.
+    // Falha aqui só é logada — nunca bloqueia a exclusão em si, que é a ação
+    // prioritária.
+    const [{ data: contactToNotify }, { data: profileToNotify }] =
+      await Promise.all([
+        adminClient
+          .from("profile_contacts")
+          .select("email")
+          .eq("user_id", targetId)
+          .single(),
+        adminClient
+          .from("profiles")
+          .select("preferred_language")
+          .eq("id", targetId)
+          .single(),
+      ]);
 
     if (contactToNotify?.email) {
       try {
@@ -106,6 +115,7 @@ Deno.serve(async (req: Request) => {
             body: JSON.stringify({
               template: "user_deleted",
               to: contactToNotify.email,
+              lang: profileToNotify?.preferred_language,
               data: {},
             }),
           },

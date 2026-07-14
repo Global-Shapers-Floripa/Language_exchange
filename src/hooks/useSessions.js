@@ -248,12 +248,17 @@ export const useSessions = () => {
         data: { user },
       } = await supabase.auth.getUser();
 
-      const [{ data: ownProfile }, { data: partnerContact }] =
+      const [{ data: ownProfile }, { data: partnerProfile }, { data: partnerContact }] =
         await Promise.all([
           supabase
             .from("profiles")
             .select("full_name")
             .eq("id", user.id)
+            .single(),
+          supabase
+            .from("profiles")
+            .select("preferred_language")
+            .eq("id", session.partner_id)
             .single(),
           supabase
             .from("profile_contacts")
@@ -269,6 +274,7 @@ export const useSessions = () => {
             body: {
               template: "session_public_request",
               to: partnerContact.email,
+              lang: partnerProfile?.preferred_language,
               data: {
                 recipientName: session.partner,
                 senderName: ownProfile?.full_name || "",

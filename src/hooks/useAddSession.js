@@ -91,7 +91,7 @@ export const useAddSession = () => {
         const [{ data: ownProfile }, { data: partnerProfile }, { data: partnerContact }] =
           await Promise.all([
             supabase.from('profiles').select('full_name').eq('id', user.id).single(),
-            supabase.from('profiles').select('full_name').eq('id', sessionData.partner_id).single(),
+            supabase.from('profiles').select('full_name, preferred_language').eq('id', sessionData.partner_id).single(),
             supabase.from('profile_contacts').select('email').eq('user_id', sessionData.partner_id).single(),
           ]);
 
@@ -100,6 +100,7 @@ export const useAddSession = () => {
             body: {
               template: 'session_public_request',
               to: partnerContact.email,
+              lang: partnerProfile?.preferred_language,
               data: {
                 recipientName: partnerProfile?.full_name || '',
                 senderName: ownProfile?.full_name || '',

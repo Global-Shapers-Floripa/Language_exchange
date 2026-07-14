@@ -52,7 +52,7 @@ export const usePendingApprovals = () => {
       const { data: requesterProfiles, error: profilesError } = requesterIds.length
         ? await supabase
             .from("profiles")
-            .select("id, full_name, hub")
+            .select("id, full_name, hub, preferred_language")
             .in("id", requesterIds)
         : { data: [], error: null };
 
@@ -79,6 +79,7 @@ export const usePendingApprovals = () => {
           user_id: session.user_id,
           requester: requesterProfile?.full_name || "Desconhecido",
           hub: requesterProfile?.hub || "N/A",
+          preferred_language: requesterProfile?.preferred_language,
           date: new Date(session.date).toLocaleDateString("pt-BR"),
           duration: session.duration,
           languages: languageNames || "N/A",
@@ -169,6 +170,7 @@ export const usePendingApprovals = () => {
                 body: {
                   template: "session_public_decision",
                   to: registrantContact.email,
+                  lang: decidedItem.preferred_language,
                   data: {
                     recipientName: decidedItem.requester,
                     partnerName: ownProfile?.full_name || "",
