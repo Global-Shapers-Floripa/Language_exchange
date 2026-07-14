@@ -88,6 +88,30 @@ const DashboardLayout = ({ children }) => {
   };
 
   // =========================
+  // IDIOMA PREFERIDO
+  // =========================
+  // Best-effort: não bloqueia nem afeta a troca de idioma na UI (que já
+  // aconteceu via i18n.changeLanguage dentro do LanguageSwitcher) se o
+  // update falhar — só persiste a preferência para os e-mails transacionais
+  // lerem depois.
+  const handleLanguageChange = async (lng) => {
+    if (!userData.id) return;
+
+    try {
+      const { error } = await supabase
+        .from("profiles")
+        .update({ preferred_language: lng })
+        .eq("id", userData.id);
+
+      if (error) {
+        console.error("Erro ao salvar idioma preferido:", error);
+      }
+    } catch (err) {
+      console.error("Erro ao salvar idioma preferido:", err);
+    }
+  };
+
+  // =========================
   // FOTO & NOME
   // =========================
   const firstName =
@@ -280,7 +304,7 @@ const DashboardLayout = ({ children }) => {
               </button>
               */}
 
-              <LanguageSwitcher />
+              <LanguageSwitcher onLanguageChange={handleLanguageChange} />
 
               <div
                 className="user-profile clickable-profile"
