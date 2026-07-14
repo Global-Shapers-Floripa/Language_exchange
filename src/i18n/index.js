@@ -73,7 +73,7 @@ i18n
   .init({
     resources,
     supportedLngs: SUPPORTED_LANGUAGES,
-    fallbackLng: "pt",
+    fallbackLng: "en",
     defaultNS: "common",
     ns: NAMESPACES,
 

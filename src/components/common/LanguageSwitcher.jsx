@@ -12,9 +12,14 @@ const LANGUAGE_OPTIONS = [
   { lng: "es", flagCode: "es", label: "Español" },
 ];
 
-const LanguageSwitcher = ({ className = "" }) => {
+const LanguageSwitcher = ({ className = "", onLanguageChange }) => {
   const { i18n } = useTranslation();
   const currentLng = i18n.resolvedLanguage || i18n.language;
+
+  const handleClick = (lng) => {
+    i18n.changeLanguage(lng);
+    onLanguageChange?.(lng);
+  };
 
   return (
     <div className={`language-switcher ${className}`}>
@@ -23,7 +28,7 @@ const LanguageSwitcher = ({ className = "" }) => {
           key={option.lng}
           type="button"
           className={`language-switcher-btn ${currentLng === option.lng ? "active" : ""}`}
-          onClick={() => i18n.changeLanguage(option.lng)}
+          onClick={() => handleClick(option.lng)}
           aria-label={option.label}
           aria-pressed={currentLng === option.lng}
           title={option.label}
