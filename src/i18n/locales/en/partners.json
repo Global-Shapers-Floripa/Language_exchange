@@ -87,5 +87,31 @@
       "undoneText": "The connection with {{name}} was removed.",
       "undoErrorText": "Could not undo the connection."
     }
+  },
+  "page": {
+    "myConnections": "My Connections",
+    "noConnections": "You don't have any connections yet. Request a connection in \"{{section}}\" to get started.",
+    "requestsSection": "Requests",
+    "sent": "Sent",
+    "received": "Received",
+    "noSentRequests": "No requests sent.",
+    "noReceivedRequests": "No requests received.",
+    "cancel": "Cancel",
+    "viewRequest": "View request",
+    "rejected": "Rejected",
+    "defaultUserName": "User",
+    "exploreNetwork": "Explore Network",
+    "searchPlaceholder": "Search by name, language or hub...",
+    "loading": "Loading partners...",
+    "loadError": "Error loading partners: {{error}}",
+    "noResultsSearch": "No partner found.",
+    "noResults": "No partner available.",
+    "favoriteError": "Could not favorite the connection.",
+    "restrictedAccess": {
+      "title": "Restricted access",
+      "text": "You need to fill in your languages in your profile before interacting with other members.",
+      "completeProfile": "Complete Profile",
+      "notNow": "Not now"
+    }
   }
 }

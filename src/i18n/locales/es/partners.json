@@ -87,5 +87,31 @@
       "undoneText": "La conexión con {{name}} fue eliminada.",
       "undoErrorText": "No se pudo deshacer la conexión."
     }
+  },
+  "page": {
+    "myConnections": "Mis Conexiones",
+    "noConnections": "Todavía no tienes conexiones. Solicita una conexión en \"{{section}}\" para empezar.",
+    "requestsSection": "Solicitudes",
+    "sent": "Enviadas",
+    "received": "Recibidas",
+    "noSentRequests": "Ninguna solicitud enviada.",
+    "noReceivedRequests": "Ninguna solicitud recibida.",
+    "cancel": "Cancelar",
+    "viewRequest": "Ver solicitud",
+    "rejected": "Rechazada",
+    "defaultUserName": "Usuario",
+    "exploreNetwork": "Explorar Red",
+    "searchPlaceholder": "Buscar por nombre, idioma o hub...",
+    "loading": "Cargando compañeros...",
+    "loadError": "Error al cargar compañeros: {{error}}",
+    "noResultsSearch": "No se encontró ningún compañero.",
+    "noResults": "Ningún compañero disponible.",
+    "favoriteError": "No se pudo marcar la conexión como favorita.",
+    "restrictedAccess": {
+      "title": "Acceso restringido",
+      "text": "Necesitas completar tus idiomas en el perfil antes de interactuar con otros miembros.",
+      "completeProfile": "Completar Perfil",
+      "notNow": "Ahora no"
+    }
   }
 }

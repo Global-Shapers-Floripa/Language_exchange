@@ -87,5 +87,31 @@
       "undoneText": "A conexão com {{name}} foi removida.",
       "undoErrorText": "Não foi possível desfazer a conexão."
     }
+  },
+  "page": {
+    "myConnections": "Minhas Conexões",
+    "noConnections": "Você ainda não tem conexões. Solicite uma conexão em \"{{section}}\" para começar.",
+    "requestsSection": "Solicitações",
+    "sent": "Enviadas",
+    "received": "Recebidas",
+    "noSentRequests": "Nenhuma solicitação enviada.",
+    "noReceivedRequests": "Nenhuma solicitação recebida.",
+    "cancel": "Cancelar",
+    "viewRequest": "Ver solicitação",
+    "rejected": "Rejeitado",
+    "defaultUserName": "Usuário",
+    "exploreNetwork": "Explorar Rede",
+    "searchPlaceholder": "Buscar por nome, idioma ou hub...",
+    "loading": "Carregando parceiros...",
+    "loadError": "Erro ao carregar parceiros: {{error}}",
+    "noResultsSearch": "Nenhum parceiro encontrado.",
+    "noResults": "Nenhum parceiro disponível.",
+    "favoriteError": "Não foi possível favoritar a conexão.",
+    "restrictedAccess": {
+      "title": "Acesso restrito",
+      "text": "Você precisa preencher seus idiomas no perfil antes de interagir com outros membros.",
+      "completeProfile": "Completar Perfil",
+      "notNow": "Agora não"
+    }
   }
 }

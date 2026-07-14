@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import PartnerCard from "../../components/common/PartnerCard";
@@ -18,6 +19,7 @@ import "./parceiros.css";
 
 const FindPartners = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation("partners");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPartner, setSelectedPartner] = useState(null);
   const [reviewingRequest, setReviewingRequest] = useState(null);
@@ -160,7 +162,7 @@ const FindPartners = () => {
       );
     } catch (err) {
       console.error("Erro ao favoritar conexão:", err);
-      Swal.fire("Erro", "Não foi possível favoritar a conexão.", "error");
+      Swal.fire(t("modal.swal.errorTitle"), t("page.favoriteError"), "error");
     }
   };
 
@@ -186,7 +188,7 @@ const FindPartners = () => {
       setSentRequests((prev) => prev.filter((req) => req.id !== requestId));
     } catch (err) {
       console.error("Erro ao cancelar solicitação:", err);
-      Swal.fire("Erro", "Não foi possível cancelar a solicitação.", "error");
+      Swal.fire(t("modal.swal.errorTitle"), t("modal.swal.cancelErrorText"), "error");
     }
   };
 
@@ -291,12 +293,12 @@ const FindPartners = () => {
   const handleConnectClick = (partner) => {
     if (isProfileIncomplete) {
       Swal.fire({
-        title: "Acesso restrito",
-        text: "Você precisa preencher seus idiomas no perfil antes de interagir com outros membros.",
+        title: t("page.restrictedAccess.title"),
+        text: t("page.restrictedAccess.text"),
         icon: "warning",
-        confirmButtonText: "Completar Perfil",
+        confirmButtonText: t("page.restrictedAccess.completeProfile"),
         showCancelButton: true,
-        cancelButtonText: "Agora não",
+        cancelButtonText: t("page.restrictedAccess.notNow"),
       }).then((result) => {
         if (result.isConfirmed) {
           navigate("/profile");
@@ -312,11 +314,11 @@ const FindPartners = () => {
       
       {/* SEÇÃO PRINCIPAL: MINHAS CONEXÕES */}
       <div className="connections-panel">
-        <h2 className="partners-section-title">Minhas Conexões</h2>
+        <h2 className="partners-section-title">{t("page.myConnections")}</h2>
 
         {connections.length === 0 ? (
           <p className="empty-requests">
-            Você ainda não tem conexões. Solicite uma conexão em "Explorar Rede" para começar.
+            {t("page.noConnections", { section: t("page.exploreNetwork") })}
           </p>
         ) : (
           <ul className="connections-grid">
@@ -345,14 +347,14 @@ const FindPartners = () => {
 
         {/* SEÇÃO SECUNDÁRIA: SOLICITAÇÕES PENDENTES */}
         <div className="requests-secondary">
-          <h3 className="partners-section-title">Solicitações</h3>
+          <h3 className="partners-section-title">{t("page.requestsSection")}</h3>
 
           <div className="requests-container">
             {/* Coluna 1: Enviadas */}
             <div className="requests-column dotted-texture">
-              <h4>Enviadas</h4>
+              <h4>{t("page.sent")}</h4>
               {sentRequests.length === 0 ? (
-                <p className="empty-requests">Nenhuma solicitação enviada.</p>
+                <p className="empty-requests">{t("page.noSentRequests")}</p>
               ) : (
                 <ul className="request-list">
                   {sentRequests.map((req) => {
@@ -370,23 +372,23 @@ const FindPartners = () => {
                           <div className="request-name-block">
                             <div className="request-name-row">
                               {flagUrl && <img src={flagUrl} alt="" className="request-flag" />}
-                              <strong title={req.receiver?.full_name || "Usuário"}>
-                                {req.receiver?.full_name || "Usuário"}
+                              <strong title={req.receiver?.full_name || t("page.defaultUserName")}>
+                                {req.receiver?.full_name || t("page.defaultUserName")}
                               </strong>
                             </div>
-                            <span>{req.receiver?.hub || "Hub"}</span>
+                            <span>{req.receiver?.hub || t("card.hub")}</span>
                           </div>
                         </div>
                         <div className="request-actions">
                           <span className={`partners-status-badge status-${req.status}`}>
-                            {req.status === "pendente" ? "Pendente" : "Rejeitado"}
+                            {req.status === "pendente" ? t("card.actions.pending") : t("page.rejected")}
                           </span>
                           {req.status === "pendente" && (
                             <button
                               className="btn btn-danger"
                               onClick={() => handleCancelSentRequest(req.id)}
                             >
-                              Cancelar
+                              {t("page.cancel")}
                             </button>
                           )}
                         </div>
@@ -399,9 +401,9 @@ const FindPartners = () => {
 
             {/* Coluna 2: Recebidas */}
             <div className="requests-column dotted-texture">
-              <h4>Recebidas</h4>
+              <h4>{t("page.received")}</h4>
               {receivedRequests.length === 0 ? (
-                <p className="empty-requests">Nenhuma solicitação recebida.</p>
+                <p className="empty-requests">{t("page.noReceivedRequests")}</p>
               ) : (
                 <ul className="request-list">
                   {receivedRequests.map((req) => {
@@ -419,11 +421,11 @@ const FindPartners = () => {
                           <div className="request-name-block">
                             <div className="request-name-row">
                               {flagUrl && <img src={flagUrl} alt="" className="request-flag" />}
-                              <strong title={req.sender?.full_name || "Usuário"}>
-                                {req.sender?.full_name || "Usuário"}
+                              <strong title={req.sender?.full_name || t("page.defaultUserName")}>
+                                {req.sender?.full_name || t("page.defaultUserName")}
                               </strong>
                             </div>
-                            <span>{req.sender?.hub || "Hub"}</span>
+                            <span>{req.sender?.hub || t("card.hub")}</span>
                           </div>
                         </div>
                         <div className="request-actions">
@@ -432,11 +434,11 @@ const FindPartners = () => {
                               className="btn btn-primary btn-view-request"
                               onClick={() => setReviewingRequest(req)}
                             >
-                              Ver solicitação
+                              {t("page.viewRequest")}
                             </button>
                           ) : (
                             <span className={`partners-status-badge status-${req.status}`}>
-                              Rejeitado
+                              {t("page.rejected")}
                             </span>
                           )}
                         </div>
@@ -455,7 +457,7 @@ const FindPartners = () => {
 
       {/* SEÇÃO DE BUSCA E GRID (Já existia, só ajustei os títulos) */}
       <div className="partners-page-header">
-        <h2 className="partners-section-title">Explorar Rede</h2>
+        <h2 className="partners-section-title">{t("page.exploreNetwork")}</h2>
 
         <div className="search-container">
           <div className="search-input-wrapper">
@@ -463,7 +465,7 @@ const FindPartners = () => {
             <input
               className="input"
               type="text"
-              placeholder="Buscar por nome, idioma ou hub..."
+              placeholder={t("page.searchPlaceholder")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -474,13 +476,13 @@ const FindPartners = () => {
       <div className="partners-grid">
         {loading && (
           <div className="loading-message">
-            <p>Carregando parceiros...</p>
+            <p>{t("page.loading")}</p>
           </div>
         )}
 
         {error && (
           <div className="error-message">
-            <p>Erro ao carregar parceiros: {error}</p>
+            <p>{t("page.loadError", { error })}</p>
           </div>
         )}
 
@@ -488,8 +490,8 @@ const FindPartners = () => {
           <div className="empty-message">
             <p>
               {searchTerm.trim()
-                ? "Nenhum parceiro encontrado."
-                : "Nenhum parceiro disponível."}
+                ? t("page.noResultsSearch")
+                : t("page.noResults")}
             </p>
           </div>
         )}
