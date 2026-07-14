@@ -212,6 +212,14 @@
 
 .description-text {
   line-height: 1.6;
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.char-count {
+  align-self: flex-end;
 }
 
 .empty-text {

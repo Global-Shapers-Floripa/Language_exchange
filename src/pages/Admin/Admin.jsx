@@ -846,7 +846,7 @@ const Admin = () => {
               </div>
               <div className="admin-info-group">
                 <label>Descrição</label>
-                <p>{selectedUser.description || "Sem descrição."}</p>
+                <p className="description-text">{selectedUser.description || "Sem descrição."}</p>
               </div>
               <div className="admin-info-group">
                 <label>Interesses</label>

@@ -25,6 +25,7 @@
     "about": "Sobre ti",
     "aboutPlaceholder": "Cuéntanos un poco sobre ti...",
     "aboutPending": "Descripción pendiente de completar. Agrega una breve descripción sobre quién eres.",
+    "aboutCharCount": "{{count}}/{{max}}",
     "speaks": "Idiomas que hablas",
     "speaksEmpty": "Ningún idioma hablado seleccionado",
     "learns": "Idiomas que deseas aprender",

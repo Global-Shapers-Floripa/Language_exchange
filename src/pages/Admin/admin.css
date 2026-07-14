@@ -675,6 +675,13 @@
   color: #44403c;
 }
 
+.admin-info-group p.description-text {
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+
 /* =========================
    BLOQUEIO NO MOBILE
 ========================= */

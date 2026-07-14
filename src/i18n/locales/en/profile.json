@@ -25,6 +25,7 @@
     "about": "About you",
     "aboutPlaceholder": "Tell us a bit about yourself...",
     "aboutPending": "Description pending. Add a short description about who you are.",
+    "aboutCharCount": "{{count}}/{{max}}",
     "speaks": "Languages you speak",
     "speaksEmpty": "No spoken language selected",
     "learns": "Languages you want to learn",

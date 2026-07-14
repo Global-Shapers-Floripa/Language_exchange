@@ -27,6 +27,8 @@ import Swal from "sweetalert2";
 
 import "./edit-profile.css";
 
+const DESCRIPTION_MAX_LENGTH = 500;
+
 const EditProfile = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -742,7 +744,14 @@ const EditProfile = () => {
                       onChange={handleInputChange}
                       className="form-textarea"
                       placeholder={tp("fields.aboutPlaceholder")}
+                      maxLength={DESCRIPTION_MAX_LENGTH}
                     />
+                    <span className="form-hint char-count">
+                      {tp("fields.aboutCharCount", {
+                        count: formData.description.length,
+                        max: DESCRIPTION_MAX_LENGTH,
+                      })}
+                    </span>
                   </div>
 
                   <div className="form-group">
