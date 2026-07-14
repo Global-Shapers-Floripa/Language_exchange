@@ -18,5 +18,74 @@
       "connect": "Conectar",
       "session": "Sessão"
     }
+  },
+  "modal": {
+    "hubLabel": "HUB",
+    "about": "Sobre",
+    "speaksTitle": "Idiomas que fala",
+    "learnsTitle": "Idiomas que aprende",
+    "interestsTitle": "Interesses",
+    "actions": {
+      "reject": "Rejeitar",
+      "accept": "Aceitar",
+      "processing": "Processando...",
+      "requestConnection": "Solicitar Conexão",
+      "sending": "Enviando...",
+      "cancelRequest": "Cancelar Solicitação",
+      "cancelling": "Cancelando...",
+      "undoConnection": "Desfazer conexão",
+      "undoing": "Desfazendo..."
+    },
+    "review": {
+      "title": "Solicitação de Conexão",
+      "description": "{{name}} quer se conectar com você. Aceite para liberar os dados de contato ou rejeite a solicitação."
+    },
+    "connect": {
+      "privateDataTitle": "Dados Privados",
+      "privateDataText": "Solicite uma conexão para trocar contatos e mensagens com {{name}}."
+    },
+    "pending": {
+      "title": "Solicitação Pendente",
+      "sentText": "Você já enviou uma solicitação para {{name}}. Aguarde a aprovação!",
+      "receivedText": "{{name}} enviou uma solicitação para você. Acesse o painel de Conexões para aceitar."
+    },
+    "rejected": {
+      "title": "Conexão Indisponível",
+      "text": "Não é possível visualizar os dados de contato no momento."
+    },
+    "contact": {
+      "title": "Contato",
+      "loading": "Carregando contato...",
+      "emailLabel": "Email:",
+      "phoneLabel": "Telefone:",
+      "emailCopyLabel": "e-mail",
+      "phoneCopyLabel": "telefone",
+      "nextStepsPrefix": "Chame {{name}}, combinem um horário e realizem a sessão de prática. Depois, volte na plataforma para registrar essa sessão na tela de",
+      "nextStepsSessionsLabel": "Sessões"
+    },
+    "swal": {
+      "errorTitle": "Erro",
+      "mutualMatchTitle": "Vocês estão conectados!",
+      "mutualMatchText": "{{name}} já tinha enviado uma solicitação para você. Agora vocês podem trocar contatos.",
+      "sentTitle": "Enviado!",
+      "sentText": "Sua solicitação de conexão foi enviada para {{name}}.",
+      "sendErrorText": "Não foi possível enviar a solicitação.",
+      "cancelledTitle": "Solicitação cancelada",
+      "cancelledText": "Sua solicitação para {{name}} foi cancelada.",
+      "cancelErrorText": "Não foi possível cancelar a solicitação.",
+      "acceptedTitle": "Conexão aceita!",
+      "acceptedText": "Agora você e {{name}} podem trocar contatos.",
+      "acceptErrorText": "Não foi possível aceitar a solicitação.",
+      "rejectedTitle": "Solicitação rejeitada",
+      "rejectedText": "A solicitação de {{name}} foi rejeitada.",
+      "rejectErrorText": "Não foi possível rejeitar a solicitação.",
+      "undoConfirmTitle": "Desfazer conexão?",
+      "undoConfirmText": "Tem certeza que deseja desfazer a conexão com {{name}}? Isso removerá a conexão para os dois lados.",
+      "undoConfirmYes": "Sim, desfazer",
+      "undoConfirmCancel": "Cancelar",
+      "undoneTitle": "Conexão desfeita",
+      "undoneText": "A conexão com {{name}} foi removida.",
+      "undoErrorText": "Não foi possível desfazer a conexão."
+    }
   }
 }

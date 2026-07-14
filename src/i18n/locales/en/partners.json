@@ -18,5 +18,74 @@
       "connect": "Connect",
       "session": "Session"
     }
+  },
+  "modal": {
+    "hubLabel": "HUB",
+    "about": "About",
+    "speaksTitle": "Languages spoken",
+    "learnsTitle": "Languages learning",
+    "interestsTitle": "Interests",
+    "actions": {
+      "reject": "Reject",
+      "accept": "Accept",
+      "processing": "Processing...",
+      "requestConnection": "Request Connection",
+      "sending": "Sending...",
+      "cancelRequest": "Cancel Request",
+      "cancelling": "Cancelling...",
+      "undoConnection": "Undo connection",
+      "undoing": "Undoing..."
+    },
+    "review": {
+      "title": "Connection Request",
+      "description": "{{name}} wants to connect with you. Accept to unlock contact details or reject the request."
+    },
+    "connect": {
+      "privateDataTitle": "Private Data",
+      "privateDataText": "Request a connection to exchange contacts and messages with {{name}}."
+    },
+    "pending": {
+      "title": "Pending Request",
+      "sentText": "You already sent a request to {{name}}. Wait for approval!",
+      "receivedText": "{{name}} sent you a request. Go to the Connections panel to accept it."
+    },
+    "rejected": {
+      "title": "Connection Unavailable",
+      "text": "Contact details can't be viewed right now."
+    },
+    "contact": {
+      "title": "Contact",
+      "loading": "Loading contact...",
+      "emailLabel": "Email:",
+      "phoneLabel": "Phone:",
+      "emailCopyLabel": "email",
+      "phoneCopyLabel": "phone",
+      "nextStepsPrefix": "Reach out to {{name}}, agree on a time, and have your practice session. Afterwards, come back to the platform to log it on the",
+      "nextStepsSessionsLabel": "Sessions"
+    },
+    "swal": {
+      "errorTitle": "Error",
+      "mutualMatchTitle": "You're connected!",
+      "mutualMatchText": "{{name}} had already sent you a request. You can now exchange contacts.",
+      "sentTitle": "Sent!",
+      "sentText": "Your connection request was sent to {{name}}.",
+      "sendErrorText": "Could not send the request.",
+      "cancelledTitle": "Request cancelled",
+      "cancelledText": "Your request to {{name}} was cancelled.",
+      "cancelErrorText": "Could not cancel the request.",
+      "acceptedTitle": "Connection accepted!",
+      "acceptedText": "You and {{name}} can now exchange contacts.",
+      "acceptErrorText": "Could not accept the request.",
+      "rejectedTitle": "Request rejected",
+      "rejectedText": "{{name}}'s request was rejected.",
+      "rejectErrorText": "Could not reject the request.",
+      "undoConfirmTitle": "Undo connection?",
+      "undoConfirmText": "Are you sure you want to undo the connection with {{name}}? This will remove the connection for both sides.",
+      "undoConfirmYes": "Yes, undo it",
+      "undoConfirmCancel": "Cancel",
+      "undoneTitle": "Connection undone",
+      "undoneText": "The connection with {{name}} was removed.",
+      "undoErrorText": "Could not undo the connection."
+    }
   }
 }

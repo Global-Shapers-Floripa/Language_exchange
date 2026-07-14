@@ -22,6 +22,7 @@ const PartnerModal = ({
   request,
 }) => {
   const { t } = useTranslation("constants");
+  const { t: tp } = useTranslation("partners");
   const [connectionData, setConnectionData] = useState(null);
   const [loadingConnection, setLoadingConnection] = useState(true);
   const [isRequesting, setIsRequesting] = useState(false);
@@ -150,8 +151,8 @@ const PartnerModal = ({
         onConnectionChange?.(updated);
 
         Swal.fire({
-          title: "Vocês estão conectados!",
-          text: `${partner.full_name} já tinha enviado uma solicitação para você. Agora vocês podem trocar contatos.`,
+          title: tp("modal.swal.mutualMatchTitle"),
+          text: tp("modal.swal.mutualMatchText", { name: partner.full_name }),
           icon: "success",
           confirmButtonColor: "#0A3251",
         });
@@ -198,14 +199,14 @@ const PartnerModal = ({
         });
 
       Swal.fire({
-        title: "Enviado!",
-        text: `Sua solicitação de conexão foi enviada para ${partner.full_name}.`,
+        title: tp("modal.swal.sentTitle"),
+        text: tp("modal.swal.sentText", { name: partner.full_name }),
         icon: "success",
         confirmButtonColor: "#0A3251",
       });
     } catch (error) {
       console.error(error);
-      Swal.fire("Erro", "Não foi possível enviar a solicitação.", "error");
+      Swal.fire(tp("modal.swal.errorTitle"), tp("modal.swal.sendErrorText"), "error");
     } finally {
       setIsRequesting(false);
     }
@@ -241,14 +242,14 @@ const PartnerModal = ({
       onConnectionChange?.({ id: removedId, _removed: true });
 
       Swal.fire({
-        title: "Solicitação cancelada",
-        text: `Sua solicitação para ${partner.full_name} foi cancelada.`,
+        title: tp("modal.swal.cancelledTitle"),
+        text: tp("modal.swal.cancelledText", { name: partner.full_name }),
         icon: "success",
         confirmButtonColor: "#0A3251",
       });
     } catch (error) {
       console.error(error);
-      Swal.fire("Erro", "Não foi possível cancelar a solicitação.", "error");
+      Swal.fire(tp("modal.swal.errorTitle"), tp("modal.swal.cancelErrorText"), "error");
     } finally {
       setIsCancelling(false);
     }
@@ -280,8 +281,8 @@ const PartnerModal = ({
       onConnectionChange?.(updated);
 
       Swal.fire({
-        title: "Conexão aceita!",
-        text: `Agora você e ${partner.full_name} podem trocar contatos.`,
+        title: tp("modal.swal.acceptedTitle"),
+        text: tp("modal.swal.acceptedText", { name: partner.full_name }),
         icon: "success",
         confirmButtonColor: "#0A3251",
       });
@@ -289,7 +290,7 @@ const PartnerModal = ({
       onClose();
     } catch (error) {
       console.error(error);
-      Swal.fire("Erro", "Não foi possível aceitar a solicitação.", "error");
+      Swal.fire(tp("modal.swal.errorTitle"), tp("modal.swal.acceptErrorText"), "error");
     } finally {
       setIsReviewing(false);
     }
@@ -321,8 +322,8 @@ const PartnerModal = ({
       onConnectionChange?.({ id: request.id, _removed: true });
 
       Swal.fire({
-        title: "Solicitação rejeitada",
-        text: `A solicitação de ${partner.full_name} foi rejeitada.`,
+        title: tp("modal.swal.rejectedTitle"),
+        text: tp("modal.swal.rejectedText", { name: partner.full_name }),
         icon: "success",
         confirmButtonColor: "#0A3251",
       });
@@ -330,7 +331,7 @@ const PartnerModal = ({
       onClose();
     } catch (error) {
       console.error(error);
-      Swal.fire("Erro", "Não foi possível rejeitar a solicitação.", "error");
+      Swal.fire(tp("modal.swal.errorTitle"), tp("modal.swal.rejectErrorText"), "error");
     } finally {
       setIsReviewing(false);
     }
@@ -345,12 +346,12 @@ const PartnerModal = ({
     if (!connectionData) return;
 
     const confirmResult = await Swal.fire({
-      title: "Desfazer conexão?",
-      text: `Tem certeza que deseja desfazer a conexão com ${partner.full_name}? Isso removerá a conexão para os dois lados.`,
+      title: tp("modal.swal.undoConfirmTitle"),
+      text: tp("modal.swal.undoConfirmText", { name: partner.full_name }),
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Sim, desfazer",
-      cancelButtonText: "Cancelar",
+      confirmButtonText: tp("modal.swal.undoConfirmYes"),
+      cancelButtonText: tp("modal.swal.undoConfirmCancel"),
       confirmButtonColor: "#d33",
     });
 
@@ -380,8 +381,8 @@ const PartnerModal = ({
       onConnectionChange?.({ id: removedId, _removed: true });
 
       Swal.fire({
-        title: "Conexão desfeita",
-        text: `A conexão com ${partner.full_name} foi removida.`,
+        title: tp("modal.swal.undoneTitle"),
+        text: tp("modal.swal.undoneText", { name: partner.full_name }),
         icon: "success",
         confirmButtonColor: "#0A3251",
       });
@@ -389,7 +390,7 @@ const PartnerModal = ({
       onClose();
     } catch (error) {
       console.error(error);
-      Swal.fire("Erro", "Não foi possível desfazer a conexão.", "error");
+      Swal.fire(tp("modal.swal.errorTitle"), tp("modal.swal.undoErrorText"), "error");
     } finally {
       setIsUndoing(false);
     }
@@ -434,7 +435,7 @@ const PartnerModal = ({
 
         {isPerfectMatch && (
           <div className="perfect-match-modal-badge">
-            ✨ Match Perfeito
+            ✨ {tp("card.perfectMatch")}
           </div>
         )}
 
@@ -459,7 +460,7 @@ const PartnerModal = ({
           <h2>{partner.full_name}</h2>
           
           <div className="modal-location-info">
-            <span className="hub-info"><MapPin size={14} color="#FF5A5F" /> HUB {partner.hub}</span>
+            <span className="hub-info"><MapPin size={14} color="#FF5A5F" /> {tp("modal.hubLabel")} {partner.hub}</span>
             {countryName && (
               <span className="country-info"><Globe size={14} color="#4A90E2" /> {countryName}</span>
             )}
@@ -470,34 +471,34 @@ const PartnerModal = ({
           
           {partner.description && partner.description.trim() !== "" && (
             <div className="partner-modal-section">
-              <h3>Sobre</h3>
+              <h3>{tp("modal.about")}</h3>
               <p className="description-text">{partner.description}</p>
             </div>
           )}
 
           <div className="modal-grid-sections">
             <div className="partner-modal-section">
-              <h3>Idiomas que fala</h3>
+              <h3>{tp("modal.speaksTitle")}</h3>
               <div className="tags-container">
                 {speaksList.length > 0 ? (
                   speaksList.map((lang) => (
                     <span key={lang.name} className="tag tag-orange">{translatedLanguageLabel(lang)}</span>
                   ))
                 ) : (
-                  <span className="empty-info">Não informado</span>
+                  <span className="empty-info">{tp("card.notInformed")}</span>
                 )}
               </div>
             </div>
 
             <div className="partner-modal-section">
-              <h3>Idiomas que aprende</h3>
+              <h3>{tp("modal.learnsTitle")}</h3>
               <div className="tags-container">
                 {learnsList.length > 0 ? (
                   learnsList.map((lang) => (
                     <span key={lang.name} className="tag tag-green">{translatedLanguageLabel(lang)}</span>
                   ))
                 ) : (
-                  <span className="empty-info">Não informado</span>
+                  <span className="empty-info">{tp("card.notInformed")}</span>
                 )}
               </div>
             </div>
@@ -505,7 +506,7 @@ const PartnerModal = ({
 
           {interestsList.length > 0 && (
             <div className="partner-modal-section">
-              <h3>Interesses</h3>
+              <h3>{tp("modal.interestsTitle")}</h3>
               <div className="tags-container">
                 {interestsList.map((interest) => (
                   <span key={interest} className="tag tag-purple">{translateInterestName(interest)}</span>
@@ -520,10 +521,9 @@ const PartnerModal = ({
           {!effectiveLoadingConnection && mode === "review" && (
             <div className="partner-modal-section connection-action-wrapper">
               <div className="request-connection-box review-request-box">
-                <h3>Solicitação de Conexão</h3>
+                <h3>{tp("modal.review.title")}</h3>
                 <p>
-                  {partner.full_name} quer se conectar com você. Aceite para
-                  liberar os dados de contato ou rejeite a solicitação.
+                  {tp("modal.review.description", { name: partner.full_name })}
                 </p>
                 <div className="review-actions">
                   <button
@@ -532,7 +532,7 @@ const PartnerModal = ({
                     disabled={isReviewing}
                   >
                     <X size={18} />
-                    Rejeitar
+                    {tp("modal.actions.reject")}
                   </button>
                   <button
                     className="btn btn-primary"
@@ -540,7 +540,7 @@ const PartnerModal = ({
                     disabled={isReviewing}
                   >
                     <Check size={18} />
-                    {isReviewing ? "Processando..." : "Aceitar"}
+                    {isReviewing ? tp("modal.actions.processing") : tp("modal.actions.accept")}
                   </button>
                 </div>
               </div>
@@ -554,15 +554,15 @@ const PartnerModal = ({
               {!connectionData && (
                 <div className="request-connection-box">
                   <Lock size={24} className="lock-icon" />
-                  <h3>Dados Privados</h3>
-                  <p>Solicite uma conexão para trocar contatos e mensagens com {partner.full_name}.</p>
+                  <h3>{tp("modal.connect.privateDataTitle")}</h3>
+                  <p>{tp("modal.connect.privateDataText", { name: partner.full_name })}</p>
                   <button
                     className="btn btn-primary btn-request-connect"
                     onClick={handleRequestConnection}
                     disabled={isRequesting}
                   >
                     <UserPlus size={18} />
-                    {isRequesting ? "Enviando..." : "Solicitar Conexão"}
+                    {isRequesting ? tp("modal.actions.sending") : tp("modal.actions.requestConnection")}
                   </button>
                 </div>
               )}
@@ -571,11 +571,11 @@ const PartnerModal = ({
               {connectionData?.status === "pendente" && (
                 <div className="request-connection-box pending-box">
                   <Clock size={24} className="clock-icon" />
-                  <h3>Solicitação Pendente</h3>
+                  <h3>{tp("modal.pending.title")}</h3>
                   <p>
                     {connectionData.sender_id === currentUser.id
-                      ? `Você já enviou uma solicitação para ${partner.full_name}. Aguarde a aprovação!`
-                      : `${partner.full_name} enviou uma solicitação para você. Acesse o painel de Conexões para aceitar.`}
+                      ? tp("modal.pending.sentText", { name: partner.full_name })
+                      : tp("modal.pending.receivedText", { name: partner.full_name })}
                   </p>
                   {connectionData.sender_id === currentUser.id && (
                     <button
@@ -583,7 +583,7 @@ const PartnerModal = ({
                       onClick={handleCancelRequest}
                       disabled={isCancelling}
                     >
-                      {isCancelling ? "Cancelando..." : "Cancelar Solicitação"}
+                      {isCancelling ? tp("modal.actions.cancelling") : tp("modal.actions.cancelRequest")}
                     </button>
                   )}
                 </div>
@@ -592,36 +592,36 @@ const PartnerModal = ({
               {/* CASO 3: CONEXÃO REJEITADA */}
               {connectionData?.status === "rejeitado" && (
                 <div className="request-connection-box rejected-box">
-                  <h3>Conexão Indisponível</h3>
-                  <p>Não é possível visualizar os dados de contato no momento.</p>
+                  <h3>{tp("modal.rejected.title")}</h3>
+                  <p>{tp("modal.rejected.text")}</p>
                 </div>
               )}
 
               {/* CASO 4: CONEXÃO ACEITA (Mostra os contatos!) */}
               {showContactInfo && (
                 <>
-                  <h3>Contato</h3>
+                  <h3>{tp("modal.contact.title")}</h3>
                   <div className="contact-info-list">
                     {loadingContact ? (
-                      <p>Carregando contato...</p>
+                      <p>{tp("modal.contact.loading")}</p>
                     ) : (
                       <>
                         <p>
                           <Mail size={16} />
-                          <strong>Email:</strong>{" "}
+                          <strong>{tp("modal.contact.emailLabel")}</strong>{" "}
                           <span className="contact-value">
-                            {contactInfo?.email || "Não informado"}
+                            {contactInfo?.email || tp("card.notInformed")}
                           </span>
                           {contactInfo?.email && (
-                            <CopyButton value={contactInfo.email} label="e-mail" />
+                            <CopyButton value={contactInfo.email} label={tp("modal.contact.emailCopyLabel")} />
                           )}
                         </p>
                         {contactInfo?.phone && contactInfo.phone.trim() !== "" && (
                           <p>
                             <Phone size={16} />
-                            <strong>Telefone:</strong>{" "}
+                            <strong>{tp("modal.contact.phoneLabel")}</strong>{" "}
                             <span className="contact-value">{contactInfo.phone}</span>
-                            <CopyButton value={contactInfo.phone} label="telefone" />
+                            <CopyButton value={contactInfo.phone} label={tp("modal.contact.phoneCopyLabel")} />
                           </p>
                         )}
                       </>
@@ -634,9 +634,8 @@ const PartnerModal = ({
                   <div className="session-instructions-box">
                     <Info size={20} className="session-instructions-icon" />
                     <p>
-                      Chame {partner.full_name}, combinem um horário e realizem
-                      a sessão de prática. Depois, volte na plataforma para
-                      registrar essa sessão na tela de <strong>Sessões</strong>.
+                      {tp("modal.contact.nextStepsPrefix", { name: partner.full_name })}{" "}
+                      <strong>{tp("modal.contact.nextStepsSessionsLabel")}</strong>.
                     </p>
                   </div>
 
@@ -650,7 +649,7 @@ const PartnerModal = ({
                       onClick={handleUndoConnection}
                       disabled={isUndoing}
                     >
-                      {isUndoing ? "Desfazendo..." : "Desfazer conexão"}
+                      {isUndoing ? tp("modal.actions.undoing") : tp("modal.actions.undoConnection")}
                     </button>
                   </div>
                 </>
