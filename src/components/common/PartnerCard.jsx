@@ -16,6 +16,9 @@ import "./partner-card.css";
 // presente, exibe a estrela de favoritar no canto do card.
 const PartnerCard = ({ partner, onConnect, onRegisterSession, sentRequest, isConnected, viewOnly, exploreOnly, isFavorited, onToggleFavorite }) => {
   const { t } = useTranslation("constants");
+  const { t: tp } = useTranslation("partners");
+  // Comparação com o valor bruto calculado por matchService.js — não é
+  // texto de UI, não traduzir (só o badge exibido abaixo é traduzido).
   const isPerfectMatch = partner.compatibility === "Match Perfeito";
   const isPending = sentRequest?.status === "pendente";
 
@@ -48,7 +51,7 @@ const PartnerCard = ({ partner, onConnect, onRegisterSession, sentRequest, isCon
       className={`card--partner partner-card ${isPerfectMatch ? "perfect-match-card" : ""}`}
     >
       {isPerfectMatch && (
-        <div className="perfect-match-badge">Match Perfeito</div>
+        <div className="perfect-match-badge">{tp("card.perfectMatch")}</div>
       )}
 
       {onToggleFavorite && (
@@ -59,7 +62,7 @@ const PartnerCard = ({ partner, onConnect, onRegisterSession, sentRequest, isCon
             e.stopPropagation();
             onToggleFavorite();
           }}
-          title={isFavorited ? "Remover dos favoritos" : "Favoritar conexão"}
+          title={isFavorited ? tp("card.removeFavorite") : tp("card.addFavorite")}
         >
           <Star size={18} color="#F97316" fill={isFavorited ? "#F97316" : "none"} />
         </button>
@@ -82,7 +85,7 @@ const PartnerCard = ({ partner, onConnect, onRegisterSession, sentRequest, isCon
             <div className="flag-banner-container">
               <img
                 src={flagUrl}
-                alt={`Bandeira ${countryName}`}
+                alt={tp("card.flagAlt", { country: countryName })}
                 className="flag-banner-img"
               />
             </div>
@@ -96,9 +99,9 @@ const PartnerCard = ({ partner, onConnect, onRegisterSession, sentRequest, isCon
             {typeof partner.matchScore === "number" && (
               <span
                 className="match-badge-pill"
-                title="A compatibilidade é calculada com base nos idiomas que você fala, idiomas que deseja aprender e proximidade de hub."
+                title={tp("card.matchScoreTooltip")}
               >
-                {partner.matchScore}% Match
+                {tp("card.matchScore", { score: partner.matchScore })}
               </span>
             )}
           </div>
@@ -106,12 +109,12 @@ const PartnerCard = ({ partner, onConnect, onRegisterSession, sentRequest, isCon
           <div className="partner-location-row">
             <p
               className="partner-location"
-              title={`Hub ${partner.hub || "Não definido"}${countryName ? `, ${countryName}` : ""}`}
+              title={`${tp("card.hub")} ${partner.hub || tp("card.notDefined")}${countryName ? `, ${countryName}` : ""}`}
             >
               <MapPin size={14} color="#FF5A5F" />
 
               <span className="partner-location-text">
-                Hub {partner.hub || "Não definido"}
+                {tp("card.hub")} {partner.hub || tp("card.notDefined")}
                 {countryName && `, ${countryName}`}
               </span>
             </p>
@@ -124,7 +127,7 @@ const PartnerCard = ({ partner, onConnect, onRegisterSession, sentRequest, isCon
       {/* Detalhes de Idiomas */}
       <div className="partner-details-card">
         <div className="partner-section-card">
-          <span className="section-title-card">Fala</span>
+          <span className="section-title-card">{tp("card.speaks")}</span>
           <div className="tags-card">
             {speaksArray.length > 0 ? (
               speaksArray.map((lang) => (
@@ -133,13 +136,13 @@ const PartnerCard = ({ partner, onConnect, onRegisterSession, sentRequest, isCon
                 </span>
               ))
             ) : (
-              <span className="tag-card-empty">Não informado</span>
+              <span className="tag-card-empty">{tp("card.notInformed")}</span>
             )}
           </div>
         </div>
 
         <div className="partner-section-card">
-          <span className="section-title-card">Aprende</span>
+          <span className="section-title-card">{tp("card.learns")}</span>
           <div className="tags-card">
             {learnsArray.length > 0 ? (
               learnsArray.map((lang) => (
@@ -148,7 +151,7 @@ const PartnerCard = ({ partner, onConnect, onRegisterSession, sentRequest, isCon
                 </span>
               ))
             ) : (
-              <span className="tag-card-empty">Não informado</span>
+              <span className="tag-card-empty">{tp("card.notInformed")}</span>
             )}
           </div>
         </div>
@@ -164,22 +167,22 @@ const PartnerCard = ({ partner, onConnect, onRegisterSession, sentRequest, isCon
             {viewOnly ? (
               <>
                 <Eye size={18} />
-                Dados
+                {tp("card.actions.data")}
               </>
             ) : isConnected ? (
               <>
                 <UserCheck size={18} />
-                Conectado
+                {tp("card.actions.connected")}
               </>
             ) : isPending ? (
               <>
                 <Clock size={18} />
-                Pendente
+                {tp("card.actions.pending")}
               </>
             ) : (
               <>
                 <MessageSquare size={18} />
-                Conectar
+                {tp("card.actions.connect")}
               </>
             )}
           </button>
@@ -187,7 +190,7 @@ const PartnerCard = ({ partner, onConnect, onRegisterSession, sentRequest, isCon
           {viewOnly && onRegisterSession && (
             <button className="connect-btn connect-btn--half" onClick={onRegisterSession}>
               <CalendarPlus size={18} />
-              Sessão
+              {tp("card.actions.session")}
             </button>
           )}
         </div>

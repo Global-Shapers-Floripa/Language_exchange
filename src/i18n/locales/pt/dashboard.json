@@ -16,5 +16,27 @@
     "greetingPrefix": "Olá,",
     "editPhoto": "Editar"
   },
-  "defaultUserName": "Usuário"
+  "defaultUserName": "Usuário",
+  "searchableSelect": {
+    "placeholder": "Selecione...",
+    "searchPlaceholder": "Buscar...",
+    "noOptions": "Nenhuma opção encontrada",
+    "selectedCount": "{{count}} selecionados"
+  },
+  "tagSelect": {
+    "placeholder": "Selecionar...",
+    "noResults": "Nenhum resultado"
+  },
+  "confirmModal": {
+    "confirm": "Confirmar",
+    "cancel": "Cancelar",
+    "confirming": "Aguarde..."
+  },
+  "copyButton": {
+    "copyLabel": "Copiar {{label}}",
+    "copy": "Copiar"
+  },
+  "personAvatar": {
+    "defaultAlt": "Foto de perfil"
+  }
 }

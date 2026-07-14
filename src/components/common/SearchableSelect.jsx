@@ -1,20 +1,24 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ChevronDown } from 'lucide-react';
 import './SearchableSelect.css';
 
-const SearchableSelect = ({ 
-  options = [], 
-  value, 
-  onChange, 
-  placeholder = 'Selecione...',
+const SearchableSelect = ({
+  options = [],
+  value,
+  onChange,
+  placeholder,
   searchable = true,
   multi = false,
   displayKey = 'name',
   valueKey = 'code'
 }) => {
+  const { t } = useTranslation('dashboard');
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const selectRef = useRef(null);
+
+  const effectivePlaceholder = placeholder || t('searchableSelect.placeholder');
 
   // Filtrar opções baseado na busca
   const filteredOptions = options.filter(option =>
@@ -24,17 +28,17 @@ const SearchableSelect = ({
   // Encontrar o label da opção selecionada
   const getSelectedLabel = () => {
     if (multi && Array.isArray(value)) {
-      if (value.length === 0) return placeholder;
+      if (value.length === 0) return effectivePlaceholder;
       if (value.length === 1) {
         const selected = options.find(opt => opt[valueKey] === value[0]);
-        return selected ? selected[displayKey] : placeholder;
+        return selected ? selected[displayKey] : effectivePlaceholder;
       }
-      return `${value.length} selecionados`;
+      return t('searchableSelect.selectedCount', { count: value.length });
     } else if (value) {
       const selected = options.find(opt => opt[valueKey] === value);
-      return selected ? selected[displayKey] : placeholder;
+      return selected ? selected[displayKey] : effectivePlaceholder;
     }
-    return placeholder;
+    return effectivePlaceholder;
   };
 
   // Fechar dropdown ao clicar fora
@@ -91,7 +95,7 @@ const SearchableSelect = ({
             <div className="searchable-select-search">
               <input
                 type="text"
-                placeholder="Buscar..."
+                placeholder={t('searchableSelect.searchPlaceholder')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 autoFocus
@@ -102,7 +106,7 @@ const SearchableSelect = ({
           <div className="searchable-select-options">
             {filteredOptions.length === 0 ? (
               <div className="searchable-select-empty">
-                Nenhuma opção encontrada
+                {t('searchableSelect.noOptions')}
               </div>
             ) : (
               filteredOptions.map((option, index) => (

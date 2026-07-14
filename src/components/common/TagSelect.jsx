@@ -4,6 +4,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { useTranslation } from "react-i18next";
 
 import "./TagSelect.css";
 
@@ -12,12 +13,15 @@ const TagSelect = ({
   selectedItems = [],
   onSelect,
   onRemove,
-  placeholder = "Selecionar...",
+  placeholder,
   renderLabel,
   onTagClick,
 }) => {
+  const { t } = useTranslation("dashboard");
   const [search, setSearch] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+
+  const effectivePlaceholder = placeholder || t("tagSelect.placeholder");
 
   const containerRef = useRef(null);
 
@@ -52,18 +56,24 @@ const TagSelect = ({
   // =========================
   // FILTRAR OPÇÕES
   // =========================
+  // A busca compara com o label EXIBIDO (renderLabel), não com o valor
+  // bruto — senão, com o texto já traduzido na lista (ver DROPDOWN abaixo),
+  // digitar em outro idioma não encontraria nada (ex: opção armazenada como
+  // "Inglês", exibida como "English", buscar por "Eng" precisa bater com o
+  // que está na tela).
   const filteredOptions = useMemo(() => {
     return options.filter((option) => {
       const alreadySelected =
         selectedItems.includes(option);
 
-      const matchesSearch = option
+      const label = renderLabel ? renderLabel(option) : option;
+      const matchesSearch = label
         .toLowerCase()
         .includes(search.toLowerCase());
 
       return !alreadySelected && matchesSearch;
     });
-  }, [options, selectedItems, search]);
+  }, [options, selectedItems, search, renderLabel]);
 
   // =========================
   // SELECIONAR ITEM
@@ -112,7 +122,7 @@ const TagSelect = ({
       <input
         type="text"
         value={search}
-        placeholder={placeholder}
+        placeholder={effectivePlaceholder}
         className="input tag-input"
         onFocus={() => setIsOpen(true)}
         onClick={() => setIsOpen(true)}
@@ -134,12 +144,12 @@ const TagSelect = ({
                   handleSelect(option)
                 }
               >
-                {option}
+                {renderLabel ? renderLabel(option) : option}
               </div>
             ))
           ) : (
             <div className="tag-empty">
-              Nenhum resultado
+              {t("tagSelect.noResults")}
             </div>
           )}
         </div>

@@ -1,1 +1,22 @@
-{}
+{
+  "card": {
+    "perfectMatch": "Perfect Match",
+    "removeFavorite": "Remove from favorites",
+    "addFavorite": "Favorite connection",
+    "matchScoreTooltip": "Compatibility is calculated based on the languages you speak, the languages you want to learn, and hub proximity.",
+    "matchScore": "{{score}}% Match",
+    "hub": "Hub",
+    "notDefined": "Not set",
+    "speaks": "Speaks",
+    "learns": "Learning",
+    "notInformed": "Not informed",
+    "flagAlt": "Flag of {{country}}",
+    "actions": {
+      "data": "Data",
+      "connected": "Connected",
+      "pending": "Pending",
+      "connect": "Connect",
+      "session": "Session"
+    }
+  }
+}

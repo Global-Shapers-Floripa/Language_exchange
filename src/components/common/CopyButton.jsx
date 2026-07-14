@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Copy, Check } from "lucide-react";
 
 // Botão de copiar reutilizável (ex: e-mail/telefone no PartnerModal). Mesmo
@@ -6,6 +7,7 @@ import { Copy, Check } from "lucide-react";
 // check por 2s; se a API de clipboard falhar (sem suporte, permissão
 // negada), só loga no console e não mostra a confirmação — não quebra a tela.
 const CopyButton = ({ value, label = "", className = "" }) => {
+  const { t } = useTranslation("dashboard");
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async (e) => {
@@ -25,7 +27,7 @@ const CopyButton = ({ value, label = "", className = "" }) => {
       type="button"
       className={`contact-copy-btn ${copied ? "copied" : ""} ${className}`}
       onClick={handleCopy}
-      aria-label={label ? `Copiar ${label}` : "Copiar"}
+      aria-label={label ? t("copyButton.copyLabel", { label }) : t("copyButton.copy")}
     >
       {copied ? <Check size={14} /> : <Copy size={14} />}
     </button>

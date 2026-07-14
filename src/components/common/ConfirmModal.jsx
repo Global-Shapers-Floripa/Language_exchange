@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import "./ConfirmModal.css";
 
 // Modal de confirmação genérico para ações destrutivas/importantes —
@@ -6,12 +7,16 @@ import "./ConfirmModal.css";
 const ConfirmModal = ({
   title,
   message,
-  confirmText = "Confirmar",
-  cancelText = "Cancelar",
+  confirmText,
+  cancelText,
   onConfirm,
   onClose,
 }) => {
+  const { t } = useTranslation("dashboard");
   const [isConfirming, setIsConfirming] = useState(false);
+
+  const effectiveConfirmText = confirmText || t("confirmModal.confirm");
+  const effectiveCancelText = cancelText || t("confirmModal.cancel");
 
   const handleConfirm = async () => {
     setIsConfirming(true);
@@ -37,14 +42,14 @@ const ConfirmModal = ({
             onClick={onClose}
             disabled={isConfirming}
           >
-            {cancelText}
+            {effectiveCancelText}
           </button>
           <button
             className="btn btn-danger"
             onClick={handleConfirm}
             disabled={isConfirming}
           >
-            {isConfirming ? "Aguarde..." : confirmText}
+            {isConfirming ? t("confirmModal.confirming") : effectiveConfirmText}
           </button>
         </div>
       </div>

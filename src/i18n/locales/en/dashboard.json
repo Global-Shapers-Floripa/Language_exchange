@@ -16,5 +16,27 @@
     "greetingPrefix": "Hi,",
     "editPhoto": "Edit"
   },
-  "defaultUserName": "User"
+  "defaultUserName": "User",
+  "searchableSelect": {
+    "placeholder": "Select...",
+    "searchPlaceholder": "Search...",
+    "noOptions": "No options found",
+    "selectedCount": "{{count}} selected"
+  },
+  "tagSelect": {
+    "placeholder": "Select...",
+    "noResults": "No results"
+  },
+  "confirmModal": {
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "confirming": "Please wait..."
+  },
+  "copyButton": {
+    "copyLabel": "Copy {{label}}",
+    "copy": "Copy"
+  },
+  "personAvatar": {
+    "defaultAlt": "Profile photo"
+  }
 }
