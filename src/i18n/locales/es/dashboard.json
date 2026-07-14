@@ -34,7 +34,8 @@
   },
   "copyButton": {
     "copyLabel": "Copiar {{label}}",
-    "copy": "Copiar"
+    "copy": "Copiar",
+    "copied": "¡Copiado!"
   },
   "personAvatar": {
     "defaultAlt": "Foto de perfil"
@@ -182,5 +183,77 @@
     "loading": "Cargando feed...",
     "loadError": "Error al cargar el feed: {{error}}",
     "empty": "Todavía no hay sesiones públicas. Cuando alguien haga una sesión pública, aparecerá aquí."
+  },
+  "resourcesPage": {
+    "title": "Recursos y Guía",
+    "accessNow": "Acceder ahora",
+    "recommendedToolsTitle": "Herramientas Recomendadas",
+    "downloadPdf": "Descargar PDF",
+    "tools": {
+      "googleMeet": "Ideal para hacer videollamadas con tu compañero de idioma. Funciona directamente en el navegador, sin necesidad de instalación.",
+      "googleAgenda": "Úsalo para programar sesiones de conversación, recibir recordatorios automáticos y no olvidar tus encuentros.",
+      "deepl": "Excelente para traducir frases completas manteniendo el contexto y la naturalidad. Muy útil durante el estudio.",
+      "reverso": "Ayuda a entender cómo se usan las palabras y expresiones en situaciones reales mediante ejemplos contextualizados.",
+      "youglish": "Permite escuchar la pronunciación correcta de palabras y expresiones en videos reales de hablantes nativos.",
+      "worldTimeBuddy": "Facilita encontrar horarios compatibles cuando tú y tu compañero están en países y zonas horarias diferentes."
+    }
+  },
+  "helpPage": {
+    "title": "Centro de Ayuda",
+    "subtitle": "Encuentra respuestas rápidas, herramientas útiles para tus conversaciones y canales para contactar a nuestro equipo.",
+    "faqTitle": "Preguntas Frecuentes",
+    "faqs": {
+      "match": {
+        "question": "¿Cómo encuentro una conexión compatible?",
+        "answer": "El sistema usa los idiomas que hablas, los idiomas que quieres aprender y tus intereses para sugerir personas con mayor compatibilidad."
+      },
+      "logSessions": {
+        "question": "¿Necesito registrar todas las sesiones?",
+        "answer": "No es obligatorio, pero recomendamos registrar tus sesiones para hacer seguimiento de tu evolución e historial de práctica."
+      },
+      "multipleLanguages": {
+        "question": "¿Puedo practicar más de un idioma?",
+        "answer": "Sí. Puedes agregar varios idiomas a tu perfil y encontrar conexiones para cada uno."
+      },
+      "editInfo": {
+        "question": "¿Cómo cambio mi información?",
+        "answer": "Entra a Mi Perfil y haz clic en el botón de edición para actualizar tu foto, descripción, idiomas e intereses."
+      },
+      "report": {
+        "question": "¿Cómo denuncio un comportamiento inadecuado?",
+        "answer": "Contacta a nuestro equipo a través de los canales de soporte, indicando lo ocurrido y los detalles necesarios."
+      },
+      "deleteSession": {
+        "question": "¿Puedo eliminar una sesión registrada?",
+        "answer": "Sí. En la página Mis Sesiones, abre los detalles de la sesión y usa la opción de eliminar."
+      }
+    },
+    "moreHelpTitle": "¿Necesitas más ayuda?",
+    "moreHelpText": "Si no encontraste tu respuesta arriba, contacta a nuestro equipo.",
+    "supportEmailLabel": "Email de soporte"
+  },
+  "projectPartnersPage": {
+    "subtitle": "Conoce los proyectos que forman parte de nuestra red. Pronto, nuevas alianzas por aquí.",
+    "viewMore": "Ver más",
+    "projects": {
+      "escolaIdiomas": {
+        "title": "Escuela de Idiomas Shapers",
+        "description": "Aprende idiomas a través de experiencias reales y conexiones humanas, de forma 100% gratuita y colaborativa.",
+        "longDescription": "Programa colaborativo y gratuito de intercambio de idiomas: sesiones semanales de conversación, dinámicas prácticas e integración intercultural. Cada participante enseña y aprende al mismo tiempo.",
+        "linkLabel": "Completar formulario"
+      }
+    }
+  },
+  "reportIssueModal": {
+    "title": "Estamos aquí para escucharte",
+    "paragraph1": "Si algo en una conversación o sesión te hizo sentir incómodo/a — falta de respeto, comportamiento inadecuado o cualquier cosa que no coincida con lo que espera nuestra comunidad — queremos saberlo.",
+    "paragraph2": "Todo relato se trata con cuidado y confidencialidad. Nuestro equipo analiza la situación con calma y, si es necesario, se pone en contacto para entender mejor lo ocurrido. Ningún relato es demasiado pequeño — si algo te incomodó, vale la pena contárnoslo.",
+    "emailPrompt": "Envíanos un correo:",
+    "emailWord": "email"
+  },
+  "reportBanner": {
+    "title": "¿Necesitas hablar con nosotros?",
+    "text": "Si algo en una conversación o sesión te hizo sentir incómodo/a o fuera de lo que espera nuestra comunidad, cuéntanos. Todo relato se trata con cuidado y confidencialidad.",
+    "cta": "Quiero reportar algo"
   }
 }

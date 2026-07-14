@@ -34,7 +34,8 @@
   },
   "copyButton": {
     "copyLabel": "Copiar {{label}}",
-    "copy": "Copiar"
+    "copy": "Copiar",
+    "copied": "Copiado!"
   },
   "personAvatar": {
     "defaultAlt": "Foto de perfil"
@@ -182,5 +183,77 @@
     "loading": "Carregando feed...",
     "loadError": "Erro ao carregar o feed: {{error}}",
     "empty": "Nenhuma sessão pública ainda. Quando alguém tornar uma sessão pública, ela aparece aqui."
+  },
+  "resourcesPage": {
+    "title": "Recursos & Guia",
+    "accessNow": "Acessar agora",
+    "recommendedToolsTitle": "Ferramentas Recomendadas",
+    "downloadPdf": "Baixar PDF",
+    "tools": {
+      "googleMeet": "Ideal para realizar chamadas de vídeo com seu parceiro de idioma. Funciona diretamente no navegador e não exige instalação.",
+      "googleAgenda": "Use para marcar sessões de conversação, receber lembretes automáticos e evitar esquecer seus encontros.",
+      "deepl": "Excelente para traduzir frases completas mantendo contexto e naturalidade. Muito útil durante os estudos.",
+      "reverso": "Ajuda a entender como palavras e expressões são usadas em situações reais através de exemplos contextualizados.",
+      "youglish": "Permite ouvir a pronúncia correta de palavras e expressões em vídeos reais de falantes nativos.",
+      "worldTimeBuddy": "Facilita encontrar horários compatíveis quando você e seu parceiro estão em países e fusos diferentes."
+    }
+  },
+  "helpPage": {
+    "title": "Central de Ajuda",
+    "subtitle": "Encontre respostas rápidas, ferramentas úteis para suas conversas e canais para entrar em contato com nossa equipe.",
+    "faqTitle": "Perguntas Frequentes",
+    "faqs": {
+      "match": {
+        "question": "Como encontrar uma conexão compatível?",
+        "answer": "O sistema utiliza os idiomas que você fala, os idiomas que deseja aprender e seus interesses para sugerir pessoas com maior compatibilidade."
+      },
+      "logSessions": {
+        "question": "Preciso registrar todas as sessões?",
+        "answer": "Não é obrigatório, mas recomendamos registrar suas sessões para acompanhar sua evolução e histórico de prática."
+      },
+      "multipleLanguages": {
+        "question": "Posso praticar mais de um idioma?",
+        "answer": "Sim. Você pode adicionar múltiplos idiomas ao seu perfil e encontrar conexões para cada um deles."
+      },
+      "editInfo": {
+        "question": "Como alterar minhas informações?",
+        "answer": "Acesse Meu Perfil e clique no botão de edição para atualizar foto, descrição, idiomas e interesses."
+      },
+      "report": {
+        "question": "Como denunciar um comportamento inadequado?",
+        "answer": "Entre em contato com nossa equipe através dos canais de suporte informando o ocorrido e os detalhes necessários."
+      },
+      "deleteSession": {
+        "question": "Posso excluir uma sessão registrada?",
+        "answer": "Sim. Na página Minhas Sessões basta abrir os detalhes da sessão e utilizar a opção de exclusão."
+      }
+    },
+    "moreHelpTitle": "Precisa de mais ajuda?",
+    "moreHelpText": "Caso não encontre sua resposta acima, entre em contato com nossa equipe.",
+    "supportEmailLabel": "E-mail de suporte"
+  },
+  "projectPartnersPage": {
+    "subtitle": "Conheça os projetos que fazem parte da nossa rede. Em breve, novas parcerias por aqui.",
+    "viewMore": "Ver mais",
+    "projects": {
+      "escolaIdiomas": {
+        "title": "Escola de Idiomas Shapers",
+        "description": "Aprenda idiomas através de experiências reais e conexões humanas, de forma 100% gratuita e colaborativa.",
+        "longDescription": "Programa colaborativo e gratuito de troca de idiomas: sessões semanais de conversação, dinâmicas práticas e integração intercultural. Cada participante ensina e aprende ao mesmo tempo.",
+        "linkLabel": "Preencher formulário"
+      }
+    }
+  },
+  "reportIssueModal": {
+    "title": "Estamos aqui pra te ouvir",
+    "paragraph1": "Se algo numa conversa ou sessão te deixou desconfortável — desrespeito, comportamento inadequado ou qualquer coisa que não condiz com o que a nossa comunidade espera — queremos saber.",
+    "paragraph2": "Todo relato é tratado com cuidado e sigilo. Nossa equipe analisa a situação com calma e, se for preciso, entra em contato pra entender melhor o que aconteceu. Não existe relato pequeno demais — se algo te incomodou, vale a pena nos contar.",
+    "emailPrompt": "Manda um e-mail pra gente:",
+    "emailWord": "e-mail"
+  },
+  "reportBanner": {
+    "title": "Precisa falar com a gente?",
+    "text": "Se algo numa conversa ou sessão te deixou desconfortável ou fora do que a nossa comunidade espera, conta pra gente. Todo relato é tratado com cuidado e sigilo.",
+    "cta": "Quero reportar algo"
   }
 }

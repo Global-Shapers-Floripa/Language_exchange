@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { X, ShieldAlert } from "lucide-react";
 import "./ReportBanner.css";
 
@@ -7,6 +8,7 @@ const STORAGE_KEY = "reportBannerClosed";
 // Mesmo design/estrutura do WhatsAppBanner (layout, cores, espaçamento) —
 // só muda texto, ícone e ação (abre o ReportIssueModal em vez de um link externo).
 const ReportBanner = ({ onReportClick }) => {
+  const { t } = useTranslation("dashboard");
   const [closed, setClosed] = useState(
     () => sessionStorage.getItem(STORAGE_KEY) === "true",
   );
@@ -25,18 +27,16 @@ const ReportBanner = ({ onReportClick }) => {
       <button
         className="report-banner-close"
         onClick={handleClose}
-        aria-label="Fechar"
+        aria-label={t("whatsAppBanner.close")}
       >
         <X size={12} />
       </button>
 
       <div className="report-banner-content">
         <div className="report-banner-text">
-          <h2>Precisa falar com a gente?</h2>
+          <h2>{t("reportBanner.title")}</h2>
           <p>
-            Se algo numa conversa ou sessão te deixou desconfortável ou fora
-            do que a nossa comunidade espera, conta pra gente. Todo relato é
-            tratado com cuidado e sigilo.
+            {t("reportBanner.text")}
           </p>
         </div>
 
@@ -46,7 +46,7 @@ const ReportBanner = ({ onReportClick }) => {
           onClick={onReportClick}
         >
           <ShieldAlert width={28} height={28} />
-          Quero reportar algo
+          {t("reportBanner.cta")}
         </button>
       </div>
     </div>

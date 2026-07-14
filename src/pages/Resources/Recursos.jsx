@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import {
   Book,
@@ -23,77 +24,75 @@ import {
 } from "lucide-react";
 
 const Resources = () => {
+  const { t } = useTranslation("dashboard");
   const [selectedResource, setSelectedResource] = useState(null);
 
-  // Exatamente 4 recursos mapeando para os 4 PDFs da sua pasta
+  // Exatamente 4 recursos mapeando para os 4 PDFs da sua pasta — mesmo
+  // conteúdo (título/descrição) da prévia em Dashboard.jsx, então reaproveita
+  // as chaves de dashboardPage.resourcesPreview.items em vez de duplicar.
   const resourceList = [
     {
-      title: "Feedback e Práticas",
-      desc: "Como se comportar na primeira sessão e garantir um match saudável.",
+      title: t("dashboardPage.resourcesPreview.items.feedback.title"),
+      desc: t("dashboardPage.resourcesPreview.items.feedback.desc"),
       icon: <Book size={24} className="icon-blue" />,
       pdfUrl: "/Recursos-PDF/guia-feedback.pdf",
     },
     {
-      title: "Quebra-gelos",
-      desc: "Mais de 50 perguntas para nunca deixar o assunto morrer.",
+      title: t("dashboardPage.resourcesPreview.items.icebreakers.title"),
+      desc: t("dashboardPage.resourcesPreview.items.icebreakers.desc"),
       icon: <MessageCircle size={24} className="icon-purple" />,
       pdfUrl: "/Recursos-PDF/quebragelos.pdf",
     },
     {
-      title: "Toolkit de Tradução",
-      desc: "Ferramentas recomendadas para usar durante a conversa.",
+      title: t("dashboardPage.resourcesPreview.items.translationToolkit.title"),
+      desc: t("dashboardPage.resourcesPreview.items.translationToolkit.desc"),
       icon: <Globe size={24} className="icon-green" />,
       pdfUrl: "/Recursos-PDF/traducoes.pdf",
     },
     {
-      title: "Agendamento Eficaz",
-      desc: "Como lidar com diferentes fusos horários globalmente.",
+      title: t("dashboardPage.resourcesPreview.items.scheduling.title"),
+      desc: t("dashboardPage.resourcesPreview.items.scheduling.desc"),
       icon: <Calendar size={24} className="icon-orange" />,
       pdfUrl: "/Recursos-PDF/guia-agendamento.pdf",
     },
   ];
 
+  // Nomes de ferramentas são marcas/nomes próprios — não traduzidos, só a descrição.
   const tools = [
     {
       name: "Google Meet",
       icon: <Video size={22} />,
-      description:
-        "Ideal para realizar chamadas de vídeo com seu parceiro de idioma. Funciona diretamente no navegador e não exige instalação.",
+      description: t("resourcesPage.tools.googleMeet"),
       link: "https://meet.google.com",
     },
     {
       name: "Google Agenda",
       icon: <Calendar size={22} />,
-      description:
-        "Use para marcar sessões de conversação, receber lembretes automáticos e evitar esquecer seus encontros.",
+      description: t("resourcesPage.tools.googleAgenda"),
       link: "https://calendar.google.com",
     },
     {
       name: "DeepL Translator",
       icon: <Languages size={22} />,
-      description:
-        "Excelente para traduzir frases completas mantendo contexto e naturalidade. Muito útil durante os estudos.",
+      description: t("resourcesPage.tools.deepl"),
       link: "https://www.deepl.com",
     },
     {
       name: "Reverso Context",
       icon: <BookOpen size={22} />,
-      description:
-        "Ajuda a entender como palavras e expressões são usadas em situações reais através de exemplos contextualizados.",
+      description: t("resourcesPage.tools.reverso"),
       link: "https://context.reverso.net",
     },
     {
       name: "YouGlish",
       icon: <Volume2 size={22} />,
-      description:
-        "Permite ouvir a pronúncia correta de palavras e expressões em vídeos reais de falantes nativos.",
+      description: t("resourcesPage.tools.youglish"),
       link: "https://youglish.com",
     },
     {
       name: "World Time Buddy",
       icon: <Clock3 size={22} />,
-      description:
-        "Facilita encontrar horários compatíveis quando você e seu parceiro estão em países e fusos diferentes.",
+      description: t("resourcesPage.tools.worldTimeBuddy"),
       link: "https://www.worldtimebuddy.com",
     },
   ];
@@ -101,7 +100,7 @@ const Resources = () => {
   return (
     <DashboardLayout>
       <div className="resources-header">
-        <h2>Recursos & Guia</h2>
+        <h2>{t("resourcesPage.title")}</h2>
       </div>
 
       <div className="resources-grid">
@@ -133,7 +132,7 @@ const Resources = () => {
                   className="btn btn-ghost resource-link"
                   onClick={() => setSelectedResource(item)}
                 >
-                  Acessar agora <ExternalLink size={14} />
+                  {t("resourcesPage.accessNow")} <ExternalLink size={14} />
                 </button>
 
                
@@ -145,7 +144,7 @@ const Resources = () => {
 
       {/* RECURSOS */}
       <div className="resource-help-card">
-          <h2>Ferramentas Recomendadas</h2>
+          <h2>{t("resourcesPage.recommendedToolsTitle")}</h2>
 
         <div className="tools-grid">
           {tools.map((tool, index) => (
@@ -210,7 +209,7 @@ const Resources = () => {
                 download
                 className="modal-download-action"
               >
-                <Download size={18} /> Baixar PDF
+                <Download size={18} /> {t("resourcesPage.downloadPdf")}
               </a>
             </div>
           </div>

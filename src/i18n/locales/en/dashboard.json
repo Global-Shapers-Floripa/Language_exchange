@@ -34,7 +34,8 @@
   },
   "copyButton": {
     "copyLabel": "Copy {{label}}",
-    "copy": "Copy"
+    "copy": "Copy",
+    "copied": "Copied!"
   },
   "personAvatar": {
     "defaultAlt": "Profile photo"
@@ -182,5 +183,77 @@
     "loading": "Loading feed...",
     "loadError": "Error loading the feed: {{error}}",
     "empty": "No public sessions yet. When someone makes a session public, it shows up here."
+  },
+  "resourcesPage": {
+    "title": "Resources & Guide",
+    "accessNow": "Access now",
+    "recommendedToolsTitle": "Recommended Tools",
+    "downloadPdf": "Download PDF",
+    "tools": {
+      "googleMeet": "Great for video calls with your language partner. Works directly in the browser, no installation needed.",
+      "googleAgenda": "Use it to schedule conversation sessions, get automatic reminders, and never forget your meetups.",
+      "deepl": "Excellent for translating full sentences while keeping context and natural phrasing. Very useful while studying.",
+      "reverso": "Helps you understand how words and expressions are used in real situations through contextual examples.",
+      "youglish": "Lets you hear the correct pronunciation of words and expressions in real videos from native speakers.",
+      "worldTimeBuddy": "Makes it easy to find compatible times when you and your partner are in different countries and time zones."
+    }
+  },
+  "helpPage": {
+    "title": "Help Center",
+    "subtitle": "Find quick answers, useful tools for your conversations, and channels to reach our team.",
+    "faqTitle": "Frequently Asked Questions",
+    "faqs": {
+      "match": {
+        "question": "How do I find a compatible connection?",
+        "answer": "The system uses the languages you speak, the languages you want to learn, and your interests to suggest people with the highest compatibility."
+      },
+      "logSessions": {
+        "question": "Do I need to log every session?",
+        "answer": "It's not required, but we recommend logging your sessions to track your progress and practice history."
+      },
+      "multipleLanguages": {
+        "question": "Can I practice more than one language?",
+        "answer": "Yes. You can add multiple languages to your profile and find connections for each one."
+      },
+      "editInfo": {
+        "question": "How do I change my information?",
+        "answer": "Go to My Profile and click the edit button to update your photo, description, languages, and interests."
+      },
+      "report": {
+        "question": "How do I report inappropriate behavior?",
+        "answer": "Contact our team through the support channels, letting us know what happened and any relevant details."
+      },
+      "deleteSession": {
+        "question": "Can I delete a logged session?",
+        "answer": "Yes. On the My Sessions page, just open the session details and use the delete option."
+      }
+    },
+    "moreHelpTitle": "Need more help?",
+    "moreHelpText": "If you couldn't find your answer above, get in touch with our team.",
+    "supportEmailLabel": "Support email"
+  },
+  "projectPartnersPage": {
+    "subtitle": "Discover the projects that are part of our network. New partnerships coming soon.",
+    "viewMore": "View more",
+    "projects": {
+      "escolaIdiomas": {
+        "title": "Shapers Language School",
+        "description": "Learn languages through real experiences and human connections, 100% free and collaborative.",
+        "longDescription": "A free, collaborative language exchange program: weekly conversation sessions, practical activities, and cross-cultural integration. Each participant teaches and learns at the same time.",
+        "linkLabel": "Fill out the form"
+      }
+    }
+  },
+  "reportIssueModal": {
+    "title": "We're here to listen",
+    "paragraph1": "If something in a conversation or session made you uncomfortable — disrespect, inappropriate behavior, or anything that doesn't match what our community expects — we want to know.",
+    "paragraph2": "Every report is handled with care and confidentiality. Our team reviews the situation calmly and, if needed, reaches out to better understand what happened. No report is too small — if something bothered you, it's worth telling us.",
+    "emailPrompt": "Send us an email:",
+    "emailWord": "email"
+  },
+  "reportBanner": {
+    "title": "Need to talk to us?",
+    "text": "If something in a conversation or session made you uncomfortable or outside what our community expects, let us know. Every report is handled with care and confidentiality.",
+    "cta": "I want to report something"
   }
 }

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Copy, Check } from "lucide-react";
 import "./ReportIssueModal.css";
 
 const SUPPORT_EMAIL = "globalshapersflorianopolis@gmail.com";
 
 const ReportIssueModal = ({ onClose }) => {
+  const { t } = useTranslation("dashboard");
   const [copied, setCopied] = useState(false);
 
   const handleCopyEmail = async () => {
@@ -24,26 +26,21 @@ const ReportIssueModal = ({ onClose }) => {
           ✕
         </button>
 
-        <h2>Estamos aqui pra te ouvir</h2>
+        <h2>{t("reportIssueModal.title")}</h2>
 
         <p>
-          Se algo numa conversa ou sessão te deixou desconfortável —
-          desrespeito, comportamento inadequado ou qualquer coisa que não
-          condiz com o que a nossa comunidade espera — queremos saber.
+          {t("reportIssueModal.paragraph1")}
         </p>
         <p>
-          Todo relato é tratado com cuidado e sigilo. Nossa equipe analisa a
-          situação com calma e, se for preciso, entra em contato pra entender
-          melhor o que aconteceu. Não existe relato pequeno demais — se algo
-          te incomodou, vale a pena nos contar.
+          {t("reportIssueModal.paragraph2")}
         </p>
-        <p>Manda um e-mail pra gente:</p>
+        <p>{t("reportIssueModal.emailPrompt")}</p>
 
         <div className="report-issue-email-box">
           <span className="report-issue-email">{SUPPORT_EMAIL}</span>
           <button className="btn btn-primary" onClick={handleCopyEmail}>
             {copied ? <Check size={16} /> : <Copy size={16} />}
-            {copied ? "Copiado!" : "Copiar e-mail"}
+            {copied ? t("copyButton.copied") : t("copyButton.copyLabel", { label: t("reportIssueModal.emailWord") })}
           </button>
         </div>
       </div>

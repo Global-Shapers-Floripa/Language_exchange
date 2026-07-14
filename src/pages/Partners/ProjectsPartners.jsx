@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import DashboardLayout from "../../components/layout/DashboardLayout";
 
@@ -8,31 +9,32 @@ import "./ProjectsPartners.css";
 
 // Grid de projetos parceiros — hoje só temos a Escola de Idiomas, mas a ideia
 // é ir adicionando novos projetos aqui conforme surgirem novas parcerias.
-const projects = [
+// Recebe `t` (useTranslation "dashboard") porque é definida fora do
+// componente, sem acesso direto ao hook.
+const getProjects = (t) => [
   {
-    title: "Escola de Idiomas Shapers",
-    description:
-      "Aprenda idiomas através de experiências reais e conexões humanas, de forma 100% gratuita e colaborativa.",
-    longDescription:
-      "Programa colaborativo e gratuito de troca de idiomas: sessões semanais de conversação, dinâmicas práticas e integração intercultural. Cada participante ensina e aprende ao mesmo tempo.",
+    title: t("projectPartnersPage.projects.escolaIdiomas.title"),
+    description: t("projectPartnersPage.projects.escolaIdiomas.description"),
+    longDescription: t("projectPartnersPage.projects.escolaIdiomas.longDescription"),
     icon: <Globe size={26} />,
     link: "https://docs.google.com/forms/d/e/1FAIpQLSdAXZ1FhX2bD9epsttu40BGp_D_Ao7rEWLw6lw4XaTj-CsuPA/viewform?usp=publish-editor",
-    linkLabel: "Preencher formulário",
+    linkLabel: t("projectPartnersPage.projects.escolaIdiomas.linkLabel"),
     themeClass: "card-orange",
   },
 ];
 
 const ProjectPartners = () => {
+  const { t } = useTranslation("dashboard");
   const [selectedProject, setSelectedProject] = useState(null);
+  const projects = getProjects(t);
 
   return (
     <DashboardLayout>
       <div className="projects-page">
         <div className="projects-header">
-          <h2>Parceiros</h2>
+          <h2>{t("sidebar.projectPartners")}</h2>
           <p>
-            Conheça os projetos que fazem parte da nossa rede. Em breve, novas
-            parcerias por aqui.
+            {t("projectPartnersPage.subtitle")}
           </p>
         </div>
 
@@ -47,7 +49,7 @@ const ProjectPartners = () => {
                 className="project-card-link"
                 onClick={() => setSelectedProject(project)}
               >
-                Ver mais <ArrowUpRight size={16} />
+                {t("projectPartnersPage.viewMore")} <ArrowUpRight size={16} />
               </button>
             </div>
           ))}

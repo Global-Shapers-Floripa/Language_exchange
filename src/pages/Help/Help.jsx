@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import {
   HelpCircle,
@@ -18,38 +19,33 @@ import {
 import "./help.css";
 
 const Help = () => {
+  const { t } = useTranslation("dashboard");
   const [activeIndex, setActiveIndex] = useState(null);
 
   const faqs = [
     {
-      question: "Como encontrar uma conexão compatível?",
-      answer:
-        "O sistema utiliza os idiomas que você fala, os idiomas que deseja aprender e seus interesses para sugerir pessoas com maior compatibilidade.",
+      question: t("helpPage.faqs.match.question"),
+      answer: t("helpPage.faqs.match.answer"),
     },
     {
-      question: "Preciso registrar todas as sessões?",
-      answer:
-        "Não é obrigatório, mas recomendamos registrar suas sessões para acompanhar sua evolução e histórico de prática.",
+      question: t("helpPage.faqs.logSessions.question"),
+      answer: t("helpPage.faqs.logSessions.answer"),
     },
     {
-      question: "Posso praticar mais de um idioma?",
-      answer:
-        "Sim. Você pode adicionar múltiplos idiomas ao seu perfil e encontrar conexões para cada um deles.",
+      question: t("helpPage.faqs.multipleLanguages.question"),
+      answer: t("helpPage.faqs.multipleLanguages.answer"),
     },
     {
-      question: "Como alterar minhas informações?",
-      answer:
-        "Acesse Meu Perfil e clique no botão de edição para atualizar foto, descrição, idiomas e interesses.",
+      question: t("helpPage.faqs.editInfo.question"),
+      answer: t("helpPage.faqs.editInfo.answer"),
     },
     {
-      question: "Como denunciar um comportamento inadequado?",
-      answer:
-        "Entre em contato com nossa equipe através dos canais de suporte informando o ocorrido e os detalhes necessários.",
+      question: t("helpPage.faqs.report.question"),
+      answer: t("helpPage.faqs.report.answer"),
     },
     {
-      question: "Posso excluir uma sessão registrada?",
-      answer:
-        "Sim. Na página Minhas Sessões basta abrir os detalhes da sessão e utilizar a opção de exclusão.",
+      question: t("helpPage.faqs.deleteSession.question"),
+      answer: t("helpPage.faqs.deleteSession.answer"),
     },
   ];
 
@@ -62,10 +58,9 @@ const Help = () => {
     <DashboardLayout>
       <div className="help-container">
         <div className="help-header">
-          <h2>Central de Ajuda</h2>
+          <h2>{t("helpPage.title")}</h2>
           <p>
-            Encontre respostas rápidas, ferramentas úteis para suas conversas e
-            canais para entrar em contato com nossa equipe.
+            {t("helpPage.subtitle")}
           </p>
         </div>
 
@@ -73,7 +68,7 @@ const Help = () => {
         <div className="card card--help help-card">
           <div className="section-title">
             <HelpCircle size={22} />
-            <h3>Perguntas Frequentes</h3>
+            <h3>{t("helpPage.faqTitle")}</h3>
           </div>
 
           <div className="faq-list">
@@ -108,11 +103,10 @@ const Help = () => {
 
         {/* CONTATO */}
         <section className="help-contact-section">
-          <h3>Precisa de mais ajuda?</h3>
+          <h3>{t("helpPage.moreHelpTitle")}</h3>
 
           <p>
-            Caso não encontre sua resposta acima, entre em contato com nossa
-            equipe.
+            {t("helpPage.moreHelpText")}
           </p>
 
           <div className="contact-info-card">
@@ -120,7 +114,7 @@ const Help = () => {
               <Mail size={20} />
             </div>
             <div>
-              <span>E-mail de suporte</span>
+              <span>{t("helpPage.supportEmailLabel")}</span>
               <strong>Globalshapersflorianopolis@gmail.com</strong>
             </div>
           </div>
