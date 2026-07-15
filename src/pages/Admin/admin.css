@@ -245,6 +245,165 @@
 }
 
 /* =========================
+   MAPA DE BANDEIRAS (PAÍSES DE ORIGEM) — específico do Admin, não reaproveita
+   as classes country-flags-grid/country-flag-item de edit-profile.css
+========================= */
+.admin-country-map-card {
+  grid-column: 1 / -1;
+}
+
+.admin-country-map-total {
+  font-size: 0.85rem;
+  color: #78716c;
+  margin: 0 0 16px;
+}
+
+.admin-country-flags-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
+  gap: 8px;
+}
+
+.admin-country-flag-item {
+  appearance: none;
+  font: inherit;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border: 1px solid #f5f5f4;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.admin-country-flag-item.unlocked:hover {
+  transform: scale(1.06);
+  border-color: #e7e5e4;
+}
+
+.admin-country-flag-item.locked {
+  cursor: default;
+}
+
+.admin-country-flag-item.locked .admin-country-flag-img {
+  filter: grayscale(100%);
+  opacity: 0.4;
+}
+
+.admin-country-flag-img {
+  width: 36px;
+  height: auto;
+  border-radius: 2px;
+}
+
+.admin-country-flag-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: #44403c;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* MODAL: PESSOAS DE UM PAÍS DE ORIGEM (Mapa de Bandeiras do Admin) —
+   estilo próprio, mesmo padrão visual do country-modal de edit-profile.css,
+   mas sem herdar as classes de lá */
+.admin-country-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.admin-country-modal {
+  width: 100%;
+  max-width: 400px;
+  max-height: 80vh;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-country-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-country-modal-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #1c1917;
+}
+
+.admin-country-modal-flag {
+  width: 40px;
+  height: 28px;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.admin-country-modal-people-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 420px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-country-modal-people-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f5f5f4;
+}
+
+.admin-country-modal-people-list li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.admin-country-modal-person-name {
+  font-weight: 600;
+  color: #1c1917;
+}
+
+.admin-country-modal-person-hub {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--brand-orange, #FF8400);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.admin-country-modal .btn {
+  align-self: flex-end;
+}
+
+/* =========================
    CABEÇALHO DA TABELA
 ========================= */
 .management-header {
