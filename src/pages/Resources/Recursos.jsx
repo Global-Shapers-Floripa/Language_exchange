@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import DashboardLayout from "../../components/layout/DashboardLayout";
+import ProficiencyTestBanner from "../../components/common/ProficiencyTestBanner";
 import {
   Book,
   MessageCircle,
@@ -102,6 +103,8 @@ const Resources = () => {
       <div className="resources-header">
         <h2>{t("resourcesPage.title")}</h2>
       </div>
+
+      <ProficiencyTestBanner />
 
       <div className="resources-grid">
         {resourceList.map((item, index) => {

@@ -1,0 +1,123 @@
+/* Mesma estrutura/paleta do WhatsAppBanner.css, sem o botão de fechar (X) —
+   este banner é permanente, sempre visível. */
+.proficiency-test-banner {
+  background: var(--brand-orange);
+  border-radius: 20px;
+  padding: 20px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: self-start;
+  justify-content: center;
+  gap: 10px;
+  color: white;
+
+  background-image: radial-gradient(
+    color-mix(in srgb, rgb(252, 216, 196) 30%, transparent) 1.5px,
+    transparent 1.5px
+  );
+  background-size: 10px 10px;
+
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+  padding-left: 90px;
+}
+
+.proficiency-test-banner-decor {
+  position: absolute;
+  bottom: -8px;
+  left: -6px;
+  width: 75px;
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.proficiency-test-banner-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.proficiency-test-banner-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.proficiency-test-banner-text h2 {
+  font-family: var(--font-title);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgb(255, 255, 255);
+  font-size: 1.2rem;
+  line-height: 1;
+  margin-bottom: 5px;
+}
+
+.proficiency-test-banner-text p {
+  color: rgba(255, 255, 255, 0.856);
+  font-size: 0.9rem;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.proficiency-test-banner-cta {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--dark-navy);
+  color: white;
+  font-weight: 700;
+  border-radius: 12px;
+  padding: 10px 15px;
+  margin-right: 20px;
+  white-space: nowrap;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(255, 132, 0, 0.35);
+}
+
+.proficiency-test-banner-cta:hover {
+  background-color: #03243f;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  /* Faixa fina no mobile: só título + botão (sem o parágrafo explicativo),
+     sem a folga lateral reservada pra ilustração em tamanho desktop. */
+  .proficiency-test-banner {
+    padding: 10px 14px;
+    padding-left: 14px;
+  }
+
+  .proficiency-test-banner-decor {
+    width: 44px;
+    opacity: 0.35;
+  }
+
+  .proficiency-test-banner-content {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    text-align: left;
+  }
+
+  .proficiency-test-banner-text p {
+    display: none;
+  }
+
+  .proficiency-test-banner-text h2 {
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+  }
+
+  .proficiency-test-banner-cta {
+    width: auto;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    margin-right: 4px;
+  }
+}
