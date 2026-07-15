@@ -237,7 +237,9 @@
     },
     "moreHelpTitle": "¿Necesitas más ayuda?",
     "moreHelpText": "Si no encontraste tu respuesta arriba, contacta a nuestro equipo.",
-    "supportEmailLabel": "Email de soporte"
+    "supportEmailLabel": "Email de soporte",
+    "ticketFormLabel": "Formulario de soporte",
+    "ticketFormCta": "Reportar un error, sugerir una mejora o hacer una pregunta"
   },
   "projectPartnersPage": {
     "subtitle": "Conoce los proyectos que forman parte de nuestra red. Pronto, nuevas alianzas por aquí.",

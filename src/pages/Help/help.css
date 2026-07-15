@@ -219,6 +219,18 @@
     font-size: 15px;
 }
 
+.contact-info-card--link {
+    text-decoration: none;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.contact-info-card--link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 132, 0, 0.15);
+    border-color: var(--brand-orange);
+}
+
 .btn-whatsapp-contact {
     display: inline-flex;
     align-items: center;

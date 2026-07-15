@@ -119,7 +119,20 @@ const Help = () => {
             </div>
           </div>
 
-         
+          <a
+            href="https://forms.gle/mriY3yBHdPPHzrL2A"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="contact-info-card contact-info-card--link"
+          >
+            <div className="contact-icon-circle">
+              <MessageCircle size={20} />
+            </div>
+            <div>
+              <span>{t("helpPage.ticketFormLabel")}</span>
+              <strong>{t("helpPage.ticketFormCta")}</strong>
+            </div>
+          </a>
         </section>
       </div>
     </DashboardLayout>
