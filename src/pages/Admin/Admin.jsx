@@ -879,6 +879,7 @@ const Admin = () => {
                     alt="Comprovante"
                     className="session-proof"
                     onClick={() => setSelectedImage(session)}
+                    loading="lazy"
                   />
                 )}
               </div>
@@ -990,6 +991,7 @@ const Admin = () => {
               src={selectedImage.session_photo_url}
               alt="Comprovante"
               className="modal-session-image"
+              loading="lazy"
             />
 
             {/* O atributo `download` do <a> é ignorado pelo navegador em

@@ -38,7 +38,9 @@
     "copied": "¡Copiado!"
   },
   "personAvatar": {
-    "defaultAlt": "Foto de perfil"
+    "defaultAlt": "Foto de perfil",
+    "enlargedAlt": "Foto de perfil ampliada",
+    "closeModal": "Cerrar"
   },
   "sessions": {
     "title": "Mis Sesiones",
@@ -108,7 +110,7 @@
       "removePhoto": "Quitar foto",
       "photoPreviewAlt": "Vista previa de la sesión",
       "uploadPrompt": "Haz clic para seleccionar o arrastra una imagen",
-      "uploadHint": "PNG, JPEG, GIF o WebP hasta 5MB",
+      "uploadHint": "PNG, JPEG o WebP (redimensionado automáticamente) · GIF hasta 5MB",
       "saving": "Guardando...",
       "submit": "Registrar Sesión",
       "errors": {

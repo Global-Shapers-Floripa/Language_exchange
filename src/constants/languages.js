@@ -87,7 +87,14 @@ export const LANGUAGES = [
   { code: 'zh-cn', name: 'Mandarim' },
 ];
 
+// Teto final (pós-compressão) pra foto de sessão, e teto único (sem
+// compressão possível) pra GIF, que perderia a animação se passasse por
+// canvas — ver AddSessionModal.jsx/useAddSession.js.
 export const MAX_PHOTO_SIZE = 5 * 1024 * 1024; // 5MB
+// Teto de sanidade na SELEÇÃO do arquivo, antes da compressão — só pra evitar
+// travar o navegador com um arquivo absurdamente grande; fotos de celular
+// comuns (5-15MB) passam por aqui livremente e são reduzidas depois.
+export const MAX_UPLOAD_SANITY_SIZE = 20 * 1024 * 1024; // 20MB
 export const ALLOWED_PHOTO_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
 // profiles.speaks/profiles.learns armazenam o NOME em português (não o

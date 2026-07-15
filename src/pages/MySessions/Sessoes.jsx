@@ -222,7 +222,7 @@ const MySessions = () => {
               <div key={item.id} className="pending-approval-card">
                 <div className="pending-approval-thumb">
                   {item.session_photo_url ? (
-                    <img src={item.session_photo_url} alt={item.requester} />
+                    <img src={item.session_photo_url} alt={item.requester} loading="lazy" />
                   ) : (
                     <div className="pending-approval-thumb-placeholder">
                       {t("sessions.noPhoto")}
@@ -341,7 +341,11 @@ const MySessions = () => {
             >
               <X size={22} />
             </button>
-            <img src={selectedImage} alt={t("sessions.sessionExpandedAlt")} />
+            <img
+              src={selectedImage}
+              alt={t("sessions.sessionExpandedAlt")}
+              loading="lazy"
+            />
           </div>
         </div>
       )}
@@ -368,6 +372,7 @@ const MySessions = () => {
                   onClick={() =>
                     setSelectedImage(selectedSession.session_photo_url)
                   }
+                  loading="lazy"
                 />
                 <div className="details-image-badge">
                   {renderVisibilityBadge(selectedSession.status)}
