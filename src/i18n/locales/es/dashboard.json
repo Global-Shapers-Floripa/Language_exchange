@@ -196,6 +196,11 @@
       "reverso": "Ayuda a entender cómo se usan las palabras y expresiones en situaciones reales mediante ejemplos contextualizados.",
       "youglish": "Permite escuchar la pronunciación correcta de palabras y expresiones en videos reales de hablantes nativos.",
       "worldTimeBuddy": "Facilita encontrar horarios compatibles cuando tú y tu compañero están en países y zonas horarias diferentes."
+    },
+    "proficiencyTestBanner": {
+      "title": "¿Quieres saber tu nivel en un idioma?",
+      "text": "Haz un test gratuito y rápido, alineado con el estándar internacional CEFR — el mismo que usamos para los niveles A1 a C2 aquí en la plataforma. Disponible en varios idiomas diferentes.",
+      "cta": "Hacer el test"
     }
   },
   "helpPage": {

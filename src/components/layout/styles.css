@@ -446,7 +446,7 @@
 
   .main-content {
     border-radius: 0;
-    padding: 14px 20px 100px 20px; /* Padding inferior para não sumir atrás da nav bar */
+    padding: 5px 10px 80px 10px; /* Padding inferior para não sumir atrás da nav bar */
     box-shadow: none;
   }
 
@@ -463,8 +463,8 @@
      alinhar com o restante do conteúdo, só mantendo um respiro vertical
      pequeno em vez do espaço excessivo de antes. */
   .top-header {
-    margin-bottom: 24px;
-    padding: 8px 0;
+    margin-bottom: 5px;
+    padding: 5px 0;
   }
 
   .greeting-text {

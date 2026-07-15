@@ -196,6 +196,11 @@
       "reverso": "Helps you understand how words and expressions are used in real situations through contextual examples.",
       "youglish": "Lets you hear the correct pronunciation of words and expressions in real videos from native speakers.",
       "worldTimeBuddy": "Makes it easy to find compatible times when you and your partner are in different countries and time zones."
+    },
+    "proficiencyTestBanner": {
+      "title": "Want to know your level in a language?",
+      "text": "Take a free, quick test aligned with the international CEFR standard — the same one used for the A1 to C2 levels here on the platform. Available in several different languages.",
+      "cta": "Take the test"
     }
   },
   "helpPage": {
