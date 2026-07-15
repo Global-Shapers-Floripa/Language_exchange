@@ -105,7 +105,7 @@ const SessionCard = ({
     >
       <div className="session-card-v2-photo">
         {photoUrl ? (
-          <img src={photoUrl} alt={t("sessions.sessionCardPhotoAlt")} />
+          <img src={photoUrl} alt={t("sessions.sessionCardPhotoAlt")} loading="lazy" />
         ) : (
           <div className="session-card-v2-photo-placeholder">{t("sessions.noPhoto")}</div>
         )}

@@ -320,6 +320,7 @@ const DashboardLayout = ({ children }) => {
                     seed={userData.id}
                     name={userData.name}
                     className="avatar"
+                    clickable={false}
                   />
                   <div className="avatar-edit-overlay">
                     <svg

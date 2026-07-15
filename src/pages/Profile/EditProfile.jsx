@@ -19,7 +19,14 @@ import {
   formatLanguageLabel,
 } from "../../utils/languageLevel";
 import { getFlagUrl } from "../../utils/countryFlag";
+import { drawToResizedBlob } from "../../utils/imageResize";
 import { useCountryProgress } from "../../hooks/useCountryProgress";
+
+// Avatar é sempre um recorte quadrado (Cropper aspect={1}) exibido pequeno
+// (40-88px pela plataforma) — 500px de lado já é resolução de sobra, evita
+// enviar recortes de fotos de celular com vários MB desnecessariamente.
+const AVATAR_MAX_DIMENSION = 500;
+const AVATAR_JPEG_QUALITY = 0.85;
 
 import { supabase } from "../../services/supabaseClient";
 
@@ -271,28 +278,15 @@ const EditProfile = () => {
 
   const getCroppedImg = async (imageSrc, pixelCrop) => {
     const image = await createImage(imageSrc);
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
 
-    canvas.width = pixelCrop.width;
-    canvas.height = pixelCrop.height;
-
-    ctx.drawImage(
+    return drawToResizedBlob({
       image,
-      pixelCrop.x,
-      pixelCrop.y,
-      pixelCrop.width,
-      pixelCrop.height,
-      0,
-      0,
-      pixelCrop.width,
-      pixelCrop.height,
-    );
-
-    return new Promise((resolve) => {
-      canvas.toBlob((blob) => {
-        resolve(blob);
-      }, "image/jpeg");
+      sx: pixelCrop.x,
+      sy: pixelCrop.y,
+      sWidth: pixelCrop.width,
+      sHeight: pixelCrop.height,
+      maxDimension: AVATAR_MAX_DIMENSION,
+      quality: AVATAR_JPEG_QUALITY,
     });
   };
 
