@@ -219,6 +219,12 @@
   color: #2C6E9D; /* Cor dos ícones lucide */
 }
 
+.form-hint {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
 /* Botão de Solicitação: variação de largura/margem sobre o .btn-primary base */
 .login-side-form .btn-primary {
   width: 100%;

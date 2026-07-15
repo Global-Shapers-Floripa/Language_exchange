@@ -36,6 +36,10 @@ import "./edit-profile.css";
 
 const DESCRIPTION_MAX_LENGTH = 500;
 
+// Mesma fonte (EF) já usada e validada no ProficiencyTestBanner — aqui aponta
+// para a página que explica a escala CEFR A1-C2, não para o teste em si.
+const CEFR_INFO_LINK = "https://www.efset.org/cefr/";
+
 const EditProfile = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -78,6 +82,7 @@ const EditProfile = () => {
     hub: "",
     country: "",
     phone: "",
+    weforum_link: "",
     description: "",
 
     speaks: [],
@@ -146,7 +151,7 @@ const EditProfile = () => {
         // sempre pode ler o próprio contato
         const { data: contact, error: contactError } = await supabase
           .from("profile_contacts")
-          .select("email, phone")
+          .select("email, phone, weforum_link")
           .eq("user_id", user.id)
           .single();
 
@@ -161,6 +166,7 @@ const EditProfile = () => {
             hub: profile.hub || "",
             country: profile.country || "",
             phone: contact?.phone || "",
+            weforum_link: contact?.weforum_link || "",
             description: profile.description || "",
             speaks: parseLanguageString(profile.speaks),
             learns: parseLanguageString(profile.learns),
@@ -407,6 +413,7 @@ const EditProfile = () => {
           user_id: currentUser.id,
           email: formData.email,
           phone: formData.phone,
+          weforum_link: formData.weforum_link,
           updated_at: new Date().toISOString(),
         });
 
@@ -592,6 +599,15 @@ const EditProfile = () => {
                 </div>
 
                 <div className="info-group">
+                  <span className="info-label">{tp("fields.weforumLink")}</span>
+                  <span
+                    className={`info-value ${!formData.weforum_link ? "empty-text" : ""}`}
+                  >
+                    {formData.weforum_link || tp("fields.weforumLinkPending")}
+                  </span>
+                </div>
+
+                <div className="info-group">
                   <span className="info-label">{tp("fields.country")}</span>
                   <span
                     className={`info-value ${!countryName ? "empty-text" : ""}`}
@@ -704,6 +720,17 @@ const EditProfile = () => {
                   </div>
 
                   <div className="form-group">
+                    <label>{tp("fields.weforumLink")}</label>
+                    <input
+                      type="text"
+                      name="weforum_link"
+                      value={formData.weforum_link}
+                      onChange={handleInputChange}
+                      className="form-input"
+                    />
+                  </div>
+
+                  <div className="form-group">
                     <label>{tp("fields.hub")}</label>
                     <p className="info-value">
                       {formData.hub || tp("fields.hubNotSet")}
@@ -750,6 +777,9 @@ const EditProfile = () => {
 
                   <div className="form-group">
                     <label>{tp("fields.speaks")}</label>
+                    <span className="form-hint language-select-hint">
+                      {tp("languageSelect.hint")}
+                    </span>
                     <TagSelect
                       options={languageLabels}
                       selectedItems={formData.speaks.map((item) => item.name)}
@@ -794,12 +824,23 @@ const EditProfile = () => {
                             </button>
                           ))}
                         </div>
+                        <a
+                          href={CEFR_INFO_LINK}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="level-picker-help-link"
+                        >
+                          {tp("languageSelect.cefrInfoLink")}
+                        </a>
                       </div>
                     )}
                   </div>
 
                   <div className="form-group">
                     <label>{tp("fields.learns")}</label>
+                    <span className="form-hint language-select-hint">
+                      {tp("languageSelect.hint")}
+                    </span>
                     <TagSelect
                       options={languageLabels}
                       selectedItems={formData.learns.map((item) => item.name)}
@@ -844,6 +885,14 @@ const EditProfile = () => {
                             </button>
                           ))}
                         </div>
+                        <a
+                          href={CEFR_INFO_LINK}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="level-picker-help-link"
+                        >
+                          {tp("languageSelect.cefrInfoLink")}
+                        </a>
                       </div>
                     )}
                   </div>
@@ -925,7 +974,7 @@ const EditProfile = () => {
                         unlocked
                           ? tp("flagMap.unlockedAria", {
                               country: t(`countries.${country.code}`),
-                              count: progress.count,
+                              count: progress.people.length,
                             })
                           : tp("flagMap.lockedAria", {
                               country: t(`countries.${country.code}`),
@@ -939,7 +988,7 @@ const EditProfile = () => {
                       />
                       {unlocked && (
                         <span className="country-flag-badge">
-                          {progress.count}
+                          {progress.people.length}
                         </span>
                       )}
                     </button>
@@ -972,12 +1021,24 @@ const EditProfile = () => {
               <ul className="country-modal-people-list">
                 {selectedCountry.people.map((person, index) => (
                   <li key={index}>
-                    <span className="country-modal-person-name">
-                      {person.name}
-                    </span>
-                    {person.hub && (
-                      <span className="country-modal-person-hub">
-                        {person.hub}
+                    <div className="country-modal-person-info">
+                      <span className="country-modal-person-name">
+                        {person.name}
+                      </span>
+                      {person.hub && (
+                        <span className="country-modal-person-hub">
+                          {person.hub}
+                        </span>
+                      )}
+                    </div>
+                    {person.sessionCount > 1 && (
+                      <span
+                        className="country-modal-person-session-badge"
+                        title={tp("flagMap.sessionCountTitle", {
+                          count: person.sessionCount,
+                        })}
+                      >
+                        {person.sessionCount}
                       </span>
                     )}
                   </li>

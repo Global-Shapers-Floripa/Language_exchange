@@ -19,6 +19,8 @@
     "emailNotInformed": "Email não informado",
     "phone": "Telefone",
     "phonePending": "Telefone pendente de preencher",
+    "weforumLink": "Link do WeForum",
+    "weforumLinkPending": "Link do WeForum pendente de preencher",
     "country": "País",
     "countryPending": "País pendente de preencher",
     "selectCountry": "Selecione um país",
@@ -38,8 +40,10 @@
   },
   "languageSelect": {
     "placeholder": "Selecione idiomas...",
+    "hint": "Clique no idioma selecionado para escolher seu nível",
     "levelOf": "Nível de {{name}}",
-    "noLevel": "Não informado"
+    "noLevel": "Não informado",
+    "cefrInfoLink": "Entenda os níveis de idioma"
   },
   "interestSelect": {
     "placeholder": "Selecione interesses..."
@@ -55,7 +59,8 @@
     "subtitle": "Países com quem você já praticou aparecem coloridos. Clique numa bandeira desbloqueada para ver com quem você já teve sessão.",
     "loading": "Carregando mapa de países...",
     "unlockedAria": "{{country}}: {{count}} conexão(ões), ver detalhes",
-    "lockedAria": "{{country}}: ainda sem sessões"
+    "lockedAria": "{{country}}: ainda sem sessões",
+    "sessionCountTitle": "{{count}} sessões com essa pessoa"
   },
   "loading": "Carregando perfil...",
   "errors": {

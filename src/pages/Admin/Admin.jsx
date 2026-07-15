@@ -158,7 +158,7 @@ const Admin = () => {
         // de admin libera ver o contato de todo mundo aqui
         const { data: contactsData, error: contactsError } = await supabase
           .from("profile_contacts")
-          .select("user_id, email, phone");
+          .select("user_id, email, phone, weforum_link");
 
         if (contactsError) throw contactsError;
 
@@ -170,6 +170,7 @@ const Admin = () => {
           ...p,
           email: contactsByUserId.get(p.id)?.email,
           phone: contactsByUserId.get(p.id)?.phone,
+          weforum_link: contactsByUserId.get(p.id)?.weforum_link,
         }));
 
         const sortedProfiles = profilesWithContact.sort((a, b) =>
@@ -932,6 +933,22 @@ const Admin = () => {
                     ? new Date(selectedUser.created_at).toLocaleDateString("pt-BR")
                     : "N/A"}
                 </p>
+              </div>
+              <div className="admin-info-group">
+                <label>Link do WeForum</label>
+                {selectedUser.weforum_link ? (
+                  <p>
+                    <a
+                      href={selectedUser.weforum_link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {selectedUser.weforum_link}
+                    </a>
+                  </p>
+                ) : (
+                  <p>Não informado</p>
+                )}
               </div>
               <div className="admin-info-group">
                 <label>Idiomas que fala</label>

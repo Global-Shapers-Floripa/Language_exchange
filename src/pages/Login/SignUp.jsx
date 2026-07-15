@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { User, Mail, MapPin, Lock } from "lucide-react";
+import { User, Mail, MapPin, Lock, Link2 } from "lucide-react";
 import "./sign-up.css";
 import { supabase } from "../../services/supabaseClient";
 import {
@@ -24,6 +24,7 @@ const SignUp = () => {
     name: "",
     email: "",
     hub: "",
+    weforumLink: "",
     password: "",
     confirmPassword: "",
   });
@@ -92,6 +93,7 @@ const SignUp = () => {
       name: sanitizeInput(formData.name),
       email: formData.email.toLowerCase().trim(),
       hub: sanitizeInput(formData.hub),
+      weforumLink: sanitizeInput(formData.weforumLink),
       password: formData.password,
     };
 
@@ -127,13 +129,14 @@ const SignUp = () => {
           throw profileError;
         }
 
-        // Email vive em profile_contacts (RLS restrita), não em profiles
+        // Email/link do WeForum vivem em profile_contacts (RLS restrita), não em profiles
         const { error: contactError } = await supabase
           .from("profile_contacts")
           .insert([
             {
               user_id: authData.user.id,
               email: sanitizedData.email,
+              weforum_link: sanitizedData.weforumLink || null,
             },
           ]);
 
@@ -224,6 +227,7 @@ const SignUp = () => {
                   required
                 />
               </div>
+              <p className="form-hint">{t("signup.fullNameHint")}</p>
             </div>
 
             <div className="input-group">
@@ -254,6 +258,21 @@ const SignUp = () => {
                   required
                 />
               </div>
+            </div>
+
+            <div className="input-group">
+              <label>{t("signup.weforumLinkLabel")}</label>
+              <div className="input-wrapper">
+                <Link2 size={18} />
+                <input
+                  className="input"
+                  name="weforumLink"
+                  type="text"
+                  value={formData.weforumLink}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <p className="form-hint">{t("signup.weforumLinkHint")}</p>
             </div>
 
             <div className="input-group">
