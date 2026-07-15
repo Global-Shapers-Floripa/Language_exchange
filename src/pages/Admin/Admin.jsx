@@ -8,7 +8,8 @@ import ConfirmModal from "../../components/common/ConfirmModal";
 import { COUNTRIES } from "../../constants/countries";
 import { LANGUAGES, getLanguageCodeByName } from "../../constants/languages";
 import { parseLanguageString, formatLanguageLabel } from "../../utils/languageLevel";
-import { Users, MapPin, Languages, GraduationCap, Trash2, Monitor, Check, Eye } from "lucide-react";
+import { getFlagUrl } from "../../utils/countryFlag";
+import { Users, MapPin, Languages, GraduationCap, Trash2, Monitor, Check, Eye, Globe2 } from "lucide-react";
 import "./admin.css";
 
 // Função para buscar nome e bandeira do país — recebe `t` (useTranslation
@@ -50,6 +51,15 @@ const translateLanguageName = (name, t) => {
 const translatedLanguageLabel = (item, t) =>
   formatLanguageLabel({ ...item, name: translateLanguageName(item.name, t) });
 
+// Busca de usuários (Admin.jsx:428-438) precisa ser insensível a acentos além
+// de maiúsculas/minúsculas — remove diacríticos via decomposição Unicode NFD
+// antes do .toLowerCase(), sem precisar de biblioteca externa.
+const normalizeForSearch = (str) =>
+  (str || "")
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase();
+
 // Nome de arquivo legível pro download do comprovante (em vez do hash
 // aleatório gerado no upload, ver uploadSessionPhoto em useAddSession.js).
 const slugify = (text) =>
@@ -87,6 +97,7 @@ const Admin = () => {
     maxHub: 0,
     maxSpeak: 0,
     maxLearn: 0,
+    originCountries: [],
   });
   const [loading, setLoading] = useState(true);
 
@@ -94,6 +105,7 @@ const Admin = () => {
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [userPendingDelete, setUserPendingDelete] = useState(null);
+  const [selectedOriginCountry, setSelectedOriginCountry] = useState(null);
 
   useEffect(() => {
     const checkAccessAndFetchData = async () => {
@@ -219,6 +231,7 @@ const Admin = () => {
         const hubCount = {};
         const speaksCount = {};
         const learnsCount = {};
+        const countryData = {};
 
         // speaks/learns guardam múltiplos idiomas numa única string separada
         // por vírgula, cada um com nível CEFR opcional (ex:
@@ -234,17 +247,38 @@ const Admin = () => {
           parseLanguageString(u.learns).forEach(({ name }) => {
             learnsCount[name] = (learnsCount[name] || 0) + 1;
           });
+
+          // Perfis sem country preenchido (ex: cadastro ainda não editado)
+          // são ignorados aqui — não entram no Mapa de Bandeiras do Admin.
+          if (u.country) {
+            const code = u.country.toUpperCase().trim();
+            if (!countryData[code]) {
+              countryData[code] = { code, count: 0, people: [] };
+            }
+            countryData[code].count += 1;
+            countryData[code].people.push({
+              name: u.full_name || "Sem nome",
+              hub: u.hub || "",
+            });
+          }
         });
 
         const topHubs = Object.entries(hubCount)
           .sort((a, b) => b[1] - a[1])
-          .slice(0, 5);
+          .slice(0, 10);
         const topSpeaks = Object.entries(speaksCount)
           .sort((a, b) => b[1] - a[1])
-          .slice(0, 5);
+          .slice(0, 10);
         const topLearns = Object.entries(learnsCount)
           .sort((a, b) => b[1] - a[1])
-          .slice(0, 5);
+          .slice(0, 10);
+
+        // Países de origem dos usuários (profiles.country), ordenados por
+        // contagem — não confundir com useCountryProgress.js, que é por
+        // sessão/parceiro e usado no Dashboard/Perfil pessoal.
+        const originCountries = Object.values(countryData).sort(
+          (a, b) => b.count - a.count,
+        );
 
         // Pega o valor máximo para as barras de progresso
         const maxHub = topHubs.length ? topHubs[0][1] : 1;
@@ -267,6 +301,7 @@ const Admin = () => {
           maxHub,
           maxSpeak,
           maxLearn,
+          originCountries,
         });
         setUsers(sortedProfiles);
 
@@ -400,14 +435,28 @@ const Admin = () => {
   };
 
   const filteredUsers = users.filter((u) => {
-    const searchStr = userSearch.toLowerCase();
+    const searchStr = normalizeForSearch(userSearch);
     return (
-      (u.full_name || "").toLowerCase().includes(searchStr) ||
-      (u.email || "").toLowerCase().includes(searchStr) ||
-      (u.hub || "").toLowerCase().includes(searchStr) ||
-      (u.country || "").toLowerCase().includes(searchStr)
+      normalizeForSearch(u.full_name).includes(searchStr) ||
+      normalizeForSearch(u.email).includes(searchStr) ||
+      normalizeForSearch(u.hub).includes(searchStr) ||
+      normalizeForSearch(u.country).includes(searchStr) ||
+      normalizeForSearch(getCountryInfo(u.country, t).name).includes(searchStr) ||
+      normalizeForSearch(u.speaks).includes(searchStr) ||
+      normalizeForSearch(u.learns).includes(searchStr)
     );
   });
+
+  // Mapa de Bandeiras (países de origem) — universo completo vem de
+  // COUNTRIES (mesma lista do seletor de país no perfil), já ordenado
+  // alfabeticamente. Desbloqueados (com usuários) primeiro, ordenados por
+  // contagem; bloqueados (sem nenhum usuário) depois, em cinza.
+  const originCountryMap = new Map(
+    stats.originCountries.map((country) => [country.code, country]),
+  );
+  const lockedOriginCountries = COUNTRIES.filter(
+    (country) => !originCountryMap.has(country.code),
+  );
 
   return (
     <DashboardLayout>
@@ -480,7 +529,9 @@ const Admin = () => {
                   {stats.topHubs.map(([hub, count], index) => (
                     <li key={hub}>
                       <div className="list-item-content">
-                        <span className="item-rank">0{index + 1}</span>
+                        <span className="item-rank">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
                         <span className="item-name">{hub}</span>
                         <span className="item-count">{count}</span>
                       </div>
@@ -550,6 +601,71 @@ const Admin = () => {
                   ))}
                 </ul>
               </div>
+
+              {/* Card 5: Mapa de Bandeiras (países de origem dos usuários) —
+                  agregação independente de useCountryProgress.js, que é por
+                  sessão/parceiro (Dashboard/Perfil), não por profiles.country. */}
+              <div className="card card--stat stat-card admin-country-map-card">
+                <div className="card-top">
+                  <h3>PAÍSES DE ORIGEM</h3>
+                  <Globe2 size={20} color="#64748b" />
+                </div>
+                <p className="admin-country-map-total">
+                  {stats.originCountries.length} países
+                </p>
+                <div className="admin-country-flags-grid">
+                  {stats.originCountries.map((country) => {
+                    const flagUrl = getFlagUrl(country.code);
+                    if (!flagUrl) return null;
+
+                    const countryName = t(`countries.${country.code}`);
+
+                    return (
+                      <button
+                        type="button"
+                        key={country.code}
+                        className="admin-country-flag-item unlocked"
+                        onClick={() => setSelectedOriginCountry(country)}
+                        title={countryName}
+                        aria-label={`${countryName}: ${country.count} usuário(s)`}
+                      >
+                        <img
+                          src={flagUrl}
+                          alt={countryName}
+                          className="admin-country-flag-img"
+                        />
+                        <span className="admin-country-flag-badge">
+                          {country.count}
+                        </span>
+                      </button>
+                    );
+                  })}
+
+                  {lockedOriginCountries.map((country) => {
+                    const flagUrl = getFlagUrl(country.code);
+                    if (!flagUrl) return null;
+
+                    const countryName = t(`countries.${country.code}`);
+
+                    return (
+                      <button
+                        type="button"
+                        key={country.code}
+                        className="admin-country-flag-item locked"
+                        disabled
+                        title={countryName}
+                        aria-label={`${countryName}: nenhum usuário`}
+                      >
+                        <img
+                          src={flagUrl}
+                          alt={countryName}
+                          className="admin-country-flag-img"
+                        />
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
 
             {/* HEADER DA TABELA */}
@@ -580,7 +696,7 @@ const Admin = () => {
                     <input
                       type="text"
                       className="input search-input"
-                      placeholder="Buscar por nome, e-mail ou local..."
+                      placeholder="Buscar por nome, e-mail, local ou idioma..."
                       value={userSearch}
                       onChange={(e) => setUserSearch(e.target.value)}
                     />
@@ -763,6 +879,7 @@ const Admin = () => {
                     alt="Comprovante"
                     className="session-proof"
                     onClick={() => setSelectedImage(session)}
+                    loading="lazy"
                   />
                 )}
               </div>
@@ -874,6 +991,7 @@ const Admin = () => {
               src={selectedImage.session_photo_url}
               alt="Comprovante"
               className="modal-session-image"
+              loading="lazy"
             />
 
             {/* O atributo `download` do <a> é ignorado pelo navegador em
@@ -887,6 +1005,53 @@ const Admin = () => {
             >
               Baixar imagem
             </a>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: USUÁRIOS DE UM PAÍS DE ORIGEM (Mapa de Bandeiras do Admin) —
+          padrão visual do modal de país do EditProfile.jsx, adaptado pra
+          listar várias pessoas em vez de uma prévia de 1 parceiro */}
+      {selectedOriginCountry && (
+        <div
+          className="admin-country-modal-overlay"
+          onClick={() => setSelectedOriginCountry(null)}
+        >
+          <div
+            className="card admin-country-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="admin-country-modal-header">
+              <img
+                src={getFlagUrl(selectedOriginCountry.code)}
+                alt={t(`countries.${selectedOriginCountry.code}`)}
+                className="admin-country-modal-flag"
+              />
+              <h2>{t(`countries.${selectedOriginCountry.code}`)}</h2>
+            </div>
+
+            <ul className="admin-country-modal-people-list">
+              {selectedOriginCountry.people.map((person, index) => (
+                <li key={index}>
+                  <span className="admin-country-modal-person-name">
+                    {person.name}
+                  </span>
+                  {person.hub && (
+                    <span className="admin-country-modal-person-hub">
+                      {person.hub}
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => setSelectedOriginCountry(null)}
+            >
+              Fechar
+            </button>
           </div>
         </div>
       )}

@@ -38,7 +38,9 @@
     "copied": "Copiado!"
   },
   "personAvatar": {
-    "defaultAlt": "Foto de perfil"
+    "defaultAlt": "Foto de perfil",
+    "enlargedAlt": "Foto de perfil ampliada",
+    "closeModal": "Fechar"
   },
   "sessions": {
     "title": "Minhas Sessões",
@@ -108,7 +110,7 @@
       "removePhoto": "Remover foto",
       "photoPreviewAlt": "Preview da sessão",
       "uploadPrompt": "Clique para selecionar ou arraste uma imagem",
-      "uploadHint": "PNG, JPEG, GIF ou WebP até 5MB",
+      "uploadHint": "PNG, JPEG ou WebP (redimensionado automaticamente) · GIF até 5MB",
       "saving": "Salvando...",
       "submit": "Registrar Sessão",
       "errors": {
@@ -196,6 +198,11 @@
       "reverso": "Ajuda a entender como palavras e expressões são usadas em situações reais através de exemplos contextualizados.",
       "youglish": "Permite ouvir a pronúncia correta de palavras e expressões em vídeos reais de falantes nativos.",
       "worldTimeBuddy": "Facilita encontrar horários compatíveis quando você e seu parceiro estão em países e fusos diferentes."
+    },
+    "proficiencyTestBanner": {
+      "title": "Quer saber seu nível em um idioma?",
+      "text": "Faça um teste gratuito e rápido, alinhado ao padrão internacional CEFR — o mesmo usado nos níveis A1 a C2 aqui na plataforma. Disponível em vários idiomas diferentes.",
+      "cta": "Fazer teste"
     }
   },
   "helpPage": {

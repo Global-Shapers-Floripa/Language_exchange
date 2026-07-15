@@ -49,6 +49,7 @@ const PendingApprovalModal = ({ approval, onClose, onApprove, onReject }) => {
             src={approval.session_photo_url}
             alt={approval.requester}
             className="pending-approval-modal-image"
+            loading="lazy"
           />
         )}
 

@@ -398,8 +398,8 @@ RESPONSIVO
 
   .dashboard-stats-grid {
     grid-template-columns: repeat(2, 1fr);
-    margin: 16px 0 0;
-    gap: 10px;
+    margin: 5px 0 0;
+    gap: 5px;
   }
 
   .dashboard-cta-card {
@@ -408,7 +408,7 @@ RESPONSIVO
   }
 
   .dashboard-cta-btn {
-    width: 100%;
+    width: 60%;
     text-align: center;
     justify-content: center;
   }
@@ -439,7 +439,7 @@ RESPONSIVO
      no mobile vale pros dois, então o ajuste fica na origem (aqui). */
   .partners-grid {
     grid-template-columns: 1fr;
-    gap: 5px;
+    gap: 10px;
     /* Reduz o espaçamento entre os cards para caber melhor */
     padding: 10px 0;
   }

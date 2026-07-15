@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { X, Upload, FilePlus } from 'lucide-react';
 import { useAddSession } from '../../hooks/useAddSession';
 import SearchableSelect from './SearchableSelect';
-import { LANGUAGES, MAX_PHOTO_SIZE, ALLOWED_PHOTO_TYPES } from '../../constants/languages';
+import { LANGUAGES, MAX_PHOTO_SIZE, MAX_UPLOAD_SANITY_SIZE, ALLOWED_PHOTO_TYPES } from '../../constants/languages';
 import './AddSessionModal.css';
 
 // initialPartnerId: vindo do botão "Registrar sessão" em Conexões — o
@@ -83,9 +83,16 @@ const AddSessionModal = ({ isOpen, onClose, partners, initialPartnerId, onSessio
       return;
     }
 
-    // Validar tamanho
-    if (file.size > MAX_PHOTO_SIZE) {
-      setSubmitError(td('sessions.addModal.errors.fileSize', { mb: Math.round(MAX_PHOTO_SIZE / 1024 / 1024) }));
+    // Validar tamanho — GIF não passa por compressão (perderia a animação),
+    // então segue limitado aos MAX_PHOTO_SIZE de sempre; os demais formatos
+    // são comprimidos no upload (useAddSession.js), então aqui só um teto de
+    // sanidade bem mais alto, pra não travar o navegador com um arquivo
+    // absurdo — não pra barrar foto de celular comum antes dela ser reduzida.
+    const isGif = file.type === 'image/gif';
+    const maxSelectionSize = isGif ? MAX_PHOTO_SIZE : MAX_UPLOAD_SANITY_SIZE;
+
+    if (file.size > maxSelectionSize) {
+      setSubmitError(td('sessions.addModal.errors.fileSize', { mb: Math.round(maxSelectionSize / 1024 / 1024) }));
       return;
     }
 

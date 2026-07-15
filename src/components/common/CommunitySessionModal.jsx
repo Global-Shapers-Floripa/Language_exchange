@@ -38,6 +38,7 @@ const CommunitySessionModal = ({ session, onClose }) => {
               alt={`${session.ownerName} & ${session.partnerName}`}
               className="community-session-modal-image"
               onClick={() => setIsImageExpanded(true)}
+              loading="lazy"
             />
           )}
 
@@ -92,7 +93,11 @@ const CommunitySessionModal = ({ session, onClose }) => {
             >
               <X size={22} />
             </button>
-            <img src={session.session_photo_url} alt={t("sessions.sessionExpandedAlt")} />
+            <img
+              src={session.session_photo_url}
+              alt={t("sessions.sessionExpandedAlt")}
+              loading="lazy"
+            />
           </div>
         </div>
       )}

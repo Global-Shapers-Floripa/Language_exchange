@@ -1,22 +1,62 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { supabase } from '../services/supabaseClient';
+import { compressImageFile } from '../utils/imageResize';
+import { MAX_PHOTO_SIZE } from '../constants/languages';
+
+// Fotos de celular sem tratamento facilmente passam de vários MB — reduzimos
+// pro maior lado caber em 1600px antes do upload. A validação de tamanho
+// (MAX_PHOTO_SIZE) roda AQUI, depois de comprimir, não na seleção do arquivo
+// em AddSessionModal.jsx — senão barra a foto antes dela ter chance de ser
+// reduzida, que era exatamente o bug (foto de celular >5MB nunca chegava a
+// ser comprimida, só rejeitada na entrada).
+const SESSION_PHOTO_MAX_DIMENSION = 1600;
+const SESSION_PHOTO_JPEG_QUALITY = 0.8;
 
 export const useAddSession = () => {
+  const { t } = useTranslation('dashboard');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const uploadSessionPhoto = async (file, userId) => {
     try {
+      // GIF perde a animação se passar pelo canvas — pula a compressão e
+      // envia o arquivo original só com a validação de tamanho já existente
+      // (aplicada na seleção, em AddSessionModal.jsx, pois aqui não há
+      // redução nenhuma pra tentar antes).
+      const isGif = file.type === 'image/gif';
+      const compressedBlob = isGif
+        ? null
+        : await compressImageFile(file, {
+            maxDimension: SESSION_PHOTO_MAX_DIMENSION,
+            quality: SESSION_PHOTO_JPEG_QUALITY,
+          });
+      const fileToUpload = compressedBlob || file;
+      const ext = isGif ? file.name.split('.').pop() : 'jpg';
+
+      // Segurança extra: com maxDimension 1600 e quality 0.8 é raro o
+      // resultado ainda passar de MAX_PHOTO_SIZE, mas se acontecer (ex: foto
+      // com muito ruído/detalhe que não comprime bem), rejeita aqui em vez
+      // de deixar subir um arquivo grande demais mesmo já reduzido.
+      if (!isGif && fileToUpload.size > MAX_PHOTO_SIZE) {
+        throw new Error(
+          t('sessions.addModal.errors.fileSize', {
+            mb: Math.round(MAX_PHOTO_SIZE / 1024 / 1024),
+          }),
+        );
+      }
+
       // Criar nome único para a foto
       const timestamp = Date.now();
       const randomString = Math.random().toString(36).substring(2, 8);
-      const ext = file.name.split('.').pop();
       const fileName = `session_${userId}_${timestamp}_${randomString}.${ext}`;
-      
+
       // Fazer upload para o Supabase Storage
       const { error: uploadError } = await supabase.storage
         .from('session-proofs')
-        .upload(`sessions/${fileName}`, file);
+        .upload(`sessions/${fileName}`, fileToUpload, {
+          contentType: isGif ? file.type : 'image/jpeg',
+        });
 
       if (uploadError) throw uploadError;
 
