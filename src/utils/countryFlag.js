@@ -4,5 +4,5 @@
 export const getFlagUrl = (code) => {
   if (!code || code.trim().length !== 2) return null;
 
-  return `https://flagcdn.com/w40/${code.toLowerCase()}.png`;
+  return `https://flagcdn.com/w160/${code.toLowerCase()}.png`;
 };
