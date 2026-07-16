@@ -431,18 +431,23 @@
   margin: 0;
 }
 
-.management-header-actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
 .results-count {
   font-size: 0.8rem;
   color: #78716c;
   letter-spacing: 1px;
   margin: 0;
   white-space: nowrap;
+}
+
+/* Linha genérica de toolbar abaixo do cabeçalho (linha 1) — usada tanto
+   pra status+busca (linha 2) quanto país/hub/ordenação+exportação (linha 3). */
+.admin-toolbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
 }
 
 /* Segmented control de status (Todos/Aprovados/Pendentes) — mesma paleta
@@ -513,15 +518,49 @@
 }
 
 /* =========================
-   EXPORTAÇÃO CSV
+   FILTROS SECUNDÁRIOS (país/hub/ordenação) — linha 3, grupo esquerdo
 ========================= */
-.admin-export-bar {
+.admin-secondary-filters {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 10px;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 16px;
+}
+
+/* width:auto explícito — a classe global .input (usada em outros lugares
+   do projeto) é width:100% por padrão, o que faria esses selects ocuparem
+   a linha inteira e quebrar o layout. Aqui eles são secundários e devem
+   ocupar só o espaço do próprio conteúdo. */
+.admin-select-sm {
+  appearance: auto;
+  width: auto;
+  max-width: 200px;
+  font: inherit;
+  font-size: 0.8rem;
+  color: #57534e;
+  background: #fff;
+  border: 1px solid #e7e5e4;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.admin-select-sm:focus {
+  outline: none;
+  border-color: #a8a29e;
+}
+
+/* =========================
+   EXPORTAÇÃO CSV — linha 3, grupo direito
+========================= */
+.admin-export-band {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  background: var(--bg-light, #F8F9FA);
+  padding: 8px 16px;
+  border-radius: 50px;
 }
 
 .admin-export-checkbox {
@@ -531,21 +570,17 @@
   font-size: 0.85rem;
   color: #57534e;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .admin-export-checkbox input {
   cursor: pointer;
 }
 
-.admin-export-buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.admin-export-buttons .btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+.admin-export-btn {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  white-space: nowrap;
 }
 
 /* =========================
@@ -965,6 +1000,28 @@
   .admin-stats-row {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  /* Linhas 2 e 3 da toolbar (status+busca / país-hub-ordenação+exportação)
+     empilham em telas de tablet — na largura real disponível aqui, os dois
+     grupos lado a lado (space-between) ficam espremidos. */
+  .admin-toolbar-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-wrapper {
+    width: 100%;
+  }
+
+  .admin-status-filter,
+  .admin-secondary-filters,
+  .admin-export-band {
+    width: 100%;
+  }
+
+  .admin-export-band {
+    justify-content: space-between;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1015,13 +1072,6 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
-  }
-
-  .management-header-actions {
-    flex-direction: column;
-    align-items: stretch;
-    width: 100%;
-    gap: 10px;
   }
 
   .search-wrapper {

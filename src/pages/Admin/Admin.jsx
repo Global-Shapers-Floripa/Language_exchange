@@ -60,6 +60,24 @@ const normalizeForSearch = (str) =>
     .replace(/[̀-ͯ]/g, "")
     .toLowerCase();
 
+// Ordenação por profiles.created_at — "random" mantém a ordem já existente
+// (alfabética por nome, ver sortedProfiles em checkAccessAndFetchData) sem
+// aplicar nenhum sort extra, então não é aleatório de fato, só "sem critério
+// de data" (nome do usuário pro select, ver mockup validado no chat).
+const sortUsersByEnrollment = (list, order) => {
+  if (order === "oldest") {
+    return [...list].sort(
+      (a, b) => new Date(a.created_at || 0) - new Date(b.created_at || 0),
+    );
+  }
+  if (order === "newest") {
+    return [...list].sort(
+      (a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0),
+    );
+  }
+  return list;
+};
+
 // Nome de arquivo legível pro download do comprovante (em vez do hash
 // aleatório gerado no upload, ver uploadSessionPhoto em useAddSession.js).
 const slugify = (text) =>
@@ -176,6 +194,9 @@ const Admin = () => {
 
   const [userSearch, setUserSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [countryFilter, setCountryFilter] = useState("all");
+  const [hubFilter, setHubFilter] = useState("all");
+  const [sortOrder, setSortOrder] = useState("random");
   const [includeContactInExport, setIncludeContactInExport] = useState(false);
 
   const [selectedUser, setSelectedUser] = useState(null);
@@ -510,27 +531,82 @@ const Admin = () => {
     }
   };
 
-  const filteredUsers = users.filter((u) => {
-    if (statusFilter === "approved" && !u.is_approved) return false;
-    if (statusFilter === "pending" && u.is_approved) return false;
+  // País/Hub: opções geradas a partir dos valores distintos já presentes em
+  // `users` (não uma lista fixa) — assim o select nunca oferece um país/hub
+  // que ninguém tem, e cresce/encolhe sozinho conforme a base de usuários.
+  const countryOptions = [
+    ...new Set(
+      users.map((u) => (u.country || "").toUpperCase().trim()).filter(Boolean),
+    ),
+  ]
+    .map((code) => ({ code, name: getCountryInfo(code, t).name }))
+    .sort((a, b) => a.name.localeCompare(b.name));
 
-    const searchStr = normalizeForSearch(userSearch);
-    return (
-      normalizeForSearch(u.full_name).includes(searchStr) ||
-      normalizeForSearch(u.email).includes(searchStr) ||
-      normalizeForSearch(u.hub).includes(searchStr) ||
-      normalizeForSearch(u.country).includes(searchStr) ||
-      normalizeForSearch(getCountryInfo(u.country, t).name).includes(searchStr) ||
-      normalizeForSearch(u.speaks).includes(searchStr) ||
-      normalizeForSearch(u.learns).includes(searchStr)
+  const hubOptions = [...new Set(users.map((u) => u.hub).filter(Boolean))].sort(
+    (a, b) => a.localeCompare(b),
+  );
+
+  const filteredUsers = sortUsersByEnrollment(
+    users.filter((u) => {
+      if (statusFilter === "approved" && !u.is_approved) return false;
+      if (statusFilter === "pending" && u.is_approved) return false;
+      if (
+        countryFilter !== "all" &&
+        (u.country || "").toUpperCase().trim() !== countryFilter
+      )
+        return false;
+      if (hubFilter !== "all" && u.hub !== hubFilter) return false;
+
+      const searchStr = normalizeForSearch(userSearch);
+      return (
+        normalizeForSearch(u.full_name).includes(searchStr) ||
+        normalizeForSearch(u.email).includes(searchStr) ||
+        normalizeForSearch(u.hub).includes(searchStr) ||
+        normalizeForSearch(u.country).includes(searchStr) ||
+        normalizeForSearch(getCountryInfo(u.country, t).name).includes(searchStr) ||
+        normalizeForSearch(u.speaks).includes(searchStr) ||
+        normalizeForSearch(u.learns).includes(searchStr)
+      );
+    }),
+    sortOrder,
+  );
+
+  // Label dinâmico do botão único de exportação — sempre com o número real
+  // de filteredUsers, mais os filtros ativos (se houver), pra ficar claro o
+  // que vai pro CSV antes de clicar. Sem filtro nenhum ativo, exporta a base
+  // inteira (filteredUsers === users), unificando os antigos "Exportar
+  // tudo"/"Exportar filtrado" num botão só.
+  const activeExportFilterLabels = [];
+  if (statusFilter !== "all") {
+    activeExportFilterLabels.push(
+      statusFilter === "approved" ? "Aprovados" : "Pendentes",
     );
-  });
+  }
+  if (countryFilter !== "all") {
+    const countryOption = countryOptions.find((c) => c.code === countryFilter);
+    activeExportFilterLabels.push(countryOption?.name || countryFilter);
+  }
+  if (hubFilter !== "all") activeExportFilterLabels.push(hubFilter);
+  if (userSearch.trim()) {
+    const term = userSearch.trim();
+    activeExportFilterLabels.push(
+      `"${term.length > 15 ? `${term.slice(0, 15)}…` : term}"`,
+    );
+  }
 
-  const handleExportUsers = (scope) => {
-    const list = scope === "filtered" ? filteredUsers : users;
-    const csv = buildUsersCSV(list, { includeContact: includeContactInExport, t });
+  const exportButtonLabel = [
+    `Exportar ${filteredUsers.length}`,
+    ...activeExportFilterLabels,
+  ].join(" · ");
+
+  const handleExportUsers = () => {
+    const csv = buildUsersCSV(filteredUsers, {
+      includeContact: includeContactInExport,
+      t,
+    });
     const today = new Date().toISOString().slice(0, 10);
-    const filename = `admin-usuarios-${scope === "filtered" ? "filtrado" : "todos"}-${today}.csv`;
+    const hasActiveFilters = activeExportFilterLabels.length > 0;
+    const filename = `admin-usuarios-${hasActiveFilters ? "filtrado" : "todos"}-${today}.csv`;
 
     downloadCSV(csv, filename);
   };
@@ -790,99 +866,134 @@ const Admin = () => {
 
             {/* HEADER DA TABELA */}
             <div className="admin-section">
+              {/* Linha 1: título + contador (inalterado) */}
               <div className="management-header">
                 <h2 className="main-heading">Usuários da plataforma</h2>
-
-                <div className="management-header-actions">
-                  <p className="results-count">
-                    {filteredUsers.length} • RESULTADOS
-                  </p>
-
-                  <div
-                    className="admin-status-filter"
-                    role="group"
-                    aria-label={td("adminPage.statusFilter.label")}
-                  >
-                    <button
-                      type="button"
-                      className={`admin-status-filter-btn${statusFilter === "all" ? " active" : ""}`}
-                      onClick={() => setStatusFilter("all")}
-                    >
-                      {td("adminPage.statusFilter.all")}
-                    </button>
-                    <button
-                      type="button"
-                      className={`admin-status-filter-btn approved${statusFilter === "approved" ? " active" : ""}`}
-                      onClick={() => setStatusFilter("approved")}
-                    >
-                      {td("adminPage.statusFilter.approved")}
-                    </button>
-                    <button
-                      type="button"
-                      className={`admin-status-filter-btn pending${statusFilter === "pending" ? " active" : ""}`}
-                      onClick={() => setStatusFilter("pending")}
-                    >
-                      {td("adminPage.statusFilter.pending")}
-                    </button>
-                  </div>
-
-                  <div className="search-wrapper">
-                    <svg
-                      className="search-icon"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="#94a3b8"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <circle cx="11" cy="11" r="8" />
-                      <path d="m21 21-4.3-4.3" />
-                    </svg>
-                    <input
-                      type="text"
-                      className="input search-input"
-                      placeholder="Buscar por nome, e-mail, local ou idioma..."
-                      value={userSearch}
-                      onChange={(e) => setUserSearch(e.target.value)}
-                    />
-                  </div>
-                </div>
+                <p className="results-count">
+                  {filteredUsers.length} • RESULTADOS
+                </p>
               </div>
 
-              {/* EXPORTAÇÃO CSV — client-side, sem Edge Function (mesmo
-                  princípio do botão "Baixar imagem" do modal de
-                  comprovante). "Exportar filtrado" serializa o próprio
-                  filteredUsers, então já reflete busca + filtro de status
-                  acima automaticamente. */}
-              <div className="admin-export-bar">
-                <label className="admin-export-checkbox">
-                  <input
-                    type="checkbox"
-                    checked={includeContactInExport}
-                    onChange={(e) => setIncludeContactInExport(e.target.checked)}
-                  />
-                  Incluir contato (email/telefone)
-                </label>
-
-                <div className="admin-export-buttons">
+              {/* Linha 2: status (esquerda) + busca (direita) */}
+              <div className="admin-toolbar-row">
+                <div
+                  className="admin-status-filter"
+                  role="group"
+                  aria-label={td("adminPage.statusFilter.label")}
+                >
                   <button
                     type="button"
-                    className="btn btn-secondary"
-                    onClick={() => handleExportUsers("all")}
+                    className={`admin-status-filter-btn${statusFilter === "all" ? " active" : ""}`}
+                    onClick={() => setStatusFilter("all")}
                   >
-                    <Download size={14} />
-                    Exportar tudo
+                    {td("adminPage.statusFilter.all")}
                   </button>
                   <button
                     type="button"
-                    className="btn btn-secondary"
-                    onClick={() => handleExportUsers("filtered")}
+                    className={`admin-status-filter-btn approved${statusFilter === "approved" ? " active" : ""}`}
+                    onClick={() => setStatusFilter("approved")}
+                  >
+                    {td("adminPage.statusFilter.approved")}
+                  </button>
+                  <button
+                    type="button"
+                    className={`admin-status-filter-btn pending${statusFilter === "pending" ? " active" : ""}`}
+                    onClick={() => setStatusFilter("pending")}
+                  >
+                    {td("adminPage.statusFilter.pending")}
+                  </button>
+                </div>
+
+                <div className="search-wrapper">
+                  <svg
+                    className="search-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#94a3b8"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.3-4.3" />
+                  </svg>
+                  <input
+                    type="text"
+                    className="input search-input"
+                    placeholder="Buscar por nome, e-mail, local ou idioma..."
+                    value={userSearch}
+                    onChange={(e) => setUserSearch(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              {/* Linha 3: país/hub/ordenação (esquerda) + exportação (direita) */}
+              <div className="admin-toolbar-row">
+                <div className="admin-secondary-filters">
+                  <select
+                    className="admin-select-sm"
+                    value={countryFilter}
+                    onChange={(e) => setCountryFilter(e.target.value)}
+                    aria-label="Filtrar por país"
+                  >
+                    <option value="all">Todos os países</option>
+                    {countryOptions.map((country) => (
+                      <option key={country.code} value={country.code}>
+                        {country.name}
+                      </option>
+                    ))}
+                  </select>
+
+                  <select
+                    className="admin-select-sm"
+                    value={hubFilter}
+                    onChange={(e) => setHubFilter(e.target.value)}
+                    aria-label="Filtrar por hub"
+                  >
+                    <option value="all">Todos os hubs</option>
+                    {hubOptions.map((hub) => (
+                      <option key={hub} value={hub}>
+                        {hub}
+                      </option>
+                    ))}
+                  </select>
+
+                  <select
+                    className="admin-select-sm"
+                    value={sortOrder}
+                    onChange={(e) => setSortOrder(e.target.value)}
+                    aria-label="Ordenar por data de inscrição"
+                  >
+                    <option value="random">Aleatório</option>
+                    <option value="oldest">Mais antigos primeiro</option>
+                    <option value="newest">Mais recentes primeiro</option>
+                  </select>
+                </div>
+
+                {/* EXPORTAÇÃO CSV — client-side, sem Edge Function (mesmo
+                    princípio do botão "Baixar imagem" do modal de
+                    comprovante). Botão único: sempre exporta filteredUsers,
+                    que já reflete todos os filtros acima (sem filtro
+                    nenhum ativo, filteredUsers === users). */}
+                <div className="admin-export-band">
+                  <label className="admin-export-checkbox">
+                    <input
+                      type="checkbox"
+                      checked={includeContactInExport}
+                      onChange={(e) => setIncludeContactInExport(e.target.checked)}
+                    />
+                    Incluir contato (email/telefone)
+                  </label>
+
+                  <button
+                    type="button"
+                    className="btn btn-secondary admin-export-btn"
+                    onClick={handleExportUsers}
                   >
                     <Download size={14} />
-                    Exportar filtrado
+                    {exportButtonLabel}
                   </button>
                 </div>
               </div>
