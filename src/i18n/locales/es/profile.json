@@ -67,6 +67,7 @@
     "genericTitle": "Error",
     "loadProfile": "Error al cargar el perfil",
     "savePhoto": "Error al guardar la imagen",
+    "photoTooLarge": "La foto quedó más grande de lo esperado después del procesamiento. Intenta de nuevo o elige otra foto.",
     "saveProfile": "No se pudo guardar",
     "nameRequired": "Escribe tu nombre",
     "emailRequired": "Escribe tu email",

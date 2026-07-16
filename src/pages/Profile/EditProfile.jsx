@@ -28,6 +28,13 @@ import { useCountryProgress } from "../../hooks/useCountryProgress";
 const AVATAR_MAX_DIMENSION = 500;
 const AVATAR_JPEG_QUALITY = 0.85;
 
+// Teto de segurança pós-compressão: um recorte 500x500 em qualidade 0.85
+// fica bem abaixo disso (avatares reais do bucket ficam quase todos sob
+// 200KB). Uploads de antes desse pipeline existir chegaram a subir vários
+// MB sem redimensionar — se o blob comprimido ainda vier assim tão grande
+// (ou nulo), algo falhou na compressão e não deve subir sem mais checagem.
+const AVATAR_MAX_COMPRESSED_SIZE = 400 * 1024;
+
 import { supabase } from "../../services/supabaseClient";
 
 import Swal from "sweetalert2";
@@ -303,6 +310,13 @@ const EditProfile = () => {
       if (!imageSrc || !croppedAreaPixels) return;
 
       const croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels);
+
+      if (!croppedImage || croppedImage.size > AVATAR_MAX_COMPRESSED_SIZE) {
+        const sizeError = new Error(tp("errors.photoTooLarge"));
+        sizeError.isPhotoTooLarge = true;
+        throw sizeError;
+      }
+
       const fileName = `${currentUser.id}.jpg`;
       const filePath = `profiles/${fileName}`;
       const bucketName = "profile-photos";
@@ -340,7 +354,7 @@ const EditProfile = () => {
       Swal.fire({
         icon: "error",
         title: tp("errors.genericTitle"),
-        text: tp("errors.savePhoto"),
+        text: error.isPhotoTooLarge ? error.message : tp("errors.savePhoto"),
       });
     }
   };
