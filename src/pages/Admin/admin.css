@@ -245,6 +245,17 @@
 }
 
 /* =========================
+   SESSÕES PÚBLICAS (card de estatística)
+========================= */
+.admin-public-sessions-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 16px;
+  flex: 1;
+}
+
+/* =========================
    MAPA DE BANDEIRAS (PAÍSES DE ORIGEM) — específico do Admin, não reaproveita
    as classes country-flags-grid/country-flag-item de edit-profile.css
 ========================= */

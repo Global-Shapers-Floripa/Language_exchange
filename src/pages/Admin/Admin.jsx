@@ -9,7 +9,7 @@ import { COUNTRIES } from "../../constants/countries";
 import { LANGUAGES, getLanguageCodeByName } from "../../constants/languages";
 import { parseLanguageString, formatLanguageLabel } from "../../utils/languageLevel";
 import { getFlagUrl } from "../../utils/countryFlag";
-import { Users, MapPin, Languages, GraduationCap, Trash2, Monitor, Check, Eye, Globe2, Download } from "lucide-react";
+import { Users, MapPin, Languages, GraduationCap, Trash2, Monitor, Check, Eye, Globe2, Download, Rss } from "lucide-react";
 import "./admin.css";
 
 // Função para buscar nome e bandeira do país — recebe `t` (useTranslation
@@ -535,6 +535,16 @@ const Admin = () => {
     downloadCSV(csv, filename);
   };
 
+  // Sessões públicas/pendentes de aprovação — usa o array `sessions` que a
+  // Admin já busca inteiro via .select("*") (ver checkAccessAndFetchData).
+  // Não usa usePublicSessions/usePendingApprovals de propósito: aqueles
+  // hooks compartilham o cache de 5min de useCache.js com a Comunidade, e
+  // aqui não precisamos disso — o dado já está carregado.
+  const publicSessionsCount = sessions.filter((s) => s.status === "publica").length;
+  const pendingApprovalSessionsCount = sessions.filter(
+    (s) => s.status === "pendente_aprovacao",
+  ).length;
+
   // Mapa de Bandeiras (países de origem) — universo completo vem de
   // COUNTRIES (mesma lista do seletor de país no perfil), já ordenado
   // alfabeticamente. Desbloqueados (com usuários) primeiro, ordenados por
@@ -690,7 +700,29 @@ const Admin = () => {
                 </ul>
               </div>
 
-              {/* Card 5: Mapa de Bandeiras (países de origem dos usuários) —
+              {/* Card 5: Sessões Públicas — dado já vem de `sessions`
+                  (ver publicSessionsCount/pendingApprovalSessionsCount acima),
+                  sem tocar em usePublicSessions/useCache.js. */}
+              <div className="card card--stat stat-card">
+                <div className="card-top">
+                  <h3>SESSÕES PÚBLICAS</h3>
+                  <Rss size={20} color="#64748b" />
+                </div>
+                <div className="admin-public-sessions-stats">
+                  <div className="stat-column">
+                    <span className="stat-label">Públicas</span>
+                    <div className="stat-number">{publicSessionsCount}</div>
+                  </div>
+                  <div className="stat-column">
+                    <span className="stat-label">Aguardando aprovação</span>
+                    <div className="stat-number pending">
+                      {pendingApprovalSessionsCount}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 6: Mapa de Bandeiras (países de origem dos usuários) —
                   agregação independente de useCountryProgress.js, que é por
                   sessão/parceiro (Dashboard/Perfil), não por profiles.country. */}
               <div className="card card--stat stat-card admin-country-map-card">
