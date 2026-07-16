@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { User, Mail, MapPin, Lock, Link2 } from "lucide-react";
 import "./sign-up.css";
 import { supabase } from "../../services/supabaseClient";
+import { clearListCaches } from "../../hooks/useCache";
 import {
   validatePasswordStrength,
   sanitizeInput,
@@ -150,6 +151,7 @@ const SignUp = () => {
 
         // Garante que o cadastro recém-criado não fique navegando com sessão
         // ativa antes da aprovação — só a tela de Login checa is_approved.
+        clearListCaches();
         await supabase.auth.signOut();
 
         logSecurityEvent("signup_success", { email: sanitizedData.email });
