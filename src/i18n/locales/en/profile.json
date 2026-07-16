@@ -67,6 +67,7 @@
     "genericTitle": "Error",
     "loadProfile": "Error loading profile",
     "savePhoto": "Error saving image",
+    "photoTooLarge": "The photo came out larger than expected after processing. Please try again or choose a different photo.",
     "saveProfile": "Could not save",
     "nameRequired": "Enter your name",
     "emailRequired": "Enter your email",
