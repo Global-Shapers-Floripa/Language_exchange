@@ -49,3 +49,15 @@ export const setCachedPublicSessions = (sessions) => {
   cachedPublicSessions = sessions;
   publicSessionsFetchedAt = Date.now();
 };
+
+// Chamado no logout: a grade de parceiros guarda o match já calculado, que
+// depende de quem está logado (speaks/learns do usuário atual) — como o
+// cache é uma variável de módulo compartilhada, sem isso a segunda conta que
+// logar na mesma aba dentro dos 5min poderia herdar match calculado pro
+// perfil da conta anterior.
+export const clearListCaches = () => {
+  cachedPartners = null;
+  partnersFetchedAt = 0;
+  cachedPublicSessions = null;
+  publicSessionsFetchedAt = 0;
+};
