@@ -2,13 +2,21 @@ import { useState, useEffect } from "react";
 import { calculateMatch } from "../services/matchService";
 import { supabase } from "../services/supabaseClient";
 import { parseLanguageString } from "../utils/languageLevel";
+import { getCachedPartners, setCachedPartners } from "./useCache";
 
 export const usePartners = () => {
-  const [partners, setPartners] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const cachedPartners = getCachedPartners();
+  const [partners, setPartners] = useState(cachedPartners || []);
+  const [loading, setLoading] = useState(!cachedPartners);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    // Cache ainda válido (ver useCache.js) — usa os dados já em mãos, sem
+    // rebuscar tudo (perfis + fotos) só porque a página remontou.
+    if (cachedPartners) {
+      return;
+    }
+
     const fetchPartners = async () => {
       try {
         setLoading(true);
@@ -114,6 +122,7 @@ export const usePartners = () => {
         );
 
         setPartners(formattedPartners);
+        setCachedPartners(formattedPartners);
         setError(null);
       } catch (err) {
         console.error(

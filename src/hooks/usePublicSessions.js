@@ -4,14 +4,16 @@ import { useTranslation } from "react-i18next";
 import { supabase } from "../services/supabaseClient";
 
 import { LANGUAGES } from "../constants/languages";
+import { getCachedPublicSessions, setCachedPublicSessions } from "./useCache";
 
 // Feed público: sessões com status = 'publica', visíveis para qualquer
 // usuário aprovado — não filtra por user_id/partner_id como useSessions.js.
 export const usePublicSessions = () => {
   const { t } = useTranslation("constants");
-  const [publicSessions, setPublicSessions] = useState([]);
+  const cachedPublicSessions = getCachedPublicSessions();
+  const [publicSessions, setPublicSessions] = useState(cachedPublicSessions || []);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!cachedPublicSessions);
 
   const [error, setError] = useState(null);
 
@@ -104,6 +106,7 @@ export const usePublicSessions = () => {
       });
 
       setPublicSessions(formatted);
+      setCachedPublicSessions(formatted);
       setError(null);
     } catch (err) {
       console.error("Erro ao buscar feed de sessões públicas:", err);
@@ -116,6 +119,12 @@ export const usePublicSessions = () => {
   };
 
   useEffect(() => {
+    // Cache ainda válido (ver useCache.js) — usa os dados já em mãos, sem
+    // rebuscar sessões + fotos de dono/parceiro só porque a página remontou.
+    if (cachedPublicSessions) {
+      return;
+    }
+
     const init = async () => {
       await fetchPublicSessions();
     };

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Mail, Lock, Eye, EyeOff, AlertCircle } from "lucide-react";
 import { supabase } from "../../services/supabaseClient";
+import { clearListCaches } from "../../hooks/useCache";
 import { useNavigate } from "react-router-dom";
 import {
   checkRateLimit,
@@ -73,6 +74,7 @@ const Login = () => {
 
       // 3. Bloqueio caso não esteja aprovado
       if (!profile.is_approved) {
+        clearListCaches();
         await supabase.auth.signOut();
 
         logSecurityEvent("login_pending_approval", { email });

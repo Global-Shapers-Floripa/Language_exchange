@@ -15,6 +15,7 @@ import {
   Globe2,
 } from "lucide-react";
 import { supabase } from "../../services/supabaseClient";
+import { clearListCaches } from "../../hooks/useCache";
 import PersonAvatar from "../common/PersonAvatar";
 import LanguageSwitcher from "../common/LanguageSwitcher";
 import logoLE from "../../assets/logo-azul-claro.png";
@@ -85,6 +86,7 @@ const DashboardLayout = ({ children }) => {
   // LOGOUT
   // =========================
   const handleLogout = async () => {
+    clearListCaches();
     await supabase.auth.signOut();
     navigate("/");
   };
