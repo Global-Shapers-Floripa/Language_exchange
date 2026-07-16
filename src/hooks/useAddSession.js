@@ -52,9 +52,10 @@ export const useAddSession = () => {
       const fileName = `session_${userId}_${timestamp}_${randomString}.${ext}`;
 
       // Fazer upload para o Supabase Storage
+      const path = `sessions/${fileName}`;
       const { error: uploadError } = await supabase.storage
         .from('session-proofs')
-        .upload(`sessions/${fileName}`, fileToUpload, {
+        .upload(path, fileToUpload, {
           contentType: isGif ? file.type : 'image/jpeg',
         });
 
@@ -63,9 +64,11 @@ export const useAddSession = () => {
       // Obter URL pública
       const { data: { publicUrl } } = supabase.storage
         .from('session-proofs')
-        .getPublicUrl(`sessions/${fileName}`);
+        .getPublicUrl(path);
 
-      return publicUrl;
+      // path também é devolvido para permitir limpeza (storage.remove) caso
+      // o insert da sessão falhe depois do upload — ver addSession abaixo.
+      return { publicUrl, path };
     } catch (err) {
       console.error('Erro ao fazer upload de foto:', err);
       throw err;
@@ -86,9 +89,12 @@ export const useAddSession = () => {
 
       // Fazer upload da foto se existir
       let photoUrl = null;
+      let photoPath = null;
       if (sessionData.sessionPhoto) {
         try {
-          photoUrl = await uploadSessionPhoto(sessionData.sessionPhoto, user.id);
+          const uploaded = await uploadSessionPhoto(sessionData.sessionPhoto, user.id);
+          photoUrl = uploaded.publicUrl;
+          photoPath = uploaded.path;
         } catch (uploadErr) {
           throw new Error(`Erro ao enviar foto: ${uploadErr.message}`);
         }
@@ -105,7 +111,7 @@ export const useAddSession = () => {
       const status = sessionData.makePublic ? 'pendente_aprovacao' : 'privada';
 
       // Insere a nova sessão
-      const { error: insertError } = await supabase
+      const { data: insertedRows, error: insertError } = await supabase
         .from('sessions')
         .insert([
           {
@@ -121,7 +127,27 @@ export const useAddSession = () => {
         ])
         .select();
 
-      if (insertError) throw insertError;
+      // !insertedRows?.length cobre o caso de RLS bloquear o insert em
+      // silêncio (sem popular insertError, ver CONNECTION_REQUESTS_POLICIES.sql
+      // pro mesmo padrão em outro fluxo) — sem essa checagem, a sessão não
+      // seria criada mas o código seguiria como se tivesse dado certo.
+      if (insertError || !insertedRows?.length) {
+        // A sessão não foi criada, mas a foto já subiu pro Storage no passo
+        // anterior — sem essa limpeza, o arquivo fica órfão pra sempre (nada
+        // no banco referencia ele). Falha na limpeza não deve mascarar o erro
+        // original do insert, só é logada.
+        if (photoPath) {
+          const { error: removeError } = await supabase.storage
+            .from('session-proofs')
+            .remove([photoPath]);
+
+          if (removeError) {
+            console.error('Erro ao limpar foto órfã após falha no insert:', removeError);
+          }
+        }
+
+        throw insertError || new Error(t('sessions.addModal.errors.saveFailed'));
+      }
 
       // E-mail de pedido de aprovação é best-effort: a sessão já foi criada
       // com sucesso, então uma falha aqui não deve virar erro pro usuário —

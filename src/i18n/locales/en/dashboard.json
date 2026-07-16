@@ -117,7 +117,8 @@
         "fileType": "File type not allowed. Use PNG, JPEG, GIF or WebP.",
         "fileSize": "File too large. Maximum of {{mb}}MB.",
         "partnerRequired": "Please select a connection",
-        "languageRequired": "Please select at least one language"
+        "languageRequired": "Please select at least one language",
+        "saveFailed": "Could not save the session. Please try again."
       }
     }
   },
