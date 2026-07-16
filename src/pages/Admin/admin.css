@@ -42,7 +42,7 @@
    column e quebrava o layout em linha aqui */
 .admin-stats-row {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 16px;
   margin-bottom: 16px;
 }
@@ -52,6 +52,23 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+/* Título e número dos 6 cards dessa linha (Total, Aprovados, Pendentes,
+   Total Sessões, Conexões, Sessões públicas) centralizados — largura cheia
+   da coluna pra text-align:center ter efeito de fato, não só o box
+   encolhido ao conteúdo. Rótulo com fonte levemente menor pra caber 6
+   colunas confortavelmente sem quebrar (número mantém o tamanho). */
+.admin-stats-row .stat-label {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  font-size: 0.75rem;
+}
+
+.admin-stats-row .stat-number {
+  width: 100%;
+  text-align: center;
 }
 
 .card-title-group {
@@ -242,17 +259,6 @@
 
 .list-bar-fill.yellow {
   background: #eab308;
-}
-
-/* =========================
-   SESSÕES PÚBLICAS (card de estatística)
-========================= */
-.admin-public-sessions-stats {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  gap: 16px;
-  flex: 1;
 }
 
 /* =========================
@@ -998,7 +1004,7 @@
   }
 
   .admin-stats-row {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 
   /* Linhas 2 e 3 da toolbar (status+busca / país-hub-ordenação+exportação)
