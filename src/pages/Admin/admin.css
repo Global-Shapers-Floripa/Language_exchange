@@ -502,6 +502,42 @@
 }
 
 /* =========================
+   EXPORTAÇÃO CSV
+========================= */
+.admin-export-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.admin-export-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #57534e;
+  cursor: pointer;
+}
+
+.admin-export-checkbox input {
+  cursor: pointer;
+}
+
+.admin-export-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.admin-export-buttons .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* =========================
    TABELA
 ========================= */
 .table-container {

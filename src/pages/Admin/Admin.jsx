@@ -9,7 +9,7 @@ import { COUNTRIES } from "../../constants/countries";
 import { LANGUAGES, getLanguageCodeByName } from "../../constants/languages";
 import { parseLanguageString, formatLanguageLabel } from "../../utils/languageLevel";
 import { getFlagUrl } from "../../utils/countryFlag";
-import { Users, MapPin, Languages, GraduationCap, Trash2, Monitor, Check, Eye, Globe2 } from "lucide-react";
+import { Users, MapPin, Languages, GraduationCap, Trash2, Monitor, Check, Eye, Globe2, Download } from "lucide-react";
 import "./admin.css";
 
 // Função para buscar nome e bandeira do país — recebe `t` (useTranslation
@@ -79,6 +79,78 @@ const getSessionPhotoFilename = (session) => {
   return `comprovante-${names}-${dateStr}.${ext}`;
 };
 
+// =========================
+// EXPORTAÇÃO CSV
+// =========================
+// Escapa um valor pra CSV: envolve em aspas quando o campo contém vírgula,
+// aspas ou quebra de linha; aspas internas viram aspas duplas ("").
+const escapeCSVField = (value) => {
+  const str = String(value ?? "");
+  if (/[",\n]/.test(str)) {
+    return `"${str.replace(/"/g, '""')}"`;
+  }
+  return str;
+};
+
+// speaks/learns guardam múltiplos idiomas separados por vírgula (ver
+// parseLanguageString) — junta com "; " pra não conflitar com o separador
+// de coluna do CSV.
+const formatUserLanguagesForCSV = (langString, t) =>
+  langString
+    ? parseLanguageString(langString)
+        .map((item) => translatedLanguageLabel(item, t))
+        .join("; ")
+    : "";
+
+// includeContact controla se email/telefone (vindos de profile_contacts,
+// já mesclados em `users`) entram no CSV — decisão de privacidade do
+// admin no momento da exportação, não só uma coluna escondida via CSS.
+const buildUsersCSV = (usersList, { includeContact, t }) => {
+  const headers = [
+    "Nome",
+    "Hub",
+    "País",
+    "Idiomas que fala",
+    "Idiomas que aprende",
+    "Status",
+  ];
+  if (includeContact) headers.push("Email", "Telefone");
+
+  const rows = usersList.map((u) => {
+    const row = [
+      u.full_name || "",
+      u.hub || "",
+      getCountryInfo(u.country, t).name,
+      formatUserLanguagesForCSV(u.speaks, t),
+      formatUserLanguagesForCSV(u.learns, t),
+      u.is_approved ? "Aprovado" : "Pendente",
+    ];
+    if (includeContact) row.push(u.email || "", u.phone || "");
+
+    return row;
+  });
+
+  return [headers, ...rows]
+    .map((row) => row.map(escapeCSVField).join(","))
+    .join("\r\n");
+};
+
+// BOM (U+FEFF) força o Excel a detectar UTF-8 — sem isso, nomes/países
+// acentuados abrem com encoding errado.
+const downloadCSV = (csvContent, filename) => {
+  const blob = new Blob([`\uFEFF${csvContent}`], {
+    type: "text/csv;charset=utf-8;",
+  });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+};
+
 const Admin = () => {
   const navigate = useNavigate();
   const { t } = useTranslation("constants");
@@ -104,6 +176,7 @@ const Admin = () => {
 
   const [userSearch, setUserSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [includeContactInExport, setIncludeContactInExport] = useState(false);
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [userPendingDelete, setUserPendingDelete] = useState(null);
@@ -453,6 +526,15 @@ const Admin = () => {
     );
   });
 
+  const handleExportUsers = (scope) => {
+    const list = scope === "filtered" ? filteredUsers : users;
+    const csv = buildUsersCSV(list, { includeContact: includeContactInExport, t });
+    const today = new Date().toISOString().slice(0, 10);
+    const filename = `admin-usuarios-${scope === "filtered" ? "filtrado" : "todos"}-${today}.csv`;
+
+    downloadCSV(csv, filename);
+  };
+
   // Mapa de Bandeiras (países de origem) — universo completo vem de
   // COUNTRIES (mesma lista do seletor de país no perfil), já ordenado
   // alfabeticamente. Desbloqueados (com usuários) primeiro, ordenados por
@@ -735,6 +817,41 @@ const Admin = () => {
                       onChange={(e) => setUserSearch(e.target.value)}
                     />
                   </div>
+                </div>
+              </div>
+
+              {/* EXPORTAÇÃO CSV — client-side, sem Edge Function (mesmo
+                  princípio do botão "Baixar imagem" do modal de
+                  comprovante). "Exportar filtrado" serializa o próprio
+                  filteredUsers, então já reflete busca + filtro de status
+                  acima automaticamente. */}
+              <div className="admin-export-bar">
+                <label className="admin-export-checkbox">
+                  <input
+                    type="checkbox"
+                    checked={includeContactInExport}
+                    onChange={(e) => setIncludeContactInExport(e.target.checked)}
+                  />
+                  Incluir contato (email/telefone)
+                </label>
+
+                <div className="admin-export-buttons">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => handleExportUsers("all")}
+                  >
+                    <Download size={14} />
+                    Exportar tudo
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => handleExportUsers("filtered")}
+                  >
+                    <Download size={14} />
+                    Exportar filtrado
+                  </button>
                 </div>
               </div>
 
