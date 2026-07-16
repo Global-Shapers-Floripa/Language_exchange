@@ -82,6 +82,7 @@ const getSessionPhotoFilename = (session) => {
 const Admin = () => {
   const navigate = useNavigate();
   const { t } = useTranslation("constants");
+  const { t: td } = useTranslation("dashboard");
 
   const [users, setUsers] = useState([]);
   const [sessions, setSessions] = useState([]);
@@ -102,6 +103,7 @@ const Admin = () => {
   const [loading, setLoading] = useState(true);
 
   const [userSearch, setUserSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [userPendingDelete, setUserPendingDelete] = useState(null);
@@ -436,6 +438,9 @@ const Admin = () => {
   };
 
   const filteredUsers = users.filter((u) => {
+    if (statusFilter === "approved" && !u.is_approved) return false;
+    if (statusFilter === "pending" && u.is_approved) return false;
+
     const searchStr = normalizeForSearch(userSearch);
     return (
       normalizeForSearch(u.full_name).includes(searchStr) ||
@@ -678,6 +683,34 @@ const Admin = () => {
                   <p className="results-count">
                     {filteredUsers.length} • RESULTADOS
                   </p>
+
+                  <div
+                    className="admin-status-filter"
+                    role="group"
+                    aria-label={td("adminPage.statusFilter.label")}
+                  >
+                    <button
+                      type="button"
+                      className={`admin-status-filter-btn${statusFilter === "all" ? " active" : ""}`}
+                      onClick={() => setStatusFilter("all")}
+                    >
+                      {td("adminPage.statusFilter.all")}
+                    </button>
+                    <button
+                      type="button"
+                      className={`admin-status-filter-btn approved${statusFilter === "approved" ? " active" : ""}`}
+                      onClick={() => setStatusFilter("approved")}
+                    >
+                      {td("adminPage.statusFilter.approved")}
+                    </button>
+                    <button
+                      type="button"
+                      className={`admin-status-filter-btn pending${statusFilter === "pending" ? " active" : ""}`}
+                      onClick={() => setStatusFilter("pending")}
+                    >
+                      {td("adminPage.statusFilter.pending")}
+                    </button>
+                  </div>
 
                   <div className="search-wrapper">
                     <svg

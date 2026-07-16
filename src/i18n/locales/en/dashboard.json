@@ -265,5 +265,13 @@
     "title": "Need to talk to us?",
     "text": "If something in a conversation or session made you uncomfortable or outside what our community expects, let us know. Every report is handled with care and confidentiality.",
     "cta": "I want to report something"
+  },
+  "adminPage": {
+    "statusFilter": {
+      "label": "Filter by status",
+      "all": "All",
+      "approved": "Approved",
+      "pending": "Pending"
+    }
   }
 }
