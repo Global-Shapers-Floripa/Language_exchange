@@ -9,7 +9,7 @@ import { COUNTRIES } from "../../constants/countries";
 import { LANGUAGES, getLanguageCodeByName } from "../../constants/languages";
 import { parseLanguageString, formatLanguageLabel } from "../../utils/languageLevel";
 import { getFlagUrl } from "../../utils/countryFlag";
-import { Users, MapPin, Languages, GraduationCap, Trash2, Monitor, Check, Eye, Globe2, Download } from "lucide-react";
+import { MapPin, Languages, GraduationCap, Trash2, Monitor, Check, Eye, Globe2, Download } from "lucide-react";
 import "./admin.css";
 
 // Função para buscar nome e bandeira do país — recebe `t` (useTranslation
@@ -648,10 +648,7 @@ const Admin = () => {
               <div className="card card--stat total-card">
                 <div className="admin-stats-row">
                   <div className="stat-column">
-                    <div className="stat-label">
-                      <Users size={20} />
-                      <span>Total de usuários</span>
-                    </div>
+                    <span className="stat-label">Total de usuários</span>
 
                     <div className="stat-number">{stats.total}</div>
                   </div>
@@ -669,18 +666,18 @@ const Admin = () => {
                   </div>
 
                   <div className="stat-column">
-                    <span className="stat-label">Total Sessões</span>
-
-                    <div className="stat-number sessions">
-                      {sessions.length}
-                    </div>
-                  </div>
-
-                  <div className="stat-column">
                     <span className="stat-label">Conexões</span>
 
                     <div className="stat-number connections">
                       {stats.totalConnections}
+                    </div>
+                  </div>
+
+                  <div className="stat-column">
+                    <span className="stat-label">Total Sessões</span>
+
+                    <div className="stat-number sessions">
+                      {sessions.length}
                     </div>
                   </div>
 

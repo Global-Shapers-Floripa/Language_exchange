@@ -55,20 +55,23 @@
 }
 
 /* Título e número dos 6 cards dessa linha (Total, Aprovados, Pendentes,
-   Total Sessões, Conexões, Sessões públicas) centralizados — largura cheia
+   Conexões, Total Sessões, Sessões públicas) centralizados — largura cheia
    da coluna pra text-align:center ter efeito de fato, não só o box
-   encolhido ao conteúdo. Rótulo com fonte levemente menor pra caber 6
-   colunas confortavelmente sem quebrar (número mantém o tamanho). */
+   encolhido ao conteúdo. Fonte de ambos reduzida (~15% no rótulo, ~12% no
+   número) em relação ao tamanho original (.stat-label 0.85rem/.stat-number
+   2.5rem, ainda usado por padrão nos outros cards) pra caber 6 colunas
+   confortavelmente sem quebrar. */
 .admin-stats-row .stat-label {
   width: 100%;
   justify-content: center;
   text-align: center;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
 }
 
 .admin-stats-row .stat-number {
   width: 100%;
   text-align: center;
+  font-size: 2.2rem;
 }
 
 .card-title-group {
@@ -590,6 +593,10 @@
   border-radius: 14px;
 }
 
+/* Sem white-space:nowrap de propósito: o texto pode quebrar em 2 linhas
+   embaixo do checkbox quando o espaço aperta — isso evita que o grupo
+   inteiro de exportação force a linha 3 a estourar a largura disponível
+   e cair pra baixo do grupo de filtros. */
 .admin-export-checkbox {
   display: flex;
   align-items: center;
@@ -597,7 +604,8 @@
   font-size: 0.7rem;
   color: #a8a29e;
   cursor: pointer;
-  white-space: nowrap;
+  max-width: 150px;
+  text-align: right;
 }
 
 .admin-export-checkbox input {
@@ -1026,24 +1034,6 @@
 
   .admin-stats-row {
     grid-template-columns: repeat(3, 1fr);
-  }
-
-  /* Linhas 2 e 3 da toolbar (status+busca / país-hub-ordenação+exportação)
-     empilham em telas de tablet — na largura real disponível aqui, os dois
-     grupos lado a lado (space-between) ficam espremidos. */
-  .admin-toolbar-row {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .search-wrapper {
-    width: 100%;
-  }
-
-  .admin-status-filter,
-  .admin-secondary-filters,
-  .admin-export-band {
-    width: 100%;
   }
 }
 
