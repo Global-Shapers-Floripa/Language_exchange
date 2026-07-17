@@ -953,7 +953,7 @@ const Admin = () => {
                     onChange={(e) => setSortOrder(e.target.value)}
                     aria-label="Ordenar por data de inscrição"
                   >
-                    <option value="random">Padrão</option>
+                    <option value="random">Data de inscrição</option>
                     <option value="oldest">Mais antigos primeiro</option>
                     <option value="newest">Mais recentes primeiro</option>
                   </select>

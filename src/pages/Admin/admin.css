@@ -589,7 +589,6 @@
   align-items: flex-end;
   gap: 6px;
   background: var(--bg-light, #F8F9FA);
-  padding: 10px 14px;
   border-radius: 14px;
 }
 
@@ -604,7 +603,6 @@
   font-size: 0.7rem;
   color: #a8a29e;
   cursor: pointer;
-  max-width: 150px;
   text-align: right;
 }
 
