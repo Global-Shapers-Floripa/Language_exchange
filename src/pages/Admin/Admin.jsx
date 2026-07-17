@@ -9,7 +9,7 @@ import { COUNTRIES } from "../../constants/countries";
 import { LANGUAGES, getLanguageCodeByName } from "../../constants/languages";
 import { parseLanguageString, formatLanguageLabel } from "../../utils/languageLevel";
 import { getFlagUrl } from "../../utils/countryFlag";
-import { Users, MapPin, Languages, GraduationCap, Trash2, Monitor, Check, Eye, Globe2 } from "lucide-react";
+import { MapPin, Languages, GraduationCap, Trash2, Monitor, Check, Eye, Globe2, Download } from "lucide-react";
 import "./admin.css";
 
 // Função para buscar nome e bandeira do país — recebe `t` (useTranslation
@@ -60,6 +60,24 @@ const normalizeForSearch = (str) =>
     .replace(/[̀-ͯ]/g, "")
     .toLowerCase();
 
+// Ordenação por profiles.created_at — "random" mantém a ordem já existente
+// (alfabética por nome, ver sortedProfiles em checkAccessAndFetchData) sem
+// aplicar nenhum sort extra, então não é aleatório de fato, só "sem critério
+// de data" (nome do usuário pro select, ver mockup validado no chat).
+const sortUsersByEnrollment = (list, order) => {
+  if (order === "oldest") {
+    return [...list].sort(
+      (a, b) => new Date(a.created_at || 0) - new Date(b.created_at || 0),
+    );
+  }
+  if (order === "newest") {
+    return [...list].sort(
+      (a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0),
+    );
+  }
+  return list;
+};
+
 // Nome de arquivo legível pro download do comprovante (em vez do hash
 // aleatório gerado no upload, ver uploadSessionPhoto em useAddSession.js).
 const slugify = (text) =>
@@ -79,9 +97,82 @@ const getSessionPhotoFilename = (session) => {
   return `comprovante-${names}-${dateStr}.${ext}`;
 };
 
+// =========================
+// EXPORTAÇÃO CSV
+// =========================
+// Escapa um valor pra CSV: envolve em aspas quando o campo contém vírgula,
+// aspas ou quebra de linha; aspas internas viram aspas duplas ("").
+const escapeCSVField = (value) => {
+  const str = String(value ?? "");
+  if (/[",\n]/.test(str)) {
+    return `"${str.replace(/"/g, '""')}"`;
+  }
+  return str;
+};
+
+// speaks/learns guardam múltiplos idiomas separados por vírgula (ver
+// parseLanguageString) — junta com "; " pra não conflitar com o separador
+// de coluna do CSV.
+const formatUserLanguagesForCSV = (langString, t) =>
+  langString
+    ? parseLanguageString(langString)
+        .map((item) => translatedLanguageLabel(item, t))
+        .join("; ")
+    : "";
+
+// includeContact controla se email/telefone (vindos de profile_contacts,
+// já mesclados em `users`) entram no CSV — decisão de privacidade do
+// admin no momento da exportação, não só uma coluna escondida via CSS.
+const buildUsersCSV = (usersList, { includeContact, t }) => {
+  const headers = [
+    "Nome",
+    "Hub",
+    "País",
+    "Idiomas que fala",
+    "Idiomas que aprende",
+    "Status",
+  ];
+  if (includeContact) headers.push("Email", "Telefone");
+
+  const rows = usersList.map((u) => {
+    const row = [
+      u.full_name || "",
+      u.hub || "",
+      getCountryInfo(u.country, t).name,
+      formatUserLanguagesForCSV(u.speaks, t),
+      formatUserLanguagesForCSV(u.learns, t),
+      u.is_approved ? "Aprovado" : "Pendente",
+    ];
+    if (includeContact) row.push(u.email || "", u.phone || "");
+
+    return row;
+  });
+
+  return [headers, ...rows]
+    .map((row) => row.map(escapeCSVField).join(","))
+    .join("\r\n");
+};
+
+// BOM (U+FEFF) força o Excel a detectar UTF-8 — sem isso, nomes/países
+// acentuados abrem com encoding errado.
+const downloadCSV = (csvContent, filename) => {
+  const blob = new Blob([`\uFEFF${csvContent}`], {
+    type: "text/csv;charset=utf-8;",
+  });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+};
+
 const Admin = () => {
   const navigate = useNavigate();
   const { t } = useTranslation("constants");
+  const { t: td } = useTranslation("dashboard");
 
   const [users, setUsers] = useState([]);
   const [sessions, setSessions] = useState([]);
@@ -102,6 +193,11 @@ const Admin = () => {
   const [loading, setLoading] = useState(true);
 
   const [userSearch, setUserSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [countryInputValue, setCountryInputValue] = useState("");
+  const [hubInputValue, setHubInputValue] = useState("");
+  const [sortOrder, setSortOrder] = useState("random");
+  const [includeContactInExport, setIncludeContactInExport] = useState(false);
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [userPendingDelete, setUserPendingDelete] = useState(null);
@@ -435,18 +531,88 @@ const Admin = () => {
     }
   };
 
-  const filteredUsers = users.filter((u) => {
-    const searchStr = normalizeForSearch(userSearch);
-    return (
-      normalizeForSearch(u.full_name).includes(searchStr) ||
-      normalizeForSearch(u.email).includes(searchStr) ||
-      normalizeForSearch(u.hub).includes(searchStr) ||
-      normalizeForSearch(u.country).includes(searchStr) ||
-      normalizeForSearch(getCountryInfo(u.country, t).name).includes(searchStr) ||
-      normalizeForSearch(u.speaks).includes(searchStr) ||
-      normalizeForSearch(u.learns).includes(searchStr)
-    );
-  });
+  // País/Hub: opções geradas a partir dos valores distintos já presentes em
+  // `users` (não uma lista fixa) — assim o select nunca oferece um país/hub
+  // que ninguém tem, e cresce/encolhe sozinho conforme a base de usuários.
+  const countryOptions = [
+    ...new Set(
+      users.map((u) => (u.country || "").toUpperCase().trim()).filter(Boolean),
+    ),
+  ]
+    .map((code) => ({ code, name: getCountryInfo(code, t).name }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  const hubOptions = [...new Set(users.map((u) => u.hub).filter(Boolean))].sort(
+    (a, b) => a.localeCompare(b),
+  );
+
+  // Os inputs de país/hub usam <datalist> (texto livre, sem dependência
+  // nova) — só viram filtro de fato quando o texto digitado bate
+  // exatamente (ignorando acento/maiúscula) com uma opção válida. Texto
+  // que não corresponde a nada não quebra nada, só equivale a "sem filtro"
+  // até o usuário completar/corrigir a digitação.
+  const matchedCountryOption = countryOptions.find(
+    (country) => normalizeForSearch(country.name) === normalizeForSearch(countryInputValue),
+  );
+  const countryFilter = matchedCountryOption ? matchedCountryOption.code : "all";
+
+  const hubFilter =
+    hubOptions.find(
+      (hub) => normalizeForSearch(hub) === normalizeForSearch(hubInputValue),
+    ) || "all";
+
+  const filteredUsers = sortUsersByEnrollment(
+    users.filter((u) => {
+      if (statusFilter === "approved" && !u.is_approved) return false;
+      if (statusFilter === "pending" && u.is_approved) return false;
+      if (
+        countryFilter !== "all" &&
+        (u.country || "").toUpperCase().trim() !== countryFilter
+      )
+        return false;
+      if (hubFilter !== "all" && u.hub !== hubFilter) return false;
+
+      const searchStr = normalizeForSearch(userSearch);
+      return (
+        normalizeForSearch(u.full_name).includes(searchStr) ||
+        normalizeForSearch(u.email).includes(searchStr) ||
+        normalizeForSearch(u.hub).includes(searchStr) ||
+        normalizeForSearch(u.country).includes(searchStr) ||
+        normalizeForSearch(getCountryInfo(u.country, t).name).includes(searchStr) ||
+        normalizeForSearch(u.speaks).includes(searchStr) ||
+        normalizeForSearch(u.learns).includes(searchStr)
+      );
+    }),
+    sortOrder,
+  );
+
+  // Botão único de exportação sempre exporta filteredUsers (sem filtro
+  // nenhum ativo, filteredUsers === users) — o nome do arquivo já indica
+  // "filtrado" vs "todos", então o label do botão em si não precisa repetir
+  // os filtros ativos.
+  const hasActiveFilters =
+    statusFilter !== "all" ||
+    countryFilter !== "all" ||
+    hubFilter !== "all" ||
+    userSearch.trim() !== "";
+
+  const handleExportUsers = () => {
+    const csv = buildUsersCSV(filteredUsers, {
+      includeContact: includeContactInExport,
+      t,
+    });
+    const today = new Date().toISOString().slice(0, 10);
+    const filename = `admin-usuarios-${hasActiveFilters ? "filtrado" : "todos"}-${today}.csv`;
+
+    downloadCSV(csv, filename);
+  };
+
+  // Sessões públicas — usa o array `sessions` que a Admin já busca inteiro
+  // via .select("*") (ver checkAccessAndFetchData). Não usa
+  // usePublicSessions de propósito: esse hook compartilha o cache de 5min
+  // de useCache.js com a Comunidade, e aqui não precisamos disso — o dado
+  // já está carregado.
+  const publicSessionsCount = sessions.filter((s) => s.status === "publica").length;
 
   // Mapa de Bandeiras (países de origem) — universo completo vem de
   // COUNTRIES (mesma lista do seletor de país no perfil), já ordenado
@@ -482,10 +648,7 @@ const Admin = () => {
               <div className="card card--stat total-card">
                 <div className="admin-stats-row">
                   <div className="stat-column">
-                    <div className="stat-label">
-                      <Users size={20} />
-                      <span>Total de usuários</span>
-                    </div>
+                    <span className="stat-label">Total de usuários</span>
 
                     <div className="stat-number">{stats.total}</div>
                   </div>
@@ -503,6 +666,14 @@ const Admin = () => {
                   </div>
 
                   <div className="stat-column">
+                    <span className="stat-label">Conexões</span>
+
+                    <div className="stat-number connections">
+                      {stats.totalConnections}
+                    </div>
+                  </div>
+
+                  <div className="stat-column">
                     <span className="stat-label">Total Sessões</span>
 
                     <div className="stat-number sessions">
@@ -510,12 +681,13 @@ const Admin = () => {
                     </div>
                   </div>
 
+                  {/* Sessões públicas — dado vem de `publicSessionsCount`
+                      (calculado sobre o array `sessions` já carregado, ver
+                      acima), sem tocar em usePublicSessions/useCache.js. */}
                   <div className="stat-column">
-                    <span className="stat-label">Conexões</span>
+                    <span className="stat-label">Sessões públicas</span>
 
-                    <div className="stat-number connections">
-                      {stats.totalConnections}
-                    </div>
+                    <div className="stat-number">{publicSessionsCount}</div>
                   </div>
                 </div>
               </div>
@@ -671,37 +843,147 @@ const Admin = () => {
 
             {/* HEADER DA TABELA */}
             <div className="admin-section">
+              {/* Linha 1: título + contador (inalterado) */}
               <div className="management-header">
                 <h2 className="main-heading">Usuários da plataforma</h2>
+                <p className="results-count">
+                  {filteredUsers.length} • RESULTADOS
+                </p>
+              </div>
 
-                <div className="management-header-actions">
-                  <p className="results-count">
-                    {filteredUsers.length} • RESULTADOS
-                  </p>
+              {/* Linha 2: status (esquerda) + busca (direita) */}
+              <div className="admin-toolbar-row">
+                <div
+                  className="admin-status-filter"
+                  role="group"
+                  aria-label={td("adminPage.statusFilter.label")}
+                >
+                  <button
+                    type="button"
+                    className={`admin-status-filter-btn${statusFilter === "all" ? " active" : ""}`}
+                    onClick={() => setStatusFilter("all")}
+                  >
+                    {td("adminPage.statusFilter.all")}
+                  </button>
+                  <button
+                    type="button"
+                    className={`admin-status-filter-btn approved${statusFilter === "approved" ? " active" : ""}`}
+                    onClick={() => setStatusFilter("approved")}
+                  >
+                    {td("adminPage.statusFilter.approved")}
+                  </button>
+                  <button
+                    type="button"
+                    className={`admin-status-filter-btn pending${statusFilter === "pending" ? " active" : ""}`}
+                    onClick={() => setStatusFilter("pending")}
+                  >
+                    {td("adminPage.statusFilter.pending")}
+                  </button>
+                </div>
 
-                  <div className="search-wrapper">
-                    <svg
-                      className="search-icon"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="#94a3b8"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <circle cx="11" cy="11" r="8" />
-                      <path d="m21 21-4.3-4.3" />
-                    </svg>
+                <div className="search-wrapper">
+                  <svg
+                    className="search-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#94a3b8"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.3-4.3" />
+                  </svg>
+                  <input
+                    type="text"
+                    className="input search-input"
+                    placeholder="Buscar por nome, e-mail, local ou idioma..."
+                    value={userSearch}
+                    onChange={(e) => setUserSearch(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              {/* Linha 3: país/hub/ordenação (esquerda) + exportação (direita) —
+                  align-items:flex-start pra os dois grupos começarem na
+                  mesma altura, mesmo o bloco de exportar sendo mais alto
+                  (botão + checkbox embaixo). */}
+              <div className="admin-toolbar-row admin-toolbar-row--top">
+                <div className="admin-secondary-filters">
+                  {/* input+datalist (nativo, sem lib nova) em vez de <select>
+                      — dá pra digitar pra filtrar as opções. Texto que não
+                      bate com nenhuma opção do datalist não quebra o
+                      filtro: countryFilter/hubFilter só saem de "all"
+                      quando há correspondência exata (ver acima). */}
+                  <input
+                    type="text"
+                    list="admin-country-options"
+                    className="admin-select-sm admin-filter-input"
+                    placeholder="País"
+                    value={countryInputValue}
+                    onChange={(e) => setCountryInputValue(e.target.value)}
+                    aria-label="Filtrar por país"
+                  />
+                  <datalist id="admin-country-options">
+                    {countryOptions.map((country) => (
+                      <option key={country.code} value={country.name} />
+                    ))}
+                  </datalist>
+
+                  <input
+                    type="text"
+                    list="admin-hub-options"
+                    className="admin-select-sm admin-filter-input"
+                    placeholder="Hub"
+                    value={hubInputValue}
+                    onChange={(e) => setHubInputValue(e.target.value)}
+                    aria-label="Filtrar por hub"
+                  />
+                  <datalist id="admin-hub-options">
+                    {hubOptions.map((hub) => (
+                      <option key={hub} value={hub} />
+                    ))}
+                  </datalist>
+
+                  <select
+                    className="admin-select-sm"
+                    value={sortOrder}
+                    onChange={(e) => setSortOrder(e.target.value)}
+                    aria-label="Ordenar por data de inscrição"
+                  >
+                    <option value="random">Data de inscrição</option>
+                    <option value="oldest">Mais antigos primeiro</option>
+                    <option value="newest">Mais recentes primeiro</option>
+                  </select>
+                </div>
+
+                {/* EXPORTAÇÃO CSV — client-side, sem Edge Function (mesmo
+                    princípio do botão "Baixar imagem" do modal de
+                    comprovante). Botão único: sempre exporta filteredUsers,
+                    que já reflete todos os filtros acima (sem filtro
+                    nenhum ativo, filteredUsers === users). Checkbox abaixo
+                    do botão, discreta — a decisão de incluir contato não
+                    precisa do mesmo destaque do botão em si. */}
+                <div className="admin-export-band">
+                  <button
+                    type="button"
+                    className="btn btn-secondary admin-export-btn"
+                    onClick={handleExportUsers}
+                  >
+                    <Download size={14} />
+                    Exportar
+                  </button>
+
+                  <label className="admin-export-checkbox">
                     <input
-                      type="text"
-                      className="input search-input"
-                      placeholder="Buscar por nome, e-mail, local ou idioma..."
-                      value={userSearch}
-                      onChange={(e) => setUserSearch(e.target.value)}
+                      type="checkbox"
+                      checked={includeContactInExport}
+                      onChange={(e) => setIncludeContactInExport(e.target.checked)}
                     />
-                  </div>
+                    Incluir contato (email/telefone)
+                  </label>
                 </div>
               </div>
 

@@ -265,5 +265,13 @@
     "title": "¿Necesitas hablar con nosotros?",
     "text": "Si algo en una conversación o sesión te hizo sentir incómodo/a o fuera de lo que espera nuestra comunidad, cuéntanos. Todo relato se trata con cuidado y confidencialidad.",
     "cta": "Quiero reportar algo"
+  },
+  "adminPage": {
+    "statusFilter": {
+      "label": "Filtrar por estado",
+      "all": "Todos",
+      "approved": "Aprobados",
+      "pending": "Pendientes"
+    }
   }
 }

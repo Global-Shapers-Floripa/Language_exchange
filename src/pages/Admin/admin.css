@@ -42,7 +42,7 @@
    column e quebrava o layout em linha aqui */
 .admin-stats-row {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 16px;
   margin-bottom: 16px;
 }
@@ -52,6 +52,26 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+/* Título e número dos 6 cards dessa linha (Total, Aprovados, Pendentes,
+   Conexões, Total Sessões, Sessões públicas) centralizados — largura cheia
+   da coluna pra text-align:center ter efeito de fato, não só o box
+   encolhido ao conteúdo. Fonte de ambos reduzida (~15% no rótulo, ~12% no
+   número) em relação ao tamanho original (.stat-label 0.85rem/.stat-number
+   2.5rem, ainda usado por padrão nos outros cards) pra caber 6 colunas
+   confortavelmente sem quebrar. */
+.admin-stats-row .stat-label {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  font-size: 0.72rem;
+}
+
+.admin-stats-row .stat-number {
+  width: 100%;
+  text-align: center;
+  font-size: 2.2rem;
 }
 
 .card-title-group {
@@ -407,7 +427,7 @@
    CABEÇALHO DA TABELA
 ========================= */
 .management-header {
-  margin-bottom: 24px;
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -420,18 +440,74 @@
   margin: 0;
 }
 
-.management-header-actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
 .results-count {
   font-size: 0.8rem;
   color: #78716c;
   letter-spacing: 1px;
   margin: 0;
   white-space: nowrap;
+}
+
+/* Linha genérica de toolbar abaixo do cabeçalho (linha 1) — usada tanto
+   pra status+busca (linha 2) quanto país/hub/ordenação+exportação (linha 3). */
+.admin-toolbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+/* Linha 3: os dois grupos (filtros / exportação) começam na mesma altura,
+   mesmo o bloco de exportar sendo mais alto (botão + checkbox embaixo). */
+.admin-toolbar-row--top {
+  align-items: flex-start;
+}
+
+/* Segmented control de status (Todos/Aprovados/Pendentes) — mesma paleta
+   das cores dos badges de status da tabela (.admin-status-badge). */
+.admin-status-filter {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  background: #f5f5f4;
+  border-radius: 50px;
+  flex-shrink: 0;
+}
+
+.admin-status-filter-btn {
+  appearance: none;
+  font: inherit;
+  border: none;
+  background: transparent;
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #78716c;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+
+.admin-status-filter-btn:hover {
+  color: #44403c;
+}
+
+.admin-status-filter-btn.active {
+  background: #fff;
+  color: #1c1917;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.admin-status-filter-btn.approved.active {
+  color: var(--color-success);
+}
+
+.admin-status-filter-btn.pending.active {
+  color: var(--color-pending);
 }
 
 .search-wrapper {
@@ -446,14 +522,98 @@
   transform: translateY(-50%);
 }
 
+/* Mesma altura do segmented control ao lado (.admin-status-filter) — a
+   .input global usa padding/font-size maiores, que deixavam essa barra
+   visivelmente mais alta e cortavam o placeholder. */
 .search-input {
-  padding-left: 36px;
+  padding: 8px 14px 8px 36px;
   border-radius: 50px;
+  font-size: 0.8rem;
 }
 
 .search-input:focus {
   border-color: #a8a29e;
   box-shadow: none;
+}
+
+/* =========================
+   FILTROS SECUNDÁRIOS (país/hub/ordenação) — linha 3, grupo esquerdo
+========================= */
+.admin-secondary-filters {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* width:auto explícito — a classe global .input (usada em outros lugares
+   do projeto) é width:100% por padrão, o que faria esses selects ocuparem
+   a linha inteira e quebrar o layout. Aqui eles são secundários e devem
+   ocupar só o espaço do próprio conteúdo. */
+.admin-select-sm {
+  appearance: auto;
+  width: auto;
+  max-width: 200px;
+  font: inherit;
+  font-size: 0.8rem;
+  color: #57534e;
+  background: #fff;
+  border: 1px solid #e7e5e4;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.admin-select-sm:focus {
+  outline: none;
+  border-color: #a8a29e;
+}
+
+/* Inputs de país/hub (com <datalist>) — largura fixa e pequena, só o
+   suficiente pro placeholder/texto digitado; diferente do <select> de
+   ordenação, que usa max-width e cresce até caber a opção mais longa. */
+.admin-filter-input {
+  width: 88px;
+  max-width: 88px;
+  flex-shrink: 0;
+}
+
+/* =========================
+   EXPORTAÇÃO CSV — linha 3, grupo direito
+========================= */
+/* Botão em cima, checkbox discreta embaixo (alinhados à direita) — a
+   decisão de incluir contato não precisa do mesmo peso visual do botão. */
+.admin-export-band {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  background: var(--bg-light, #F8F9FA);
+  border-radius: 14px;
+}
+
+/* Sem white-space:nowrap de propósito: o texto pode quebrar em 2 linhas
+   embaixo do checkbox quando o espaço aperta — isso evita que o grupo
+   inteiro de exportação force a linha 3 a estourar a largura disponível
+   e cair pra baixo do grupo de filtros. */
+.admin-export-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.7rem;
+  color: #a8a29e;
+  cursor: pointer;
+  text-align: right;
+}
+
+.admin-export-checkbox input {
+  cursor: pointer;
+}
+
+.admin-export-btn {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  white-space: nowrap;
 }
 
 /* =========================
@@ -871,7 +1031,7 @@
   }
 
   .admin-stats-row {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
@@ -925,15 +1085,18 @@
     gap: 16px;
   }
 
-  .management-header-actions {
-    flex-direction: column;
-    align-items: stretch;
-    width: 100%;
-    gap: 10px;
-  }
-
   .search-wrapper {
     width: 100%;
+  }
+
+  .admin-status-filter {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .admin-status-filter-btn {
+    flex: 1;
+    text-align: center;
   }
 }
 /* =========================

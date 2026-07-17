@@ -265,5 +265,13 @@
     "title": "Precisa falar com a gente?",
     "text": "Se algo numa conversa ou sessão te deixou desconfortável ou fora do que a nossa comunidade espera, conta pra gente. Todo relato é tratado com cuidado e sigilo.",
     "cta": "Quero reportar algo"
+  },
+  "adminPage": {
+    "statusFilter": {
+      "label": "Filtrar por status",
+      "all": "Todos",
+      "approved": "Aprovados",
+      "pending": "Pendentes"
+    }
   }
 }
