@@ -194,8 +194,8 @@ const Admin = () => {
 
   const [userSearch, setUserSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-  const [countryFilter, setCountryFilter] = useState("all");
-  const [hubFilter, setHubFilter] = useState("all");
+  const [countryInputValue, setCountryInputValue] = useState("");
+  const [hubInputValue, setHubInputValue] = useState("");
   const [sortOrder, setSortOrder] = useState("random");
   const [includeContactInExport, setIncludeContactInExport] = useState(false);
 
@@ -546,6 +546,21 @@ const Admin = () => {
     (a, b) => a.localeCompare(b),
   );
 
+  // Os inputs de país/hub usam <datalist> (texto livre, sem dependência
+  // nova) — só viram filtro de fato quando o texto digitado bate
+  // exatamente (ignorando acento/maiúscula) com uma opção válida. Texto
+  // que não corresponde a nada não quebra nada, só equivale a "sem filtro"
+  // até o usuário completar/corrigir a digitação.
+  const matchedCountryOption = countryOptions.find(
+    (country) => normalizeForSearch(country.name) === normalizeForSearch(countryInputValue),
+  );
+  const countryFilter = matchedCountryOption ? matchedCountryOption.code : "all";
+
+  const hubFilter =
+    hubOptions.find(
+      (hub) => normalizeForSearch(hub) === normalizeForSearch(hubInputValue),
+    ) || "all";
+
   const filteredUsers = sortUsersByEnrollment(
     users.filter((u) => {
       if (statusFilter === "approved" && !u.is_approved) return false;
@@ -571,33 +586,15 @@ const Admin = () => {
     sortOrder,
   );
 
-  // Label dinâmico do botão único de exportação — sempre com o número real
-  // de filteredUsers, mais os filtros ativos (se houver), pra ficar claro o
-  // que vai pro CSV antes de clicar. Sem filtro nenhum ativo, exporta a base
-  // inteira (filteredUsers === users), unificando os antigos "Exportar
-  // tudo"/"Exportar filtrado" num botão só.
-  const activeExportFilterLabels = [];
-  if (statusFilter !== "all") {
-    activeExportFilterLabels.push(
-      statusFilter === "approved" ? "Aprovados" : "Pendentes",
-    );
-  }
-  if (countryFilter !== "all") {
-    const countryOption = countryOptions.find((c) => c.code === countryFilter);
-    activeExportFilterLabels.push(countryOption?.name || countryFilter);
-  }
-  if (hubFilter !== "all") activeExportFilterLabels.push(hubFilter);
-  if (userSearch.trim()) {
-    const term = userSearch.trim();
-    activeExportFilterLabels.push(
-      `"${term.length > 15 ? `${term.slice(0, 15)}…` : term}"`,
-    );
-  }
-
-  const exportButtonLabel = [
-    `Exportar ${filteredUsers.length}`,
-    ...activeExportFilterLabels,
-  ].join(" · ");
+  // Botão único de exportação sempre exporta filteredUsers (sem filtro
+  // nenhum ativo, filteredUsers === users) — o nome do arquivo já indica
+  // "filtrado" vs "todos", então o label do botão em si não precisa repetir
+  // os filtros ativos.
+  const hasActiveFilters =
+    statusFilter !== "all" ||
+    countryFilter !== "all" ||
+    hubFilter !== "all" ||
+    userSearch.trim() !== "";
 
   const handleExportUsers = () => {
     const csv = buildUsersCSV(filteredUsers, {
@@ -605,7 +602,6 @@ const Admin = () => {
       t,
     });
     const today = new Date().toISOString().slice(0, 10);
-    const hasActiveFilters = activeExportFilterLabels.length > 0;
     const filename = `admin-usuarios-${hasActiveFilters ? "filtrado" : "todos"}-${today}.csv`;
 
     downloadCSV(csv, filename);
@@ -913,36 +909,46 @@ const Admin = () => {
                 </div>
               </div>
 
-              {/* Linha 3: país/hub/ordenação (esquerda) + exportação (direita) */}
-              <div className="admin-toolbar-row">
+              {/* Linha 3: país/hub/ordenação (esquerda) + exportação (direita) —
+                  align-items:flex-start pra os dois grupos começarem na
+                  mesma altura, mesmo o bloco de exportar sendo mais alto
+                  (botão + checkbox embaixo). */}
+              <div className="admin-toolbar-row admin-toolbar-row--top">
                 <div className="admin-secondary-filters">
-                  <select
-                    className="admin-select-sm"
-                    value={countryFilter}
-                    onChange={(e) => setCountryFilter(e.target.value)}
+                  {/* input+datalist (nativo, sem lib nova) em vez de <select>
+                      — dá pra digitar pra filtrar as opções. Texto que não
+                      bate com nenhuma opção do datalist não quebra o
+                      filtro: countryFilter/hubFilter só saem de "all"
+                      quando há correspondência exata (ver acima). */}
+                  <input
+                    type="text"
+                    list="admin-country-options"
+                    className="admin-select-sm admin-filter-input"
+                    placeholder="País"
+                    value={countryInputValue}
+                    onChange={(e) => setCountryInputValue(e.target.value)}
                     aria-label="Filtrar por país"
-                  >
-                    <option value="all">Todos os países</option>
+                  />
+                  <datalist id="admin-country-options">
                     {countryOptions.map((country) => (
-                      <option key={country.code} value={country.code}>
-                        {country.name}
-                      </option>
+                      <option key={country.code} value={country.name} />
                     ))}
-                  </select>
+                  </datalist>
 
-                  <select
-                    className="admin-select-sm"
-                    value={hubFilter}
-                    onChange={(e) => setHubFilter(e.target.value)}
+                  <input
+                    type="text"
+                    list="admin-hub-options"
+                    className="admin-select-sm admin-filter-input"
+                    placeholder="Hub"
+                    value={hubInputValue}
+                    onChange={(e) => setHubInputValue(e.target.value)}
                     aria-label="Filtrar por hub"
-                  >
-                    <option value="all">Todos os hubs</option>
+                  />
+                  <datalist id="admin-hub-options">
                     {hubOptions.map((hub) => (
-                      <option key={hub} value={hub}>
-                        {hub}
-                      </option>
+                      <option key={hub} value={hub} />
                     ))}
-                  </select>
+                  </datalist>
 
                   <select
                     className="admin-select-sm"
@@ -950,7 +956,7 @@ const Admin = () => {
                     onChange={(e) => setSortOrder(e.target.value)}
                     aria-label="Ordenar por data de inscrição"
                   >
-                    <option value="random">Aleatório</option>
+                    <option value="random">Padrão</option>
                     <option value="oldest">Mais antigos primeiro</option>
                     <option value="newest">Mais recentes primeiro</option>
                   </select>
@@ -960,8 +966,19 @@ const Admin = () => {
                     princípio do botão "Baixar imagem" do modal de
                     comprovante). Botão único: sempre exporta filteredUsers,
                     que já reflete todos os filtros acima (sem filtro
-                    nenhum ativo, filteredUsers === users). */}
+                    nenhum ativo, filteredUsers === users). Checkbox abaixo
+                    do botão, discreta — a decisão de incluir contato não
+                    precisa do mesmo destaque do botão em si. */}
                 <div className="admin-export-band">
+                  <button
+                    type="button"
+                    className="btn btn-secondary admin-export-btn"
+                    onClick={handleExportUsers}
+                  >
+                    <Download size={14} />
+                    Exportar
+                  </button>
+
                   <label className="admin-export-checkbox">
                     <input
                       type="checkbox"
@@ -970,15 +987,6 @@ const Admin = () => {
                     />
                     Incluir contato (email/telefone)
                   </label>
-
-                  <button
-                    type="button"
-                    className="btn btn-secondary admin-export-btn"
-                    onClick={handleExportUsers}
-                  >
-                    <Download size={14} />
-                    {exportButtonLabel}
-                  </button>
                 </div>
               </div>
 

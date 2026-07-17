@@ -424,7 +424,7 @@
    CABEÇALHO DA TABELA
 ========================= */
 .management-header {
-  margin-bottom: 24px;
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -454,6 +454,12 @@
   flex-wrap: wrap;
   gap: 16px;
   margin-bottom: 16px;
+}
+
+/* Linha 3: os dois grupos (filtros / exportação) começam na mesma altura,
+   mesmo o bloco de exportar sendo mais alto (botão + checkbox embaixo). */
+.admin-toolbar-row--top {
+  align-items: flex-start;
 }
 
 /* Segmented control de status (Todos/Aprovados/Pendentes) — mesma paleta
@@ -513,9 +519,13 @@
   transform: translateY(-50%);
 }
 
+/* Mesma altura do segmented control ao lado (.admin-status-filter) — a
+   .input global usa padding/font-size maiores, que deixavam essa barra
+   visivelmente mais alta e cortavam o placeholder. */
 .search-input {
-  padding-left: 36px;
+  padding: 8px 14px 8px 36px;
   border-radius: 50px;
+  font-size: 0.8rem;
 }
 
 .search-input:focus {
@@ -556,25 +566,36 @@
   border-color: #a8a29e;
 }
 
+/* Inputs de país/hub (com <datalist>) — largura fixa e pequena, só o
+   suficiente pro placeholder/texto digitado; diferente do <select> de
+   ordenação, que usa max-width e cresce até caber a opção mais longa. */
+.admin-filter-input {
+  width: 88px;
+  max-width: 88px;
+  flex-shrink: 0;
+}
+
 /* =========================
    EXPORTAÇÃO CSV — linha 3, grupo direito
 ========================= */
+/* Botão em cima, checkbox discreta embaixo (alinhados à direita) — a
+   decisão de incluir contato não precisa do mesmo peso visual do botão. */
 .admin-export-band {
   display: flex;
-  align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
   background: var(--bg-light, #F8F9FA);
-  padding: 8px 16px;
-  border-radius: 50px;
+  padding: 10px 14px;
+  border-radius: 14px;
 }
 
 .admin-export-checkbox {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.85rem;
-  color: #57534e;
+  gap: 6px;
+  font-size: 0.7rem;
+  color: #a8a29e;
   cursor: pointer;
   white-space: nowrap;
 }
@@ -1023,10 +1044,6 @@
   .admin-secondary-filters,
   .admin-export-band {
     width: 100%;
-  }
-
-  .admin-export-band {
-    justify-content: space-between;
   }
 }
 
