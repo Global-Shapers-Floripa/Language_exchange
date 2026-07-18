@@ -18,6 +18,8 @@ import Help from './pages/Help/Help';
 import Comunidade from './pages/Community/Comunidade';
 import './App.css';
 
+import { Analytics } from "@vercel/analytics/react"
+
 function App() {
   return (
     <Router>
@@ -41,6 +43,8 @@ function App() {
         <Route path="/project-partners" element={<ProjectPartners />} />
         <Route path="/help" element={<Help />} />
       </Routes>
+
+       <Analytics />
     </Router>
   );
 }
