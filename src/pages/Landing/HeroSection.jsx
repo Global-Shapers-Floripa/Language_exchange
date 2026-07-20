@@ -142,12 +142,12 @@ const HeroSection = () => {
 
             <div className="site-hero-stats">
               <div className="site-stat-item">
-                <h3>+40</h3>
+                <h3>+50</h3>
                 <p>{t("hero.stats.hubs")}</p>
               </div>
               <div className="site-stat-divider"></div>
               <div className="site-stat-item">
-                <h3>7</h3>
+                <h3>+20</h3>
                 <p>{t("hero.stats.languages")}</p>
               </div>
               <div className="site-stat-divider last-divider"></div>
