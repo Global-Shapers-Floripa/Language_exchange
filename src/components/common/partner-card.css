@@ -88,7 +88,7 @@
 /* ================================= */
 
 .card-header-top {
-  position: relative;
+ 
   display: flex;
   align-items: center;
   height: 72px;
@@ -103,27 +103,23 @@
 }
 
 .partner-avatar {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
+  width: 75px;
+  height: 75px;
+  border-radius: 100px 0 0 100px;
   border: 2px solid var(--brand-orange, #F97316);
+  border-right: none;
   object-fit: cover;
   display: block;
 }
 
 /* Bandeira */
 .flag-banner-container {
-  position: absolute;
+  border: 2px solid var(--brand-orange, #F97316);
+border-left: none;
+  height: 75px;
+  width: 100%;
 
-  left: 40px;      /* metade do avatar */
-  right: 0;
-
-  top: 50%;
-  transform: translateY(-50%);
-
-  height: 69px;
-
-  border-radius: 0 100px 100px 0;
+  border-radius: 0 100px 100px 0 ;
   overflow: hidden;
 
   z-index: 1;
@@ -363,13 +359,13 @@
   }
 
   .partner-avatar {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     border-width: 3px;
   }
 
   .flag-banner-container {
-    height: 59px;
+    height: 80px;
     left: 30px; 
   }
 

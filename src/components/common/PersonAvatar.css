@@ -7,11 +7,11 @@
 
 .person-avatar-img--clickable {
   cursor: pointer;
-  transition: transform 0.15s ease;
+  transition: .2s;
 }
 
 .person-avatar-img--clickable:hover {
-  transform: scale(1.06);
+  opacity: .8;
 }
 
 /* Modal de foto ampliada — z-index acima de qualquer outro modal do app
