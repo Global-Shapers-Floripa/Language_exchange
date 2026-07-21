@@ -187,6 +187,15 @@
     "loadError": "Error loading the feed: {{error}}",
     "empty": "No public sessions yet. When someone makes a session public, it shows up here."
   },
+  "reactions": {
+    "likeAria": "Like session",
+    "unlikeAria": "Remove like",
+    "empty": "No likes yet",
+    "and": "and",
+    "andMore": "and {{count}} more",
+    "verbSingular": "liked this",
+    "verbPlural": "liked this"
+  },
   "resourcesPage": {
     "title": "Resources & Guide",
     "accessNow": "Access now",

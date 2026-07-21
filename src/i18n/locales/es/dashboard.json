@@ -187,6 +187,15 @@
     "loadError": "Error al cargar el feed: {{error}}",
     "empty": "Todavía no hay sesiones públicas. Cuando alguien haga una sesión pública, aparecerá aquí."
   },
+  "reactions": {
+    "likeAria": "Me gusta",
+    "unlikeAria": "Quitar me gusta",
+    "empty": "Todavía a nadie le gustó esto",
+    "and": "y",
+    "andMore": "y {{count}} más",
+    "verbSingular": "le gustó esto",
+    "verbPlural": "les gustó esto"
+  },
   "resourcesPage": {
     "title": "Recursos y Guía",
     "accessNow": "Acceder ahora",
