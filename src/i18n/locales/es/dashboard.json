@@ -195,6 +195,15 @@
     "loadMore": "Cargar más",
     "medalAria": "{{name}} ganó {{badge}}"
   },
+  "reactions": {
+    "likeAria": "Me gusta",
+    "unlikeAria": "Quitar me gusta",
+    "empty": "Todavía a nadie le gustó esto",
+    "and": "y",
+    "andMore": "y {{count}} más",
+    "verbSingular": "le gustó esto",
+    "verbPlural": "les gustó esto"
+  },
   "resourcesPage": {
     "title": "Recursos y Guía",
     "accessNow": "Acceder ahora",

@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { ArrowLeftRight, Calendar, Clock, Languages, Globe2, Lock } from "lucide-react";
+import { ArrowLeftRight, Calendar, Clock, Languages, Globe2, Lock, Heart } from "lucide-react";
 import PersonAvatar from "./PersonAvatar";
 import { getFlagUrl } from "../../utils/countryFlag";
 import "./SessionCard.css";
@@ -87,6 +87,7 @@ const SessionCard = ({
   duration,
   languages,
   statusBadge,
+  reaction,
   onClick,
 }) => {
   const { t } = useTranslation("dashboard");
@@ -138,6 +139,23 @@ const SessionCard = ({
               </span>
             ))}
           </span>
+        )}
+
+        {reaction && (
+          <button
+            type="button"
+            className={`session-card-v2-reaction${reaction.likedByMe ? " session-card-v2-reaction--liked" : ""}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              reaction.onToggle();
+            }}
+            aria-label={t(
+              reaction.likedByMe ? "reactions.unlikeAria" : "reactions.likeAria",
+            )}
+          >
+            <Heart size={14} fill={reaction.likedByMe ? "currentColor" : "none"} />
+            {reaction.count > 0 && <span>{reaction.count}</span>}
+          </button>
         )}
       </div>
     </div>

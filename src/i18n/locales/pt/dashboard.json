@@ -195,6 +195,15 @@
     "loadMore": "Carregar mais",
     "medalAria": "{{name}} conquistou {{badge}}"
   },
+  "reactions": {
+    "likeAria": "Curtir sessão",
+    "unlikeAria": "Remover curtida",
+    "empty": "Nenhuma curtida ainda",
+    "and": "e",
+    "andMore": "e mais {{count}}",
+    "verbSingular": "curtiu",
+    "verbPlural": "curtiram"
+  },
   "resourcesPage": {
     "title": "Recursos & Guia",
     "accessNow": "Acessar agora",

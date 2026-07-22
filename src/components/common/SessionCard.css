@@ -178,6 +178,29 @@
   font-weight: 700;
 }
 
+.session-card-v2-reaction {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 20px;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.session-card-v2-reaction:hover {
+  background-color: #f1f5f9;
+}
+
+.session-card-v2-reaction--liked {
+  color: #e11d48;
+}
+
 @media (max-width: 480px) {
   .session-card-v2-people {
     padding: 16px 10px;

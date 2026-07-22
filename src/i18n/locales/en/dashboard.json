@@ -195,6 +195,15 @@
     "loadMore": "Load more",
     "medalAria": "{{name}} earned {{badge}}"
   },
+  "reactions": {
+    "likeAria": "Like session",
+    "unlikeAria": "Remove like",
+    "empty": "No likes yet",
+    "and": "and",
+    "andMore": "and {{count}} more",
+    "verbSingular": "liked this",
+    "verbPlural": "liked this"
+  },
   "resourcesPage": {
     "title": "Resources & Guide",
     "accessNow": "Access now",

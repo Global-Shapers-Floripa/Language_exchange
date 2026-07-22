@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import { usePublicSessions } from "../../hooks/usePublicSessions";
 import { useCommunityBadges } from "../../hooks/useCommunityBadges";
+import { useSessionReactions } from "../../hooks/useSessionReactions";
 import CommunitySessionModal from "../../components/common/CommunitySessionModal";
 import SessionCard from "../../components/common/SessionCard";
 import BadgeWall from "../../components/common/BadgeWall";
@@ -12,6 +13,9 @@ import "./comunidade.css";
 const Comunidade = () => {
   const { t } = useTranslation("dashboard");
   const { publicSessions, loading, error } = usePublicSessions();
+  const { counts, likedByMe, toggleReaction } = useSessionReactions(
+    publicSessions.map((session) => session.id),
+  );
   const [selectedSession, setSelectedSession] = useState(null);
 
   const {
@@ -20,6 +24,12 @@ const Comunidade = () => {
     loading: loadingBadges,
     loadMore,
   } = useCommunityBadges();
+
+  const getReaction = (sessionId) => ({
+    count: counts[sessionId] || 0,
+    likedByMe: likedByMe.has(sessionId),
+    onToggle: () => toggleReaction(sessionId),
+  });
 
   return (
     <DashboardLayout>
@@ -59,6 +69,7 @@ const Comunidade = () => {
               date={session.date}
               duration={session.duration}
               languages={session.languages}
+              reaction={getReaction(session.id)}
               onClick={() => setSelectedSession(session)}
             />
           ))}
@@ -67,6 +78,7 @@ const Comunidade = () => {
 
       <CommunitySessionModal
         session={selectedSession}
+        reaction={selectedSession ? getReaction(selectedSession.id) : null}
         onClose={() => setSelectedSession(null)}
       />
 
