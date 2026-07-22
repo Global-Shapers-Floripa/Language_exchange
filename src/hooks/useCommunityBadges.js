@@ -6,6 +6,13 @@ import {
   evaluatePolyglot,
   evaluatePhotoMemory,
   getPhotoMemoryHolders,
+  getSessionsCounts,
+  evaluateSessionsCount,
+  getHoursPracticed,
+  evaluateHoursPracticed,
+  getPartnerStats,
+  evaluateLoyalPartner,
+  evaluateIcebreaker,
 } from "../services/badgeService";
 
 // Quantas medalhas mostrar de início / a cada "carregar mais". A lista
@@ -17,7 +24,7 @@ const PAGE_SIZE = 12;
 // Mural de conquistas da Comunidade: uma entrada por combinação (pessoa,
 // badge conquistado) — se 8 pessoas têm Photo Memory, são 8 entradas, uma
 // por pessoa, não uma seção agrupada. Só usa dado PÚBLICO (profiles
-// aprovados + a view de badges), nunca sessão privada.
+// aprovados + as views de badges), nunca sessão privada.
 export const useCommunityBadges = () => {
   const [allAchievements, setAllAchievements] = useState([]);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
@@ -29,9 +36,7 @@ export const useCommunityBadges = () => {
       setLoading(true);
 
       // Contas de teste E2E (hub "E2E-TEST", ver E2E_TEST_DATA_SETUP.sql) não
-      // devem aparecer no mural público da comunidade. speaks/learns não são
-      // mais buscados aqui — Poliglota agora vem de badge_polyglot_holders,
-      // não mais de profiles (ver badgeService.js).
+      // devem aparecer no mural público da comunidade.
       const { data: profiles, error: profilesError } = await supabase
         .from("profiles")
         .select("id, full_name, photo_url")
@@ -41,35 +46,49 @@ export const useCommunityBadges = () => {
       if (profilesError) throw profilesError;
 
       const profileIds = (profiles || []).map((p) => p.id);
-      const [polyglotCounts, photoMemoryHolders] = await Promise.all([
+      const [
+        polyglotCounts,
+        photoMemoryHolders,
+        sessionsCounts,
+        hoursPracticed,
+        partnerStats,
+      ] = await Promise.all([
         getPolyglotCounts(profileIds),
         getPhotoMemoryHolders(profileIds),
+        getSessionsCounts(profileIds),
+        getHoursPracticed(profileIds),
+        getPartnerStats(profileIds),
       ]);
+
+      // Uma entrada por badge — cada um resolvido a partir do Map/Set já
+      // buscado acima (nenhuma query por pessoa/por badge, ver
+      // badgeService.js). Lista declarativa em vez de repetir o mesmo
+      // "avalia + empilha se achieved" 6 vezes; badges futuros só somam
+      // mais uma linha aqui.
+      const badgeEvaluators = [
+        { badgeId: "polyglot", evaluate: (id) => evaluatePolyglot(id, polyglotCounts) },
+        { badgeId: "photoMemory", evaluate: (id) => evaluatePhotoMemory(id, photoMemoryHolders) },
+        { badgeId: "sessionsCount", evaluate: (id) => evaluateSessionsCount(id, sessionsCounts) },
+        { badgeId: "hoursPracticed", evaluate: (id) => evaluateHoursPracticed(id, hoursPracticed) },
+        { badgeId: "loyalPartner", evaluate: (id) => evaluateLoyalPartner(id, partnerStats) },
+        { badgeId: "icebreaker", evaluate: (id) => evaluateIcebreaker(id, partnerStats) },
+      ];
 
       const achievements = [];
 
       (profiles || []).forEach((profile) => {
-        const polyglot = evaluatePolyglot(profile.id, polyglotCounts);
-        if (polyglot.achieved) {
-          achievements.push({
-            profileId: profile.id,
-            name: profile.full_name,
-            photoUrl: profile.photo_url,
-            badgeId: "polyglot",
-            level: polyglot.level,
-          });
-        }
-
-        const photoMemory = evaluatePhotoMemory(profile.id, photoMemoryHolders);
-        if (photoMemory.achieved) {
-          achievements.push({
-            profileId: profile.id,
-            name: profile.full_name,
-            photoUrl: profile.photo_url,
-            badgeId: "photoMemory",
-            level: null,
-          });
-        }
+        badgeEvaluators.forEach(({ badgeId, evaluate }) => {
+          const result = evaluate(profile.id);
+          if (result.achieved) {
+            achievements.push({
+              profileId: profile.id,
+              name: profile.full_name,
+              photoUrl: profile.photo_url,
+              badgeId,
+              level: result.level,
+            });
+          }
+        });
       });
 
       // Embaralhada, sem critério fixo (ver decisão de produto) — Fisher-Yates.

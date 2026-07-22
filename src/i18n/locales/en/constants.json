@@ -2,11 +2,27 @@
   "badges": {
     "polyglot": {
       "name": "Polyglot",
-      "description": "Speaks and is learning multiple languages on the platform."
+      "description": "Practiced at least 3 different languages in your public sessions. Levels at 3, 4, and 6 languages."
     },
     "photoMemory": {
       "name": "Photo Memory",
       "description": "Registered at least one public session with a photo."
+    },
+    "sessionsCount": {
+      "name": "Practitioner",
+      "description": "Logged 1, 5, 10, or 25 public sessions — only sessions you registered count, not ones where you were the partner."
+    },
+    "hoursPracticed": {
+      "name": "Dedication",
+      "description": "Accumulated 10, 25, or 50 hours in public sessions you registered (sum of session duration) — doesn't count sessions where you were only the partner."
+    },
+    "loyalPartner": {
+      "name": "Loyal Partner",
+      "description": "Had 5 public sessions with the same person, adding up the ones you registered and the ones you participated in as the partner."
+    },
+    "icebreaker": {
+      "name": "Icebreaker",
+      "description": "Practiced with 10 different people in public sessions, counting the ones you registered and the ones you participated in as the partner."
     }
   },
   "languages": {

@@ -2,11 +2,27 @@
   "badges": {
     "polyglot": {
       "name": "Políglota",
-      "description": "Habla y está aprendiendo varios idiomas en la plataforma."
+      "description": "Practicó al menos 3 idiomas diferentes en sesiones públicas registradas por usted. Niveles en 3, 4 y 6 idiomas."
     },
     "photoMemory": {
       "name": "Photo Memory",
       "description": "Registró al menos una sesión pública con foto."
+    },
+    "sessionsCount": {
+      "name": "Practicante",
+      "description": "Registró 1, 5, 10 o 25 sesiones públicas — solo cuentan las sesiones que usted registró, no aquellas en las que participó como pareja."
+    },
+    "hoursPracticed": {
+      "name": "Dedicación",
+      "description": "Acumuló 10, 25 o 50 horas en sesiones públicas que usted registró (suma de la duración de las sesiones) — no cuenta cuando usted fue solo la pareja."
+    },
+    "loyalPartner": {
+      "name": "Pareja Fiel",
+      "description": "Tuvo 5 sesiones públicas con la misma persona, sumando las que usted registró y las que participó como pareja."
+    },
+    "icebreaker": {
+      "name": "Rompehielos",
+      "description": "Practicó con 10 personas diferentes en sesiones públicas, contando las que usted registró y las que participó como pareja."
     }
   },
   "languages": {

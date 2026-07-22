@@ -19,20 +19,16 @@ import {
 // badge some.
 //
 // 'colors' (base/light/dark) alimenta o efeito de broche 3D do medalhão
-// (gradiente diagonal + sombra dupla, ver BadgeGrid.css/BadgeWall.css) —
-// documentado para os 9 badges da lista completa da plataforma, mesmo os 7
-// ainda não implementados, pra não precisar retrabalhar a paleta quando
-// entrarem.
+// (gradiente diagonal + sombra dupla, ver BadgeGrid.css/BadgeWall.css).
 //
-// Backlog (não implementado ainda, mas a lista completa que a plataforma
-// pretende ter): sessionsCount, hoursPracticed, countriesReached,
-// continentsReached, connectionsCount, loyalPartner, icebreaker. Cada um vai
-// seguir um dos dois formatos abaixo:
-// - "levels": true — como Poliglota, com múltiplos thresholds numéricos.
-// - "levels": false — binário (tem ou não tem), como Photo Memory; pode ou
-//   não ter uma métrica de progresso numérica (ver evaluate*() em
-//   badgeService.js: progressCurrent/progressTarget ficam null quando não
-//   há fração fazer sentido, e a UI cai pro texto descritivo do badge).
+// Dois formatos de badge:
+// - "hasLevels: true" — como Poliglota/Praticante/Dedicação, com múltiplos
+//   thresholds numéricos em 'levels' (array).
+// - "hasLevels: false" — binário (tem ou não tem). Photo Memory não tem
+//   métrica de progresso (progressCurrent/progressTarget ficam null, a UI
+//   cai pro texto descritivo do badge — ver evaluate*() em badgeService.js);
+//   Parceiro Fiel/Quebra-Gelo TÊM uma métrica numérica de progresso mesmo
+//   sendo binários (um só 'threshold', não um array de níveis).
 export const BADGES = [
   {
     id: "polyglot",
@@ -49,20 +45,46 @@ export const BADGES = [
     hasLevels: false,
     colors: { base: "#E0622F", light: "#f8631e", dark: "#ff4800" },
   },
-
-  // Backlog — não implementados nesta rodada, só documentados (ver acima).
   {
     id: "sessionsCount",
     icon: CalendarCheck,
     hasLevels: true,
+    // Thresholds de sessões públicas próprias (user_id) — ver
+    // badge_sessions_count_holders.
+    levels: [1, 5, 10, 25],
     colors: { base: "#C9962B", light: "#E0B54D", dark: "#A3771F" },
   },
   {
     id: "hoursPracticed",
     icon: Hourglass,
     hasLevels: true,
+    // Thresholds em HORAS (badge_hours_practiced_holders devolve minutos —
+    // a conversão é feita em badgeService.js/evaluateHoursPracticed).
+    levels: [10, 25, 50],
     colors: { base: "#6B4C9A", light: "#8B6BC0", dark: "#523A78" },
   },
+  {
+    id: "loyalPartner",
+    icon: Heart,
+    hasLevels: false,
+    // Threshold único (não é um array de níveis): sessões públicas com a
+    // MESMA pessoa (dono OU parceiro, nas duas direções) — ver
+    // badge_partner_stats.
+    threshold: 5,
+    colors: { base: "#A33636", light: "#C15252", dark: "#7A2828" },
+  },
+  {
+    id: "icebreaker",
+    icon: Sparkles,
+    hasLevels: false,
+    // Threshold único: parceiros distintos (dono OU parceiro, nas duas
+    // direções) — ver badge_partner_stats.
+    threshold: 10,
+    colors: { base: "#2E93B5", light: "#4FB5D6", dark: "#227089" },
+  },
+
+  // Backlog — não implementados ainda, só documentados (mesmo raciocínio
+  // de paleta pronta de antemão).
   {
     id: "countriesReached",
     icon: MapPin,
@@ -80,18 +102,6 @@ export const BADGES = [
     icon: Users,
     hasLevels: true,
     colors: { base: "#C24B72", light: "#DA6E92", dark: "#983A59" },
-  },
-  {
-    id: "loyalPartner",
-    icon: Heart,
-    hasLevels: false,
-    colors: { base: "#A33636", light: "#C15252", dark: "#7A2828" },
-  },
-  {
-    id: "icebreaker",
-    icon: Sparkles,
-    hasLevels: false,
-    colors: { base: "#2E93B5", light: "#4FB5D6", dark: "#227089" },
   },
 ];
 

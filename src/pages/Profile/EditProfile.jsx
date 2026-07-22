@@ -28,6 +28,13 @@ import {
   evaluatePolyglot,
   evaluatePhotoMemory,
   getPhotoMemoryHolders,
+  getSessionsCounts,
+  evaluateSessionsCount,
+  getHoursPracticed,
+  evaluateHoursPracticed,
+  getPartnerStats,
+  evaluateLoyalPartner,
+  evaluateIcebreaker,
 } from "../../services/badgeService";
 
 // Avatar é sempre um recorte quadrado (Cropper aspect={1}) exibido pequeno
@@ -198,16 +205,30 @@ const EditProfile = () => {
             photo_url: profile.photo_url || "",
           });
 
-          // Poliglota e Photo Memory dependem cada um da sua view
-          // (badge_polyglot_holders / badge_photo_memory_holders) — nenhum
-          // dos dois vem mais de profiles.speaks/learns. Ver badgeService.js.
-          const [polyglotCounts, photoMemoryHolders] = await Promise.all([
+          // Cada badge depende da própria view (badge_polyglot_holders,
+          // badge_photo_memory_holders, badge_sessions_count_holders,
+          // badge_hours_practiced_holders, badge_partner_stats) — nenhum
+          // vem mais de profiles.speaks/learns. Ver badgeService.js.
+          const [
+            polyglotCounts,
+            photoMemoryHolders,
+            sessionsCounts,
+            hoursPracticed,
+            partnerStats,
+          ] = await Promise.all([
             getPolyglotCounts([user.id]),
             getPhotoMemoryHolders([user.id]),
+            getSessionsCounts([user.id]),
+            getHoursPracticed([user.id]),
+            getPartnerStats([user.id]),
           ]);
 
           const polyglotDef = getBadgeDefinition("polyglot");
           const photoMemoryDef = getBadgeDefinition("photoMemory");
+          const sessionsCountDef = getBadgeDefinition("sessionsCount");
+          const hoursPracticedDef = getBadgeDefinition("hoursPracticed");
+          const loyalPartnerDef = getBadgeDefinition("loyalPartner");
+          const icebreakerDef = getBadgeDefinition("icebreaker");
 
           setBadges([
             {
@@ -220,6 +241,28 @@ const EditProfile = () => {
               id: "photoMemory",
               icon: photoMemoryDef.icon,
               ...evaluatePhotoMemory(user.id, photoMemoryHolders),
+            },
+            {
+              id: "sessionsCount",
+              icon: sessionsCountDef.icon,
+              levelsTotal: sessionsCountDef.levels.length,
+              ...evaluateSessionsCount(user.id, sessionsCounts),
+            },
+            {
+              id: "hoursPracticed",
+              icon: hoursPracticedDef.icon,
+              levelsTotal: hoursPracticedDef.levels.length,
+              ...evaluateHoursPracticed(user.id, hoursPracticed),
+            },
+            {
+              id: "loyalPartner",
+              icon: loyalPartnerDef.icon,
+              ...evaluateLoyalPartner(user.id, partnerStats),
+            },
+            {
+              id: "icebreaker",
+              icon: icebreakerDef.icon,
+              ...evaluateIcebreaker(user.id, partnerStats),
             },
           ]);
         }

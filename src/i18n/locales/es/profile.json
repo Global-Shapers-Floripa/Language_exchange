@@ -66,6 +66,10 @@
   "badges": {
     "subtitle": "Insignias ganadas según tu perfil y tus sesiones públicas.",
     "polyglotProgress": "{{current}} de {{target}} idiomas",
+    "sessionsCountProgress": "{{current}} de {{target}} sesiones",
+    "hoursPracticedProgress": "{{current}} de {{target}} horas",
+    "loyalPartnerProgress": "{{current}} de {{target}} sesiones con la misma persona",
+    "icebreakerProgress": "{{current}} de {{target}} personas",
     "levelLabel": "Nivel {{level}} de {{total}}",
     "lockedAria": "{{name}}: aún no conquistada",
     "unlockedAria": "{{name}}: conquistada"

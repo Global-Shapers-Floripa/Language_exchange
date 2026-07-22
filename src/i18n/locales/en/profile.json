@@ -66,6 +66,10 @@
   "badges": {
     "subtitle": "Badges earned based on your profile and your public sessions.",
     "polyglotProgress": "{{current}} of {{target}} languages",
+    "sessionsCountProgress": "{{current}} of {{target}} sessions",
+    "hoursPracticedProgress": "{{current}} of {{target}} hours",
+    "loyalPartnerProgress": "{{current}} of {{target}} sessions with the same person",
+    "icebreakerProgress": "{{current}} of {{target}} people",
     "levelLabel": "Level {{level}} of {{total}}",
     "lockedAria": "{{name}}: not earned yet",
     "unlockedAria": "{{name}}: earned"
