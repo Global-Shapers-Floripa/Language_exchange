@@ -10,7 +10,8 @@
   "sectionTitles": {
     "personalInfo": "Personal information",
     "editInfo": "Edit Information",
-    "flagMap": "Flag Map"
+    "flagMap": "Flag Map",
+    "badges": "Badges"
   },
   "fields": {
     "fullName": "Full name",
@@ -61,6 +62,13 @@
     "unlockedAria": "{{country}}: {{count}} connection(s), view details",
     "lockedAria": "{{country}}: no sessions yet",
     "sessionCountTitle": "{{count}} sessions with this person"
+  },
+  "badges": {
+    "subtitle": "Badges earned based on your profile and your public sessions.",
+    "polyglotProgress": "{{current}} of {{target}} languages",
+    "levelLabel": "Level {{level}} of {{total}}",
+    "lockedAria": "{{name}}: not earned yet",
+    "unlockedAria": "{{name}}: earned"
   },
   "loading": "Loading profile...",
   "errors": {

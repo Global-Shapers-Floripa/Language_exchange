@@ -10,7 +10,8 @@
   "sectionTitles": {
     "personalInfo": "Información personal",
     "editInfo": "Editar información",
-    "flagMap": "Mapa de Banderas"
+    "flagMap": "Mapa de Banderas",
+    "badges": "Insignias"
   },
   "fields": {
     "fullName": "Nombre completo",
@@ -61,6 +62,13 @@
     "unlockedAria": "{{country}}: {{count}} conexión(es), ver detalles",
     "lockedAria": "{{country}}: aún sin sesiones",
     "sessionCountTitle": "{{count}} sesiones con esta persona"
+  },
+  "badges": {
+    "subtitle": "Insignias ganadas según tu perfil y tus sesiones públicas.",
+    "polyglotProgress": "{{current}} de {{target}} idiomas",
+    "levelLabel": "Nivel {{level}} de {{total}}",
+    "lockedAria": "{{name}}: aún no conquistada",
+    "unlockedAria": "{{name}}: conquistada"
   },
   "loading": "Cargando perfil...",
   "errors": {

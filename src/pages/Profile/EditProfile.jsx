@@ -8,10 +8,12 @@ import { SquarePen, Eye, EyeOff } from "lucide-react";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import TagSelect from "../../components/common/TagSelect";
 import PersonAvatar from "../../components/common/PersonAvatar";
+import BadgeGrid from "../../components/common/BadgeGrid";
 
 import { LANGUAGES, getLanguageCodeByName } from "../../constants/languages";
 import { INTERESTS, getInterestCodeByName } from "../../constants/interests";
 import { COUNTRIES } from "../../constants/countries";
+import { getBadgeDefinition } from "../../constants/badges";
 import {
   CEFR_LEVELS,
   parseLanguageString,
@@ -21,6 +23,12 @@ import {
 import { getFlagUrl } from "../../utils/countryFlag";
 import { drawToResizedBlob } from "../../utils/imageResize";
 import { useCountryProgress } from "../../hooks/useCountryProgress";
+import {
+  getPolyglotCounts,
+  evaluatePolyglot,
+  evaluatePhotoMemory,
+  getPhotoMemoryHolders,
+} from "../../services/badgeService";
 
 // Avatar é sempre um recorte quadrado (Cropper aspect={1}) exibido pequeno
 // (40-88px pela plataforma) — 500px de lado já é resolução de sobra, evita
@@ -99,6 +107,13 @@ const EditProfile = () => {
 
     photo_url: "",
   });
+
+  // =========================
+  // BADGES (insígnias)
+  // =========================
+  // Calculados em cima do estado atual (perfil + sessões públicas), sem
+  // tabela de "conquista permanente" — ver badgeService.js.
+  const [badges, setBadges] = useState([]);
 
   // =========================
   // CROPPER
@@ -182,6 +197,31 @@ const EditProfile = () => {
               : [],
             photo_url: profile.photo_url || "",
           });
+
+          // Poliglota e Photo Memory dependem cada um da sua view
+          // (badge_polyglot_holders / badge_photo_memory_holders) — nenhum
+          // dos dois vem mais de profiles.speaks/learns. Ver badgeService.js.
+          const [polyglotCounts, photoMemoryHolders] = await Promise.all([
+            getPolyglotCounts([user.id]),
+            getPhotoMemoryHolders([user.id]),
+          ]);
+
+          const polyglotDef = getBadgeDefinition("polyglot");
+          const photoMemoryDef = getBadgeDefinition("photoMemory");
+
+          setBadges([
+            {
+              id: "polyglot",
+              icon: polyglotDef.icon,
+              levelsTotal: polyglotDef.levels.length,
+              ...evaluatePolyglot(user.id, polyglotCounts),
+            },
+            {
+              id: "photoMemory",
+              icon: photoMemoryDef.icon,
+              ...evaluatePhotoMemory(user.id, photoMemoryHolders),
+            },
+          ]);
         }
       } catch (error) {
         console.error(error);
@@ -957,11 +997,28 @@ const EditProfile = () => {
           )}
         </div>
 
+        {/* BADGES (insígnias) — visível apenas no modo visualização */}
+        {!isEditing && (
+          <div className="card card--profile badges-card">
+            <h2 className="badge-grid-title">{tp("sectionTitles.badges")}</h2>
+            <p className="card-section-subtitle">{tp("badges.subtitle")}</p>
+
+            <BadgeGrid
+              badges={badges}
+              person={{
+                id: currentUser?.id,
+                name: formData.full_name,
+                photoUrl: formData.photo_url,
+              }}
+            />
+          </div>
+        )}
+
         {/* MAPA DE BANDEIRAS — visível apenas no modo visualização */}
         {!isEditing && (
           <div id="mapa-bandeiras" className="card card--profile country-map-card">
             <h2 className="section-title">{tp("sectionTitles.flagMap")}</h2>
-            <p className="country-map-subtitle">
+            <p className="card-section-subtitle">
               {tp("flagMap.subtitle")}
             </p>
 
