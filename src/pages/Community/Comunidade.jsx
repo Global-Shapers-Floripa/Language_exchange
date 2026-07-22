@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import { usePublicSessions } from "../../hooks/usePublicSessions";
+import { useCommunityBadges } from "../../hooks/useCommunityBadges";
 import CommunitySessionModal from "../../components/common/CommunitySessionModal";
 import SessionCard from "../../components/common/SessionCard";
+import BadgeWall from "../../components/common/BadgeWall";
 
 import "./comunidade.css";
 
@@ -11,6 +13,13 @@ const Comunidade = () => {
   const { t } = useTranslation("dashboard");
   const { publicSessions, loading, error } = usePublicSessions();
   const [selectedSession, setSelectedSession] = useState(null);
+
+  const {
+    achievements,
+    hasMore,
+    loading: loadingBadges,
+    loadMore,
+  } = useCommunityBadges();
 
   return (
     <DashboardLayout>
@@ -59,6 +68,13 @@ const Comunidade = () => {
       <CommunitySessionModal
         session={selectedSession}
         onClose={() => setSelectedSession(null)}
+      />
+
+      <BadgeWall
+        achievements={achievements}
+        hasMore={hasMore}
+        loading={loadingBadges}
+        onLoadMore={loadMore}
       />
     </DashboardLayout>
   );

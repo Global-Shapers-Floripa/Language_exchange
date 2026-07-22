@@ -187,6 +187,14 @@
     "loadError": "Erro ao carregar o feed: {{error}}",
     "empty": "Nenhuma sessão pública ainda. Quando alguém tornar uma sessão pública, ela aparece aqui."
   },
+  "badgeWall": {
+    "sectionTitle": "Mural de Conquistas",
+    "subtitle": "Insígnias conquistadas pela comunidade.",
+    "loading": "Carregando conquistas...",
+    "empty": "Ninguém conquistou uma insígnia ainda.",
+    "loadMore": "Carregar mais",
+    "medalAria": "{{name}} conquistou {{badge}}"
+  },
   "resourcesPage": {
     "title": "Recursos & Guia",
     "accessNow": "Acessar agora",

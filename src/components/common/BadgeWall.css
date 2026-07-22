@@ -1,0 +1,68 @@
+.badge-wall-section {
+  margin-top: 32px;
+}
+
+/* Classe própria pra não repetir o problema de .section-title (essa mesma
+   classe genérica existe em pelo menos help.css e Landing/styles.css, com
+   margin-bottom/display diferentes — qual delas "ganha" aqui dependia só da
+   ordem no bundle CSS, não de uma regra coerente). Escopado só aos
+   componentes de badge, sem tocar nos arquivos originais que já usam
+   .section-title pras próprias telas. */
+.badge-wall-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0a3251;
+ 
+}
+
+.badge-wall-subtitle {
+  color: #64748b;
+  font-size: 14px;
+  margin: 0 0 10px 0;
+}
+
+.badge-wall-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 15px;
+  /* Sem isso, grid items esticam por padrão (align-items: stretch) até a
+     altura da linha inteira — como .badge-medal é flex-column sem altura
+     fixa, o espaço "esticado" sobra embaixo do último filho (o nome da
+     pessoa). Nomes de tamanhos diferentes quebrando em 1 ou 2 linhas
+     deixavam algumas linhas da grade mais altas que outras, e as medalhas
+     mais curtas ganhavam esse respiro extra só embaixo do texto. */
+  align-items: start;
+}
+
+.badge-medal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 12px;
+  padding: 8px;
+  transition: opacity 0.15s;
+}
+
+.badge-medal:hover {
+  opacity: 0.75;
+}
+
+.badge-medal-name {
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: #0a3251;
+  margin: 0;
+}
+
+.badge-medal-person {
+  font-size: 0.7rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.badge-wall-load-more {
+  display: block;
+  margin: 24px auto 0;
+}

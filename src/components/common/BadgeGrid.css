@@ -1,0 +1,67 @@
+.badge-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  /* Mesmo valor do .country-flags-grid logo abaixo (Mapa de Bandeiras),
+     pra manter consistência visual entre as duas seções. */
+  gap: 14px;
+  margin-top: 16px;
+  /* Mesmo motivo do align-items em BadgeWall.css: sem isso, cada célula
+     estica até a altura da linha inteira (align-items: stretch é o padrão
+     do grid), sobrando espaço embaixo do texto quando um card da mesma
+     linha tem conteúdo mais alto que outro. */
+  align-items: start;
+}
+
+.badge-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  padding: 20px 12px;
+  border-radius: 16px;
+  background: #f8fafc;
+  cursor: pointer;
+}
+
+.badge-card:hover {
+  background: #f1f5f9;
+}
+
+.badge-card--locked {
+  opacity: 0.55;
+  filter: grayscale(1);
+}
+
+.badge-card-name {
+  font-weight: 700;
+  color: #334155;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.badge-card--achieved .badge-card-name {
+  color: #0a3251;
+}
+
+.badge-card-progress {
+  color: #64748b;
+  font-size: 0.75rem;
+  margin: 0;
+}
+
+.badge-card-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.badge-card-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #e2e8f0;
+}
+
+.badge-card-dot--filled {
+  background: var(--badge-base);
+}

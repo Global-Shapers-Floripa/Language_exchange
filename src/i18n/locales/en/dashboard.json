@@ -187,6 +187,14 @@
     "loadError": "Error loading the feed: {{error}}",
     "empty": "No public sessions yet. When someone makes a session public, it shows up here."
   },
+  "badgeWall": {
+    "sectionTitle": "Achievement Wall",
+    "subtitle": "Badges earned by the community.",
+    "loading": "Loading achievements...",
+    "empty": "Nobody has earned a badge yet.",
+    "loadMore": "Load more",
+    "medalAria": "{{name}} earned {{badge}}"
+  },
   "resourcesPage": {
     "title": "Resources & Guide",
     "accessNow": "Access now",

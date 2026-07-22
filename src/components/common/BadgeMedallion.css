@@ -1,0 +1,30 @@
+.badge-medallion {
+  display: flex;
+  align-items: center;
+}
+
+.badge-medallion-photo {
+  border: 3px solid white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+/* Efeito de broche/pin 3D: gradiente diagonal claro→escuro (cor própria de
+   cada badge, via --badge-light/base/dark setado inline por BadgeMedallion)
+   + textura pontilhada sutil sobre o gradiente + sombra dupla (externa pra
+   descolar da superfície, interna pra dar volume/curvatura). */
+.badge-medallion-icon {
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid white;
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.2) 1px, transparent 1.5px),
+    linear-gradient(150deg, var(--badge-light) 0%, var(--badge-base) 55%, var(--badge-dark) 100%);
+  background-size: 4px 4px, cover;
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.4),
+    inset 0 2px 3px rgba(255, 255, 255, 0.45),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.3);
+}

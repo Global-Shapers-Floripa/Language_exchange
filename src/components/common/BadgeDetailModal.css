@@ -1,0 +1,60 @@
+.badge-detail-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.75);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+  z-index: 9999;
+}
+
+.badge-detail-modal {
+  background: white;
+  border-radius: 24px;
+  padding: 32px 28px;
+
+  width: 100%;
+  max-width: 360px;
+
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+}
+
+.badge-detail-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255, 115, 0, 0.685);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.badge-detail-modal-close:hover {
+  background: rgba(255, 115, 0, 0.85);
+}
+
+.badge-detail-modal-name {
+  margin-top: 16px;
+  font-weight: 500;
+  font-size: 1.2rem;
+  color: #0a3251;
+}
+
+.badge-detail-modal-person {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.badge-detail-modal-description {
+  color: #334155;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}

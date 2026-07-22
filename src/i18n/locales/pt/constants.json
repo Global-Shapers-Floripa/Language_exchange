@@ -1,4 +1,14 @@
 {
+  "badges": {
+    "polyglot": {
+      "name": "Poliglota",
+      "description": "Fala e aprende múltiplos idiomas na plataforma."
+    },
+    "photoMemory": {
+      "name": "Photo Memory",
+      "description": "Registrou pelo menos uma sessão pública com foto."
+    }
+  },
   "languages": {
     "pt": "Português",
     "en": "Inglês",
