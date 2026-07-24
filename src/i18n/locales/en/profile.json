@@ -20,6 +20,7 @@
     "emailNotInformed": "Email not informed",
     "phone": "Phone",
     "phonePending": "Phone pending",
+    "phoneDddHint": "Don't forget to include the area code — it helps identify where you're from.",
     "weforumLink": "WeForum Link",
     "weforumLinkPending": "WeForum link pending",
     "country": "Country",

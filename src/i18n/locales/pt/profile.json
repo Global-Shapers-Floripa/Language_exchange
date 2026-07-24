@@ -20,6 +20,7 @@
     "emailNotInformed": "Email não informado",
     "phone": "Telefone",
     "phonePending": "Telefone pendente de preencher",
+    "phoneDddHint": "Não esqueça de incluir o DDD — ele ajuda a identificar de onde você é.",
     "weforumLink": "Link do WeForum",
     "weforumLinkPending": "Link do WeForum pendente de preencher",
     "country": "País",

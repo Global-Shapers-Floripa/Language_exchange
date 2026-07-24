@@ -58,7 +58,7 @@ export const usePartners = () => {
         // "E2E Test Partner" na grade.
         let query = supabase
           .from("profiles")
-          .select("id, full_name, description, hub, photo_url, country, speaks, learns")
+          .select("id, full_name, description, hub, photo_url, country, speaks, learns, interests")
           .eq("is_approved", true)
           .neq("id", user.id)
           .not("speaks", "is", null)
@@ -105,6 +105,8 @@ export const usePartners = () => {
             speaks: profile.speaks,
 
             learns: profile.learns,
+
+            interests: profile.interests,
 
             speaksArray,
 

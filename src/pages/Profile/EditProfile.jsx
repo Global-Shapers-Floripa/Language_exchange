@@ -3,7 +3,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import Cropper from "react-easy-crop";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { SquarePen, Eye, EyeOff } from "lucide-react";
+import { SquarePen, Eye, EyeOff, AlertTriangle } from "lucide-react";
 
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import TagSelect from "../../components/common/TagSelect";
@@ -771,6 +771,10 @@ const EditProfile = () => {
                       onChange={handleInputChange}
                       className="form-input"
                     />
+                    <span className="form-hint warning-banner">
+                      <AlertTriangle size={14} className="warning-banner-icon" aria-hidden="true" />
+                      {tp("fields.phoneDddHint")}
+                    </span>
                   </div>
 
                   <div className="form-group">
@@ -831,7 +835,8 @@ const EditProfile = () => {
 
                   <div className="form-group">
                     <label>{tp("fields.speaks")}</label>
-                    <span className="form-hint language-select-hint">
+                    <span className="form-hint language-select-hint warning-banner">
+                      <AlertTriangle size={14} className="warning-banner-icon" aria-hidden="true" />
                       {tp("languageSelect.hint")}
                     </span>
                     <TagSelect
@@ -892,7 +897,8 @@ const EditProfile = () => {
 
                   <div className="form-group">
                     <label>{tp("fields.learns")}</label>
-                    <span className="form-hint language-select-hint">
+                    <span className="form-hint language-select-hint warning-banner">
+                      <AlertTriangle size={14} className="warning-banner-icon" aria-hidden="true" />
                       {tp("languageSelect.hint")}
                     </span>
                     <TagSelect

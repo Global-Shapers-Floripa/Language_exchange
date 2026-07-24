@@ -68,7 +68,7 @@ const ContactSection = () => {
                 {t("contact.hubCard.text")}
               </p>
 
-              <a href="https://instagram.com/globalshapersfloripa" target="_blank" rel="noopener noreferrer" className="site-hub-button">
+              <a href="https://www.globalshapersflorianopolis.com.br/" target="_blank" rel="noopener noreferrer" className="site-hub-button">
                 {t("contact.hubCard.cta")} &rarr;
               </a>
             </div>

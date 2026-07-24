@@ -62,14 +62,14 @@ const FindPartners = () => {
         // Mesmo shape do join de "recebidas" — usado também para montar "Minhas Conexões".
         const { data: sent } = await supabase
           .from("connection_requests")
-          .select('*, receiver:profiles!receiver_id(id, full_name, hub, country, speaks, learns, photo_url)')
+          .select('*, receiver:profiles!receiver_id(id, full_name, hub, country, speaks, learns, interests, description, photo_url)')
           .eq("sender_id", user.id);
 
         // 3. Buscar solicitações recebidas
         // Inclui os campos necessários para exibir o perfil no modal de revisão (Ver solicitação)
         const { data: received } = await supabase
           .from("connection_requests")
-          .select('*, sender:profiles!sender_id(id, full_name, hub, country, speaks, learns, photo_url)')
+          .select('*, sender:profiles!sender_id(id, full_name, hub, country, speaks, learns, interests, description, photo_url)')
           .eq("receiver_id", user.id);
 
         // 4. Separar aceitas (viram "Minhas Conexões") das pendências —
@@ -251,6 +251,8 @@ const FindPartners = () => {
                   country: selectedPartner.country,
                   speaks: selectedPartner.speaks,
                   learns: selectedPartner.learns,
+                  interests: selectedPartner.interests,
+                  description: selectedPartner.description,
                   photo_url: selectedPartner.photo_url,
                 }
               : undefined,
@@ -278,6 +280,8 @@ const FindPartners = () => {
                   country: selectedPartner.country,
                   speaks: selectedPartner.speaks,
                   learns: selectedPartner.learns,
+                  interests: selectedPartner.interests,
+                  description: selectedPartner.description,
                   photo_url: selectedPartner.photo_url,
                 }
               : undefined,

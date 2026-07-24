@@ -20,6 +20,7 @@
     "emailNotInformed": "Email no informado",
     "phone": "Teléfono",
     "phonePending": "Teléfono pendiente de completar",
+    "phoneDddHint": "No olvides incluir el código de área — ayuda a identificar de dónde eres.",
     "weforumLink": "Enlace de WeForum",
     "weforumLinkPending": "Enlace de WeForum pendiente de completar",
     "country": "País",
