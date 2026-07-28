@@ -85,6 +85,7 @@ export const LANGUAGES = [
   { code: 'eo', name: 'Esperanto' },
   { code: 'la', name: 'Latim' },
   { code: 'zh-cn', name: 'Mandarim' },
+  { code: 'kea', name: 'Crioulo Cabo-Verdiano' },
 ];
 
 // Teto final (pós-compressão) pra foto de sessão, e teto único (sem
