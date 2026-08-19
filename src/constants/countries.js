@@ -82,6 +82,7 @@ export const COUNTRIES = [
   { code: "HT", name: "Haiti" },
   { code: "NL", name: "Holanda" },
   { code: "HN", name: "Honduras" },
+  { code: "HK", name: "Hong Kong" },
   { code: "HU", name: "Hungria" },
   { code: "YE", name: "Iêmen" },
   { code: "MH", name: "Ilhas Marshall" },
