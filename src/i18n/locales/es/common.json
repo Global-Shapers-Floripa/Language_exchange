@@ -1,1 +1,8 @@
-{}
+{
+  "pwaUpdate": {
+    "title": "Nueva versión disponible",
+    "text": "Una nueva versión de Language Exchange está lista. Actualiza para seguir usando la versión más reciente.",
+    "confirmButtonText": "Actualizar ahora",
+    "cancelButtonText": "Después"
+  }
+}

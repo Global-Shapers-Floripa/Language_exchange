@@ -16,6 +16,7 @@ import Profile from './pages/Profile/EditProfile';
 import ProjectPartners from './pages/Partners/ProjectsPartners';
 import Help from './pages/Help/Help';
 import Comunidade from './pages/Community/Comunidade';
+import UpdatePrompt from './components/common/UpdatePrompt';
 import './App.css';
 
 import { Analytics } from "@vercel/analytics/react"
@@ -45,6 +46,7 @@ function App() {
       </Routes>
 
        <Analytics />
+       <UpdatePrompt />
     </Router>
   );
 }
