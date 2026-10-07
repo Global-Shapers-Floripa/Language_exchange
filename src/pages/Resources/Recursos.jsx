@@ -24,9 +24,19 @@ import {
   Clock3,
 } from "lucide-react";
 
+// Idiomas com PDF disponível em public/Recursos-PDF/<chave>.<idioma>.pdf —
+// qualquer outro idioma resolvido pelo i18next cai no pt (ver getPdfUrl).
+const PDF_LANGUAGES = ["pt", "en", "es"];
+
+const getPdfUrl = (pdfKey, lang) => {
+  const safeLang = PDF_LANGUAGES.includes(lang) ? lang : "pt";
+  return `/Recursos-PDF/${pdfKey}.${safeLang}.pdf`;
+};
+
 const Resources = () => {
-  const { t } = useTranslation("dashboard");
+  const { t, i18n } = useTranslation("dashboard");
   const [selectedResource, setSelectedResource] = useState(null);
+  const pdfLang = i18n.resolvedLanguage || i18n.language;
 
   // Exatamente 4 recursos mapeando para os 4 PDFs da sua pasta — mesmo
   // conteúdo (título/descrição) da prévia em Dashboard.jsx, então reaproveita
@@ -36,25 +46,25 @@ const Resources = () => {
       title: t("dashboardPage.resourcesPreview.items.feedback.title"),
       desc: t("dashboardPage.resourcesPreview.items.feedback.desc"),
       icon: <Book size={24} className="icon-blue" />,
-      pdfUrl: "/Recursos-PDF/guia-feedback.pdf",
+      pdfKey: "guia-feedback",
     },
     {
       title: t("dashboardPage.resourcesPreview.items.icebreakers.title"),
       desc: t("dashboardPage.resourcesPreview.items.icebreakers.desc"),
       icon: <MessageCircle size={24} className="icon-purple" />,
-      pdfUrl: "/Recursos-PDF/quebragelos.pdf",
+      pdfKey: "quebragelos",
     },
     {
       title: t("dashboardPage.resourcesPreview.items.translationToolkit.title"),
       desc: t("dashboardPage.resourcesPreview.items.translationToolkit.desc"),
       icon: <Globe size={24} className="icon-green" />,
-      pdfUrl: "/Recursos-PDF/traducoes.pdf",
+      pdfKey: "traducoes",
     },
     {
       title: t("dashboardPage.resourcesPreview.items.scheduling.title"),
       desc: t("dashboardPage.resourcesPreview.items.scheduling.desc"),
       icon: <Calendar size={24} className="icon-orange" />,
-      pdfUrl: "/Recursos-PDF/guia-agendamento.pdf",
+      pdfKey: "guia-agendamento",
     },
   ];
 
@@ -170,54 +180,59 @@ const Resources = () => {
       </div>
 
       {/* MODAL OVERLAY */}
-      {selectedResource && (
-        <div
-          className="resources-modal-overlay"
-          onClick={() => setSelectedResource(null)}
-        >
+      {selectedResource && (() => {
+        // Recalculado a cada render (não guardado no estado do clique), pra
+        // acompanhar a troca de idioma em tempo real com o modal já aberto.
+        const pdfUrl = getPdfUrl(selectedResource.pdfKey, pdfLang);
+        return (
           <div
-            className="resources-modal-content"
-            onClick={(e) => e.stopPropagation()}
+            className="resources-modal-overlay"
+            onClick={() => setSelectedResource(null)}
           >
-            <button
-              className="resources-modal-close"
-              onClick={() => setSelectedResource(null)}
+            <div
+              className="resources-modal-content"
+              onClick={(e) => e.stopPropagation()}
             >
-              <X size={24} color="#64748b" />
-            </button>
+              <button
+                className="resources-modal-close"
+                onClick={() => setSelectedResource(null)}
+              >
+                <X size={24} color="#64748b" />
+              </button>
 
-            {/* Header limpo, só com o título */}
-            <div className="modal-header-container">
-              <div className="modal-header-resource">
-                <div className="modal-icon-wrapper">
-                  {selectedResource.icon}
+              {/* Header limpo, só com o título */}
+              <div className="modal-header-container">
+                <div className="modal-header-resource">
+                  <div className="modal-icon-wrapper">
+                    {selectedResource.icon}
+                  </div>
+                  <h3>{selectedResource.title}</h3>
                 </div>
-                <h3>{selectedResource.title}</h3>
+              </div>
+
+              {/* Container do PDF */}
+              <div className="modal-body-pdf">
+                <iframe
+                  src={`${pdfUrl}#toolbar=0&view=FitH`}
+                  title={selectedResource.title}
+                  className="pdf-viewer"
+                />
+              </div>
+
+              {/* Novo rodapé com o botão de download centralizado */}
+              <div className="resources-modal-footer">
+                <a
+                  href={pdfUrl}
+                  download
+                  className="modal-download-action"
+                >
+                  <Download size={18} /> {t("resourcesPage.downloadPdf")}
+                </a>
               </div>
             </div>
-
-            {/* Container do PDF */}
-            <div className="modal-body-pdf">
-              <iframe
-                src={`${selectedResource.pdfUrl}#toolbar=0&view=FitH`}
-                title={selectedResource.title}
-                className="pdf-viewer"
-              />
-            </div>
-
-            {/* Novo rodapé com o botão de download centralizado */}
-            <div className="resources-modal-footer">
-              <a
-                href={selectedResource.pdfUrl}
-                download
-                className="modal-download-action"
-              >
-                <Download size={18} /> {t("resourcesPage.downloadPdf")}
-              </a>
-            </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
     </DashboardLayout>
   );
 };
