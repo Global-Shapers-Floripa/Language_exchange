@@ -1,6 +1,8 @@
 /// <reference no-default-lib="true"/>
 /// <reference lib="deno.ns" />
 
+import { createClient } from "@supabase/supabase-js";
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -358,7 +360,11 @@ Deno.serve(async (req: Request) => {
   }
 
   try {
-    const { template, to, data, lang } = await req.json();
+    // 'user_id' é opcional: quem chama ainda não foi atualizado pra
+    // mandá-lo (fase futura, junto com o fechamento de acesso desta
+    // function) — sem ele, o envio funciona normalmente, só a linha em
+    // email_log nasce com user_id NULL (mas com recipient_email preenchido).
+    const { template, to, data, lang, user_id: userId } = await req.json();
 
     if (!template || !TEMPLATES[template as Template]) {
       return jsonResponse(
@@ -413,6 +419,44 @@ Deno.serve(async (req: Request) => {
     console.log(
       `E-mail enviado via Resend: template=${template} resend_id=${resendBody?.id}`,
     );
+
+    // Registro em email_log é best-effort e roda DEPOIS da confirmação do
+    // Resend: o e-mail já saiu, então uma falha em logar não deve virar erro
+    // pra quem chamou (isso poderia disparar um reenvio, duplicando o
+    // e-mail). Feito aqui dentro (não em quem chama) de propósito — com 6
+    // pontos de chamada espalhados, bastaria esquecer de logar em um deles
+    // pro cron futuro concluir "ainda não mandei" e reenviar. Client de
+    // service role criado por chamada, mesmo padrão usado em
+    // notify-connection-request e admin-delete-user.
+    try {
+      const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
+      const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get(
+        "SUPABASE_SERVICE_ROLE_KEY",
+      );
+
+      if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+        console.error(
+          "SUPABASE_URL/SUPABASE_SERVICE_ROLE_KEY ausentes — e-mail enviado mas não registrado em email_log.",
+        );
+      } else {
+        const adminClient = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+        const { error: logError } = await adminClient.from("email_log").insert({
+          user_id: userId ?? null,
+          recipient_email: to,
+          template,
+          resend_id: resendBody?.id ?? null,
+        });
+
+        if (logError) {
+          console.error(
+            `Falha ao registrar email_log: template=${template} resend_id=${resendBody?.id}`,
+            logError,
+          );
+        }
+      }
+    } catch (logErr) {
+      console.error("Erro ao registrar email_log:", logErr);
+    }
 
     return jsonResponse({ success: true }, 200);
   } catch (err: unknown) {
