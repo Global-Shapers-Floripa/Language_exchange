@@ -276,7 +276,7 @@ Lista única, consolidando tudo já sinalizado como gap/pendência (no CLAUDE.md
 - **Migrations duplicando SQL da raiz.** As migrations tracked de 2026-07-04/07-09 (`add_profile_contacts_table`, `add_connection_requests_delete_policies`, `sessions_public_visibility`) espelham exatamente arquivos `.sql` soltos na raiz do repo, aplicados antes de existir a pasta `migrations/`. Não é duplicação acidental — é a mesma mudança documentada duas vezes por causa de quando cada convenção passou a existir. Novas mudanças de schema/RLS devem ir só em `migrations/`, sem repetir na raiz.
 - **`Cache-Control` de Storage não customizado.** Nem `profile-photos` nem `session-proofs` passam uma opção `cacheControl` explícita no upload — usam o padrão do Supabase Storage (1h). Poderia valer um `max-age` mais longo, já que os paths são estáveis e trocas de foto de perfil já fazem cache-busting via `?t=` na URL — não implementado ainda.
 - **Badges "wave 2"** (Praticante, Dedicação, Parceiro Fiel, Quebra-Gelo) — views propostas em migration não aplicada, sem lógica em `badgeService.js`. Ver PRODUTO.md seção 5.
-- **E-mail de admin hardcoded** em `Admin.jsx` (controla a visibilidade de contas de teste `E2E-TEST` para além dos admins comuns) — não é configurável via env/banco, é uma string fixa no código-fonte.
+- **`user_id` da desenvolvedora hardcoded** em `Admin.jsx` (controla a visibilidade de contas de teste `E2E-TEST` para além dos admins comuns) — até outubro de 2026 era o e-mail pessoal dela; trocado por `user_id` quando o repositório se tornou público, para não deixar um e-mail pessoal em texto puro no código-fonte (ver seção 13). Continua não sendo configurável via env/banco, é uma constante fixa no código.
 - **Schema de `profiles` sem migration de criação versionada** — documentado por inferência (ver seção 5). Se algum dia for feita uma migration de "captura do estado atual" (baseline), ela fecharia essa lacuna.
 
 ---
@@ -299,8 +299,8 @@ Dados de teste seguem a convenção `hub = 'E2E-TEST'`, filtrada das consultas d
 
 ## 12. Perguntas frequentes de quem está chegando
 
-**Por que o e-mail do admin está fixo no código, em vez de vir de uma configuração?**
-Porque hoje só existe uma pessoa administrando o projeto, e essa regra específica (mostrar contas de teste E2E só para ela, além dos admins normais) é uma conveniência de depuração, não uma feature de produto. Se o time de admins crescer, vale revisitar — mas hoje não compensou o esforço de tornar configurável.
+**Por que o `user_id` da desenvolvedora está fixo no código, em vez de vir de uma configuração?**
+Porque hoje só existe uma pessoa administrando o projeto, e essa regra específica (mostrar contas de teste E2E só para ela, além dos admins normais) é uma conveniência de depuração, não uma feature de produto. Até outubro de 2026 essa comparação era feita pelo e-mail dela; foi trocada por `user_id` quando o repositório passou a ser público (ver seção 13), para não expor um e-mail pessoal em texto puro no código-fonte — um `user_id` sozinho não identifica a pessoa pra quem olha o repo de fora. Se o time de admins crescer, vale revisitar tornar isso configurável — mas hoje não compensou o esforço.
 
 **Por que não tem testes de unidade, só E2E?**
 O projeto prioriza testar comportamento visível de usuário (login funciona, cadastro funciona) sobre testar funções isoladas. Combinado com o fato de que a maior parte da lógica de negócio real mora em RLS/funções do banco (não em funções JS puras fáceis de testar isoladamente), os testes E2E acabaram cobrindo mais valor por esforço do que testes unitários cobririam. Isso é uma lacuna real (ver seção 11), não uma escolha definitiva — só não foi priorizada ainda.
@@ -313,3 +313,33 @@ Porque a segurança de dados real já vem da RLS do banco — mesmo que alguém 
 
 **Por que `speaks`/`learns`/`interests` são strings com vírgula em vez de tabelas relacionadas?**
 Decisão de simplicidade para o tamanho atual do projeto — evita joins e tabelas extras para um dado que, na prática, é sempre lido/escrito inteiro de uma vez (a lista completa de idiomas de uma pessoa), nunca item por item. Se no futuro for preciso, por exemplo, buscar "todos que falam francês" de forma eficiente em escala, essa modelagem passaria a doer e viraria candidata a migrar para uma tabela relacionada.
+
+---
+
+## 13. Contas, propriedade e acesso
+
+Em outubro de 2026 o projeto passou por uma migração de contas: o repositório saiu da conta pessoal da desenvolvedora e foi transferido para a organização do hub no GitHub, e o repositório se tornou **público**. Antes disso, todo o histórico do Git foi auditado em busca de segredos commitados por acidente — nenhum foi encontrado (a única chave que já apareceu em texto puro em commits antigos é a `VITE_SUPABASE_ANON_KEY`, que é pública por natureza e foi desenhada pelo Supabase para poder ficar exposta no front-end).
+
+| Serviço | Onde mora hoje | Quem é dono (Owner/Admin) | Papel da desenvolvedora | Se outra pessoa assumir no futuro |
+|---|---|---|---|---|
+| **GitHub** | Organização `Global-Shapers-Floripa`, repositório público `Language_exchange` | Hub e desenvolvedora são ambos Owners da organização | Owner | Pedir para ser adicionado como membro/Owner da organização pelo hub |
+| **Supabase** | Organização "Global Shapers Floripa" (plano Free) | Conta do hub (`globalshapersflorianopolis@gmail.com`) é Owner | Developer — de propósito, ver abaixo | Hub adiciona a pessoa como Developer (ou outro papel) na organização Supabase |
+| **Resend** | Mesmo time/conta de sempre, domínio e remetente inalterados | Conta original do time, com a conta do hub adicionada como Admin | — (acesso via o time) | Pedir para ser adicionado ao time no Resend |
+| **Vercel** | Conta pessoal da desenvolvedora (plano Hobby), conectada ao repositório da organização no GitHub | Desenvolvedora | Owner da conta pessoal | Ver explicação abaixo — não é uma simples troca de permissão |
+| **Domínio** `globalshapersflorianopolis.com.br` | Registro.br | Hub | — | Acesso ao painel do registro.br pertence ao hub |
+
+### Por que o Supabase está como "Developer", não "Owner"
+
+No plano Free do Supabase, o limite de 2 projetos gratuitos por conta é contado para quem tem papel de **Owner ou Admin** na organização — não para quem só tem papel de Developer. Se a desenvolvedora fosse Owner/Admin na organização do hub, este projeto passaria a ocupar uma das 2 vagas gratuitas da conta pessoal dela, mesmo o projeto sendo do hub. Como Developer, ela continua com acesso total ao necessário para o dia a dia (schema, SQL Editor, Edge Functions, logs), sem o projeto "contar" contra o limite da conta dela.
+
+### Por que a Vercel continua na conta pessoal da desenvolvedora
+
+Isso não é um detalhe esquecido — é uma limitação real do plano Hobby da Vercel: ele não publica repositórios **privados** de uma organização do GitHub, e também exige que o autor do commit que está sendo implantado seja o próprio dono da conta Vercel. Isso cria uma dependência de mão dupla: o motivo do repositório ter virado público foi justamente permitir que a Vercel (na conta pessoal) continuasse publicando a partir do repositório da organização.
+
+Se no futuro outra pessoa assumir o deploy, as opções são:
+1. Essa pessoa importa o repositório público (já é público, então isso funciona no plano Hobby dela) na própria conta Vercel e cadastra `VITE_SUPABASE_URL`/`VITE_SUPABASE_ANON_KEY` lá — o projeto passa a viver na conta dela.
+2. O hub assina o plano Vercel Pro, que permite deploy a partir de um repositório de organização sem a restrição de autoria de commit — nesse caso o projeto Vercel passaria a viver numa conta/time do próprio hub.
+
+### Secrets do GitHub Actions
+
+O workflow de keepalive (`.github/workflows/supabase-keepalive.yml`) depende de dois secrets configurados em Settings → Secrets and variables → Actions do repositório: `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY`. Eles precisam existir lá independentemente de quem é Owner da organização — a transferência do repositório não os copia automaticamente caso o repositório precise ser recriado do zero (transferência normal preserva os secrets).

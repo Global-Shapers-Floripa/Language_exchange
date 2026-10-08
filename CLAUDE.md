@@ -69,6 +69,7 @@ There is no "mutual match" notification email yet — if both sides connect dire
 - Frontend deploys to Vercel; `vercel.json` just does an SPA rewrite (`/(.*)` → `/index.html`) for client-side routing.
 - Transactional email domain `languageexchange.globalshapersflorianopolis.com.br` is verified in Resend and used by the `send-email`/`notify-connection-request` Edge Functions.
 - Product branding (distinct from general Global Shapers branding): logo at `https://ndiadfadpicgppzvlynk.supabase.co/storage/v1/object/public/email-assets/logo.png`. Palette: dark background `#0B0829`, accent orange `#FF8400`, supporting colors `#8FA0D8` and `#F9DFC6`. Use this for any new UI or email template work unless told otherwise.
+- **Contas e propriedade** (migração concluída em outubro de 2026 — detalhe completo em `docs/ARQUITETURA.md`, seção "Contas, propriedade e acesso"): repositório público em `github.com/Global-Shapers-Floripa/Language_exchange` (organização, não mais conta pessoal) — hub e desenvolvedora são Owners; histórico inteiro auditado antes de abrir, nenhum segredo real jamais commitado. Supabase mora na organização "Global Shapers Floripa" (plano Free), Owner é a conta do hub, desenvolvedora é Developer de propósito (Owner/Admin contaria para o limite de 2 projetos free da pessoa). Resend é o mesmo time de sempre, com a conta do hub como Admin. Vercel continua na conta pessoal da desenvolvedora (plano Hobby) — ver motivo na seção referenciada. Domínio `globalshapersflorianopolis.com.br` tem o DNS no registro.br.
 
 ## Conventions
 
