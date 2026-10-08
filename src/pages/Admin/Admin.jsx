@@ -226,9 +226,10 @@ const Admin = () => {
         }
 
         // Contas de teste E2E (hub "E2E-TEST") ficam ocultas do painel de
-        // Admin para qualquer admin exceto o e-mail dono do projeto — que
-        // continua vendo/gerenciando essas contas normalmente.
-        const isTestDataVisible = auth.user.email === "laysegabrielly13@gmail.com";
+        // Admin para qualquer admin exceto o dono do projeto (identificado
+        // pelo user_id, não pelo e-mail, que fica exposto no código-fonte) —
+        // que continua vendo/gerenciando essas contas normalmente.
+        const isTestDataVisible = auth.user.id === "0840d38b-a796-4ef3-b88d-c757747f9d5c";
 
         const { data: allProfilesData, error: profilesError } = await supabase
           .from("profiles")
